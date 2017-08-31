@@ -1,0 +1,14 @@
+.comment-widget {
+    border: 1px solid #dfe2e5;
+    padding: 0 10px;
+}
+
+.comment {
+    padding: 10px 0;
+    margin: 0;
+    border-bottom: 1px solid #dfe2e5;
+}
+
+.comment:last-child {
+    border-bottom: none;
+}

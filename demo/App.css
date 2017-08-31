@@ -1,0 +1,21 @@
+@media screen and (min-resolution: 2dppx) {
+    body {
+        -webkit-font-smoothing: antialiased;
+    }
+}
+
+.app {
+    font-size: 14px;
+}
+
+.switch {
+    display: block;
+    margin: 0 auto;
+    border: none;
+    background-color: #71b9f1;
+    color: #fff;
+    width: 200px;
+    height: 50px;
+    font-size: 1.5em;
+    cursor: pointer;
+}

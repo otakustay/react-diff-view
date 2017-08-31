@@ -1,0 +1,20 @@
+diff --git a/.babelrc b/.babelrc
+new file mode 100644
+index 00000000..7d7ac6a9
+--- /dev/null
++++ b/.babelrc
+@@ -0,0 +1,14 @@
++{
++    "presets": [
++        ["es2015", {"modules": false}],
++        "stage-0",
++        "react"
++    ],
++    "plugins": [
++        "react-require",
++        "lodash",
++        ["import", {"libraryName": "antd", "style": true}],
++        "add-react-displayname",
++        "transform-decorators-legacy"
++    ]
++}

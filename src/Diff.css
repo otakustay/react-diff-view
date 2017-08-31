@@ -1,0 +1,10 @@
+.diff {
+    table-layout: fixed;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.gutter-prev-col,
+.gutter-next-col {
+    width: 7ch;
+}

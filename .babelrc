@@ -1,0 +1,12 @@
+{
+    "presets": [
+        ["es2015", {"modules": false}],
+        "stage-0",
+        "react"
+    ],
+    "plugins": [
+        "react-require",
+        "add-react-displayname",
+        "transform-decorators-legacy"
+    ]
+}

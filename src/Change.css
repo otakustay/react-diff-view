@@ -1,0 +1,41 @@
+.line {
+    line-height: 1.5;
+    font-family: SFMono-Regular, Consolas, "Liberation Mono", Menlo, Courier, monospace;
+}
+
+.gutter {
+    padding: 0 1ch;
+}
+
+.gutter.add {
+    background-color: #d6fedb;
+}
+
+.gutter.del {
+    background-color: #fadde0;
+}
+
+.code {
+    white-space: pre-wrap;
+    padding-left: .5em;
+}
+
+.code.add {
+    background-color: #eaffee;
+}
+
+.code.add .diff-text {
+    background-color: #c0dc91;
+}
+
+.code.del {
+    background-color: #fdeff0;
+}
+
+.code.del .diff-text {
+    background-color: #f39ea2;
+}
+
+.omit {
+    background-color: #fafbfc;
+}

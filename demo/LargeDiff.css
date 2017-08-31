@@ -1,0 +1,15 @@
+.large-diff {
+    padding: 1em .5em;
+    text-align: center;
+}
+
+.force-render {
+    cursor: pointer;
+    font-size: 16px;
+    text-decoration: none;
+    color: #0366d6;
+}
+
+.force-render:hover {
+    color: #0500b3;
+}

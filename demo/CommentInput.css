@@ -1,0 +1,25 @@
+.comment-input {
+    padding: 10px 0;
+}
+
+.comment-input textarea {
+    display: block;
+    height: 6em;
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+}
+
+.comment-input footer {
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+.comment-input button {
+    float: right;
+    background-color: #71b9f1;
+    color: #fff;
+    cursor: pointer;
+    border: none;
+    padding: .5em 1.5em;
+}

@@ -1,0 +1,162 @@
+diff --git a/src/ReactVersion.js b/src/ReactVersion.js
+index cf91b4c58..4972f9494 100644
+--- a/src/ReactVersion.js
++++ b/src/ReactVersion.js
+@@ -13,2 +13,2 @@
+ 
+-module.exports = '15.6.1';
++module.exports = '15.6.0';
+diff --git a/src/addons/link/ReactLink.js b/src/addons/link/ReactLink.js
+index d91345e69..273c4fdcc 100644
+--- a/src/addons/link/ReactLink.js
++++ b/src/addons/link/ReactLink.js
+@@ -36,2 +36,4 @@
+ 
++var React = require('React');
++
+ /**
+diff --git a/src/isomorphic/classic/types/__tests__/ReactPropTypes-test.js b/src/isomorphic/classic/types/__tests__/ReactPropTypes-test.js
+index c12cc1c29..092d2b6f8 100644
+--- a/src/isomorphic/classic/types/__tests__/ReactPropTypes-test.js
++++ b/src/isomorphic/classic/types/__tests__/ReactPropTypes-test.js
+@@ -91,13 +91,3 @@ function typeCheckPass(declaration, value) {
+ 
+-function resetWarningCache() {
+-  jest.resetModules();
+-  PropTypes = require('ReactPropTypes');
+-  React = require('React');
+-  ReactFragment = require('ReactFragment');
+-  ReactTestUtils = require('ReactTestUtils');
+-  ReactPropTypesSecret = require('ReactPropTypesSecret');
+-}
+-
+ function expectWarningInDevelopment(declaration, value) {
+-  resetWarningCache();
+   var props = {testProp: value};
+@@ -117,3 +107,7 @@ describe('ReactPropTypes', () => {
+   beforeEach(() => {
+-    resetWarningCache();
++    PropTypes = require('ReactPropTypes');
++    React = require('React');
++    ReactFragment = require('ReactFragment');
++    ReactTestUtils = require('ReactTestUtils');
++    ReactPropTypesSecret = require('ReactPropTypesSecret');
+   });
+diff --git a/src/renderers/dom/client/inputValueTracking.js b/src/renderers/dom/client/inputValueTracking.js
+index f0086f03a..f5fa806e3 100644
+--- a/src/renderers/dom/client/inputValueTracking.js
++++ b/src/renderers/dom/client/inputValueTracking.js
+@@ -64,11 +64,6 @@ var inputValueTracking = {
+ 
+-    // if someone has already defined a value or Safari, then bail
+-    // and don't track value will cause over reporting of changes,
+-    // but it's better then a hard failure
+-    // (needed for certain tests that spyOn input values and Safari)
+-    if (
+-      node.hasOwnProperty(valueField) ||
+-      typeof descriptor.get !== 'function' ||
+-      typeof descriptor.set !== 'function'
+-    ) {
++    // if someone has already defined a value bail and don't track value
++    // will cause over reporting of changes, but it's better then a hard failure
++    // (needed for certain tests that spyOn input values)
++    if (node.hasOwnProperty(valueField)) {
+       return;
+diff --git a/src/renderers/dom/shared/CSSPropertyOperations.js b/src/renderers/dom/shared/CSSPropertyOperations.js
+index 0af3b0980..2bc2ae174 100644
+--- a/src/renderers/dom/shared/CSSPropertyOperations.js
++++ b/src/renderers/dom/shared/CSSPropertyOperations.js
+@@ -130,2 +130,6 @@ if (__DEV__) {
+   var warnValidStyle = function(name, value, component) {
++    // Don't warn for CSS variables
++    if (name.indexOf('--') === 0) {
++      return;
++    }
+     var owner;
+@@ -171,8 +175,5 @@ var CSSPropertyOperations = {
+       }
+-      var isCustomProperty = styleName.indexOf('--') === 0;
+       var styleValue = styles[styleName];
+       if (__DEV__) {
+-        if (!isCustomProperty) {
+-          warnValidStyle(styleName, styleValue, component);
+-        }
++        warnValidStyle(styleName, styleValue, component);
+       }
+@@ -181,8 +182,3 @@ var CSSPropertyOperations = {
+         serialized +=
+-          dangerousStyleValue(
+-            styleName,
+-            styleValue,
+-            component,
+-            isCustomProperty,
+-          ) + ';';
++          dangerousStyleValue(styleName, styleValue, component) + ';';
+       }
+@@ -214,7 +210,4 @@ var CSSPropertyOperations = {
+       }
+-      var isCustomProperty = styleName.indexOf('--') === 0;
+       if (__DEV__) {
+-        if (!isCustomProperty) {
+-          warnValidStyle(styleName, styles[styleName], component);
+-        }
++        warnValidStyle(styleName, styles[styleName], component);
+       }
+@@ -224,3 +217,2 @@ var CSSPropertyOperations = {
+         component,
+-        isCustomProperty,
+       );
+@@ -229,3 +221,3 @@ var CSSPropertyOperations = {
+       }
+-      if (isCustomProperty) {
++      if (styleName.indexOf('--') === 0) {
+         style.setProperty(styleName, styleValue);
+diff --git a/src/renderers/dom/shared/__tests__/CSSPropertyOperations-test.js b/src/renderers/dom/shared/__tests__/CSSPropertyOperations-test.js
+index 21029d00c..e383549ec 100644
+--- a/src/renderers/dom/shared/__tests__/CSSPropertyOperations-test.js
++++ b/src/renderers/dom/shared/__tests__/CSSPropertyOperations-test.js
+@@ -103,10 +103,2 @@ describe('CSSPropertyOperations', () => {
+ 
+-  it('should create markup with unitless css custom property', () => {
+-    expect(
+-      CSSPropertyOperations.createMarkupForStyles({
+-        '--foo': 5,
+-      }),
+-    ).toBe('--foo:5;');
+-  });
+-
+   it('should set style attribute when styles exist', () => {
+@@ -264,3 +256,3 @@ describe('CSSPropertyOperations', () => {
+ 
+-  it('should not warn when setting CSS custom properties', () => {
++  it('should not warn when setting CSS variables', () => {
+     class Comp extends React.Component {
+@@ -277,15 +269,2 @@ describe('CSSPropertyOperations', () => {
+   });
+-
+-  it('should not add units to CSS custom properties', () => {
+-    class Comp extends React.Component {
+-      render() {
+-        return <div style={{'--foo': 5}} />;
+-      }
+-    }
+-
+-    var root = document.createElement('div');
+-    ReactDOM.render(<Comp />, root);
+-
+-    expect(root.children[0].style.Foo).toEqual('5');
+-  });
+ });
+diff --git a/src/renderers/dom/shared/dangerousStyleValue.js b/src/renderers/dom/shared/dangerousStyleValue.js
+index 74e130dda..287a91f40 100644
+--- a/src/renderers/dom/shared/dangerousStyleValue.js
++++ b/src/renderers/dom/shared/dangerousStyleValue.js
+@@ -29,3 +29,3 @@ var styleWarnings = {};
+  */
+-function dangerousStyleValue(name, value, component, isCustomProperty) {
++function dangerousStyleValue(name, value, component) {
+   // Note that we've removed escapeTextForBrowser() calls here since the
+@@ -47,3 +47,2 @@ function dangerousStyleValue(name, value, component, isCustomProperty) {
+   if (
+-    isCustomProperty ||
+     isNonNumeric ||
