@@ -74,24 +74,17 @@ export default class SplitChange extends PureComponent {
         customEvents: {},
         prevSelected: false,
         nextSelected: false,
-        highlight(code) {
-            return code;
-        },
         onSelect() {
+        },
+        onRenderCode() {
         }
     };
 
     componentDidMount() {
-        const {highlight} = this.props;
-
-        if (!highlight) {
-            return;
-        }
-
-        const cells = this.container.querySelectorAll('.code');
-        for (const cell of cells) {
-            highlight(cell);
-        }
+        const {prev, next, onRenderCode} = this.props;
+        const [prevCell, nextCell] = this.container.querySelectorAll('.code');
+        onRenderCode(prevCell, prev);
+        onRenderCode(nextCell, next);
     }
 
     componentDidUpdate() {

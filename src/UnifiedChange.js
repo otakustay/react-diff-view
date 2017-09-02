@@ -5,24 +5,16 @@ import './Change.css';
 export default class UnifiedChange extends PureComponent {
 
     static defaultProps = {
-        highlight(code) {
-            return code;
-        },
         onSelect() {
+        },
+        onRenderCode() {
         }
     };
 
     componentDidMount() {
-        const {highlight} = this.props;
-
-        if (!highlight) {
-            return;
-        }
-
-        const cells = this.container.querySelectorAll('.code');
-        for (const cell of cells) {
-            highlight(cell);
-        }
+        const {change, onRenderCode} = this.props;
+        const cell = this.container.querySelector('.code');
+        onRenderCode(cell, change);
     }
 
     componentDidUpdate() {

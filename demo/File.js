@@ -1,7 +1,7 @@
 import {PureComponent} from 'react';
 import parsePath from 'path-parse';
 import {languages} from 'lang-map';
-import {map, filter, without, sumBy} from 'lodash';
+import {map, filter, without, sumBy, noop} from 'lodash';
 import {bind} from 'lodash-decorators';
 import {Whether, Else} from 'react-whether';
 import Diff from '../src';
@@ -112,7 +112,7 @@ export default class File extends PureComponent {
                             customClassNames={classNames}
                             customEvents={diffEvents}
                             columnDiff={changeCount <= 200}
-                            highlight={changeCount <= 500 ? highlight : null}
+                            onRenderCode={changeCount <= 500 ? highlight : noop}
                             onSelect={this.selectChange}
                         />
                         <Else>
