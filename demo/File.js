@@ -9,6 +9,12 @@ import LargeDiff from './LargeDiff';
 import CommentWidget from './CommentWidget';
 import highlight from './highlight';
 import './File.css';
+import Unfold from './Unfold.svg';
+
+const renderChunkHeader = ({content}) => [
+    <Unfold className="unfold" />,
+    content
+];
 
 export default class File extends PureComponent {
 
@@ -107,8 +113,9 @@ export default class File extends PureComponent {
                         <Diff
                             chunks={chunks}
                             widgets={widgets}
-                            selectedChanges={selectedChanges}
                             viewType={viewType}
+                            renderChunkHeader={renderChunkHeader}
+                            selectedChanges={selectedChanges}
                             customClassNames={classNames}
                             customEvents={diffEvents}
                             columnDiff={changeCount <= 200}

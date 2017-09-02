@@ -24,7 +24,7 @@ const Diff = ({chunks, viewType, ...props}) => {
     return (
         <table className="diff">
             {cols}
-            {chunks.map((chunk, i) => <Chunk key={i} {...chunk} {...props} />)}
+            {chunks.map((chunk, i) => <Chunk key={i} chunk={chunk} {...props} />)}
         </table>
     );
 };

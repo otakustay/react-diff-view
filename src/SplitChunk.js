@@ -1,10 +1,11 @@
 import SplitChange from './SplitChange';
 import SplitWidget from './SplitWidget';
-import './Chunk.css';
 
-const SplitChunk = ({changes, widgets, selectedChanges, content, ...props}) => {
+const groupElements = (changes, widgets) => {
     const elements = [];
     const findWidget = targetChange => widgets.find(({change}) => change === targetChange);
+
+    // TODO: 重构为reduce
     for (let i = 0; i < changes.length; i++) {
         const current = changes[i];
 
@@ -32,41 +33,70 @@ const SplitChunk = ({changes, widgets, selectedChanges, content, ...props}) => {
         }
     }
 
-    const renderRow = ([type, prev, next], i) => {
-        if (type === 'change') {
-            return (
-                <SplitChange
-                    key={i}
-                    prev={prev}
-                    next={next}
-                    prevSelected={selectedChanges.includes(prev)}
-                    nextSelected={selectedChanges.includes(next)}
-                    {...props}
-                />
-            );
-        }
-        else if (type === 'widget') {
-            const prevElement = prev ? prev.element : null;
-            const nextElement = next ? next.element : null;
-            return <SplitWidget key={i} prevElement={prevElement} nextElement={nextElement} />;
-        }
+    return elements;
+};
 
+const renderRow = ([type, prev, next], i, selectedChanges, props) => {
+    if (type === 'change') {
+        return (
+            <SplitChange
+                key={i}
+                prev={prev}
+                next={next}
+                prevSelected={selectedChanges.includes(prev)}
+                nextSelected={selectedChanges.includes(next)}
+                {...props}
+            />
+        );
+    }
+    else if (type === 'widget') {
+        const prevElement = prev ? prev.element : null;
+        const nextElement = next ? next.element : null;
+        return <SplitWidget key={i} prevElement={prevElement} nextElement={nextElement} />;
+    }
+
+    return null;
+};
+
+const ChunkHeader = ({elements}) => {
+    if (!elements) {
         return null;
-    };
+    }
+
+    if (Array.isArray(elements)) {
+        const [gutter, content] = elements;
+
+        return (
+            <tr className="chunk-header">
+                <td className="chunk-header-gutter">{gutter}</td>
+                <td colSpan={3} className="chunk-header-content">{content}</td>
+            </tr>
+        );
+    }
+
+    return (
+        <tr className="chunk-header">
+            <td colSpan={4} className="chunk-header-content">{elements}</td>
+        </tr>
+    );
+};
+
+const SplitChunk = ({chunk, widgets, selectedChanges, renderChunkHeader, ...props}) => {
+    const elements = groupElements(chunk.changes, widgets);
 
     return (
         <tbody>
-            <tr className="chunk">
-                <td className="expand-more" />
-                <td colSpan={3} className="chunk-summary">{content}</td>
-            </tr>
-            {elements.map(renderRow)}
+            <ChunkHeader elements={renderChunkHeader(chunk)} />
+            {elements.map((element, i) => renderRow(element, i, selectedChanges, props))}
         </tbody>
     );
 };
 
 SplitChunk.defaultProps = {
-    widgets: []
+    widgets: [],
+    renderChunkHeader() {
+        return null;
+    }
 };
 
 export default SplitChunk;
