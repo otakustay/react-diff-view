@@ -7,6 +7,8 @@ export default class UnifiedChange extends PureComponent {
     static defaultProps = {
         highlight(code) {
             return code;
+        },
+        onSelect() {
         }
     };
 
@@ -27,8 +29,13 @@ export default class UnifiedChange extends PureComponent {
         // TODO: 如何判断一个td里的代码是不是已经高亮过了？
     }
 
+    selectCode = () => {
+        const {change, selected, onSelect} = this.props;
+        onSelect(change, !selected);
+    };
+
     render() {
-        const {change, customClassNames, customEvents} = this.props;
+        const {change, selected, customClassNames, customEvents} = this.props;
         const {type, normal, add, del, ln, ln1, ln2, content} = change;
         const prevLine = normal ? ln1 : ln;
         const nextLine = normal ? ln2 : ln;
@@ -41,11 +48,14 @@ export default class UnifiedChange extends PureComponent {
             {}
         );
 
+        const gutterClassName = classNames('gutter', type, {selected});
+        const codeClassName = classNames('code', type, customClassNames.code, {selected});
+
         return (
             <tr className={classNames('line', type)} ref={container => this.container = container}>
-                <td className={classNames('gutter', type)}>{!add && prevLine}</td>
-                <td className={classNames('gutter', type)}>{!del && nextLine}</td>
-                <td className={classNames('code', type, customClassNames.code)} {...events}>{content.substring(1)}</td>
+                <td className={gutterClassName} onClick={this.selectCode}>{!add && prevLine}</td>
+                <td className={gutterClassName} onClick={this.selectCode}>{!del && nextLine}</td>
+                <td className={codeClassName} {...events}>{content.substring(1)}</td>
             </tr>
         );
     }

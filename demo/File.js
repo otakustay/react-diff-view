@@ -19,6 +19,7 @@ export default class File extends PureComponent {
             ...this.computeState(props),
             comments: [],
             writingChanges: [],
+            selectedChanges: [],
             diffEvents: {
                 code: {
                     onDoubleClick: this.addComment
@@ -52,6 +53,12 @@ export default class File extends PureComponent {
         this.setState(patch);
     }
 
+    @bind()
+    selectChange(change, selected) {
+        const {selectedChanges} = this.state;
+        this.setState({selectedChanges: selected ? [...selectedChanges, change] : without(selectedChanges, change)});
+    }
+
     computeState(props) {
         const {chunks} = props;
         const changeCount = sumBy(chunks, ({changes}) => changes.length);
@@ -63,7 +70,7 @@ export default class File extends PureComponent {
 
     render() {
         const {from, to, additions, deletions, chunks, viewType} = this.props;
-        const {renderDiff, diffEvents, comments, writingChanges} = this.state;
+        const {renderDiff, diffEvents, comments, writingChanges, selectedChanges} = this.state;
         const filename = to === '/dev/null' ? from : to;
         const {ext = ''} = parsePath(filename);
         const [language] = languages(ext);
@@ -100,11 +107,13 @@ export default class File extends PureComponent {
                         <Diff
                             chunks={chunks}
                             widgets={widgets}
+                            selectedChanges={selectedChanges}
                             viewType={viewType}
                             customClassNames={classNames}
                             customEvents={diffEvents}
                             columnDiff={changeCount <= 200}
                             highlight={changeCount <= 500 ? highlight : null}
+                            onSelect={this.selectChange}
                         />
                         <Else>
                             <LargeDiff onClick={() => this.setState({renderDiff: true})} />

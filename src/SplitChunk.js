@@ -2,7 +2,7 @@ import SplitChange from './SplitChange';
 import SplitWidget from './SplitWidget';
 import './Chunk.css';
 
-const SplitChunk = ({changes, widgets, content, ...props}) => {
+const SplitChunk = ({changes, widgets, selectedChanges, content, ...props}) => {
     const elements = [];
     const findWidget = targetChange => widgets.find(({change}) => change === targetChange);
     for (let i = 0; i < changes.length; i++) {
@@ -34,7 +34,16 @@ const SplitChunk = ({changes, widgets, content, ...props}) => {
 
     const renderRow = ([type, prev, next], i) => {
         if (type === 'change') {
-            return <SplitChange key={i} prev={prev} next={next} {...props} />;
+            return (
+                <SplitChange
+                    key={i}
+                    prev={prev}
+                    next={next}
+                    prevSelected={selectedChanges.includes(prev)}
+                    nextSelected={selectedChanges.includes(next)}
+                    {...props}
+                />
+            );
         }
         else if (type === 'widget') {
             const prevElement = prev ? prev.element : null;

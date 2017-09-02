@@ -5,6 +5,7 @@
 
 .gutter {
     padding: 0 1ch;
+    cursor: pointer;
 }
 
 .gutter.add {
@@ -13,6 +14,10 @@
 
 .gutter.del {
     background-color: #fadde0;
+}
+
+.gutter.selected {
+    background-color: #fef6b9;
 }
 
 .code {
@@ -34,6 +39,10 @@
 
 .code.del .diff-text {
     background-color: #f39ea2;
+}
+
+.code.selected {
+    background-color: #fffce0;
 }
 
 .omit {

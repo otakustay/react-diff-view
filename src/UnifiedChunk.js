@@ -2,7 +2,7 @@ import UnifiedChange from './UnifiedChange';
 import UnifiedWidget from './UnifiedWidget';
 import './Chunk.css';
 
-const UnifiedChunk = ({changes, widgets, content, ...props}) => {
+const UnifiedChunk = ({changes, widgets, content, selectedChanges, ...props}) => {
     const findWidget = targetChange => widgets.find(({change}) => change === targetChange);
     const elements = changes.reduce(
         (elements, change) => {
@@ -20,7 +20,7 @@ const UnifiedChunk = ({changes, widgets, content, ...props}) => {
 
     const renderRow = ([type, value], i) => {
         if (type === 'change') {
-            return <UnifiedChange key={i} change={value} {...props} />;
+            return <UnifiedChange key={i} change={value} selected={selectedChanges.includes(value)} {...props} />;
         }
         else if (type === 'widget') {
             return <UnifiedWidget key={i} element={value.element} />;
