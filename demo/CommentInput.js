@@ -27,7 +27,7 @@ export default class CommentInput extends PureComponent {
                 <textarea autoFocus onChange={this.syncContent} />
                 <footer>
                     <span className="comment-input-hint">Markdown enabled</span>
-                    <button type="button" onClick={this.save}>保存</button>
+                    <button type="button" onClick={this.save}>Save</button>
                 </footer>
             </div>
         );
