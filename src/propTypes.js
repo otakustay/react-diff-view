@@ -36,8 +36,11 @@ const events = {
 export const eventsPropType = PropTypes.shape(events);
 
 const classNames = {
+    chunk: PropTypes.string,
+    chunkHeader: PropTypes.string,
     gutterHeader: PropTypes.string,
     codeHeader: PropTypes.string,
+    line: PropTypes.string,
     gutter: PropTypes.string,
     code: PropTypes.string
 };

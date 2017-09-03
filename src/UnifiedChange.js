@@ -23,7 +23,7 @@ export default class UnifiedChange extends PureComponent {
 
     componentDidMount() {
         const {change, onRenderCode} = this.props;
-        const cell = this.container.querySelector('.code');
+        const cell = this.container.querySelector('.diff-code');
         onRenderCode(cell, change);
     }
 
@@ -41,11 +41,24 @@ export default class UnifiedChange extends PureComponent {
         const boundGutterEvents = mapValues(customEvents.gutter, bindChange);
         const boundCodeEvents = mapValues(customEvents.code, bindChange);
 
-        const gutterClassName = classNames('gutter', type, {selected});
-        const codeClassName = classNames('code', type, customClassNames.code, {selected});
+        const gutterClassName = classNames(
+            'diff-gutter',
+            `diff-gutter-${type}`,
+            customClassNames.gutter,
+            {'diff-gutter-selected': selected}
+        );
+        const codeClassName = classNames(
+            'diff-code',
+            `diff-code-${type}`,
+            customClassNames.code,
+            {'diff-code-selected': selected}
+        );
 
         return (
-            <tr className={classNames('line', type)} ref={container => this.container = container}>
+            <tr
+                className={classNames('diff-line', customClassNames.line)}
+                ref={container => this.container = container}
+            >
                 <td className={gutterClassName} {...boundGutterEvents}>{!add && prevLine}</td>
                 <td className={gutterClassName} {...boundGutterEvents}>{!del && nextLine}</td>
                 <td className={codeClassName} {...boundCodeEvents}>{content.substring(1)}</td>

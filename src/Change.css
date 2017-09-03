@@ -1,50 +1,51 @@
-.line {
+.diff-line {
     line-height: 1.5;
     font-family: SFMono-Regular, Consolas, "Liberation Mono", Menlo, Courier, monospace;
 }
 
-.gutter {
+.diff-gutter {
     padding: 0 1ch;
     cursor: pointer;
 }
 
-.gutter.add {
+.diff-gutter-add {
     background-color: #d6fedb;
 }
 
-.gutter.del {
+.diff-gutter-del {
     background-color: #fadde0;
 }
 
-.gutter.selected {
+.diff-gutter-selected {
     background-color: #fef6b9;
 }
 
-.code {
+.diff-code {
     white-space: pre-wrap;
     padding-left: .5em;
 }
 
-.code.add {
+.diff-code-add {
     background-color: #eaffee;
 }
 
-.code.add .diff-text {
+.diff-code-add .diff-column-text {
     background-color: #c0dc91;
 }
 
-.code.del {
+.diff-code-del {
     background-color: #fdeff0;
 }
 
-.code.del .diff-text {
+.diff-code-del .diff-column-text {
     background-color: #f39ea2;
 }
 
-.code.selected {
+.diff-code-selected {
     background-color: #fffce0;
 }
 
-.omit {
+.diff-gutter-omit,
+.diff-code-omit {
     background-color: #fafbfc;
 }

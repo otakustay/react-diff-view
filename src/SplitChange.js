@@ -15,15 +15,25 @@ const renderCells = (change, base, diff, n, selected, customClassNames, customEv
 
     if (!change) {
         return [
-            <td key="gutter" className={classNames('gutter', 'omit', customClassNames.gutter)} />,
-            <td key="code" className={classNames('code', 'omit', customClassNames.code)} />
+            <td key="gutter" className={classNames('diff-gutter', 'diff-gutter-omit', customClassNames.gutter)} />,
+            <td key="code" className={classNames('diff-code', 'diff-code-omit', customClassNames.code)} />
         ];
     }
 
     const {type, normal, ln, ln1, ln2, content} = change;
     const line = normal ? (n === 1 ? ln1 : ln2) : ln;
-    const gutterClassName = classNames('gutter', type, customClassNames.gutter, {selected});
-    const codeClassName = classNames('code', type, customClassNames.code, {selected});
+    const gutterClassName = classNames(
+        'diff-gutter',
+        `diff-gutter-${type}`,
+        customClassNames.gutter,
+        {'diff-gutter-selected': selected}
+    );
+    const codeClassName = classNames(
+        'diff-code',
+        `diff-code-${type}`,
+        customClassNames.code,
+        {'diff-code-selected': selected}
+    );
 
     if (!diff || diff.length <= 1) {
         return [
@@ -40,7 +50,7 @@ const renderCells = (change, base, diff, n, selected, customClassNames, customEv
                 return html += escape(value);
             }
 
-            return html += `<span class="diff-text">${escape(value)}</span>`;
+            return html += `<span class="diff-column-text">${escape(value)}</span>`;
         },
         ''
     );
@@ -80,7 +90,7 @@ export default class SplitChange extends PureComponent {
 
     componentDidMount() {
         const {prev, next, onRenderCode} = this.props;
-        const [prevCell, nextCell] = this.container.querySelectorAll('.code');
+        const [prevCell, nextCell] = this.container.querySelectorAll('.diff-code');
         onRenderCode(prevCell, prev);
         onRenderCode(nextCell, next);
     }
@@ -105,7 +115,10 @@ export default class SplitChange extends PureComponent {
             : null;
 
         return (
-            <tr className="line" ref={container => this.container = container}>
+            <tr
+                className={classNames('diff-line', customClassNames.line)}
+                ref={container => this.container = container}
+            >
                 {renderCells(prev, next, diff, 1, prevSelected, customClassNames, customEvents)}
                 {renderCells(next, prev, diff, 2, nextSelected, customClassNames, customEvents)}
             </tr>

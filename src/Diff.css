@@ -4,7 +4,7 @@
     width: 100%;
 }
 
-.gutter-prev-col,
-.gutter-next-col {
+.diff-gutter-prev-col,
+.diff-gutter-next-col {
     width: 7ch;
 }

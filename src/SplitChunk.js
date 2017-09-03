@@ -1,4 +1,5 @@
 import mapValues from 'lodash.mapvalues';
+import classNames from 'classnames';
 import SplitChange from './SplitChange';
 import SplitWidget from './SplitWidget';
 
@@ -59,16 +60,29 @@ const renderRow = ([type, prev, next], i, selectedChanges, props) => {
     return null;
 };
 
-const ChunkHeader = ({chunk, elements, gutterEvents, contentEvents}) => {
+const ChunkHeader = props => {
+    const {
+        chunk,
+        elements,
+        gutterEvents,
+        contentEvents,
+        className,
+        gutterClassName,
+        contentClassName
+    } = props;
     const bindChunk = fn => () => fn(chunk);
     const boundGutterEvents = mapValues(gutterEvents, bindChunk);
     const boundContentEvents = mapValues(contentEvents, bindChunk);
 
+    const computedClassName = classNames('diff-chunk-header', className);
+    const computedGutterClassName = classNames('diff-chunk-header-gutter', gutterClassName);
+    const computedContentClassName = classNames('diff-chunk-header-content', contentClassName);
+
     if (elements === undefined) {
         return (
-            <tr className="chunk-header">
-                <td className="chunk-header-gutter" {...boundGutterEvents}></td>
-                <td colSpan={3} className="chunk-header-content" {...boundContentEvents}>{chunk.content}</td>
+            <tr className={computedClassName}>
+                <td className={computedGutterClassName} {...boundGutterEvents}></td>
+                <td colSpan={3} className={computedContentClassName} {...boundContentEvents}>{chunk.content}</td>
             </tr>
         );
     }
@@ -81,32 +95,48 @@ const ChunkHeader = ({chunk, elements, gutterEvents, contentEvents}) => {
         const [gutter, content] = elements;
 
         return (
-            <tr className="chunk-header">
-                <td className="chunk-header-gutter" {...boundGutterEvents}>{gutter}</td>
-                <td colSpan={3} className="chunk-header-content" {...boundContentEvents}>{content}</td>
+            <tr className={computedClassName}>
+                <td className={computedGutterClassName} {...boundGutterEvents}>{gutter}</td>
+                <td colSpan={3} className={computedContentClassName} {...boundContentEvents}>{content}</td>
             </tr>
         );
     }
 
     return (
-        <tr className="chunk-header">
-            <td colSpan={4} className="chunk-header-content">{elements}</td>
+        <tr className={computedClassName}>
+            <td colSpan={4} className={computedContentClassName}>{elements}</td>
         </tr>
     );
 };
 
-const SplitChunk = ({chunk, widgets, selectedChanges, header, headerGutterEvents, headerContentEvents, ...props}) => {
+const SplitChunk = props => {
+    const {
+        chunk,
+        widgets,
+        selectedChanges,
+        header,
+        headerGutterEvents,
+        headerContentEvents,
+        className,
+        headerClassName,
+        headerGutterClassName,
+        headerContentClassName,
+        ...childrenProps
+    } = props;
     const elements = groupElements(chunk.changes, widgets);
 
     return (
-        <tbody>
+        <tbody className={classNames('diff-chunk', className)}>
             <ChunkHeader
                 chunk={chunk}
                 elements={header}
                 gutterEvents={headerGutterEvents}
                 contentEvents={headerContentEvents}
+                className={headerClassName}
+                gutterClassName={headerGutterClassName}
+                contentClassName={headerContentClassName}
             />
-            {elements.map((element, i) => renderRow(element, i, selectedChanges, props))}
+            {elements.map((element, i) => renderRow(element, i, selectedChanges, childrenProps))}
         </tbody>
     );
 };

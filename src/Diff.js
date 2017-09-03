@@ -1,23 +1,24 @@
 import {Children, cloneElement} from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import Chunk from './Chunk';
 import {viewTypePropType, chunkPropType} from './propTypes';
 import './Diff.css';
 
-const Diff = ({chunks, children, ...props}) => {
+const Diff = ({chunks, children, className, ...props}) => {
     const cols = props.viewType === 'unified'
         ? (
             <colgroup>
-                <col className="gutter-prev-col" />
-                <col className="gutter-next-col" />
+                <col className="diff-gutter-prev-col" />
+                <col className="diff-gutter-next-col" />
                 <col />
             </colgroup>
         )
         : (
             <colgroup>
-                <col className="gutter-prev-col" />
+                <col className="diff-gutter-prev-col" />
                 <col />
-                <col className="gutter-next-col" />
+                <col className="diff-gutter-next-col" />
                 <col />
             </colgroup>
         );
@@ -26,7 +27,7 @@ const Diff = ({chunks, children, ...props}) => {
         : chunks.map(chunk => <Chunk key={chunk.content} chunk={chunk} {...props} />);
 
     return (
-        <table className="diff">
+        <table className={classNames('diff', className)}>
             {cols}
             {chunksChildren}
         </table>
