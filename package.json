@@ -40,6 +40,8 @@
     "prismjs": "^1.6.0",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
+    "react-markdown": "^2.5.0",
+    "react-timeago": "^3.4.3",
     "react-whether": "^1.0.1",
     "style-loader": "^0.18.2",
     "svg-react-loader": "^0.4.5",

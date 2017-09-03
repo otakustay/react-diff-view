@@ -86,8 +86,9 @@ export default class File extends PureComponent {
     @bind()
     saveComment(change, content) {
         const {comments, writingChanges} = this.state;
+        const postTime = Date.now();
         const patch = {
-            comments: [...comments, {change, content}],
+            comments: [...comments, {change, content, postTime}],
             writingChanges: without(writingChanges, change)
         };
         this.setState(patch);
@@ -158,7 +159,7 @@ export default class File extends PureComponent {
         const changesWithWidgets = [...map(comments, 'change'), ...writingChanges];
         const widgets = changesWithWidgets.reduce(
             (widgets, change) => {
-                const lineComments = map(filter(comments, {change}), 'content');
+                const lineComments = filter(comments, {change});
                 const writing = writingChanges.includes(change);
                 const onSave = content => this.saveComment(change, content);
                 return [
@@ -180,7 +181,7 @@ export default class File extends PureComponent {
 
         return (
             <article className="diff-file">
-                <header>
+                <header className="diff-file-header">
                     <strong className="filename">{filename}</strong>
                     <span className="addition-count">+++ {additions}</span>
                     <span className="deletion-count">--- {deletions}</span>

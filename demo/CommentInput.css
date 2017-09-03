@@ -23,3 +23,8 @@
     border: none;
     padding: .5em 1.5em;
 }
+
+.comment-input-hint {
+    color: #666;
+    font-size: 12px;
+}
