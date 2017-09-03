@@ -1,9 +1,19 @@
 import {PureComponent} from 'react';
+import PropTypes from 'prop-types';
 import mapValues from 'lodash.mapvalues';
 import classNames from 'classnames';
+import {changePropType, eventsPropType, classNamesPropType} from './propTypes';
 import './Change.css';
 
 export default class UnifiedChange extends PureComponent {
+
+    static propTypes = {
+        change: changePropType.isRequired,
+        selected: PropTypes.bool.isRequired,
+        customEvents: eventsPropType,
+        customClassNames: classNamesPropType,
+        onRenderCode: PropTypes.func
+    };
 
     static defaultProps = {
         customEvents: {},

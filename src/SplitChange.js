@@ -1,9 +1,11 @@
 import {PureComponent} from 'react';
+import PropTypes from 'prop-types';
 import mapValues from 'lodash.mapvalues';
 import classNames from 'classnames';
 import diffString from 'fast-diff';
 import leven from 'leven';
 import escape from 'lodash.escape';
+import {changePropType, eventsPropType, classNamesPropType} from './propTypes';
 import './Change.css';
 
 const renderCells = (change, base, diff, n, selected, customClassNames, customEvents) => {
@@ -55,6 +57,18 @@ const renderCells = (change, base, diff, n, selected, customClassNames, customEv
 };
 
 export default class SplitChange extends PureComponent {
+
+    static propTypes = {
+        prev: changePropType,
+        next: changePropType,
+        prevSelected: PropTypes.bool.isRequired,
+        nextSelected: PropTypes.bool.isRequired,
+        columnDiff: PropTypes.bool,
+        columnDiffThreshold: PropTypes.number,
+        customEvents: eventsPropType,
+        customClassNames: classNamesPropType,
+        onRenderCode: PropTypes.func
+    };
 
     static defaultProps = {
         columnDiff: true,

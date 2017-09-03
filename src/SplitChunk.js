@@ -111,11 +111,4 @@ const SplitChunk = ({chunk, widgets, selectedChanges, header, headerGutterEvents
     );
 };
 
-SplitChunk.defaultProps = {
-    widgets: [],
-    renderChunkHeader() {
-        return null;
-    }
-};
-
 export default SplitChunk;

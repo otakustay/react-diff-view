@@ -80,11 +80,4 @@ const UnifiedChunk = ({chunk, widgets, selectedChanges, header, headerGutterEven
     );
 };
 
-UnifiedChunk.defaultProps = {
-    widgets: [],
-    renderChunkHeader() {
-        return null;
-    }
-};
-
 export default UnifiedChunk;

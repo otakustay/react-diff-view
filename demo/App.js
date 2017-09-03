@@ -13,7 +13,7 @@ export default class App extends PureComponent {
     };
 
     async componentDidMount() {
-        const response = await fetch('assets/large.diff');
+        const response = await fetch('assets/small.diff');
         const text = await response.text();
         console.time('parse');
         const diff = parseDiff(text);

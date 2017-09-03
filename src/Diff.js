@@ -1,5 +1,7 @@
 import {Children, cloneElement} from 'react';
+import PropTypes from 'prop-types';
 import Chunk from './Chunk';
+import {viewTypePropType, chunkPropType} from './propTypes';
 import './Diff.css';
 
 const Diff = ({chunks, children, ...props}) => {
@@ -29,6 +31,12 @@ const Diff = ({chunks, children, ...props}) => {
             {chunksChildren}
         </table>
     );
+};
+
+Diff.propTypes = {
+    viewType: viewTypePropType.isRequired,
+    chunks: PropTypes.arrayOf(chunkPropType),
+    children: PropTypes.oneOfType([PropTypes.element, PropTypes.arrayOf(PropTypes.element)])
 };
 
 export default Diff;

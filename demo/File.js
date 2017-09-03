@@ -113,22 +113,37 @@ export default class File extends PureComponent {
 
     @bind()
     async loadCollapsedBefore(chunk) {
-        const {chunks} = this.state;
         const response = await fetch('assets/ReactLink.js');
         const text = await response.text();
         const lines = text.split('\n');
-        const previousChunk = chunks[chunks.indexOf(chunk) - 1] || computeInitialFakeChunk(chunk.oldStart - 1);
+
         if (chunk.content === 'STUB') {
-            const collapsedLines = lines.slice(chunk.oldStart - 1, lines.length);
-            const collapsedChunk = textLinesToChunk(collapsedLines, chunk.oldStart, chunk.newStart);
-            // Remove stub chunk
-            const newChunks = insertChunk(chunks.slice(0, -1), collapsedChunk);
-            this.setState({chunks: newChunks});
+            this.expandTailCode(lines, chunk);
         }
         else {
-            const collapsedLines = lines.slice(previousChunk.oldStart - 1, chunk.oldStart - 1);
-            const collapsedChunk = textLinesToChunk(collapsedLines, previousChunk.oldStart, previousChunk.newStart);
-            const newChunks = insertChunk(chunks, collapsedChunk);
+            this.expandInsertionCode(lines, chunk);
+        }
+    }
+
+    expandInsertionCode(rawCodeLines, chunk) {
+        const {chunks} = this.state;
+        const previousChunk = chunks[chunks.indexOf(chunk) - 1] || computeInitialFakeChunk(chunk.oldStart - 1);
+        const collapsedLines = rawCodeLines.slice(previousChunk.oldStart - 1, chunk.oldStart - 1);
+        const collapsedChunk = textLinesToChunk(collapsedLines, previousChunk.oldStart, previousChunk.newStart);
+        const newChunks = insertChunk(chunks, collapsedChunk);
+        this.setState({chunks: newChunks});
+    }
+
+    expandTailCode(rawCodeLines, stubChunk) {
+        const {chunks} = this.state;
+        const collapsedLines = rawCodeLines.slice(stubChunk.oldStart - 1, rawCodeLines.length);
+        const chunksWithoutStub = chunks.slice(0, -1);
+        if (!collapsedLines.length) {
+            this.setState({chunks: chunksWithoutStub});
+        }
+        else {
+            const collapsedChunk = textLinesToChunk(collapsedLines, stubChunk.oldStart, stubChunk.newStart);
+            const newChunks = insertChunk(chunksWithoutStub, collapsedChunk);
             this.setState({chunks: newChunks});
         }
     }
