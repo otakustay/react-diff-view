@@ -2,6 +2,7 @@ import {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import mapValues from 'lodash.mapvalues';
 import classNames from 'classnames';
+import {computePrevLineNumber, computeNextLineNumber} from './utils';
 import {changePropType, eventsPropType, classNamesPropType} from './propTypes';
 import './Change.css';
 
@@ -33,9 +34,9 @@ export default class UnifiedChange extends PureComponent {
 
     render() {
         const {change, selected, customClassNames, customEvents} = this.props;
-        const {type, normal, add, del, ln, ln1, ln2, content} = change;
-        const prevLine = normal ? ln1 : ln;
-        const nextLine = normal ? ln2 : ln;
+        const {type, add, del, content} = change;
+        const prevLine = computePrevLineNumber(change);
+        const nextLine = computeNextLineNumber(change);
 
         const bindChange = fn => () => fn(change);
         const boundGutterEvents = mapValues(customEvents.gutter, bindChange);

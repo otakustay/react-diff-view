@@ -47,7 +47,7 @@ export default class App extends PureComponent {
             <div className="app">
                 <header>
                     <button className="switch" onClick={::this.switchViewType}>
-                        切换至{viewType === 'unified' ? '双列' : '单列'}视图
+                        Switch to {viewType === 'unified' ? 'split' : 'unified'} view
                     </button>
                 </header>
                 <div>

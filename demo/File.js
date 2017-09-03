@@ -4,7 +4,7 @@ import {languages} from 'lang-map';
 import {map, filter, without, sumBy, noop} from 'lodash';
 import {bind} from 'lodash-decorators';
 import {Whether, Else} from 'react-whether';
-import {Diff, Chunk, textLinesToChunk, insertChunk} from '../src';
+import {Diff, Chunk, addStubChunk, textLinesToChunk, insertChunk} from '../src';
 import LargeDiff from './LargeDiff';
 import CommentWidget from './CommentWidget';
 import highlight from './highlight';
@@ -36,17 +36,6 @@ const renderChunkHeader = (previousChunk, currentChunk) => {
 
 const computeInitialFakeChunk = lines => ({oldStart: 1, oldLines: lines, newStart: 1});
 
-const computeStubFakeChunk = ({oldStart, oldLines, newStart, newLines}) => {
-    return {
-        oldStart: oldStart + oldLines,
-        oldLines: 0,
-        newStart: newStart + newLines,
-        newLines: 0,
-        content: 'STUB',
-        changes: []
-    };
-};
-
 export default class File extends PureComponent {
 
     constructor(props) {
@@ -75,7 +64,7 @@ export default class File extends PureComponent {
 
         this.state = {
             renderDiff: changeCount <= 800,
-            chunks: canExpand ? [...chunks, computeStubFakeChunk(chunks[chunks.length - 1])] : chunks,
+            chunks: canExpand ? addStubChunk(chunks) : chunks,
             filename: filename,
             canExpand: canExpand,
             comments: [],

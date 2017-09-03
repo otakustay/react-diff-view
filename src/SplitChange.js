@@ -5,6 +5,7 @@ import classNames from 'classnames';
 import diffString from 'fast-diff';
 import leven from 'leven';
 import escape from 'lodash.escape';
+import {computePrevLineNumber, computeNextLineNumber} from './utils';
 import {changePropType, eventsPropType, classNamesPropType} from './propTypes';
 import './Change.css';
 
@@ -20,8 +21,8 @@ const renderCells = (change, base, diff, n, selected, customClassNames, customEv
         ];
     }
 
-    const {type, normal, ln, ln1, ln2, content} = change;
-    const line = normal ? (n === 1 ? ln1 : ln2) : ln;
+    const {type, content} = change;
+    const line = n === 1 ? computePrevLineNumber(change) : computeNextLineNumber(change);
     const gutterClassName = classNames(
         'diff-gutter',
         `diff-gutter-${type}`,
