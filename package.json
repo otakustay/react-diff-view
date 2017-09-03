@@ -13,7 +13,8 @@
     "classnames": "^2.2.5",
     "fast-diff": "^1.1.1",
     "leven": "^2.1.0",
-    "lodash.escape": "^4.0.1"
+    "lodash.escape": "^4.0.1",
+    "lodash.mapvalues": "^4.6.0"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",

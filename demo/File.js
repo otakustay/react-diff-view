@@ -4,7 +4,7 @@ import {languages} from 'lang-map';
 import {map, filter, without, sumBy, noop} from 'lodash';
 import {bind} from 'lodash-decorators';
 import {Whether, Else} from 'react-whether';
-import {Diff, Chunk} from '../src';
+import {Diff, Chunk, textLinesToChunk, insertChunk} from '../src';
 import LargeDiff from './LargeDiff';
 import CommentWidget from './CommentWidget';
 import highlight from './highlight';
@@ -16,28 +16,41 @@ const renderChunkHeader = ({content}) => [
     content
 ];
 
+const computeInitialFakeChunk = lines => ({oldStart: 1, oldLines: lines, newStart: 1});
+
 export default class File extends PureComponent {
 
     constructor(props) {
         super(props);
 
+        const {from, to, chunks} = props;
+        const filename = to === '/dev/null' ? from : to;
+        const canExpand = filename === 'src/addons/link/ReactLink.js';
+        const changeCount = sumBy(chunks, ({changes}) => changes.length);
+        const baseEvents = {
+            code: {
+                onDoubleClick: this.addComment
+            }
+        };
+        const diffEvents = canExpand
+            ? {
+                ...baseEvents,
+                gutterHeader: {
+                    onClick: this.loadCollapsedBefore
+                }
+            }
+            : baseEvents;
+
         this.state = {
-            ...this.computeState(props),
+            renderDiff: changeCount <= 800,
+            chunks: chunks,
+            filename: filename,
+            canExpand: canExpand,
             comments: [],
             writingChanges: [],
             selectedChanges: [],
-            diffEvents: {
-                code: {
-                    onDoubleClick: this.addComment
-                }
-            }
+            diffEvents: diffEvents
         };
-    }
-
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.chunks !== this.props.chunks) {
-            this.setState(this.computeState(nextProps));
-        }
     }
 
     @bind()
@@ -65,19 +78,31 @@ export default class File extends PureComponent {
         this.setState({selectedChanges: selected ? [...selectedChanges, change] : without(selectedChanges, change)});
     }
 
-    computeState(props) {
-        const {chunks} = props;
-        const changeCount = sumBy(chunks, ({changes}) => changes.length);
-
-        return {
-            renderDiff: changeCount <= 800
-        };
+    @bind()
+    async loadCollapsedBefore(chunk) {
+        const {chunks} = this.state;
+        const response = await fetch('assets/ReactLink.js');
+        const text = await response.text();
+        const lines = text.split('\n');
+        const previousChunk = chunks[chunks.indexOf(chunk) - 1] || computeInitialFakeChunk(chunk.oldStart - 1);
+        const collapsedLines = lines.slice(previousChunk.oldStart - 1, chunk.oldStart - 1);
+        const collapsedChunk = textLinesToChunk(collapsedLines, previousChunk.oldStart, previousChunk.newStart);
+        const newChunks = insertChunk(chunks, collapsedChunk);
+        this.setState({chunks: newChunks});
     }
 
     render() {
-        const {from, to, additions, deletions, chunks, viewType} = this.props;
-        const {renderDiff, diffEvents, comments, writingChanges, selectedChanges} = this.state;
-        const filename = to === '/dev/null' ? from : to;
+        const {additions, deletions, viewType} = this.props;
+        const {
+            filename,
+            canExpand,
+            chunks,
+            renderDiff,
+            diffEvents,
+            comments,
+            writingChanges,
+            selectedChanges
+        } = this.state;
         const {ext = ''} = parsePath(filename);
         const [language] = languages(ext);
         const classNames = {
@@ -101,7 +126,14 @@ export default class File extends PureComponent {
             []
         );
 
-        const renderChunk = chunk => <Chunk key={chunk.content} chunk={chunk} header={renderChunkHeader(chunk)} />;
+        const renderChunk = chunk => {
+            const isInitialChunk = chunk.oldStart === 1 && chunk.newStart === 1;
+            const header = isInitialChunk ? null : (canExpand ? renderChunkHeader(chunk) : undefined);
+
+            return (
+                <Chunk key={chunk.content} chunk={chunk} header={header} />
+            );
+        };
 
         return (
             <article className="diff-file">

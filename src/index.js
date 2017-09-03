@@ -1,5 +1,6 @@
 export Diff from './Diff';
 export Chunk from './Chunk';
+export * from './utils';
 
 // TODO: build的webpack配置
 // TODO: README
@@ -7,3 +8,4 @@ export Chunk from './Chunk';
 // TODO: word wrap - 无法袜
 // TODO: 清理样式
 // TODO: 显示\r和tab
+// TODO: 完善所有自定义事件

@@ -1,3 +1,4 @@
+import mapValues from 'lodash.mapvalues';
 import SplitChange from './SplitChange';
 import SplitWidget from './SplitWidget';
 
@@ -58,12 +59,16 @@ const renderRow = ([type, prev, next], i, selectedChanges, props) => {
     return null;
 };
 
-const ChunkHeader = ({chunk, elements}) => {
+const ChunkHeader = ({chunk, elements, gutterEvents, contentEvents}) => {
+    const bindChunk = fn => () => fn(chunk);
+    const boundGutterEvents = mapValues(gutterEvents, bindChunk);
+    const boundContentEvents = mapValues(contentEvents, bindChunk);
+
     if (elements === undefined) {
         return (
             <tr className="chunk-header">
-                <td className="chunk-header-gutter"></td>
-                <td colSpan={3} className="chunk-header-content">{chunk.content}</td>
+                <td className="chunk-header-gutter" {...boundGutterEvents}></td>
+                <td colSpan={3} className="chunk-header-content" {...boundContentEvents}>{chunk.content}</td>
             </tr>
         );
     }
@@ -77,8 +82,8 @@ const ChunkHeader = ({chunk, elements}) => {
 
         return (
             <tr className="chunk-header">
-                <td className="chunk-header-gutter">{gutter}</td>
-                <td colSpan={3} className="chunk-header-content">{content}</td>
+                <td className="chunk-header-gutter" {...boundGutterEvents}>{gutter}</td>
+                <td colSpan={3} className="chunk-header-content" {...boundContentEvents}>{content}</td>
             </tr>
         );
     }
@@ -90,12 +95,17 @@ const ChunkHeader = ({chunk, elements}) => {
     );
 };
 
-const SplitChunk = ({chunk, widgets, selectedChanges, header, ...props}) => {
+const SplitChunk = ({chunk, widgets, selectedChanges, header, headerGutterEvents, headerContentEvents, ...props}) => {
     const elements = groupElements(chunk.changes, widgets);
 
     return (
         <tbody>
-            <ChunkHeader chunk={chunk} elements={header} />
+            <ChunkHeader
+                chunk={chunk}
+                elements={header}
+                gutterEvents={headerGutterEvents}
+                contentEvents={headerContentEvents}
+            />
             {elements.map((element, i) => renderRow(element, i, selectedChanges, props))}
         </tbody>
     );

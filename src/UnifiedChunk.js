@@ -1,3 +1,4 @@
+import mapValues from 'lodash.mapvalues';
 import UnifiedChange from './UnifiedChange';
 import UnifiedWidget from './UnifiedWidget';
 
@@ -27,12 +28,16 @@ const renderRow = ([type, value], i, selectedChanges, props) => {
     return null;
 };
 
-const ChunkHeader = ({chunk, elements}) => {
+const ChunkHeader = ({chunk, elements, gutterEvents, contentEvents}) => {
+    const bindChunk = fn => () => fn(chunk);
+    const boundGutterEvents = mapValues(gutterEvents, bindChunk);
+    const boundContentEvents = mapValues(contentEvents, bindChunk);
+
     if (elements === undefined) {
         return (
             <tr className="chunk-header">
-                <td colSpan={2} className="chunk-header-gutter"></td>
-                <td className="chunk-header-content">{chunk.content}</td>
+                <td colSpan={2} className="chunk-header-gutter" {...boundGutterEvents}></td>
+                <td className="chunk-header-content" {...boundContentEvents}>{chunk.content}</td>
             </tr>
         );
     }
@@ -46,25 +51,30 @@ const ChunkHeader = ({chunk, elements}) => {
 
         return (
             <tr className="chunk-header">
-                <td colSpan={2} className="chunk-header-gutter">{gutter}</td>
-                <td className="chunk-header-content">{content}</td>
+                <td colSpan={2} className="chunk-header-gutter" {...boundGutterEvents}>{gutter}</td>
+                <td className="chunk-header-content" {...boundContentEvents}>{content}</td>
             </tr>
         );
     }
 
     return (
         <tr className="chunk-header">
-            <td colSpan={3} className="chunk-header-content">{elements}</td>
+            <td colSpan={3} className="chunk-header-content" {...boundContentEvents}>{elements}</td>
         </tr>
     );
 };
 
-const UnifiedChunk = ({chunk, widgets, selectedChanges, renderChunkHeader, ...props}) => {
+const UnifiedChunk = ({chunk, widgets, selectedChanges, header, headerGutterEvents, headerContentEvents, ...props}) => {
     const elements = groupElements(chunk.changes, widgets);
 
     return (
         <tbody>
-            <ChunkHeader elements={renderChunkHeader(chunk)} />
+            <ChunkHeader
+                chunk={chunk}
+                elements={header}
+                gutterEvents={headerGutterEvents}
+                contentEvents={headerContentEvents}
+            />
             {elements.map((element, i) => renderRow(element, i, selectedChanges, props))}
         </tbody>
     );
