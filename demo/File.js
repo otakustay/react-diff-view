@@ -4,7 +4,7 @@ import {languages} from 'lang-map';
 import {map, filter, without, sumBy, noop} from 'lodash';
 import {bind} from 'lodash-decorators';
 import {Whether, Else} from 'react-whether';
-import Diff from '../src';
+import {Diff, Chunk} from '../src';
 import LargeDiff from './LargeDiff';
 import CommentWidget from './CommentWidget';
 import highlight from './highlight';
@@ -101,6 +101,8 @@ export default class File extends PureComponent {
             []
         );
 
+        const renderChunk = chunk => <Chunk key={chunk.content} chunk={chunk} header={renderChunkHeader(chunk)} />;
+
         return (
             <article className="diff-file">
                 <header>
@@ -114,14 +116,15 @@ export default class File extends PureComponent {
                             chunks={chunks}
                             widgets={widgets}
                             viewType={viewType}
-                            renderChunkHeader={renderChunkHeader}
                             selectedChanges={selectedChanges}
                             customClassNames={classNames}
                             customEvents={diffEvents}
                             columnDiff={changeCount <= 200}
                             onRenderCode={changeCount <= 500 ? highlight : noop}
                             onSelect={this.selectChange}
-                        />
+                        >
+                            {chunks.map(renderChunk)}
+                        </Diff>
                         <Else>
                             <LargeDiff onClick={() => this.setState({renderDiff: true})} />
                         </Else>

@@ -58,8 +58,17 @@ const renderRow = ([type, prev, next], i, selectedChanges, props) => {
     return null;
 };
 
-const ChunkHeader = ({elements}) => {
-    if (!elements) {
+const ChunkHeader = ({chunk, elements}) => {
+    if (elements === undefined) {
+        return (
+            <tr className="chunk-header">
+                <td className="chunk-header-gutter"></td>
+                <td colSpan={3} className="chunk-header-content">{chunk.content}</td>
+            </tr>
+        );
+    }
+
+    if (elements === null) {
         return null;
     }
 
@@ -81,12 +90,12 @@ const ChunkHeader = ({elements}) => {
     );
 };
 
-const SplitChunk = ({chunk, widgets, selectedChanges, renderChunkHeader, ...props}) => {
+const SplitChunk = ({chunk, widgets, selectedChanges, header, ...props}) => {
     const elements = groupElements(chunk.changes, widgets);
 
     return (
         <tbody>
-            <ChunkHeader elements={renderChunkHeader(chunk)} />
+            <ChunkHeader chunk={chunk} elements={header} />
             {elements.map((element, i) => renderRow(element, i, selectedChanges, props))}
         </tbody>
     );

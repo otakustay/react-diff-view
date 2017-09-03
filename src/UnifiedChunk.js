@@ -27,8 +27,17 @@ const renderRow = ([type, value], i, selectedChanges, props) => {
     return null;
 };
 
-const ChunkHeader = ({elements}) => {
-    if (!elements) {
+const ChunkHeader = ({chunk, elements}) => {
+    if (elements === undefined) {
+        return (
+            <tr className="chunk-header">
+                <td colSpan={2} className="chunk-header-gutter"></td>
+                <td className="chunk-header-content">{chunk.content}</td>
+            </tr>
+        );
+    }
+
+    if (elements === null) {
         return null;
     }
 

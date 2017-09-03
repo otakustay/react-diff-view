@@ -1,9 +1,9 @@
-import SplitChunk from './SplitChunk';
-import UnifiedChunk from './UnifiedChunk';
+import {Children, cloneElement} from 'react';
+import Chunk from './Chunk';
 import './Diff.css';
 
-const Diff = ({chunks, viewType, ...props}) => {
-    const cols = viewType === 'unified'
+const Diff = ({chunks, children, ...props}) => {
+    const cols = props.viewType === 'unified'
         ? (
             <colgroup>
                 <col className="gutter-prev-col" />
@@ -19,12 +19,14 @@ const Diff = ({chunks, viewType, ...props}) => {
                 <col />
             </colgroup>
         );
-    const Chunk = viewType === 'unified' ? UnifiedChunk : SplitChunk;
+    const chunksChildren = children
+        ? Children.map(children, child => cloneElement(child, props))
+        : chunks.map(chunk => <Chunk key={chunk.content} chunk={chunk} {...props} />);
 
     return (
         <table className="diff">
             {cols}
-            {chunks.map((chunk, i) => <Chunk key={i} chunk={chunk} {...props} />)}
+            {chunksChildren}
         </table>
     );
 };
