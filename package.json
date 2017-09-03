@@ -1,7 +1,7 @@
 {
   "name": "react-diff-view",
   "version": "1.0.0",
-  "description": "",
+  "description": "A git diff component to consume the git unified diff output.",
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server",
@@ -50,5 +50,21 @@
   "peerDependencies": {
     "react": "^15.6.1",
     "prop-types": "^15.5.10"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/otakustay/react-diff-view.git"
+  },
+  "keywords": [
+    "git",
+    "github",
+    "diff",
+    "git-diff",
+    "react",
+    "component"
+  ],
+  "bugs": {
+    "url": "https://github.com/otakustay/react-diff-view/issues"
+  },
+  "homepage": "https://github.com/otakustay/react-diff-view#readme"
 }
