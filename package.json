@@ -10,6 +10,7 @@
   "author": "otakustay",
   "license": "MIT",
   "dependencies": {
+    "parse-diff": "^0.4.0",
     "classnames": "^2.2.5",
     "fast-diff": "^1.1.1",
     "leven": "^2.1.0",
@@ -35,7 +36,6 @@
     "lang-map": "^0.4.0",
     "lodash": "^4.17.4",
     "lodash-decorators": "^4.4.1",
-    "parse-diff": "^0.4.0",
     "path-parse": "^1.0.5",
     "prismjs": "^1.6.0",
     "react": "^15.6.1",

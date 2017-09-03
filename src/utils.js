@@ -1,3 +1,22 @@
+export parseDiff from 'parse-diff';
+
+export const addStubChunk = chunks => {
+    if (!chunks || !chunks.length) {
+        return chunks;
+    }
+
+    const {oldStart, oldLines, newStart, newLines} = chunks[chunks.length - 1];
+    const stubChunk = {
+        oldStart: oldStart + oldLines,
+        oldLines: 0,
+        newStart: newStart + newLines,
+        newLines: 0,
+        content: 'STUB',
+        changes: []
+    };
+    return [...chunks, stubChunk];
+};
+
 export const computePrevLineNumber = ({normal, ln, ln1}) => (normal ? ln1 : ln);
 
 export const computeNextLineNumber = ({normal, ln, ln2}) => (normal ? ln2 : ln);
