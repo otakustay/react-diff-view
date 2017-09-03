@@ -30,6 +30,9 @@ export default class File extends PureComponent {
         const baseEvents = {
             code: {
                 onDoubleClick: this.addComment
+            },
+            gutter: {
+                onClick: this.selectChange
             }
         };
         const diffEvents = canExpand
@@ -73,9 +76,10 @@ export default class File extends PureComponent {
     }
 
     @bind()
-    selectChange(change, selected) {
+    selectChange(change) {
         const {selectedChanges} = this.state;
-        this.setState({selectedChanges: selected ? [...selectedChanges, change] : without(selectedChanges, change)});
+        const selected = selectedChanges.includes(change);
+        this.setState({selectedChanges: selected ? without(selectedChanges, change) : [...selectedChanges, change]});
     }
 
     @bind()
@@ -153,7 +157,6 @@ export default class File extends PureComponent {
                             customEvents={diffEvents}
                             columnDiff={changeCount <= 200}
                             onRenderCode={changeCount <= 500 ? highlight : noop}
-                            onSelect={this.selectChange}
                         >
                             {chunks.map(renderChunk)}
                         </Diff>
