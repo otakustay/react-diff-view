@@ -13,7 +13,7 @@ export default class App extends PureComponent {
     };
 
     async componentDidMount() {
-        const response = await fetch('assets/small.diff');
+        const response = await fetch('assets/large.diff');
         const text = await response.text();
         console.time('parse');
         const diff = parseDiff(text);
@@ -27,6 +27,8 @@ export default class App extends PureComponent {
 
     componentDidUpdate() {
         console.timeEnd('render');
+        console.time('paint');
+        requestAnimationFrame(() => requestAnimationFrame(() => console.timeEnd('paint')));
     }
 
     switchViewType() {
