@@ -11,12 +11,41 @@ import highlight from './highlight';
 import './File.css';
 import Unfold from './Unfold.svg';
 
-const renderChunkHeader = ({content}) => [
-    <Unfold className="unfold" />,
-    content
-];
+const renderChunkHeader = (previousChunk, currentChunk) => {
+    const isInitialChunk = currentChunk.oldStart === 1 && currentChunk.newStart === 1;
+
+    if (isInitialChunk) {
+        return null;
+    }
+
+    if (currentChunk.content === 'STUB') {
+        return [
+            <Unfold className="unfold" />,
+            'Expand to file end'
+        ];
+    }
+
+    const collapsedLines = previousChunk
+        ? currentChunk.oldStart - previousChunk.oldStart - previousChunk.oldLines
+        : currentChunk.oldStart - 1;
+    return [
+        <Unfold className="unfold" />,
+        `Expand ${collapsedLines} lines of code`
+    ];
+};
 
 const computeInitialFakeChunk = lines => ({oldStart: 1, oldLines: lines, newStart: 1});
+
+const computeStubFakeChunk = ({oldStart, oldLines, newStart, newLines}) => {
+    return {
+        oldStart: oldStart + oldLines,
+        oldLines: 0,
+        newStart: newStart + newLines,
+        newLines: 0,
+        content: 'STUB',
+        changes: []
+    };
+};
 
 export default class File extends PureComponent {
 
@@ -46,7 +75,7 @@ export default class File extends PureComponent {
 
         this.state = {
             renderDiff: changeCount <= 800,
-            chunks: chunks,
+            chunks: canExpand ? [...chunks, computeStubFakeChunk(chunks[chunks.length - 1])] : chunks,
             filename: filename,
             canExpand: canExpand,
             comments: [],
@@ -89,10 +118,19 @@ export default class File extends PureComponent {
         const text = await response.text();
         const lines = text.split('\n');
         const previousChunk = chunks[chunks.indexOf(chunk) - 1] || computeInitialFakeChunk(chunk.oldStart - 1);
-        const collapsedLines = lines.slice(previousChunk.oldStart - 1, chunk.oldStart - 1);
-        const collapsedChunk = textLinesToChunk(collapsedLines, previousChunk.oldStart, previousChunk.newStart);
-        const newChunks = insertChunk(chunks, collapsedChunk);
-        this.setState({chunks: newChunks});
+        if (chunk.content === 'STUB') {
+            const collapsedLines = lines.slice(chunk.oldStart - 1, lines.length);
+            const collapsedChunk = textLinesToChunk(collapsedLines, chunk.oldStart, chunk.newStart);
+            // Remove stub chunk
+            const newChunks = insertChunk(chunks.slice(0, -1), collapsedChunk);
+            this.setState({chunks: newChunks});
+        }
+        else {
+            const collapsedLines = lines.slice(previousChunk.oldStart - 1, chunk.oldStart - 1);
+            const collapsedChunk = textLinesToChunk(collapsedLines, previousChunk.oldStart, previousChunk.newStart);
+            const newChunks = insertChunk(chunks, collapsedChunk);
+            this.setState({chunks: newChunks});
+        }
     }
 
     render() {
@@ -130,13 +168,10 @@ export default class File extends PureComponent {
             []
         );
 
-        const renderChunk = chunk => {
-            const isInitialChunk = chunk.oldStart === 1 && chunk.newStart === 1;
-            const header = isInitialChunk ? null : (canExpand ? renderChunkHeader(chunk) : undefined);
-
-            return (
-                <Chunk key={chunk.content} chunk={chunk} header={header} />
-            );
+        const renderChunk = (children, chunk) => {
+            const header = canExpand ? renderChunkHeader(children[children.length - 1], chunk) : undefined;
+            children.push(<Chunk key={chunk.content} chunk={chunk} header={header} />);
+            return children;
         };
 
         return (
@@ -158,7 +193,7 @@ export default class File extends PureComponent {
                             columnDiff={changeCount <= 200}
                             onRenderCode={changeCount <= 500 ? highlight : noop}
                         >
-                            {chunks.map(renderChunk)}
+                            {chunks.reduce(renderChunk, [])}
                         </Diff>
                         <Else>
                             <LargeDiff onClick={() => this.setState({renderDiff: true})} />

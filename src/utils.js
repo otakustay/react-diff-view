@@ -39,6 +39,10 @@ const tryMergeChunks = (x, y) => {
     const previousChange = last(x.changes);
     const nextChange = y.changes[0];
 
+    if (!previousChange || !nextChange) {
+        return null;
+    }
+
     if (computePrevLineNumber(previousChange) + 1 !== computePrevLineNumber(nextChange)) {
         return null;
     }

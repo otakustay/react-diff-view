@@ -8,5 +8,4 @@ export * from './utils';
 // TODO: word wrap - 无法实现
 // TODO: 清理样式
 // TODO: 显示\r和tab
-// TODO: 完善所有自定义事件
 // TODO: propTypes
