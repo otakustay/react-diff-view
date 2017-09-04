@@ -4,7 +4,9 @@
   "description": "A git diff component to consume the git unified diff output.",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server",
+    "start": "webpack-dev-server --config=webpack.demo.config.js",
+    "build": "webpack --config=webpack.build.config.js",
+    "prepare": "npm run lint && npm run build",
     "lint": "eslint src demo"
   },
   "author": "otakustay",
@@ -68,5 +70,10 @@
   "bugs": {
     "url": "https://github.com/otakustay/react-diff-view/issues"
   },
-  "homepage": "https://github.com/otakustay/react-diff-view#readme"
+  "homepage": "https://github.com/otakustay/react-diff-view#readme",
+  "files": [
+    "index.js",
+    "index.js.map",
+    "src"
+  ]
 }

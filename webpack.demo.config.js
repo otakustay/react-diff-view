@@ -21,24 +21,6 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.worker\.js$/,
-                exclude: /node_modules/,
-                use: [
-                    {
-                        loader: 'worker-loader',
-                        options: {
-                            inline: true
-                        }
-                    },
-                    {
-                        loader: 'babel-loader',
-                        options: {
-                            cacheDirectory: true
-                        }
-                    }
-                ]
-            },
-            {
                 test: /\.js$/,
                 exclude: /node_modules/,
                 use: [
