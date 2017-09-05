@@ -60,3 +60,4 @@ typings/
 .DS_Store
 index.js
 index.js.map
+demo/dist

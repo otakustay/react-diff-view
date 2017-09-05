@@ -1,39 +1,64 @@
 import {PureComponent} from 'react';
-import parseDiff from 'parse-diff';
+import {bind} from 'lodash-decorators';
+import {Radio, Checkbox} from 'antd';
+import 'antd/dist/antd.css';
+import {parseDiff} from '../src';
 import File from './File';
 import './App.css';
+import diffText from './assets/small.diff';
+
+const RadioButton = Radio.Button;
+const RadioGroup = Radio.Group;
 
 /* eslint-disable no-console */
 
 export default class App extends PureComponent {
 
     state = {
+        zip: false,
         diff: null,
         viewType: 'split'
     };
 
     async componentDidMount() {
-        const response = await fetch('assets/small.diff');
-        const text = await response.text();
+        const {zip} = this.state;
         console.time('parse');
-        const diff = parseDiff(text);
+        const nearbySequences = zip ? 'zip' : null;
+        const diff = parseDiff(diffText, {nearbySequences});
         console.timeEnd('parse');
         this.setState({diff});
     }
 
-    componentWillUpdate() {
-        console.time('render');
+    componentWillUpdate(nextProps, nextState) {
+        if (nextState.diff !== this.state.diff) {
+            console.time('render');
+        }
     }
 
-    componentDidUpdate() {
-        console.timeEnd('render');
+    componentDidUpdate(prevProps, prevState) {
+        if (prevState.zip !== this.state.zip) {
+            const {zip} = this.state;
+            const nearbySequences = zip ? 'zip' : null;
+            const diff = parseDiff(diffText, {nearbySequences});
+            this.setState({diff});
+        }
+
+        if (prevState.diff !== this.state.diff) {
+            console.timeEnd('render');
+        }
+
         console.time('paint');
         requestAnimationFrame(() => requestAnimationFrame(() => console.timeEnd('paint')));
     }
 
-    switchViewType() {
-        const {viewType} = this.state;
-        this.setState({viewType: viewType === 'unified' ? 'split' : 'unified'});
+    @bind()
+    switchViewType(e) {
+        this.setState({viewType: e.target.value});
+    }
+
+    @bind()
+    changeZipType(e) {
+        this.setState({zip: e.target.checked});
     }
 
     render() {
@@ -45,10 +70,16 @@ export default class App extends PureComponent {
 
         return (
             <div className="app">
-                <header>
-                    <button className="switch" onClick={::this.switchViewType}>
-                        Switch to {viewType === 'unified' ? 'split' : 'unified'} view
-                    </button>
+                <header className="config">
+                    <div>
+                        <Checkbox size="large" onChange={this.changeZipType}>Zip nearby sequences</Checkbox>
+                    </div>
+                    <div>
+                        <RadioGroup size="large" value={viewType} onChange={this.switchViewType}>
+                            <RadioButton value="split">Split</RadioButton>
+                            <RadioButton value="unified">Unified</RadioButton>
+                        </RadioGroup>
+                    </div>
                 </header>
                 <div>
                     {diff.map((file, i) => <File key={i} {...file} viewType={viewType} />)}

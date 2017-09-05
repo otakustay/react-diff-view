@@ -10,6 +10,7 @@ import CommentWidget from './CommentWidget';
 import highlight from './highlight';
 import './File.css';
 import Unfold from './Unfold.svg';
+import rawCode from './assets/ReactLink.raw';
 
 const renderChunkHeader = (previousChunk, currentChunk) => {
     const isInitialChunk = currentChunk.oldStart === 1 && currentChunk.newStart === 1;
@@ -74,6 +75,13 @@ export default class File extends PureComponent {
         };
     }
 
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.chunks !== this.props.chunks) {
+            const {canExpand} = this.state;
+            this.setState({chunks: canExpand ? addStubChunk(nextProps.chunks) : nextProps.chunks});
+        }
+    }
+
     @bind()
     addComment(change) {
         const {writingChanges} = this.state;
@@ -103,9 +111,7 @@ export default class File extends PureComponent {
 
     @bind()
     async loadCollapsedBefore(chunk) {
-        const response = await fetch('assets/ReactLink.js');
-        const text = await response.text();
-        const lines = text.split('\n');
+        const lines = rawCode.split('\n');
 
         if (chunk.content === 'STUB') {
             this.expandTailCode(lines, chunk);

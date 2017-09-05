@@ -42,6 +42,10 @@ module.exports = {
             {
                 test: /\.svg$/,
                 use: ['svg-react-loader']
+            },
+            {
+                test: /\.(diff|raw)$/,
+                use: ['raw-loader']
             }
         ]
     },

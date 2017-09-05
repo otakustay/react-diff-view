@@ -8,6 +8,18 @@
     font-size: 14px;
 }
 
+.config {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    justify-content: start;
+}
+
+.config > div {
+    margin-left: 20px;
+}
+
 .switch {
     display: block;
     margin: 0 auto;
