@@ -1,12 +1,17 @@
 import {PureComponent} from 'react';
 import PropTypes from 'prop-types';
-import mapValues from 'lodash.mapvalues';
 import classNames from 'classnames';
 import {computePrevLineNumber, computeNextLineNumber} from './utils';
 import {changePropType, eventsPropType, classNamesPropType} from './propTypes';
+import {createEventsBindingSelector} from './selectors';
 import './Change.css';
 
 export default class UnifiedChange extends PureComponent {
+
+
+    bindGutterEvents = createEventsBindingSelector();
+
+    bindCodeEvents = createEventsBindingSelector();
 
     static propTypes = {
         change: changePropType.isRequired,
@@ -38,9 +43,8 @@ export default class UnifiedChange extends PureComponent {
         const prevLine = computePrevLineNumber(change);
         const nextLine = computeNextLineNumber(change);
 
-        const bindChange = fn => () => fn(change);
-        const boundGutterEvents = mapValues(customEvents.gutter, bindChange);
-        const boundCodeEvents = mapValues(customEvents.code, bindChange);
+        const boundGutterEvents = this.bindGutterEvents(customEvents.gutter, change);
+        const boundCodeEvents = this.bindCodeEvents(customEvents.code, change);
 
         const gutterClassName = classNames(
             'diff-gutter',

@@ -1,45 +1,71 @@
 import {PureComponent} from 'react';
 import PropTypes from 'prop-types';
-import mapValues from 'lodash.mapvalues';
 import classNames from 'classnames';
 import diffString from 'fast-diff';
 import leven from 'leven';
 import escape from 'lodash.escape';
+import CodeCell from './CodeCell';
 import {computePrevLineNumber, computeNextLineNumber} from './utils';
+import {createEventsBindingSelector} from './selectors';
 import {changePropType, eventsPropType, classNamesPropType} from './propTypes';
 import './Change.css';
 
-const renderCells = (change, base, diff, n, selected, customClassNames, customEvents) => {
-    const bindChange = fn => () => fn(change);
-    const boundGutterEvents = mapValues(customEvents.gutter, bindChange);
-    const boundCodeEvents = mapValues(customEvents.code, bindChange);
+const renderCells = args => {
+    const {
+        change,
+        diff,
+        n,
+        selected,
+        customClassNames,
+        customEvents,
+        onRenderCode,
+        bindGutterEvents,
+        bindCodeEvents
+    } = args;
 
     if (!change) {
         return [
             <td key="gutter" className={classNames('diff-gutter', 'diff-gutter-omit', customClassNames.gutter)} />,
-            <td key="code" className={classNames('diff-code', 'diff-code-omit', customClassNames.code)} />
+            <CodeCell
+                key="code"
+                className={classNames('diff-code', 'diff-code-omit', customClassNames.code)}
+                onRender={onRenderCode}
+            />
         ];
     }
 
     const {type, content} = change;
     const line = n === 1 ? computePrevLineNumber(change) : computeNextLineNumber(change);
+    const boundGutterEvents = bindGutterEvents(customEvents.gutter, change);
     const gutterClassName = classNames(
         'diff-gutter',
         `diff-gutter-${type}`,
         customClassNames.gutter,
         {'diff-gutter-selected': selected}
     );
+    const gutterProps = {
+        key: 'gutter',
+        className: gutterClassName,
+        ...boundGutterEvents
+    };
+    const boundCodeEvents = bindCodeEvents(customEvents.code, change);
     const codeClassName = classNames(
         'diff-code',
         `diff-code-${type}`,
         customClassNames.code,
         {'diff-code-selected': selected}
     );
+    const codeProps = {
+        key: 'code',
+        className: codeClassName,
+        onRender: onRenderCode,
+        ...boundCodeEvents
+    };
 
     if (!diff || diff.length <= 1) {
         return [
-            <td key="gutter" className={gutterClassName} {...boundGutterEvents}>{line}</td>,
-            <td key="code" className={codeClassName} {...boundCodeEvents}>{content.substring(1)}</td>
+            <td {...gutterProps}>{line}</td>,
+            <CodeCell {...codeProps} text={content.substring(1)} />
         ];
     }
 
@@ -57,17 +83,20 @@ const renderCells = (change, base, diff, n, selected, customClassNames, customEv
     );
 
     return [
-        <td key="gutter" className={gutterClassName} {...boundGutterEvents}>{line}</td>,
-        <td
-            key="code"
-            className={codeClassName}
-            {...boundCodeEvents}
-            dangerouslySetInnerHTML={{__html: html}}
-        />
+        <td {...gutterProps}>{line}</td>,
+        <CodeCell {...codeProps} html={html} />
     ];
 };
 
 export default class SplitChange extends PureComponent {
+
+    bindPrevGutterEvents = createEventsBindingSelector();
+
+    bindNextGutterEvents = createEventsBindingSelector();
+
+    bindPrevCodeEvents = createEventsBindingSelector();
+
+    bindNextCodeEvents = createEventsBindingSelector();
 
     static propTypes = {
         prev: changePropType,
@@ -89,17 +118,6 @@ export default class SplitChange extends PureComponent {
         }
     };
 
-    componentDidMount() {
-        const {prev, next, onRenderCode} = this.props;
-        const [prevCell, nextCell] = this.container.querySelectorAll('.diff-code');
-        onRenderCode(prevCell, prev);
-        onRenderCode(nextCell, next);
-    }
-
-    componentDidUpdate() {
-        // TODO: 如何判断一个td里的代码是不是已经高亮过了？
-    }
-
     render() {
         const {
             prev,
@@ -109,19 +127,38 @@ export default class SplitChange extends PureComponent {
             columnDiff,
             columnDiffThreshold,
             customClassNames,
-            customEvents
+            customEvents,
+            onRenderCode
         } = this.props;
         const diff = (columnDiff && prev && next && leven(prev.content, next.content) <= columnDiffThreshold)
             ? diffString(prev.content.substring(1), next.content.substring(1))
             : null;
+
+        const commons = {diff, customClassNames, customEvents, onRenderCode};
+        const prevArgs = {
+            ...commons,
+            change: prev,
+            n: 1,
+            selected: prevSelected,
+            bindGutterEvents: this.bindPrevGutterEvents,
+            bindCodeEvents: this.bindPrevCodeEvents
+        };
+        const nextArgs = {
+            ...commons,
+            change: next,
+            n: 1,
+            selected: nextSelected,
+            bindGutterEvents: this.bindNextGutterEvents,
+            bindCodeEvents: this.bindNextCodeEvents
+        };
 
         return (
             <tr
                 className={classNames('diff-line', customClassNames.line)}
                 ref={container => this.container = container}
             >
-                {renderCells(prev, next, diff, 1, prevSelected, customClassNames, customEvents)}
-                {renderCells(next, prev, diff, 2, nextSelected, customClassNames, customEvents)}
+                {renderCells(prevArgs)}
+                {renderCells(nextArgs)}
             </tr>
         );
     }

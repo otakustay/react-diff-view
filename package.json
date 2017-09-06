@@ -12,12 +12,12 @@
   "author": "otakustay",
   "license": "MIT",
   "dependencies": {
-    "parse-diff": "^0.4.0",
     "classnames": "^2.2.5",
     "fast-diff": "^1.1.1",
     "leven": "^2.1.0",
     "lodash.escape": "^4.0.1",
-    "lodash.mapvalues": "^4.6.0"
+    "lodash.mapvalues": "^4.6.0",
+    "parse-diff": "^0.4.0"
   },
   "devDependencies": {
     "antd": "^2.13.0",
@@ -43,10 +43,13 @@
     "prismjs": "^1.6.0",
     "raw-loader": "^0.5.1",
     "react": "^15.6.1",
+    "react-addons-perf": "^15.4.2",
     "react-dom": "^15.6.1",
     "react-markdown": "^2.5.0",
     "react-timeago": "^3.4.3",
     "react-whether": "^1.0.1",
+    "reselect": "^3.0.1",
+    "shallow-changes": "^1.0.2",
     "style-loader": "^0.18.2",
     "svg-react-loader": "^0.4.5",
     "uglifyjs-webpack-plugin": "^1.0.0-beta.2",

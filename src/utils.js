@@ -29,7 +29,6 @@ const zipChanges = changes => {
 
 
 // TODO: Implement a faster diff parser
-// TODO: Document `options`
 export const parseDiff = (text, options) => {
     const files = parse(text);
 

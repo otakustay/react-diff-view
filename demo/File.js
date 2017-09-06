@@ -1,16 +1,22 @@
 import {PureComponent} from 'react';
-import parsePath from 'path-parse';
-import {languages} from 'lang-map';
-import {map, filter, without, sumBy, noop} from 'lodash';
+import {without, sumBy, noop, pick} from 'lodash';
 import {bind} from 'lodash-decorators';
 import {Whether, Else} from 'react-whether';
-import {Diff, Chunk, addStubChunk, textLinesToChunk, insertChunk} from '../src';
+import {Diff, Chunk, textLinesToChunk, insertChunk} from '../src';
 import LargeDiff from './LargeDiff';
 import CommentWidget from './CommentWidget';
 import highlight from './highlight';
 import './File.css';
 import Unfold from './Unfold.svg';
 import rawCode from './assets/ReactLink.raw';
+import {
+    createFilenameSelector,
+    createCanExpandSelector,
+    createCustomClassNamesSelector,
+    createCustomEventsSelector,
+    createRenderingChunksSelector,
+    createWidgetsSelector
+} from './selectors';
 
 const renderChunkHeader = (previousChunk, currentChunk) => {
     const isInitialChunk = currentChunk.oldStart === 1 && currentChunk.newStart === 1;
@@ -39,47 +45,36 @@ const computeInitialFakeChunk = lines => ({oldStart: 1, oldLines: lines, newStar
 
 export default class File extends PureComponent {
 
+    computeFilename = createFilenameSelector();
+
+    computeExpandable = createCanExpandSelector(this.computeFilename);
+
+    computeClassNames = createCustomClassNamesSelector(this.computeFilename);
+
+    computeEvents = createCustomEventsSelector(this.computeExpandable);
+
+    computeRenderingChunks = createRenderingChunksSelector(this.computeExpandable);
+
+    computeWidgets = createWidgetsSelector(this.createCommentWidget);
+
     constructor(props) {
         super(props);
 
-        const {from, to, chunks} = props;
-        const filename = to === '/dev/null' ? from : to;
-        const canExpand = filename === 'src/addons/link/ReactLink.js';
+        const {chunks} = props;
         const changeCount = sumBy(chunks, ({changes}) => changes.length);
-        const baseEvents = {
-            code: {
-                onDoubleClick: this.addComment
-            },
-            gutter: {
-                onClick: this.selectChange
-            }
-        };
-        const diffEvents = canExpand
-            ? {
-                ...baseEvents,
-                gutterHeader: {
-                    onClick: this.loadCollapsedBefore
-                }
-            }
-            : baseEvents;
 
         this.state = {
             renderDiff: changeCount <= 800,
-            chunks: canExpand ? addStubChunk(chunks) : chunks,
-            filename: filename,
-            canExpand: canExpand,
             comments: [],
             writingChanges: [],
-            selectedChanges: [],
-            diffEvents: diffEvents
+            selectedChanges: []
         };
     }
 
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.chunks !== this.props.chunks) {
-            const {canExpand} = this.state;
-            this.setState({chunks: canExpand ? addStubChunk(nextProps.chunks) : nextProps.chunks});
-        }
+    @bind()
+    createCommentWidget(change, comments, writing) {
+        const onSave = content => this.saveComment(change, content);
+        return <CommentWidget comments={comments} writing={writing} onSave={onSave} />;
     }
 
     @bind()
@@ -146,38 +141,16 @@ export default class File extends PureComponent {
 
     render() {
         const {additions, deletions, viewType} = this.props;
-        const {
-            filename,
-            canExpand,
-            chunks,
-            renderDiff,
-            diffEvents,
-            comments,
-            writingChanges,
-            selectedChanges
-        } = this.state;
-        const {ext = ''} = parsePath(filename);
-        const [language] = languages(ext);
-        const classNames = {
-            code: `language-${language || 'unknown'}`
-        };
-        const changeCount = sumBy(chunks, ({changes}) => changes.length);
-        const changesWithWidgets = [...map(comments, 'change'), ...writingChanges];
-        const widgets = changesWithWidgets.reduce(
-            (widgets, change) => {
-                const lineComments = filter(comments, {change});
-                const writing = writingChanges.includes(change);
-                const onSave = content => this.saveComment(change, content);
-                return [
-                    ...widgets,
-                    {
-                        change: change,
-                        element: <CommentWidget comments={lineComments} writing={writing} onSave={onSave} />
-                    }
-                ];
-            },
-            []
-        );
+        const {renderDiff, selectedChanges} = this.state;
+        const methods = pick(this, ['addComment', 'selectChange', 'loadCollapsedBefore']);
+
+        const changeCount = sumBy(renderingChunks, ({changes}) => changes.length);
+        const filename = this.computeFilename(this.props);
+        const canExpand = this.computeExpandable(this.props);
+        const renderingChunks = this.computeRenderingChunks(this.props);
+        const customEvents = this.computeEvents({...this.props, ...methods});
+        const customClassNames = this.computeClassNames(this.props);
+        const widgets = this.computeWidgets(this.state);
 
         const renderChunk = (children, chunk) => {
             const header = canExpand ? renderChunkHeader(children[children.length - 1], chunk) : undefined;
@@ -195,16 +168,15 @@ export default class File extends PureComponent {
                 <main>
                     <Whether matches={renderDiff}>
                         <Diff
-                            chunks={chunks}
                             widgets={widgets}
                             viewType={viewType}
                             selectedChanges={selectedChanges}
-                            customClassNames={classNames}
-                            customEvents={diffEvents}
+                            customClassNames={customClassNames}
+                            customEvents={customEvents}
                             columnDiff={changeCount <= 200}
                             onRenderCode={changeCount <= 500 ? highlight : noop}
                         >
-                            {chunks.reduce(renderChunk, [])}
+                            {renderingChunks.reduce(renderChunk, [])}
                         </Diff>
                         <Else>
                             <LargeDiff onClick={() => this.setState({renderDiff: true})} />

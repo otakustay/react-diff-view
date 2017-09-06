@@ -1,7 +1,8 @@
-import mapValues from 'lodash.mapvalues';
+import {PureComponent} from 'react';
 import classNames from 'classnames';
 import UnifiedChange from './UnifiedChange';
 import UnifiedWidget from './UnifiedWidget';
+import {createEventsBindingSelector} from './selectors';
 
 const groupElements = (changes, widgets) => changes.reduce(
     (elements, change) => {
@@ -29,54 +30,60 @@ const renderRow = ([type, value], i, selectedChanges, props) => {
     return null;
 };
 
-const ChunkHeader = props => {
-    const {
-        chunk,
-        elements,
-        gutterEvents,
-        contentEvents,
-        className,
-        gutterClassName,
-        contentClassName
-    } = props;
-    const bindChunk = fn => () => fn(chunk);
-    const boundGutterEvents = mapValues(gutterEvents, bindChunk);
-    const boundContentEvents = mapValues(contentEvents, bindChunk);
+class ChunkHeader extends PureComponent {
 
-    const computedClassName = classNames('diff-chunk-header', className);
-    const computedGutterClassName = classNames('diff-chunk-header-gutter', gutterClassName);
-    const computedContentClassName = classNames('diff-chunk-header-content', contentClassName);
+    bindGutterEvents = createEventsBindingSelector();
 
-    if (elements === undefined) {
+    bindContentEvents = createEventsBindingSelector();
+
+    render() {
+        const {
+            chunk,
+            elements,
+            gutterEvents,
+            contentEvents,
+            className,
+            gutterClassName,
+            contentClassName
+        } = this.props;
+        const boundGutterEvents = this.bindGutterEvents(gutterEvents, chunk);
+        const boundContentEvents = this.bindGutterEvents(contentEvents, chunk);
+
+        const computedClassName = classNames('diff-chunk-header', className);
+        const computedGutterClassName = classNames('diff-chunk-header-gutter', gutterClassName);
+        const computedContentClassName = classNames('diff-chunk-header-content', contentClassName);
+
+        if (elements === undefined) {
+            return (
+                <tr className={computedClassName}>
+                    <td colSpan={2} className={computedGutterClassName} {...boundGutterEvents}></td>
+                    <td className={computedContentClassName} {...boundContentEvents}>{chunk.content}</td>
+                </tr>
+            );
+        }
+
+        if (elements === null) {
+            return null;
+        }
+
+        if (Array.isArray(elements)) {
+            const [gutter, content] = elements;
+
+            return (
+                <tr className={computedClassName}>
+                    <td colSpan={2} className={computedGutterClassName} {...boundGutterEvents}>{gutter}</td>
+                    <td className={computedContentClassName} {...boundContentEvents}>{content}</td>
+                </tr>
+            );
+        }
+
         return (
             <tr className={computedClassName}>
-                <td colSpan={2} className={computedGutterClassName} {...boundGutterEvents}></td>
-                <td className={computedContentClassName} {...boundContentEvents}>{chunk.content}</td>
+                <td colSpan={3} className={computedContentClassName} {...boundContentEvents}>{elements}</td>
             </tr>
         );
     }
-
-    if (elements === null) {
-        return null;
-    }
-
-    if (Array.isArray(elements)) {
-        const [gutter, content] = elements;
-
-        return (
-            <tr className={computedClassName}>
-                <td colSpan={2} className={computedGutterClassName} {...boundGutterEvents}>{gutter}</td>
-                <td className={computedContentClassName} {...boundContentEvents}>{content}</td>
-            </tr>
-        );
-    }
-
-    return (
-        <tr className={computedClassName}>
-            <td colSpan={3} className={computedContentClassName} {...boundContentEvents}>{elements}</td>
-        </tr>
-    );
-};
+}
 
 const UnifiedChunk = props => {
     const {

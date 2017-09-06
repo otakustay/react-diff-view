@@ -9,7 +9,13 @@
 }
 
 .config {
-    margin-top: 20px;
+    position: fixed;
+    padding-top: 10px;
+    height: 72px;
+    top: 0;
+    z-index: 1;
+    width: 100%;
+    background-color: #fff;
     display: flex;
     flex-direction: row-reverse;
     align-items: center;
@@ -20,16 +26,8 @@
     margin-left: 20px;
 }
 
-.switch {
-    display: block;
-    margin: 0 auto;
-    border: none;
-    background-color: #71b9f1;
-    color: #fff;
-    width: 250px;
-    height: 50px;
-    font-size: 1.5em;
-    cursor: pointer;
+.main {
+    margin-top: 72px;
 }
 
 .diff-chunk-header {

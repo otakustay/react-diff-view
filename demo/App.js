@@ -6,6 +6,8 @@ import {parseDiff} from '../src';
 import File from './File';
 import './App.css';
 import diffText from './assets/small.diff';
+import Perf from 'react-addons-perf';
+window.Perf = Perf;
 
 const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;
@@ -45,10 +47,10 @@ export default class App extends PureComponent {
 
         if (prevState.diff !== this.state.diff) {
             console.timeEnd('render');
+            console.time('paint');
+            requestAnimationFrame(() => requestAnimationFrame(() => console.timeEnd('paint')));
         }
 
-        console.time('paint');
-        requestAnimationFrame(() => requestAnimationFrame(() => console.timeEnd('paint')));
     }
 
     @bind()
@@ -81,7 +83,7 @@ export default class App extends PureComponent {
                         </RadioGroup>
                     </div>
                 </header>
-                <div>
+                <div className="main">
                     {diff.map((file, i) => <File key={i} {...file} viewType={viewType} />)}
                 </div>
             </div>

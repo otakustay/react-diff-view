@@ -41,19 +41,58 @@ npm install --save react-diff-view
 
 For best display effect, you should generate your diff text with `git diff -U1` command.
 
-The `parseDiff` named export is simply a re-export of [parse-diff](https://www.npmjs.com/package/parse-diff) package, it parses the diff text to a reliable object structure, the function returnes a list of file object which is the input of `Diff` component.
+The `{File[] parseDiff({string} text, {Object} [options])` named export is a wrap of [parse-diff](https://www.npmjs.com/package/parse-diff) package with some extra options:
+
+- `{boolean} stubChunk`: Whether to add a stub empty chunk at the tail of each chunk list, this can provide an extra hunk header when [customizing chunk header](#customize-chunk-header), for example, to expand code after the diff.
+- `{string} nearbySequences`: The action to take when meet nearby sequences, only the `"zip"` value has its own behavior.
+
+The `nearbySequence` can have a value of `"zip"` to "zip" a sequences of deletion and additions, as an example, here is a diff generated from react:
+
+```diff
+-    // if someone has already defined a value bail and don't track value
+-    // will cause over reporting of changes, but it's better then a hard failure
+-    // (needed for certain tests that spyOn input values)
+-    if (node.hasOwnProperty(valueField)) {
++    // if someone has already defined a value or Safari, then bail
++    // and don't track value will cause over reporting of changes,
++    // but it's better then a hard failure
++    // (needed for certain tests that spyOn input values and Safari)
+```
+
+This is the normal behavior, which will displaed as 3 lines of deletion, 1 line of modification and 3 lines of addition:
+
+![Normal sequence behavior](https://raw.githubusercontent.com/otakustay/react-diff-view/master/screenshots/sequence-normal.png)
+
+WHen the value `"zip"` is passed, the diff will be modified to:
+
+```diff
+-    // if someone has already defined a value bail and don't track value
++    // if someone has already defined a value or Safari, then bail
+-    // will cause over reporting of changes, but it's better then a hard failure
++    // and don't track value will cause over reporting of changes,
+-    // (needed for certain tests that spyOn input values)
++    // but it's better then a hard failure
+-    if (node.hasOwnProperty(valueField)) {
++    // (needed for certain tests that spyOn input values and Safari)
+```
+
+and as a result rendered as:
+
+![Normal sequence behavior](https://raw.githubusercontent.com/otakustay/react-diff-view/master/screenshots/sequence-zip.png)
+
+Sometimes it can provide a better look.
 
 ### Render diff chunks
 
 The `Diff` named export is a component which accepts a diff file object and correctly display it in either unified or split view, here is the full list of its props:
 
-- `{Array<Chunk>} chunks`: The chunks of diff, simply get it from the `parseDiff` output.
-- `{Array<ReactElement>} children`: Instead of passing a list of chunks, you can make each chunk a more customizable `Chunk` component, see [Customize chunk header](#customize-chunk-header) sectionf or its use case.
+- `{Chunk[]} chunks`: The chunks of diff, simply get it from the `parseDiff` output.
+- `{ReactElement[]} children`: Instead of passing a list of chunks, you can make each chunk a more customizable `Chunk` component, see [Customize chunk header](#customize-chunk-header) sectionf or its use case.
 - `{string} viewType`: Can be either `"unified"` or `"split"` to determine how the diff should look like.
 - `{string} className`: An extra css class.
 - `{Object} customEvents`: An object containing events for different part, see [Customize events](#customize-events) section for detail.
 - `{Object} customClassNames`: An object containing css classes for different part, see [Customize styles](#customize-styles) section for detail.
-- `{Array<Change>} selectedChanges`: An array of selected changes, these changes will be highlighted.
+- `{Change[]} selectedChanges`: An array of selected changes, these changes will be highlighted.
 - `{boolean} columnDiff`: Whether to enable column diff (show difference bewtween two lines of code), only available when `viewType` is set to `"split"`, it is enabled by default.
 - `{number} columnDiffThreshold`: The maximum string distance when column diff could be enabled, if two string's distance is greater than it, column diff is disabled, the default value is `15`.
 - `{Function} onRenderCode`: Callback when code is rendered, can be used to further manipulate the DOM element containing code, see [Syntax highlight](#syntax-highlight) section for detail.
@@ -274,11 +313,11 @@ class File extends PureComponent {
 
 `react-diff-component` comes with some utility functions to help simplify common issues:
 
-- `{Array<Chunk>} addStubChunk({Array<Chunk>} chunks)`: Adds a stub chunk (with no actual changes) to the end of `chunks`, this is useful when you want to expand code after the last line of diff.
+- `{Chunk[]} addStubChunk({Chunk[]} chunks)`: Adds a stub chunk (with no actual changes) to the end of `chunks`, this is useful when you want to expand code after the last line of diff.
 - `{number} computePrevLineNumber({Change} change)`: Compute the line number in previous revision for a change.
 - `{number} computeNextLineNumber({Change} change)`: Compute the line number in next revision for a change.
-- `{Chunk} textLinesToChunk({Array<string>} lines, {number} prevStartLineNumber, {number} nextStartLineNumber)`: Create a chunk with all normal changes, this is useful when expanding code between two chunks.
-- `{Array<Chunk>} insertChunk({Array<Chunk>} chunks, {Chunk} insertion)`: Insert a new chunk into the original list, it will merge chunk is possible, useful for expanding code.
+- `{Chunk} textLinesToChunk({string[]} lines, {number} prevStartLineNumber, {number} nextStartLineNumber)`: Create a chunk with all normal changes, this is useful when expanding code between two chunks.
+- `{Chunk[]} insertChunk({Chunk[]} chunks, {Chunk} insertion)`: Insert a new chunk into the original list, it will merge chunk is possible, useful for expanding code.
 
 ## Unsupported
 

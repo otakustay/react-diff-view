@@ -7,15 +7,17 @@ const groupElements = (changes, widgets) => {
     const elements = [];
     const findWidget = targetChange => widgets.find(({change}) => change === targetChange);
 
-    // TODO: 重构为reduce
+    // This could be a very complex reduce call, use `for` loop seems to make it a little more readable
     for (let i = 0; i < changes.length; i++) {
         const current = changes[i];
 
+        // A normal change is displayed on both side
         if (current.normal) {
             elements.push(['change', current, current]);
         }
         else if (current.del) {
             const next = changes[i + 1];
+            // If an add change is following a del change, they should be displayed side by side
             if (next && next.add) {
                 i = i + 1;
                 elements.push(['change', current, next]);
