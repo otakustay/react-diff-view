@@ -1,7 +1,7 @@
 import {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import diffString from 'fast-diff';
+import {diffChars, diffWordsWithSpace} from 'diff';
 import leven from 'leven';
 import escape from 'lodash.escape';
 import CodeCell from './CodeCell';
@@ -71,11 +71,11 @@ const renderCells = args => {
         ];
     }
 
-    const discardingDiffType = changePositionType === PREV ? diffString.INSERT : diffString.DELETE;
-    const usefulDiff = diff.filter(([type]) => type !== discardingDiffType);
+    const discardingDiffType = changePositionType === PREV ? 'added' : 'removed';
+    const usefulDiff = diff.filter(item => !item[discardingDiffType]);
     const html = usefulDiff.reduce(
-        (html, [type, value]) => {
-            if (type === 0) {
+        (html, {added, removed, value}) => {
+            if (!added && !removed) {
                 return html += escape(value);
             }
 
@@ -106,6 +106,7 @@ export default class SplitChange extends PureComponent {
         prevSelected: PropTypes.bool.isRequired,
         nextSelected: PropTypes.bool.isRequired,
         columnDiff: PropTypes.bool,
+        columnDiffMode: PropTypes.oneOf(['character', 'word']),
         columnDiffThreshold: PropTypes.number,
         customEvents: eventsPropType,
         customClassNames: classNamesPropType,
@@ -114,7 +115,8 @@ export default class SplitChange extends PureComponent {
 
     static defaultProps = {
         columnDiff: true,
-        columnDiffThreshold: 15,
+        columnDiffMode: 'word',
+        columnDiffThreshold: 20,
         customEvents: {},
         onRenderCode() {
         }
@@ -127,14 +129,25 @@ export default class SplitChange extends PureComponent {
             prevSelected,
             nextSelected,
             columnDiff,
+            columnDiffMode,
             columnDiffThreshold,
             customClassNames,
             customEvents,
             onRenderCode
         } = this.props;
-        const diff = (columnDiff && prev && next && leven(prev.content, next.content) <= columnDiffThreshold)
-            ? diffString(prev.content.substring(1), next.content.substring(1))
-            : null;
+
+        const diff = (() => {
+            if (!columnDiff || !prev || !next) {
+                return null;
+            }
+
+            if (columnDiffMode !== Infinity && leven(prev.content, next.content) > columnDiffThreshold) {
+                return null;
+            }
+
+            const diffFunction = columnDiffMode === 'word' ? diffWordsWithSpace : diffChars;
+            return diffFunction(prev.content.substring(1), next.content.substring(1));
+        })();
 
         const commons = {diff, customClassNames, customEvents, onRenderCode};
         const prevArgs = {
