@@ -50,7 +50,6 @@
     background-color: #fffce0;
 }
 
-.diff-gutter-omit,
-.diff-code-omit {
+.diff-omit {
     background-color: #fafbfc;
 }

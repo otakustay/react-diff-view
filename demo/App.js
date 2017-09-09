@@ -2,6 +2,7 @@ import {PureComponent} from 'react';
 import {bind} from 'lodash-decorators';
 import {Button, Radio, Checkbox} from 'antd';
 import 'antd/dist/antd.css';
+import InfiniteScroll from 'react-infinite-scroller';
 import {parseDiff} from '../src';
 import File from './File';
 import './App.css';
@@ -19,6 +20,7 @@ export default class App extends PureComponent {
     state = {
         zip: false,
         diff: [],
+        rendering: [],
         diffText: '',
         viewType: 'split'
     };
@@ -36,7 +38,7 @@ export default class App extends PureComponent {
             console.time('parse');
             const diff = parseDiff(diffText, {nearbySequences});
             console.timeEnd('parse');
-            this.setState({diff});
+            this.setState({diff: diff, rendering: diff.slice(0, 1)});
         }
 
         if (prevState.diff !== this.state.diff) {
@@ -68,12 +70,14 @@ export default class App extends PureComponent {
         this.setState({diffText});
     }
 
-    render() {
-        const {diff, viewType} = this.state;
+    @bind()
+    loadMoreFile() {
+        const {diff, rendering} = this.state;
+        this.setState({rendering: diff.slice(0, rendering.length + 1)});
+    }
 
-        if (!diff) {
-            return <div />;
-        }
+    render() {
+        const {diff, rendering, viewType} = this.state;
 
         return (
             <div className="app">
@@ -117,7 +121,13 @@ export default class App extends PureComponent {
                     <textarea onChange={this.receiveNewDiff} placeholder="Paste diff content here" />
                 </div>
                 <div className="main">
-                    {diff.map((file, i) => <File key={i} {...file} viewType={viewType} />)}
+                    <InfiniteScroll
+                        pageStart={0}
+                        loadMore={this.loadMoreFile}
+                        hasMore={diff.length > rendering.length}
+                    >
+                        {rendering.map((file, i) => <File key={i} {...file} viewType={viewType} />)}
+                    </InfiniteScroll>
                 </div>
             </div>
         );

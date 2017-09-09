@@ -26,14 +26,7 @@ const renderCells = args => {
     } = args;
 
     if (!change) {
-        return [
-            <td key="gutter" className={classNames('diff-gutter', 'diff-gutter-omit', customClassNames.gutter)} />,
-            <CodeCell
-                key="code"
-                className={classNames('diff-code', 'diff-code-omit', customClassNames.code)}
-                onRender={onRenderCode}
-            />
-        ];
+        return <td className="diff-omit" colSpan={2} />;
     }
 
     const {type, content} = change;

@@ -46,6 +46,7 @@
     "react": "^15.6.1",
     "react-addons-perf": "^15.4.2",
     "react-dom": "^15.6.1",
+    "react-infinite-scroller": "^1.0.15",
     "react-markdown": "^2.5.0",
     "react-timeago": "^3.4.3",
     "react-whether": "^1.0.1",

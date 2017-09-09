@@ -64,6 +64,7 @@ export default class File extends PureComponent {
         const changeCount = sumBy(chunks, ({changes}) => changes.length);
 
         this.state = {
+            chunks: this.computeRenderingChunks(props),
             renderDiff: changeCount <= 800,
             comments: [],
             writingChanges: [],
@@ -141,13 +142,12 @@ export default class File extends PureComponent {
 
     render() {
         const {additions, deletions, viewType} = this.props;
-        const {renderDiff, selectedChanges} = this.state;
+        const {renderDiff, selectedChanges, chunks} = this.state;
         const methods = pick(this, ['addComment', 'selectChange', 'loadCollapsedBefore']);
 
-        const changeCount = sumBy(renderingChunks, ({changes}) => changes.length);
+        const changeCount = sumBy(chunks, ({changes}) => changes.length);
         const filename = this.computeFilename(this.props);
         const canExpand = this.computeExpandable(this.props);
-        const renderingChunks = this.computeRenderingChunks(this.props);
         const customEvents = this.computeEvents({...this.props, ...methods});
         const customClassNames = this.computeClassNames(this.props);
         const widgets = this.computeWidgets(this.state);
@@ -176,7 +176,7 @@ export default class File extends PureComponent {
                             columnDiff={changeCount <= 200}
                             onRenderCode={changeCount <= 500 ? highlight : noop}
                         >
-                            {renderingChunks.reduce(renderChunk, [])}
+                            {chunks.reduce(renderChunk, [])}
                         </Diff>
                         <Else>
                             <LargeDiff onClick={() => this.setState({renderDiff: true})} />
