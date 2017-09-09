@@ -32,6 +32,7 @@
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
     "case-sensitive-paths-webpack-plugin": "^2.1.1",
+    "copy-webpack-plugin": "^4.0.1",
     "css-loader": "^0.28.5",
     "eslint": "^4.5.0",
     "eslint-plugin-react": "^7.3.0",

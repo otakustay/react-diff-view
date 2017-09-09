@@ -5,6 +5,7 @@
 
 const path = require('path');
 const {LoaderOptionsPlugin} = require('webpack');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
@@ -56,12 +57,13 @@ module.exports = {
     plugins: [
         new LoaderOptionsPlugin({minimize: false, debug: false}),
         new HtmlWebpackPlugin({title: 'react-diff-view'}),
-        new CaseSensitivePathsPlugin()
+        new CaseSensitivePathsPlugin(),
+        new CopyWebpackPlugin([{from: 'demo/assets', to: 'assets'}])
     ],
     devServer: {
         port: 9030,
         open: true,
-        contentBase: path.join(__dirname, 'demo'),
+        // contentBase: path.join(__dirname, 'demo'),
         compress: true,
         inline: true,
         hot: false

@@ -1,6 +1,6 @@
 .diff-line {
     line-height: 1.5;
-    font-family: SFMono-Regular, Consolas, "Liberation Mono", Menlo, Courier, monospace;
+    font-family: Consolas, Courier, monospace;
 }
 
 .diff-gutter {
