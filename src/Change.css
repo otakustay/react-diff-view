@@ -6,6 +6,11 @@
 .diff-gutter {
     padding: 0 1ch;
     cursor: pointer;
+    user-select: none;
+}
+
+.diff-gutter:before {
+    content: attr(data-line-number);
 }
 
 .diff-gutter-add {

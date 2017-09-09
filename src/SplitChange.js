@@ -46,8 +46,9 @@ const renderCells = args => {
         {'diff-gutter-selected': selected}
     );
     const gutterProps = {
-        key: 'gutter',
-        className: gutterClassName,
+        'key': 'gutter',
+        'className': gutterClassName,
+        'data-line-number': line,
         ...boundGutterEvents
     };
     const boundCodeEvents = bindCodeEvents(customEvents.code, change);
@@ -66,7 +67,7 @@ const renderCells = args => {
 
     if (!diff || diff.length <= 1) {
         return [
-            <td {...gutterProps}>{line}</td>,
+            <td {...gutterProps} />,
             <CodeCell {...codeProps} text={content.substring(1)} />
         ];
     }
@@ -85,7 +86,7 @@ const renderCells = args => {
     );
 
     return [
-        <td {...gutterProps}>{line}</td>,
+        <td {...gutterProps} />,
         <CodeCell {...codeProps} html={html} />
     ];
 };
