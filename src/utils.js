@@ -1,4 +1,17 @@
 import parse from 'parse-diff';
+import {FILE_TYPE_ADD, FILE_TYPE_MODIFY, FILE_TYPE_DELETE} from './constants';
+
+const computeFileType = ({from, to}) => {
+    if (from === '/dev/null') {
+        return FILE_TYPE_ADD;
+    }
+
+    if (to === '/dev/null') {
+        return FILE_TYPE_DELETE;
+    }
+
+    return FILE_TYPE_MODIFY;
+};
 
 const zipChanges = changes => {
     const [result] = changes.reduce(
@@ -41,6 +54,7 @@ export const parseDiff = (text, options) => {
     // since `files` is a local variable and will never be accessed out of this scope,
     // here we mutate it directly to add extra adjustment
     for (const file of files) {
+        file.type = computeFileType(file);
         const chunks = stubChunk ? addStubChunk(file.chunks) : file.chunks;
 
         if (nearbySequences === 'zip') {

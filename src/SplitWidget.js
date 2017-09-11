@@ -1,10 +1,20 @@
 import './Widget.css';
 
-const SplitWidget = ({prevElement, nextElement}) => {
+const SplitWidget = ({prevElement, nextElement, monotonous}) => {
+    if (monotonous) {
+        return (
+            <tr className="widget">
+                <td colSpan={2}>
+                    {prevElement || nextElement}
+                </td>
+            </tr>
+        );
+    }
+
     if (prevElement === nextElement) {
         return (
             <tr className="widget">
-                <td className="widget-normal" colSpan={4}>
+                <td colSpan={4}>
                     {prevElement}
                 </td>
             </tr>

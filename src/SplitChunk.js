@@ -40,13 +40,14 @@ const groupElements = (changes, widgets) => {
     return elements;
 };
 
-const renderRow = ([type, prev, next], i, selectedChanges, props) => {
+const renderRow = ([type, prev, next], i, selectedChanges, monotonous, props) => {
     if (type === 'change') {
         return (
             <SplitChange
                 key={i}
                 prev={prev}
                 next={next}
+                monotonous={monotonous}
                 prevSelected={selectedChanges.includes(prev)}
                 nextSelected={selectedChanges.includes(next)}
                 {...props}
@@ -56,7 +57,7 @@ const renderRow = ([type, prev, next], i, selectedChanges, props) => {
     else if (type === 'widget') {
         const prevElement = prev ? prev.element : null;
         const nextElement = next ? next.element : null;
-        return <SplitWidget key={i} prevElement={prevElement} nextElement={nextElement} />;
+        return <SplitWidget key={i} monotonous={monotonous} prevElement={prevElement} nextElement={nextElement} />;
     }
 
     return null;
@@ -65,6 +66,7 @@ const renderRow = ([type, prev, next], i, selectedChanges, props) => {
 const ChunkHeader = props => {
     const {
         chunk,
+        monotonous,
         elements,
         gutterEvents,
         contentEvents,
@@ -84,7 +86,13 @@ const ChunkHeader = props => {
         return (
             <tr className={computedClassName}>
                 <td className={computedGutterClassName} {...boundGutterEvents}></td>
-                <td colSpan={3} className={computedContentClassName} {...boundContentEvents}>{chunk.content}</td>
+                <td
+                    colSpan={monotonous ? 1 : 3}
+                    className={computedContentClassName}
+                    {...boundContentEvents}
+                >
+                    {chunk.content}
+                </td>
             </tr>
         );
     }
@@ -99,14 +107,20 @@ const ChunkHeader = props => {
         return (
             <tr className={computedClassName}>
                 <td className={computedGutterClassName} {...boundGutterEvents}>{gutter}</td>
-                <td colSpan={3} className={computedContentClassName} {...boundContentEvents}>{content}</td>
+                <td
+                    colSpan={monotonous ? 1 : 3}
+                    className={computedContentClassName}
+                    {...boundContentEvents}
+                >
+                    {content}
+                </td>
             </tr>
         );
     }
 
     return (
         <tr className={computedClassName}>
-            <td colSpan={4} className={computedContentClassName}>{elements}</td>
+            <td colSpan={monotonous ? 2 : 4} className={computedContentClassName}>{elements}</td>
         </tr>
     );
 };
@@ -114,6 +128,7 @@ const ChunkHeader = props => {
 const SplitChunk = props => {
     const {
         chunk,
+        monotonous,
         widgets,
         selectedChanges,
         header,
@@ -131,6 +146,7 @@ const SplitChunk = props => {
         <tbody className={classNames('diff-chunk', className)}>
             <ChunkHeader
                 chunk={chunk}
+                monotonous={monotonous}
                 elements={header}
                 gutterEvents={headerGutterEvents}
                 contentEvents={headerContentEvents}
@@ -138,7 +154,7 @@ const SplitChunk = props => {
                 gutterClassName={headerGutterClassName}
                 contentClassName={headerContentClassName}
             />
-            {elements.map((element, i) => renderRow(element, i, selectedChanges, childrenProps))}
+            {elements.map((element, i) => renderRow(element, i, selectedChanges, monotonous, childrenProps))}
         </tbody>
     );
 };

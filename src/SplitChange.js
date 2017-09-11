@@ -95,6 +95,7 @@ export default class SplitChange extends PureComponent {
     bindNextCodeEvents = createEventsBindingSelector();
 
     static propTypes = {
+        monotonous: PropTypes.bool.isRequired,
         prev: changePropType,
         next: changePropType,
         prevSelected: PropTypes.bool.isRequired,
@@ -122,6 +123,7 @@ export default class SplitChange extends PureComponent {
             next,
             prevSelected,
             nextSelected,
+            monotonous,
             columnDiff,
             columnDiffMode,
             columnDiffThreshold,
@@ -143,7 +145,7 @@ export default class SplitChange extends PureComponent {
             return diffFunction(prev.content.substring(1), next.content.substring(1));
         })();
 
-        const commons = {diff, customClassNames, customEvents, onRenderCode};
+        const commons = {diff, monotonous, customClassNames, customEvents, onRenderCode};
         const prevArgs = {
             ...commons,
             change: prev,
@@ -161,11 +163,16 @@ export default class SplitChange extends PureComponent {
             bindCodeEvents: this.bindNextCodeEvents
         };
 
+        if (monotonous) {
+            return (
+                <tr className={classNames('diff-line', customClassNames.line)}>
+                    {renderCells(prev ? prevArgs : nextArgs)}
+                </tr>
+            );
+        }
+
         return (
-            <tr
-                className={classNames('diff-line', customClassNames.line)}
-                ref={container => this.container = container}
-            >
+            <tr className={classNames('diff-line', customClassNames.line)}>
                 {renderCells(prevArgs)}
                 {renderCells(nextArgs)}
             </tr>

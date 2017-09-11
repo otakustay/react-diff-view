@@ -141,10 +141,9 @@ export default class File extends PureComponent {
     }
 
     render() {
-        const {additions, deletions, viewType} = this.props;
+        const {type, additions, deletions, viewType} = this.props;
         const {renderDiff, selectedChanges, chunks} = this.state;
         const methods = pick(this, ['addComment', 'selectChange', 'loadCollapsedBefore']);
-
         const changeCount = sumBy(chunks, ({changes}) => changes.length);
         const filename = this.computeFilename(this.props);
         const canExpand = this.computeExpandable(this.props);
@@ -168,6 +167,7 @@ export default class File extends PureComponent {
                 <main>
                     <Whether matches={renderDiff}>
                         <Diff
+                            diffType={type}
                             widgets={widgets}
                             viewType={viewType}
                             selectedChanges={selectedChanges}
