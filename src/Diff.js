@@ -1,13 +1,12 @@
 import {Children, cloneElement} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import Chunk from './Chunk';
-import {FILE_TYPE_ADD, FILE_TYPE_DELETE} from './constants';
-import {viewTypePropType, chunkPropType} from './propTypes';
+import Hunk from './Hunk';
+import {viewTypePropType, hunkPropType} from './propTypes';
 import './Diff.css';
 
-const Diff = ({diffType, chunks, children, className, ...props}) => {
-    const monotonous = diffType === FILE_TYPE_ADD || diffType === FILE_TYPE_DELETE;
+const Diff = ({diffType, hunks, children, className, ...props}) => {
+    const monotonous = diffType === 'add' || diffType === 'delete';
     const cols = ((viewType, monotonous) => {
         if (viewType === 'unified') {
             return (
@@ -37,22 +36,22 @@ const Diff = ({diffType, chunks, children, className, ...props}) => {
             </colgroup>
         );
     })(props.viewType, monotonous);
-    const chunksChildren = children
+    const hunksChildren = children
         ? Children.map(children, child => cloneElement(child, {...props, monotonous}))
-        : chunks.map(chunk => <Chunk key={chunk.content} chunk={chunk} monotonous={monotonous} {...props} />);
+        : hunks.map(hunk => <Hunk key={hunk.content} hunk={hunk} monotonous={monotonous} {...props} />);
 
     return (
         <table className={classNames('diff', className)}>
             {cols}
-            {chunksChildren}
+            {hunksChildren}
         </table>
     );
 };
 
 Diff.propTypes = {
-    diffType: PropTypes.number.isRequired,
+    diffType: PropTypes.oneOf(['add', 'delete', 'modify', 'rename', 'copy']).isRequired,
     viewType: viewTypePropType.isRequired,
-    chunks: PropTypes.arrayOf(chunkPropType),
+    hunks: PropTypes.arrayOf(hunkPropType),
     children: PropTypes.oneOfType([PropTypes.element, PropTypes.arrayOf(PropTypes.element)])
 };
 

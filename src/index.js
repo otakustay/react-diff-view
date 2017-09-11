@@ -1,4 +1,3 @@
 export Diff from './Diff';
-export Chunk from './Chunk';
+export Hunk from './Hunk';
 export * from './utils';
-export * from './constants';

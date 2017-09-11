@@ -3,19 +3,19 @@ import PropTypes from 'prop-types';
 export const viewTypePropType = PropTypes.oneOf(['unified', 'split']);
 
 const change = {
-    type: PropTypes.oneOf(['normal', 'add', 'del']).isRequired,
+    type: PropTypes.oneOf(['delete', 'insert', 'normal']).isRequired,
     content: PropTypes.string.isRequired,
-    normal: PropTypes.bool,
-    add: PropTypes.bool,
-    del: PropTypes.bool,
-    ln: PropTypes.number,
-    ln1: PropTypes.number,
-    ln2: PropTypes.number
+    isNormal: PropTypes.bool,
+    isInsert: PropTypes.bool,
+    isDelete: PropTypes.bool,
+    lineNumber: PropTypes.number,
+    oldLineNumber: PropTypes.number,
+    newLineNumber: PropTypes.number
 };
 
 export const changePropType = PropTypes.shape(change);
 
-const chunk = {
+const hunk = {
     oldStart: PropTypes.number.isRequired,
     oldLines: PropTypes.number.isRequired,
     newStart: PropTypes.number.isRequired,
@@ -24,7 +24,7 @@ const chunk = {
     changes: PropTypes.arrayOf(changePropType).isRequired
 };
 
-export const chunkPropType = PropTypes.shape(chunk);
+export const hunkPropType = PropTypes.shape(hunk);
 
 const events = {
     gutterHeader: PropTypes.object,
@@ -36,8 +36,8 @@ const events = {
 export const eventsPropType = PropTypes.shape(events);
 
 const classNames = {
-    chunk: PropTypes.string,
-    chunkHeader: PropTypes.string,
+    hunk: PropTypes.string,
+    hunkHeader: PropTypes.string,
     gutterHeader: PropTypes.string,
     codeHeader: PropTypes.string,
     line: PropTypes.string,

@@ -2,11 +2,11 @@ import {createSelector} from 'reselect';
 import {map, property} from 'lodash/fp';
 import {languages} from 'lang-map';
 import parsePath from 'path-parse';
-import {addStubChunk} from '../src';
+import {addStubHunk} from '../src';
 
 export const createFilenameSelector = () => createSelector(
-    property('from'), property('to'),
-    (from, to) => to === '/dev/null' ? from : to
+    property('type'), property('oldPath'), property('newPath'),
+    (type, oldPath, newPath) => type === 'delete' ? oldPath : newPath
 );
 
 export const createCanExpandSelector = computeFilename => createSelector(
@@ -48,9 +48,9 @@ export const createCustomEventsSelector = computeExpandable => createSelector(
     }
 );
 
-export const createRenderingChunksSelector = computeExpandable => createSelector(
-    computeExpandable, property('chunks'),
-    (canExpand, chunks) => (canExpand ? addStubChunk(chunks) : chunks)
+export const createRenderingHunksSelector = computeExpandable => createSelector(
+    computeExpandable, property('hunks'),
+    (canExpand, hunks) => (canExpand ? addStubHunk(hunks) : hunks)
 );
 
 const pluckChange = map('change');

@@ -30,7 +30,7 @@ const renderRow = ([type, value], i, selectedChanges, props) => {
     return null;
 };
 
-class ChunkHeader extends PureComponent {
+class HunkHeader extends PureComponent {
 
     bindGutterEvents = createEventsBindingSelector();
 
@@ -38,7 +38,7 @@ class ChunkHeader extends PureComponent {
 
     render() {
         const {
-            chunk,
+            hunk,
             elements,
             gutterEvents,
             contentEvents,
@@ -46,18 +46,18 @@ class ChunkHeader extends PureComponent {
             gutterClassName,
             contentClassName
         } = this.props;
-        const boundGutterEvents = this.bindGutterEvents(gutterEvents, chunk);
-        const boundContentEvents = this.bindGutterEvents(contentEvents, chunk);
+        const boundGutterEvents = this.bindGutterEvents(gutterEvents, hunk);
+        const boundContentEvents = this.bindGutterEvents(contentEvents, hunk);
 
-        const computedClassName = classNames('diff-chunk-header', className);
-        const computedGutterClassName = classNames('diff-chunk-header-gutter', gutterClassName);
-        const computedContentClassName = classNames('diff-chunk-header-content', contentClassName);
+        const computedClassName = classNames('diff-hunk-header', className);
+        const computedGutterClassName = classNames('diff-hunk-header-gutter', gutterClassName);
+        const computedContentClassName = classNames('diff-hunk-header-content', contentClassName);
 
         if (elements === undefined) {
             return (
                 <tr className={computedClassName}>
                     <td colSpan={2} className={computedGutterClassName} {...boundGutterEvents}></td>
-                    <td className={computedContentClassName} {...boundContentEvents}>{chunk.content}</td>
+                    <td className={computedContentClassName} {...boundContentEvents}>{hunk.content}</td>
                 </tr>
             );
         }
@@ -85,9 +85,9 @@ class ChunkHeader extends PureComponent {
     }
 }
 
-const UnifiedChunk = props => {
+const UnifiedHunk = props => {
     const {
-        chunk,
+        hunk,
         widgets,
         selectedChanges,
         header,
@@ -99,12 +99,12 @@ const UnifiedChunk = props => {
         headerContentClassName,
         ...childrenProps
     } = props;
-    const elements = groupElements(chunk.changes, widgets);
+    const elements = groupElements(hunk.changes, widgets);
 
     return (
-        <tbody className={classNames('diff-chunk', className)}>
-            <ChunkHeader
-                chunk={chunk}
+        <tbody className={classNames('diff-hunk', className)}>
+            <HunkHeader
+                hunk={hunk}
                 elements={header}
                 gutterEvents={headerGutterEvents}
                 contentEvents={headerContentEvents}
@@ -117,4 +117,4 @@ const UnifiedChunk = props => {
     );
 };
 
-export default UnifiedChunk;
+export default UnifiedHunk;

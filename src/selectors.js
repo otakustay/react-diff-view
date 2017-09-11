@@ -29,7 +29,7 @@ const createSelector = select => {
     };
 };
 
-const destructChunkEvents = (customEvents = {}) => {
+const destructHunkEvents = (customEvents = {}) => {
     const {
         gutterHeader: headerGutterEvents,
         codeHeader: headerContentEvents,
@@ -39,21 +39,21 @@ const destructChunkEvents = (customEvents = {}) => {
     return {headerGutterEvents, headerContentEvents, otherEvents};
 };
 
-export const createChunkEventsSelector = () => createSelector(destructChunkEvents);
+export const createHunkEventsSelector = () => createSelector(destructHunkEvents);
 
-const destructChunkClassNames = (customClassNames = {}) => {
+const destructHunkClassNames = (customClassNames = {}) => {
     const {
-        chunk: chunkClassName,
-        chunkHeader: headerClassName,
+        hunk: hunkClassName,
+        hunkHeader: headerClassName,
         gutterHeader: headerGutterClassName,
         codeHeader: headerContentClassName,
         ...otherClassNames
     } = customClassNames;
 
-    return {chunkClassName, headerClassName, headerGutterClassName, headerContentClassName, otherClassNames};
+    return {hunkClassName, headerClassName, headerGutterClassName, headerContentClassName, otherClassNames};
 };
 
-export const createChunkClassNamesSelector = () => createSelector(destructChunkClassNames);
+export const createHunkClassNamesSelector = () => createSelector(destructHunkClassNames);
 
 const bindAllEvents = (events, arg) => mapValues(events, fn => () => fn(arg));
 

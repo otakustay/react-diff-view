@@ -2,7 +2,7 @@ import {PureComponent} from 'react';
 import {without, sumBy, noop, pick} from 'lodash';
 import {bind} from 'lodash-decorators';
 import {Whether, Else} from 'react-whether';
-import {Diff, Chunk, textLinesToChunk, insertChunk} from '../src';
+import {Diff, Hunk, textLinesToHunk, insertHunk} from '../src';
 import LargeDiff from './LargeDiff';
 import CommentWidget from './CommentWidget';
 import highlight from './highlight';
@@ -14,34 +14,34 @@ import {
     createCanExpandSelector,
     createCustomClassNamesSelector,
     createCustomEventsSelector,
-    createRenderingChunksSelector,
+    createRenderingHunksSelector,
     createWidgetsSelector
 } from './selectors';
 
-const renderChunkHeader = (previousChunk, currentChunk) => {
-    const isInitialChunk = currentChunk.oldStart === 1 && currentChunk.newStart === 1;
+const renderHunkHeader = (previousHunk, currentHunk) => {
+    const isInitialHunk = currentHunk.oldStart === 1 && currentHunk.newStart === 1;
 
-    if (isInitialChunk) {
+    if (isInitialHunk) {
         return null;
     }
 
-    if (currentChunk.content === 'STUB') {
+    if (currentHunk.content === 'STUB') {
         return [
             <Unfold className="unfold" />,
             'Expand to file end'
         ];
     }
 
-    const collapsedLines = previousChunk
-        ? currentChunk.oldStart - previousChunk.oldStart - previousChunk.oldLines
-        : currentChunk.oldStart - 1;
+    const collapsedLines = previousHunk
+        ? currentHunk.oldStart - previousHunk.oldStart - previousHunk.oldLines
+        : currentHunk.oldStart - 1;
     return [
         <Unfold className="unfold" />,
         `Expand ${collapsedLines} lines of code`
     ];
 };
 
-const computeInitialFakeChunk = lines => ({oldStart: 1, oldLines: lines, newStart: 1});
+const computeInitialFakeHunk = lines => ({oldStart: 1, oldLines: lines, newStart: 1});
 
 export default class File extends PureComponent {
 
@@ -53,23 +53,38 @@ export default class File extends PureComponent {
 
     computeEvents = createCustomEventsSelector(this.computeExpandable);
 
-    computeRenderingChunks = createRenderingChunksSelector(this.computeExpandable);
+    computeRenderingHunks = createRenderingHunksSelector(this.computeExpandable);
 
     computeWidgets = createWidgetsSelector(this.createCommentWidget);
 
     constructor(props) {
         super(props);
 
-        const {chunks} = props;
-        const changeCount = sumBy(chunks, ({changes}) => changes.length);
+        const {hunks} = props;
+        const changeCount = sumBy(hunks, ({changes}) => changes.length);
 
         this.state = {
-            chunks: this.computeRenderingChunks(props),
+            hunks: this.computeRenderingHunks(props),
             renderDiff: changeCount <= 800,
             comments: [],
             writingChanges: [],
             selectedChanges: []
         };
+    }
+
+    componentWillReceiveProps(nextProps) {
+        const currentHunks = this.computeRenderingHunks(this.props);
+        const nextHunks = this.computeRenderingHunks(nextProps);
+
+        if (currentHunks !== nextHunks) {
+            const patch = {
+                hunks: nextHunks,
+                comments: [],
+                writingChanges: [],
+                selectedChanges: []
+            };
+            this.setState(patch);
+        }
     }
 
     @bind()
@@ -106,54 +121,54 @@ export default class File extends PureComponent {
     }
 
     @bind()
-    async loadCollapsedBefore(chunk) {
+    async loadCollapsedBefore(hunk) {
         const lines = rawCode.split('\n');
 
-        if (chunk.content === 'STUB') {
-            this.expandTailCode(lines, chunk);
+        if (hunk.content === 'STUB') {
+            this.expandTailCode(lines, hunk);
         }
         else {
-            this.expandInsertionCode(lines, chunk);
+            this.expandInsertionCode(lines, hunk);
         }
     }
 
-    expandInsertionCode(rawCodeLines, chunk) {
-        const {chunks} = this.state;
-        const previousChunk = chunks[chunks.indexOf(chunk) - 1] || computeInitialFakeChunk(chunk.oldStart - 1);
-        const collapsedLines = rawCodeLines.slice(previousChunk.oldStart - 1, chunk.oldStart - 1);
-        const collapsedChunk = textLinesToChunk(collapsedLines, previousChunk.oldStart, previousChunk.newStart);
-        const newChunks = insertChunk(chunks, collapsedChunk);
-        this.setState({chunks: newChunks});
+    expandInsertionCode(rawCodeLines, hunk) {
+        const {hunks} = this.state;
+        const previousHunk = hunks[hunks.indexOf(hunk) - 1] || computeInitialFakeHunk(hunk.oldStart - 1);
+        const collapsedLines = rawCodeLines.slice(previousHunk.oldStart - 1, hunk.oldStart - 1);
+        const collapsedHunk = textLinesToHunk(collapsedLines, previousHunk.oldStart, previousHunk.newStart);
+        const newHunks = insertHunk(hunks, collapsedHunk);
+        this.setState({hunks: newHunks});
     }
 
-    expandTailCode(rawCodeLines, stubChunk) {
-        const {chunks} = this.state;
-        const collapsedLines = rawCodeLines.slice(stubChunk.oldStart - 1, rawCodeLines.length);
-        const chunksWithoutStub = chunks.slice(0, -1);
+    expandTailCode(rawCodeLines, stubHunk) {
+        const {hunks} = this.state;
+        const collapsedLines = rawCodeLines.slice(stubHunk.oldStart - 1, rawCodeLines.length);
+        const hunksWithoutStub = hunks.slice(0, -1);
         if (!collapsedLines.length) {
-            this.setState({chunks: chunksWithoutStub});
+            this.setState({hunks: hunksWithoutStub});
         }
         else {
-            const collapsedChunk = textLinesToChunk(collapsedLines, stubChunk.oldStart, stubChunk.newStart);
-            const newChunks = insertChunk(chunksWithoutStub, collapsedChunk);
-            this.setState({chunks: newChunks});
+            const collapsedHunk = textLinesToHunk(collapsedLines, stubHunk.oldStart, stubHunk.newStart);
+            const newHunks = insertHunk(hunksWithoutStub, collapsedHunk);
+            this.setState({hunks: newHunks});
         }
     }
 
     render() {
         const {type, additions, deletions, viewType} = this.props;
-        const {renderDiff, selectedChanges, chunks} = this.state;
+        const {renderDiff, selectedChanges, hunks} = this.state;
         const methods = pick(this, ['addComment', 'selectChange', 'loadCollapsedBefore']);
-        const changeCount = sumBy(chunks, ({changes}) => changes.length);
+        const changeCount = sumBy(hunks, ({changes}) => changes.length);
         const filename = this.computeFilename(this.props);
         const canExpand = this.computeExpandable(this.props);
         const customEvents = this.computeEvents({...this.props, ...methods});
         const customClassNames = this.computeClassNames(this.props);
         const widgets = this.computeWidgets(this.state);
 
-        const renderChunk = (children, chunk) => {
-            const header = canExpand ? renderChunkHeader(children[children.length - 1], chunk) : undefined;
-            children.push(<Chunk key={chunk.content} chunk={chunk} header={header} />);
+        const renderHunk = (children, hunk) => {
+            const header = canExpand ? renderHunkHeader(children[children.length - 1], hunk) : undefined;
+            children.push(<Hunk key={hunk.content} hunk={hunk} header={header} />);
             return children;
         };
 
@@ -176,7 +191,7 @@ export default class File extends PureComponent {
                             columnDiff={changeCount <= 200}
                             onRenderCode={changeCount <= 500 ? highlight : noop}
                         >
-                            {chunks.reduce(renderChunk, [])}
+                            {hunks.reduce(renderHunk, [])}
                         </Diff>
                         <Else>
                             <LargeDiff onClick={() => this.setState({renderDiff: true})} />

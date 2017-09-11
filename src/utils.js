@@ -1,16 +1,15 @@
 import parse from 'parse-diff';
-import {FILE_TYPE_ADD, FILE_TYPE_MODIFY, FILE_TYPE_DELETE} from './constants';
 
 const computeFileType = ({from, to}) => {
     if (from === '/dev/null') {
-        return FILE_TYPE_ADD;
+        return 'add';
     }
 
     if (to === '/dev/null') {
-        return FILE_TYPE_DELETE;
+        return 'delete';
     }
 
-    return FILE_TYPE_MODIFY;
+    return 'modify';
 };
 
 const zipChanges = changes => {
@@ -40,42 +39,71 @@ const zipChanges = changes => {
     return result;
 };
 
+const mapChange = ({add, normal, ln1, ln2, ln, content}) => {
+    if (normal) {
+        return {
+            type: 'normal',
+            isNormal: true,
+            oldLineNumber: ln1,
+            newLineNumber: ln2,
+            content: content
+        };
+    }
+
+    if (add) {
+        return {
+            type: 'insert',
+            isInsert: true,
+            lineNumber: ln,
+            content: content
+        };
+    }
+
+    return {
+        type: 'delete',
+        isDelete: true,
+        lineNumber: ln,
+        content: content
+    };
+};
+
+const mapHunk = (hunk, options) => {
+    const changes = options.nearbySequences === 'zip' ? zipChanges(hunk.changes) : hunk.changes;
+
+    return {
+        ...hunk,
+        changes: changes.map(mapChange)
+    };
+};
+
+const mapFile = (file, options) => {
+    const hunks = file.chunks.map(hunk => mapHunk(hunk, options));
+
+    return {
+        type: computeFileType(file),
+        oldPath: file.from,
+        newPath: file.to,
+        additions: file.additions,
+        deletions: file.deletions,
+        hunks: options.stubHunk ? addStubHunk(hunks) : hunks
+    };
+};
+
 
 // TODO: Implement a faster diff parser
 export const parseDiff = (text, options) => {
     const files = parse(text);
 
-    if (!options) {
-        return files;
-    }
-
-    const {nearbySequences = null, stubChunk = false} = options;
-
-    // since `files` is a local variable and will never be accessed out of this scope,
-    // here we mutate it directly to add extra adjustment
-    for (const file of files) {
-        file.type = computeFileType(file);
-        const chunks = stubChunk ? addStubChunk(file.chunks) : file.chunks;
-
-        if (nearbySequences === 'zip') {
-            for (const chunk of chunks) {
-                chunk.changes = zipChanges(chunk.changes);
-            }
-        }
-
-        file.chunks = chunks;
-    }
-
-    return files;
+    return files.map(file => mapFile(file, options));
 };
 
-export const addStubChunk = chunks => {
-    if (!chunks || !chunks.length) {
-        return chunks;
+export const addStubHunk = hunks => {
+    if (!hunks || !hunks.length) {
+        return hunks;
     }
 
-    const {oldStart, oldLines, newStart, newLines} = chunks[chunks.length - 1];
-    const stubChunk = {
+    const {oldStart, oldLines, newStart, newLines} = hunks[hunks.length - 1];
+    const stubHunk = {
         oldStart: oldStart + oldLines,
         oldLines: 0,
         newStart: newStart + newLines,
@@ -83,23 +111,23 @@ export const addStubChunk = chunks => {
         content: 'STUB',
         changes: []
     };
-    return [...chunks, stubChunk];
+    return [...hunks, stubHunk];
 };
 
-export const computePrevLineNumber = ({normal, ln, ln1}) => (normal ? ln1 : ln);
+export const computePrevLineNumber = ({isNormal, lineNumber, oldLineNumber}) => (isNormal ? oldLineNumber : lineNumber);
 
-export const computeNextLineNumber = ({normal, ln, ln2}) => (normal ? ln2 : ln);
+export const computeNextLineNumber = ({isNormal, lineNumber, newLineNumber}) => (isNormal ? newLineNumber : lineNumber);
 
 const last = array => array[array.length - 1];
 
-export const textLinesToChunk = (lines, prevStartLineNumber, nextStartLineNumber) => {
+export const textLinesToHunk = (lines, prevStartLineNumber, nextStartLineNumber) => {
     const changes = lines.reduce(
         (changes, line, i) => {
             const change = {
                 type: 'normal',
-                normal: true,
-                ln1: prevStartLineNumber + i,
-                ln2: nextStartLineNumber + i,
+                isNormal: true,
+                oldLineNumber: prevStartLineNumber + i,
+                newLineNumber: nextStartLineNumber + i,
                 content: ' ' + line
             };
             changes.push(change);
@@ -119,7 +147,7 @@ export const textLinesToChunk = (lines, prevStartLineNumber, nextStartLineNumber
     };
 };
 
-const tryMergeChunks = (x, y) => {
+const tryMergeHunks = (x, y) => {
     if (!x || !y) {
         return null;
     }
@@ -141,11 +169,11 @@ const tryMergeChunks = (x, y) => {
     };
 };
 
-export const insertChunk = (chunks, insertion) => chunks.reduce(
-    (chunks, current) => {
-        const mergedChunk = tryMergeChunks(current, insertion) || tryMergeChunks(insertion, current);
-        chunks.push(mergedChunk || current);
-        return chunks;
+export const insertHunk = (hunks, insertion) => hunks.reduce(
+    (hunks, current) => {
+        const mergedHunk = tryMergeHunks(current, insertion) || tryMergeHunks(insertion, current);
+        hunks.push(mergedHunk || current);
+        return hunks;
     },
     []
 );

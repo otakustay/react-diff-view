@@ -1,7 +1,7 @@
-.diff-chunk-header {
+.diff-hunk-header {
     line-height: 1.5;
 }
 
-.diff-chunk-header-content {
+.diff-hunk-header-content {
     font-family: SFMono-Regular, Consolas, "Liberation Mono", Menlo, Courier, monospace;
 }

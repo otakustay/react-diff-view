@@ -10,13 +10,13 @@ import {createEventsBindingSelector} from './selectors';
 import {changePropType, eventsPropType, classNamesPropType} from './propTypes';
 import './Change.css';
 
-const PREV = 0;
+const SIDE_OLD = 0;
 
 const renderCells = args => {
     const {
         change,
         diff,
-        changePositionType,
+        side,
         selected,
         customClassNames,
         customEvents,
@@ -30,7 +30,7 @@ const renderCells = args => {
     }
 
     const {type, content} = change;
-    const line = changePositionType === PREV ? computePrevLineNumber(change) : computeNextLineNumber(change);
+    const line = side === SIDE_OLD ? computePrevLineNumber(change) : computeNextLineNumber(change);
     const boundGutterEvents = bindGutterEvents(customEvents.gutter, change);
     const gutterClassName = classNames(
         'diff-gutter',
@@ -65,7 +65,7 @@ const renderCells = args => {
         ];
     }
 
-    const discardingDiffType = changePositionType === PREV ? 'added' : 'removed';
+    const discardingDiffType = side === SIDE_OLD ? 'added' : 'removed';
     const usefulDiff = diff.filter(item => !item[discardingDiffType]);
     const html = usefulDiff.reduce(
         (html, {added, removed, value}) => {
@@ -149,7 +149,7 @@ export default class SplitChange extends PureComponent {
         const prevArgs = {
             ...commons,
             change: prev,
-            changePositionType: 0,
+            side: 0,
             selected: prevSelected,
             bindGutterEvents: this.bindPrevGutterEvents,
             bindCodeEvents: this.bindPrevCodeEvents
@@ -157,7 +157,7 @@ export default class SplitChange extends PureComponent {
         const nextArgs = {
             ...commons,
             change: next,
-            changePositionType: 1,
+            side: 1,
             selected: nextSelected,
             bindGutterEvents: this.bindNextGutterEvents,
             bindCodeEvents: this.bindNextCodeEvents

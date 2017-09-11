@@ -10,7 +10,9 @@ const styles = [
 const LargeDiff = ({onClick}) => (
     <div className="large-diff">
         {styles.map((style, i) => <span key={i} style={style} />)}
-        <a className="force-render" onClick={onClick}>过大的Diff默认不显示，如需加载请点击</a>
+        <a className="force-render" onClick={onClick}>
+            Large diffs are hidden by default, click to load
+        </a>
     </div>
 );
 

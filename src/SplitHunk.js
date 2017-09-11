@@ -12,13 +12,13 @@ const groupElements = (changes, widgets) => {
         const current = changes[i];
 
         // A normal change is displayed on both side
-        if (current.normal) {
+        if (current.isNormal) {
             elements.push(['change', current, current]);
         }
-        else if (current.del) {
+        else if (current.isDelete) {
             const next = changes[i + 1];
-            // If an add change is following a del change, they should be displayed side by side
-            if (next && next.add) {
+            // If an insert change is following a elete change, they should be displayed side by side
+            if (next && next.isInsert) {
                 i = i + 1;
                 elements.push(['change', current, next]);
             }
@@ -63,9 +63,9 @@ const renderRow = ([type, prev, next], i, selectedChanges, monotonous, props) =>
     return null;
 };
 
-const ChunkHeader = props => {
+const HunkHeader = props => {
     const {
-        chunk,
+        hunk,
         monotonous,
         elements,
         gutterEvents,
@@ -74,13 +74,13 @@ const ChunkHeader = props => {
         gutterClassName,
         contentClassName
     } = props;
-    const bindChunk = fn => () => fn(chunk);
-    const boundGutterEvents = mapValues(gutterEvents, bindChunk);
-    const boundContentEvents = mapValues(contentEvents, bindChunk);
+    const bindHunk = fn => () => fn(hunk);
+    const boundGutterEvents = mapValues(gutterEvents, bindHunk);
+    const boundContentEvents = mapValues(contentEvents, bindHunk);
 
-    const computedClassName = classNames('diff-chunk-header', className);
-    const computedGutterClassName = classNames('diff-chunk-header-gutter', gutterClassName);
-    const computedContentClassName = classNames('diff-chunk-header-content', contentClassName);
+    const computedClassName = classNames('diff-hunk-header', className);
+    const computedGutterClassName = classNames('diff-hunk-header-gutter', gutterClassName);
+    const computedContentClassName = classNames('diff-hunk-header-content', contentClassName);
 
     if (elements === undefined) {
         return (
@@ -91,7 +91,7 @@ const ChunkHeader = props => {
                     className={computedContentClassName}
                     {...boundContentEvents}
                 >
-                    {chunk.content}
+                    {hunk.content}
                 </td>
             </tr>
         );
@@ -125,9 +125,9 @@ const ChunkHeader = props => {
     );
 };
 
-const SplitChunk = props => {
+const SplitHunk = props => {
     const {
-        chunk,
+        hunk,
         monotonous,
         widgets,
         selectedChanges,
@@ -140,12 +140,12 @@ const SplitChunk = props => {
         headerContentClassName,
         ...childrenProps
     } = props;
-    const elements = groupElements(chunk.changes, widgets);
+    const elements = groupElements(hunk.changes, widgets);
 
     return (
-        <tbody className={classNames('diff-chunk', className)}>
-            <ChunkHeader
-                chunk={chunk}
+        <tbody className={classNames('diff-hunk', className)}>
+            <HunkHeader
+                hunk={hunk}
                 monotonous={monotonous}
                 elements={header}
                 gutterEvents={headerGutterEvents}
@@ -159,4 +159,4 @@ const SplitChunk = props => {
     );
 };
 
-export default SplitChunk;
+export default SplitHunk;

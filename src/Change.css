@@ -13,11 +13,11 @@
     content: attr(data-line-number);
 }
 
-.diff-gutter-add {
+.diff-gutter-insert {
     background-color: #d6fedb;
 }
 
-.diff-gutter-del {
+.diff-gutter-delete {
     background-color: #fadde0;
 }
 
@@ -31,19 +31,19 @@
     padding-left: .5em;
 }
 
-.diff-code-add {
+.diff-code-insert {
     background-color: #eaffee;
 }
 
-.diff-code-add .diff-column-text {
+.diff-code-insert .diff-column-text {
     background-color: #c0dc91;
 }
 
-.diff-code-del {
+.diff-code-delete {
     background-color: #fdeff0;
 }
 
-.diff-code-del .diff-column-text {
+.diff-code-delete .diff-column-text {
     background-color: #f39ea2;
 }
 

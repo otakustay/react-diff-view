@@ -1,16 +1,16 @@
 import {PureComponent} from 'react';
 import PropTypes from 'prop-types';
-import UnifiedChunk from './UnifiedChunk';
-import SplitChunk from './SplitChunk';
-import {createChunkEventsSelector, createChunkClassNamesSelector} from './selectors';
-import {viewTypePropType, eventsPropType, chunkPropType, changePropType, widgetPropType} from './propTypes';
-import './Chunk.css';
+import UnifiedHunk from './UnifiedHunk';
+import SplitHunk from './SplitHunk';
+import {createHunkEventsSelector, createHunkClassNamesSelector} from './selectors';
+import {viewTypePropType, eventsPropType, hunkPropType, changePropType, widgetPropType} from './propTypes';
+import './Hunk.css';
 
-export default class Chunk extends PureComponent {
+export default class Hunk extends PureComponent {
 
     static propTypes = {
         viewType: viewTypePropType,
-        chunk: chunkPropType.isRequired,
+        hunk: hunkPropType.isRequired,
         header: PropTypes.oneOfType([PropTypes.node, PropTypes.shape([PropTypes.node, PropTypes.node])]),
         widgets: PropTypes.arrayOf(widgetPropType),
         selectedChanges: PropTypes.arrayOf(changePropType),
@@ -24,20 +24,20 @@ export default class Chunk extends PureComponent {
         customEvents: {}
     };
 
-    selectEvents = createChunkEventsSelector();
+    selectEvents = createHunkEventsSelector();
 
-    selectClassNames = createChunkClassNamesSelector();
+    selectClassNames = createHunkClassNamesSelector();
 
     render() {
         const {viewType, customEvents, customClassNames, ...props} = this.props;
-        const RenderingChunk = viewType === 'unified' ? UnifiedChunk : SplitChunk;
+        const RenderingHunk = viewType === 'unified' ? UnifiedHunk : SplitHunk;
         const {
             headerGutterEvents,
             headerContentEvents,
             otherEvents
         } = this.selectEvents(customEvents);
         const {
-            chunkClassName,
+            hunkClassName,
             headerClassName,
             headerGutterClassName,
             headerContentClassName,
@@ -45,11 +45,11 @@ export default class Chunk extends PureComponent {
         } = this.selectClassNames(customClassNames);
 
         return (
-            <RenderingChunk
+            <RenderingHunk
                 {...props}
                 headerGutterEvents={headerGutterEvents}
                 headerContentEvents={headerContentEvents}
-                className={chunkClassName}
+                className={hunkClassName}
                 headerClassName={headerClassName}
                 headerGutterClassName={headerGutterClassName}
                 headerContentClassName={headerContentClassName}

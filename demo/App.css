@@ -42,22 +42,22 @@
     border: 1px solid #e1e1e1;
 }
 
-.diff-chunk-header {
+.diff-hunk-header {
     line-height: 2;
     font-family: SFMono-Regular, Consolas, "Liberation Mono", Menlo, Courier, monospace;
 }
 
-.diff-chunk-header-gutter {
+.diff-hunk-header-gutter {
     background-color: #deecfe;
     position: relative;
     cursor: pointer;
 }
 
-.diff-chunk-header-gutter:hover {
+.diff-hunk-header-gutter:hover {
     background-color: #4677d2;
 }
 
-.diff-chunk-header-content {
+.diff-hunk-header-content {
     background-color: #f2f8ff;
     padding-left: .5em;
     color: #999;
@@ -74,6 +74,6 @@
     margin-left: -4px;
 }
 
-.diff-chunk-header-gutter:hover .unfold {
+.diff-hunk-header-gutter:hover .unfold {
     fill: #fff;
 }

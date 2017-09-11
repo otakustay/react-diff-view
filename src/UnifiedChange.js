@@ -39,7 +39,7 @@ export default class UnifiedChange extends PureComponent {
 
     render() {
         const {change, selected, customClassNames, customEvents} = this.props;
-        const {type, add, del, content} = change;
+        const {type, isInsert, isDelete, content} = change;
         const prevLine = computePrevLineNumber(change);
         const nextLine = computeNextLineNumber(change);
 
@@ -64,8 +64,8 @@ export default class UnifiedChange extends PureComponent {
                 className={classNames('diff-line', customClassNames.line)}
                 ref={container => this.container = container}
             >
-                <td className={gutterClassName} {...boundGutterEvents}>{!add && prevLine}</td>
-                <td className={gutterClassName} {...boundGutterEvents}>{!del && nextLine}</td>
+                <td className={gutterClassName} {...boundGutterEvents}>{!isInsert && prevLine}</td>
+                <td className={gutterClassName} {...boundGutterEvents}>{!isDelete && nextLine}</td>
                 <td className={codeClassName} {...boundCodeEvents}>{content.substring(1)}</td>
             </tr>
         );
