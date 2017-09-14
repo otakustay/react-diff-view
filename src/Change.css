@@ -5,6 +5,7 @@
 
 .diff-gutter {
     padding: 0 1ch;
+    text-align: right;
     cursor: pointer;
     user-select: none;
 }
@@ -19,6 +20,10 @@
 
 .diff-gutter-delete {
     background-color: #fadde0;
+}
+
+.diff-gutter-omit {
+    cursor: default;
 }
 
 .diff-gutter-selected {

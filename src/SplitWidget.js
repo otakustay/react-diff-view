@@ -1,21 +1,21 @@
 import './Widget.css';
 
-const SplitWidget = ({prevElement, nextElement, monotonous}) => {
+const SplitWidget = ({oldElement, newElement, monotonous}) => {
     if (monotonous) {
         return (
             <tr className="widget">
                 <td colSpan={2}>
-                    {prevElement || nextElement}
+                    {oldElement || newElement}
                 </td>
             </tr>
         );
     }
 
-    if (prevElement === nextElement) {
+    if (oldElement === newElement) {
         return (
             <tr className="widget">
                 <td colSpan={4}>
-                    {prevElement}
+                    {oldElement}
                 </td>
             </tr>
         );
@@ -24,10 +24,10 @@ const SplitWidget = ({prevElement, nextElement, monotonous}) => {
     return (
         <tr className="widget">
             <td colSpan={2}>
-                {prevElement}
+                {oldElement}
             </td>
             <td colSpan={2}>
-                {nextElement}
+                {newElement}
             </td>
         </tr>
     );

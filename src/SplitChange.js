@@ -5,7 +5,7 @@ import {diffChars, diffWordsWithSpace} from 'diff';
 import leven from 'leven';
 import escape from 'lodash.escape';
 import CodeCell from './CodeCell';
-import {computePrevLineNumber, computeNextLineNumber} from './utils';
+import {computeOldLineNumber, computeNewLineNumber} from './utils';
 import {createEventsBindingSelector} from './selectors';
 import {changePropType, eventsPropType, classNamesPropType} from './propTypes';
 import './Change.css';
@@ -26,11 +26,14 @@ const renderCells = args => {
     } = args;
 
     if (!change) {
-        return <td className="diff-omit" colSpan={2} />;
+        return [
+            <td key="gutter" className={classNames('diff-gutter', 'diff-gutter-omit', customClassNames.gutter)} />,
+            <td key="code" className={classNames('diff-code', 'diff-code-omit', customClassNames.code)} />
+        ];
     }
 
     const {type, content} = change;
-    const line = side === SIDE_OLD ? computePrevLineNumber(change) : computeNextLineNumber(change);
+    const line = side === SIDE_OLD ? computeOldLineNumber(change) : computeNewLineNumber(change);
     const boundGutterEvents = bindGutterEvents(customEvents.gutter, change);
     const gutterClassName = classNames(
         'diff-gutter',
@@ -86,20 +89,20 @@ const renderCells = args => {
 
 export default class SplitChange extends PureComponent {
 
-    bindPrevGutterEvents = createEventsBindingSelector();
+    bindOldGutterEvents = createEventsBindingSelector();
 
-    bindNextGutterEvents = createEventsBindingSelector();
+    bindNewGutterEvents = createEventsBindingSelector();
 
-    bindPrevCodeEvents = createEventsBindingSelector();
+    bindOldCodeEvents = createEventsBindingSelector();
 
-    bindNextCodeEvents = createEventsBindingSelector();
+    bindNewCodeEvents = createEventsBindingSelector();
 
     static propTypes = {
         monotonous: PropTypes.bool.isRequired,
-        prev: changePropType,
-        next: changePropType,
-        prevSelected: PropTypes.bool.isRequired,
-        nextSelected: PropTypes.bool.isRequired,
+        oldChange: changePropType,
+        newChange: changePropType,
+        oldSelected: PropTypes.bool.isRequired,
+        newSelected: PropTypes.bool.isRequired,
         columnDiff: PropTypes.bool,
         columnDiffMode: PropTypes.oneOf(['character', 'word']),
         columnDiffThreshold: PropTypes.number,
@@ -119,10 +122,10 @@ export default class SplitChange extends PureComponent {
 
     render() {
         const {
-            prev,
-            next,
-            prevSelected,
-            nextSelected,
+            oldChange,
+            newChange,
+            oldSelected,
+            newSelected,
             monotonous,
             columnDiff,
             columnDiffMode,
@@ -133,48 +136,64 @@ export default class SplitChange extends PureComponent {
         } = this.props;
 
         const diff = (() => {
-            if (!columnDiff || !prev || !next) {
+            if (!columnDiff || !oldChange || !newChange) {
                 return null;
             }
 
-            if (columnDiffMode !== Infinity && leven(prev.content, next.content) > columnDiffThreshold) {
+            if (columnDiffMode !== Infinity && leven(oldChange.content, newChange.content) > columnDiffThreshold) {
                 return null;
             }
 
             const diffFunction = columnDiffMode === 'word' ? diffWordsWithSpace : diffChars;
-            return diffFunction(prev.content.substring(1), next.content.substring(1));
+            return diffFunction(oldChange.content.substring(1), newChange.content.substring(1));
         })();
 
         const commons = {diff, monotonous, customClassNames, customEvents, onRenderCode};
-        const prevArgs = {
+        const oldArgs = {
             ...commons,
-            change: prev,
+            change: oldChange,
             side: 0,
-            selected: prevSelected,
-            bindGutterEvents: this.bindPrevGutterEvents,
-            bindCodeEvents: this.bindPrevCodeEvents
+            selected: oldSelected,
+            bindGutterEvents: this.bindOldGutterEvents,
+            bindCodeEvents: this.bindOldCodeEvents
         };
-        const nextArgs = {
+        const newArgs = {
             ...commons,
-            change: next,
+            change: newChange,
             side: 1,
-            selected: nextSelected,
-            bindGutterEvents: this.bindNextGutterEvents,
-            bindCodeEvents: this.bindNextCodeEvents
+            selected: newSelected,
+            bindGutterEvents: this.bindNewGutterEvents,
+            bindCodeEvents: this.bindNewCodeEvents
         };
 
         if (monotonous) {
             return (
                 <tr className={classNames('diff-line', customClassNames.line)}>
-                    {renderCells(prev ? prevArgs : nextArgs)}
+                    {renderCells(oldChange ? oldArgs : newArgs)}
                 </tr>
             );
         }
 
+        const lineTypeClassName = ((oldChange, newChange) => {
+            if (oldChange && !newChange) {
+                return 'diff-line-old-only';
+            }
+
+            if (!oldChange && newChange) {
+                return 'diff-line-new-only';
+            }
+
+            if (oldChange === newChange) {
+                return 'diff-line-normal';
+            }
+
+            return 'diff-line-compare';
+        })(oldChange, newChange);
+
         return (
-            <tr className={classNames('diff-line', customClassNames.line)}>
-                {renderCells(prevArgs)}
-                {renderCells(nextArgs)}
+            <tr className={classNames('diff-line', customClassNames.line, lineTypeClassName)}>
+                {renderCells(oldArgs)}
+                {renderCells(newArgs)}
             </tr>
         );
     }

@@ -209,6 +209,8 @@ You can override styles on certian css classes to customize the appearance of `r
 - `diff-gutter-omit`: Gutter with no content.
 - `diff-gutter-selected`: Gutter of a selected change.
 - `diff-line`: The `<tr>` element for a line of diff.
+- `diff-line-old-only`: The `<tr>` element which only contains the left side columns, appears in split view
+- `diff-line-new-only`: The `<tr>` element which only contains the right side columns, appears in split view
 - `diff-code`: The `<td>` element containing code.
 - `diff-code-normal`: Code of a normal change.
 - `diff-code-add`: Code of an addition.
@@ -314,9 +316,9 @@ class File extends PureComponent {
 `react-diff-component` comes with some utility functions to help simplify common issues:
 
 - `{Chunk[]} addStubChunk({Chunk[]} chunks)`: Adds a stub chunk (with no actual changes) to the end of `chunks`, this is useful when you want to expand code after the last line of diff.
-- `{number} computePrevLineNumber({Change} change)`: Compute the line number in previous revision for a change.
-- `{number} computeNextLineNumber({Change} change)`: Compute the line number in next revision for a change.
-- `{Chunk} textLinesToChunk({string[]} lines, {number} prevStartLineNumber, {number} nextStartLineNumber)`: Create a chunk with all normal changes, this is useful when expanding code between two chunks.
+- `{number} computeOldLineNumber({Change} change)`: Compute the line number in old revision for a change.
+- `{number} computeNewLineNumber({Change} change)`: Compute the line number in new revision for a change.
+- `{Chunk} textLinesToChunk({string[]} lines, {number} oldStartLineNumber, {number} newStartLineNumber)`: Create a chunk with all normal changes, this is useful when expanding code between two chunks.
 - `{Chunk[]} insertChunk({Chunk[]} chunks, {Chunk} insertion)`: Insert a new chunk into the original list, it will merge chunk is possible, useful for expanding code.
 
 ## Unsupported

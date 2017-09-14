@@ -1,7 +1,7 @@
 import {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import {computePrevLineNumber, computeNextLineNumber} from './utils';
+import {computeOldLineNumber, computeNewLineNumber} from './utils';
 import {changePropType, eventsPropType, classNamesPropType} from './propTypes';
 import {createEventsBindingSelector} from './selectors';
 import './Change.css';
@@ -40,8 +40,8 @@ export default class UnifiedChange extends PureComponent {
     render() {
         const {change, selected, customClassNames, customEvents} = this.props;
         const {type, isInsert, isDelete, content} = change;
-        const prevLine = computePrevLineNumber(change);
-        const nextLine = computeNextLineNumber(change);
+        const oldLine = computeOldLineNumber(change);
+        const newLine = computeNewLineNumber(change);
 
         const boundGutterEvents = this.bindGutterEvents(customEvents.gutter, change);
         const boundCodeEvents = this.bindCodeEvents(customEvents.code, change);
@@ -64,8 +64,8 @@ export default class UnifiedChange extends PureComponent {
                 className={classNames('diff-line', customClassNames.line)}
                 ref={container => this.container = container}
             >
-                <td className={gutterClassName} {...boundGutterEvents}>{!isInsert && prevLine}</td>
-                <td className={gutterClassName} {...boundGutterEvents}>{!isDelete && nextLine}</td>
+                <td className={gutterClassName} {...boundGutterEvents}>{!isInsert && oldLine}</td>
+                <td className={gutterClassName} {...boundGutterEvents}>{!isDelete && newLine}</td>
                 <td className={codeClassName} {...boundCodeEvents}>{content.substring(1)}</td>
             </tr>
         );

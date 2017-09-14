@@ -189,6 +189,8 @@ export default class File extends PureComponent {
                             customClassNames={customClassNames}
                             customEvents={customEvents}
                             columnDiff={changeCount <= 200}
+                            columnDiffType="character"
+                            columnDiffThreshold={Infinity}
                             onRenderCode={changeCount <= 500 ? highlight : noop}
                         >
                             {hunks.reduce(renderHunk, [])}

@@ -114,20 +114,20 @@ export const addStubHunk = hunks => {
     return [...hunks, stubHunk];
 };
 
-export const computePrevLineNumber = ({isNormal, lineNumber, oldLineNumber}) => (isNormal ? oldLineNumber : lineNumber);
+export const computeOldLineNumber = ({isNormal, lineNumber, oldLineNumber}) => (isNormal ? oldLineNumber : lineNumber);
 
-export const computeNextLineNumber = ({isNormal, lineNumber, newLineNumber}) => (isNormal ? newLineNumber : lineNumber);
+export const computeNewLineNumber = ({isNormal, lineNumber, newLineNumber}) => (isNormal ? newLineNumber : lineNumber);
 
 const last = array => array[array.length - 1];
 
-export const textLinesToHunk = (lines, prevStartLineNumber, nextStartLineNumber) => {
+export const textLinesToHunk = (lines, oldStartLineNumber, newStartLineNumber) => {
     const changes = lines.reduce(
         (changes, line, i) => {
             const change = {
                 type: 'normal',
                 isNormal: true,
-                oldLineNumber: prevStartLineNumber + i,
-                newLineNumber: nextStartLineNumber + i,
+                oldLineNumber: oldStartLineNumber + i,
+                newLineNumber: newStartLineNumber + i,
                 content: ' ' + line
             };
             changes.push(change);
@@ -138,10 +138,10 @@ export const textLinesToHunk = (lines, prevStartLineNumber, nextStartLineNumber)
     const changeLength = changes.length;
 
     return {
-        content: `@@ -${prevStartLineNumber},${changeLength} +${nextStartLineNumber},${changeLength}`,
-        oldStart: prevStartLineNumber,
+        content: `@@ -${oldStartLineNumber},${changeLength} +${newStartLineNumber},${changeLength}`,
+        oldStart: oldStartLineNumber,
         oldLines: changeLength,
-        newStart: nextStartLineNumber,
+        newStart: newStartLineNumber,
         newLines: changeLength,
         changes: changes
     };
@@ -159,7 +159,7 @@ const tryMergeHunks = (x, y) => {
         return null;
     }
 
-    if (computePrevLineNumber(previousChange) + 1 !== computePrevLineNumber(nextChange)) {
+    if (computeOldLineNumber(previousChange) + 1 !== computeOldLineNumber(nextChange)) {
         return null;
     }
 

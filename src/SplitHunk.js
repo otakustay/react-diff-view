@@ -40,24 +40,24 @@ const groupElements = (changes, widgets) => {
     return elements;
 };
 
-const renderRow = ([type, prev, next], i, selectedChanges, monotonous, props) => {
+const renderRow = ([type, oldChange, newChange], i, selectedChanges, monotonous, props) => {
     if (type === 'change') {
         return (
             <SplitChange
                 key={i}
-                prev={prev}
-                next={next}
+                oldChange={oldChange}
+                newChange={newChange}
                 monotonous={monotonous}
-                prevSelected={selectedChanges.includes(prev)}
-                nextSelected={selectedChanges.includes(next)}
+                oldSelected={selectedChanges.includes(oldChange)}
+                newSelected={selectedChanges.includes(newChange)}
                 {...props}
             />
         );
     }
     else if (type === 'widget') {
-        const prevElement = prev ? prev.element : null;
-        const nextElement = next ? next.element : null;
-        return <SplitWidget key={i} monotonous={monotonous} prevElement={prevElement} nextElement={nextElement} />;
+        const oldElement = oldChange ? oldChange.element : null;
+        const newElement = newChange ? newChange.element : null;
+        return <SplitWidget key={i} monotonous={monotonous} oldElement={oldElement} newElement={newElement} />;
     }
 
     return null;

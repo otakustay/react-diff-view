@@ -7,3 +7,34 @@
 .diff-gutter-col {
     width: 7ch;
 }
+
+.diff-gutter-omit {
+    height: 0;
+}
+
+.diff-gutter-omit:before {
+    content: " ";
+    display: block;
+    white-space: pre;
+    width: 2px;
+    height: 100%;
+    margin-left: 4.6ch;
+    overflow: hidden;
+    background-color: #cb2a1d;
+}
+
+.diff-line-compare ~ .diff-line-old-only > .diff-gutter-omit {
+    background-color: #d6fedb;
+}
+
+.diff-line-compare ~ .diff-line-old-only > .diff-code-omit {
+    background-color: #eaffee;
+}
+
+.diff-line-compare ~ .diff-line-new-only > .diff-gutter-omit {
+    background-color: #fadde0;
+}
+
+.diff-line-compare ~ .diff-line-new-only > .diff-code-omit {
+    background-color: #fdeff0;
+}
