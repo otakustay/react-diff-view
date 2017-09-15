@@ -221,7 +221,7 @@ You can override styles on certian css classes to customize the appearance of `r
 
 You can pass `className` prop to `Diff` component to add custom class to the `<table>` element.
 
-test here
+test here and there
 
 The `Diff` component also accepts a `customClassNames` prop which contains custom css classes for different part, it can be a object with multiple keys: `chunk`, `chunkHeader`, `gutterHeader`, `codeHeader`, `line`, `gutter`, `code`, each value can be a string, the value will be appended to corresponding part's `className` prop.
 
