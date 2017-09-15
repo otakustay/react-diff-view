@@ -190,7 +190,8 @@ export default class File extends PureComponent {
                             customEvents={customEvents}
                             columnDiff={changeCount <= 200}
                             columnDiffType="character"
-                            columnDiffThreshold={Infinity}
+                            columnDiffThreshold={30}
+                            longDistanceColumnDiff="mark"
                             onRenderCode={changeCount <= 500 ? highlight : noop}
                         >
                             {hunks.reduce(renderHunk, [])}

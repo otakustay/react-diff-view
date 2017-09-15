@@ -33,6 +33,7 @@
 .diff-code {
     white-space: pre-wrap;
     word-wrap: break-word;
+    word-break: break-all;
     padding-left: .5em;
 }
 

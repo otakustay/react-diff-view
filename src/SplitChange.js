@@ -106,6 +106,7 @@ export default class SplitChange extends PureComponent {
         columnDiff: PropTypes.bool,
         columnDiffMode: PropTypes.oneOf(['character', 'word']),
         columnDiffThreshold: PropTypes.number,
+        longDistanceColumnDiff: PropTypes.oneOf(['ignore', 'mark']),
         customEvents: eventsPropType,
         customClassNames: classNamesPropType,
         onRenderCode: PropTypes.func
@@ -115,6 +116,7 @@ export default class SplitChange extends PureComponent {
         columnDiff: true,
         columnDiffMode: 'word',
         columnDiffThreshold: 20,
+        longDistanceColumnDiff: 'ignore',
         customEvents: {},
         onRenderCode() {
         }
@@ -130,6 +132,7 @@ export default class SplitChange extends PureComponent {
             columnDiff,
             columnDiffMode,
             columnDiffThreshold,
+            longDistanceColumnDiff,
             customClassNames,
             customEvents,
             onRenderCode
@@ -140,7 +143,16 @@ export default class SplitChange extends PureComponent {
                 return null;
             }
 
-            if (columnDiffMode !== Infinity && leven(oldChange.content, newChange.content) > columnDiffThreshold) {
+            // Precheck `columnDiffThreshold !== Infinity` to reduce calls to `leven`
+            if (columnDiffThreshold !== Infinity && leven(oldChange.content, newChange.content) > columnDiffThreshold) {
+                // Mark the whole line as column diff to highlight "this line is completely changed"
+                if (longDistanceColumnDiff === 'mark') {
+                    return [
+                        {removed: true, value: oldChange.content.substring(1)},
+                        {added: true, value: newChange.content.substring(1)}
+                    ];
+                }
+
                 return null;
             }
 

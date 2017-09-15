@@ -96,6 +96,7 @@ The `Diff` named export is a component which accepts a diff file object and corr
 - `{boolean} columnDiff`: Whether to enable column diff (show difference bewtween two lines of code), only available when `viewType` is set to `"split"`, it is enabled by default.
 - `{string} columnDiffMode`: Can be either `"word"` or `"character"` to indicate how column diff works between 2 strings, the default value is `"word"`.
 - `{number} columnDiffThreshold`: The maximum string distance when column diff could be enabled, if two string's distance is greater than it, column diff is disabled, the default value is `15`.
+- `{string} longDistanceColumnDiff`: The method to display codes with a distance longer than `columnDiffThreshold`, can be either `"ignore"` (default) or `"mark"`, when set to `"mark"` the whole line will be treated as column diff.
 - `{Function} onRenderCode`: Callback when code is rendered, can be used to further manipulate the DOM element containing code, see [Syntax highlight](#syntax-highlight) section for detail.
 - `{Array} widgets`: An array of `{change, element}` object to add widget for changes, see [Add widgets](#add-widgets) section for detail.
 
