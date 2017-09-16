@@ -188,8 +188,7 @@ export default class File extends PureComponent {
                             selectedChanges={selectedChanges}
                             customClassNames={customClassNames}
                             customEvents={customEvents}
-                            columnDiff={changeCount <= 200}
-                            columnDiffType="character"
+                            columnDiffMode={changeCount <= 200 ? 'character' : 'disabled'}
                             columnDiffThreshold={30}
                             longDistanceColumnDiff="mark"
                             onRenderCode={changeCount <= 500 ? highlight : noop}

@@ -103,8 +103,7 @@ export default class SplitChange extends PureComponent {
         newChange: changePropType,
         oldSelected: PropTypes.bool.isRequired,
         newSelected: PropTypes.bool.isRequired,
-        columnDiff: PropTypes.bool,
-        columnDiffMode: PropTypes.oneOf(['character', 'word']),
+        columnDiffMode: PropTypes.oneOf(['disabled', 'character', 'word']),
         columnDiffThreshold: PropTypes.number,
         longDistanceColumnDiff: PropTypes.oneOf(['ignore', 'mark']),
         customEvents: eventsPropType,
@@ -113,7 +112,6 @@ export default class SplitChange extends PureComponent {
     };
 
     static defaultProps = {
-        columnDiff: true,
         columnDiffMode: 'word',
         columnDiffThreshold: 20,
         longDistanceColumnDiff: 'ignore',
@@ -129,7 +127,6 @@ export default class SplitChange extends PureComponent {
             oldSelected,
             newSelected,
             monotonous,
-            columnDiff,
             columnDiffMode,
             columnDiffThreshold,
             longDistanceColumnDiff,
@@ -139,7 +136,7 @@ export default class SplitChange extends PureComponent {
         } = this.props;
 
         const diff = (() => {
-            if (!columnDiff || !oldChange || !newChange) {
+            if (!columnDiffMode === 'disabled' || !oldChange || !newChange) {
                 return null;
             }
 
