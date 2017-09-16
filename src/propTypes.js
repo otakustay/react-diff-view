@@ -46,10 +46,3 @@ const classNames = {
 };
 
 export const classNamesPropType = PropTypes.shape(classNames);
-
-const widget = {
-    change: changePropType.isRequired,
-    element: PropTypes.element.isRequired
-};
-
-export const widgetPropType = PropTypes.shape(widget);

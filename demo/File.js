@@ -1,8 +1,8 @@
 import {PureComponent} from 'react';
-import {without, sumBy, noop, pick} from 'lodash';
+import {without, sumBy, noop, pick, union} from 'lodash';
 import {bind} from 'lodash-decorators';
 import {Whether, Else} from 'react-whether';
-import {Diff, Hunk, textLinesToHunk, insertHunk} from '../src';
+import {Diff, Hunk, textLinesToHunk, insertHunk, getChangeKey} from '../src';
 import LargeDiff from './LargeDiff';
 import CommentWidget from './CommentWidget';
 import highlight from './highlight';
@@ -79,7 +79,7 @@ export default class File extends PureComponent {
         if (currentHunks !== nextHunks) {
             const patch = {
                 hunks: nextHunks,
-                comments: [],
+                comments: {},
                 writingChanges: [],
                 selectedChanges: []
             };
@@ -88,27 +88,33 @@ export default class File extends PureComponent {
     }
 
     @bind()
-    createCommentWidget(change, comments, writing) {
-        const onSave = content => this.saveComment(change, content);
+    createCommentWidget(changeKey, comments, writing) {
+        const onSave = content => this.saveComment(changeKey, content);
         return <CommentWidget comments={comments} writing={writing} onSave={onSave} />;
     }
 
     @bind()
     addComment(change) {
         const {writingChanges} = this.state;
+        const key = getChangeKey(change);
 
-        if (!writingChanges.includes(change)) {
-            this.setState({writingChanges: [...writingChanges, change]});
+        if (!writingChanges.includes(key)) {
+            this.setState({writingChanges: [...writingChanges, key]});
         }
     }
 
     @bind()
-    saveComment(change, content) {
+    saveComment(changeKey, content) {
         const {comments, writingChanges} = this.state;
         const postTime = Date.now();
+        const previousComments = comments[changeKey] || [];
+
         const patch = {
-            comments: [...comments, {change, content, postTime}],
-            writingChanges: without(writingChanges, change)
+            comments: {
+                ...comments,
+                [changeKey]: [...previousComments, {content, postTime}]
+            },
+            writingChanges: without(writingChanges, changeKey)
         };
         this.setState(patch);
     }
@@ -116,8 +122,8 @@ export default class File extends PureComponent {
     @bind()
     selectChange(change) {
         const {selectedChanges} = this.state;
-        const selected = selectedChanges.includes(change);
-        this.setState({selectedChanges: selected ? without(selectedChanges, change) : [...selectedChanges, change]});
+        const key = getChangeKey(change);
+        this.setState({selectedChanges: union(selectedChanges, [key])});
     }
 
     @bind()

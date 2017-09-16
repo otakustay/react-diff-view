@@ -1,5 +1,5 @@
 import {createSelector} from 'reselect';
-import {map, property} from 'lodash/fp';
+import {property, union} from 'lodash/fp';
 import {languages} from 'lang-map';
 import parsePath from 'path-parse';
 import {addStubHunk} from '../src';
@@ -53,25 +53,22 @@ export const createRenderingHunksSelector = computeExpandable => createSelector(
     (canExpand, hunks) => (canExpand ? addStubHunk(hunks) : hunks)
 );
 
-const pluckChange = map('change');
-
 export const createWidgetsSelector = createWidget => createSelector(
     property('comments'), property('writingChanges'),
     (comments, writingChanges) => {
-        const changesWithWidgets = [...pluckChange(comments), ...writingChanges];
-        return changesWithWidgets.reduce(
-            (widgets, change) => {
-                const lineComments = comments.filter(comment => comment.change === change);
-                const writing = writingChanges.includes(change);
-                return [
+        const changeKeys = union(Object.keys(comments), writingChanges);
+
+        return changeKeys.reduce(
+            (widgets, key) => {
+                const lineComments = comments[key] || [];
+                const writing = writingChanges.includes(key);
+
+                return {
                     ...widgets,
-                    {
-                        change: change,
-                        element: createWidget(change, lineComments, writing)
-                    }
-                ];
+                    [key]: createWidget(key, lineComments, writing)
+                };
             },
-            []
+            {}
         );
     }
 );

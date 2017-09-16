@@ -3,12 +3,14 @@ import classNames from 'classnames';
 import UnifiedChange from './UnifiedChange';
 import UnifiedWidget from './UnifiedWidget';
 import {createEventsBindingSelector} from './selectors';
+import {getChangeKey} from './utils';
 
 const groupElements = (changes, widgets) => changes.reduce(
     (elements, change) => {
         elements.push(['change', change]);
 
-        const widget = widgets.find(widget => widget.change === change);
+        const key = getChangeKey(change);
+        const widget = widgets[key];
 
         if (widget) {
             elements.push(['widget', widget]);
@@ -21,10 +23,12 @@ const groupElements = (changes, widgets) => changes.reduce(
 
 const renderRow = ([type, value], i, selectedChanges, props) => {
     if (type === 'change') {
-        return <UnifiedChange key={i} change={value} selected={selectedChanges.includes(value)} {...props} />;
+        const changeKey = getChangeKey(value);
+
+        return <UnifiedChange key={i} change={value} selected={selectedChanges.includes(changeKey)} {...props} />;
     }
     else if (type === 'widget') {
-        return <UnifiedWidget key={i} element={value.element} />;
+        return <UnifiedWidget key={i} element={value} />;
     }
 
     return null;

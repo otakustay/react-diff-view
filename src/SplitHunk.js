@@ -2,10 +2,18 @@ import mapValues from 'lodash.mapvalues';
 import classNames from 'classnames';
 import SplitChange from './SplitChange';
 import SplitWidget from './SplitWidget';
+import {getChangeKey} from './utils';
 
 const groupElements = (changes, widgets) => {
+    const findWidget = change => {
+        if (!change) {
+            return null;
+        }
+
+        const key = getChangeKey(change);
+        return widgets[key] || null;
+    };
     const elements = [];
-    const findWidget = targetChange => widgets.find(({change}) => change === targetChange);
 
     // This could be a very complex reduce call, use `for` loop seems to make it a little more readable
     for (let i = 0; i < changes.length; i++) {
@@ -31,33 +39,34 @@ const groupElements = (changes, widgets) => {
         }
 
         const rowChanges = elements[elements.length - 1];
-        const rowWidgets = rowChanges.slice(1).map(findWidget);
-        if (rowWidgets[0] || rowWidgets[1]) {
-            elements.push(['widget', ...rowWidgets]);
+        const [oldWidget, newWidget] = rowChanges.slice(1).map(findWidget);
+        if (oldWidget || newWidget) {
+            elements.push(['widget', oldWidget, newWidget]);
         }
     }
 
     return elements;
 };
 
-const renderRow = ([type, oldChange, newChange], i, selectedChanges, monotonous, props) => {
+const renderRow = ([type, oldValue, newValue], i, selectedChanges, monotonous, props) => {
     if (type === 'change') {
+        const oldSelected = oldValue ? selectedChanges.includes(getChangeKey(oldValue)) : false;
+        const newSelected = newValue ? selectedChanges.includes(getChangeKey(newValue)) : false;
+
         return (
             <SplitChange
                 key={i}
-                oldChange={oldChange}
-                newChange={newChange}
+                oldChange={oldValue}
+                newChange={newValue}
                 monotonous={monotonous}
-                oldSelected={selectedChanges.includes(oldChange)}
-                newSelected={selectedChanges.includes(newChange)}
+                oldSelected={oldSelected}
+                newSelected={newSelected}
                 {...props}
             />
         );
     }
     else if (type === 'widget') {
-        const oldElement = oldChange ? oldChange.element : null;
-        const newElement = newChange ? newChange.element : null;
-        return <SplitWidget key={i} monotonous={monotonous} oldElement={oldElement} newElement={newElement} />;
+        return <SplitWidget key={i} monotonous={monotonous} oldElement={oldValue} newElement={newValue} />;
     }
 
     return null;

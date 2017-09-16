@@ -92,12 +92,12 @@ The `Diff` named export is a component which accepts a diff file object and corr
 - `{string} className`: An extra css class.
 - `{Object} customEvents`: An object containing events for different part, see [Customize events](#customize-events) section for detail.
 - `{Object} customClassNames`: An object containing css classes for different part, see [Customize styles](#customize-styles) section for detail.
-- `{Change[]} selectedChanges`: An array of selected changes, these changes will be highlighted.
+- `{Change[]} selectedChanges`: An array of selected changes's key, these changes will be highlighted.
 - `{string} columnDiffMode`: Can be either `"disabled"`, `"word"` or `"character"` to indicate how column diff works between 2 strings, the default value is `"word"`.
 - `{number} columnDiffThreshold`: The maximum string distance when column diff could be enabled, if two string's distance is greater than it, column diff is disabled, the default value is `15`.
 - `{string} longDistanceColumnDiff`: The method to display codes with a distance longer than `columnDiffThreshold`, can be either `"ignore"` (default) or `"mark"`, when set to `"mark"` the whole line will be treated as column diff.
 - `{Function} onRenderCode`: Callback when code is rendered, can be used to further manipulate the DOM element containing code, see [Syntax highlight](#syntax-highlight) section for detail.
-- `{Array} widgets`: An array of `{change, element}` object to add widget for changes, see [Add widgets](#add-widgets) section for detail.
+- `{Array} widgets`: An array of `{changeKey, element}` object to add widget for changes, see [Add widgets](#add-widgets) section for detail.
 
 A basic use case is to pass `chunks` and `viewType` prop to `Diff` component, the diff will be rendered:
 
@@ -116,6 +116,24 @@ const App = ({diffText}) => {
 ```
 
 This will render diff in a default split (side by side) view.
+
+#### Key of change
+
+In `selectedChanges` and `widgets` props the key of change is used to match a specific change, a change's key is simply a string computed by the following rules:
+
+```javascript
+if (change.type === 'insert') {
+    return 'I' + change.lineNumber;
+}
+else if (change.type === 'delete') {
+    return 'D' + change.lineNumber;
+}
+else {
+    return 'N' + change.oldLineNumber;
+}
+```
+
+You are not required to compute this key yourself, the `getChangeKey(change)` exported function will do it.
 
 ## Advanced
 

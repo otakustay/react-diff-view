@@ -177,3 +177,12 @@ export const insertHunk = (hunks, insertion) => hunks.reduce(
     },
     []
 );
+
+export const getChangeKey = ({isNormal, isInsert, lineNumber, oldLineNumber}) => {
+    if (isNormal) {
+        return 'N' + oldLineNumber;
+    }
+
+    const prefix = isInsert ? 'I' : 'D';
+    return prefix + lineNumber;
+};

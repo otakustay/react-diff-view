@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import UnifiedHunk from './UnifiedHunk';
 import SplitHunk from './SplitHunk';
 import {createHunkEventsSelector, createHunkClassNamesSelector} from './selectors';
-import {viewTypePropType, eventsPropType, hunkPropType, changePropType, widgetPropType} from './propTypes';
+import {viewTypePropType, eventsPropType, hunkPropType} from './propTypes';
 import './Hunk.css';
 
 export default class Hunk extends PureComponent {
@@ -12,14 +12,14 @@ export default class Hunk extends PureComponent {
         viewType: viewTypePropType,
         hunk: hunkPropType.isRequired,
         header: PropTypes.oneOfType([PropTypes.node, PropTypes.shape([PropTypes.node, PropTypes.node])]),
-        widgets: PropTypes.arrayOf(widgetPropType),
-        selectedChanges: PropTypes.arrayOf(changePropType),
+        widgets: PropTypes.objectOf(PropTypes.element),
+        selectedChanges: PropTypes.arrayOf(PropTypes.string),
         customEvents: eventsPropType,
     };
 
     static defaultProps = {
         viewType: 'split',
-        widgets: [],
+        widgets: {},
         selectedChanges: [],
         customEvents: {}
     };
