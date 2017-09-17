@@ -66,7 +66,7 @@ export default class UnifiedChange extends PureComponent {
             >
                 <td className={gutterClassName} {...boundGutterEvents}>{!isInsert && oldLine}</td>
                 <td className={gutterClassName} {...boundGutterEvents}>{!isDelete && newLine}</td>
-                <td className={codeClassName} {...boundCodeEvents}>{content.substring(1)}</td>
+                <td className={codeClassName} {...boundCodeEvents}>{content}</td>
             </tr>
         );
     }

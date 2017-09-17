@@ -1,8 +1,6 @@
 import {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import {diffChars, diffWordsWithSpace} from 'diff';
-import leven from 'leven';
 import escape from 'lodash.escape';
 import CodeCell from './CodeCell';
 import {computeOldLineNumber, computeNewLineNumber} from './utils';
@@ -11,12 +9,14 @@ import {changePropType, eventsPropType, classNamesPropType} from './propTypes';
 import './Change.css';
 
 const SIDE_OLD = 0;
+const SIDE_NEW = 1;
+const NO_EDITS = [[], []];
 
 const renderCells = args => {
     const {
         change,
-        diff,
         side,
+        edits,
         selected,
         customClassNames,
         customEvents,
@@ -61,29 +61,30 @@ const renderCells = args => {
         ...boundCodeEvents
     };
 
-    if (!diff || diff.length <= 1) {
+    if (!edits.length) {
         return [
             <td {...gutterProps} />,
-            <CodeCell {...codeProps} text={content.substring(1)} />
+            <CodeCell {...codeProps} text={content} />
         ];
     }
 
-    const discardingDiffType = side === SIDE_OLD ? 'added' : 'removed';
-    const usefulDiff = diff.filter(item => !item[discardingDiffType]);
-    const html = usefulDiff.reduce(
-        (html, {added, removed, value}) => {
-            if (!added && !removed) {
-                return html += escape(value);
-            }
+    const {html: editMarkedHTML, lastIndex} = edits.reduce(
+        (result, [start, length]) => {
+            const normalText = content.slice(result.lastIndex, start);
+            const editText = content.substr(start, length);
 
-            return html += `<span class="diff-column-text">${escape(value)}</span>`;
+            result.html += escape(normalText) + `<mark class="diff-code-edit">${escape(editText)}</mark>`;
+            result.lastIndex = start + length;
+
+            return result;
         },
-        ''
+        {html: '', lastIndex: 0}
     );
+    const tailHTML = escape(content.substring(lastIndex));
 
     return [
         <td {...gutterProps} />,
-        <CodeCell {...codeProps} html={html} />
+        <CodeCell {...codeProps} html={editMarkedHTML + tailHTML} />
     ];
 };
 
@@ -103,19 +104,17 @@ export default class SplitChange extends PureComponent {
         newChange: changePropType,
         oldSelected: PropTypes.bool.isRequired,
         newSelected: PropTypes.bool.isRequired,
-        columnDiffMode: PropTypes.oneOf(['disabled', 'character', 'word']),
-        columnDiffThreshold: PropTypes.number,
-        longDistanceColumnDiff: PropTypes.oneOf(['ignore', 'mark']),
+        markEdits: PropTypes.func,
         customEvents: eventsPropType,
         customClassNames: classNamesPropType,
         onRenderCode: PropTypes.func
     };
 
     static defaultProps = {
-        columnDiffMode: 'word',
-        columnDiffThreshold: 20,
-        longDistanceColumnDiff: 'ignore',
         customEvents: {},
+        markEdits() {
+            return NO_EDITS;
+        },
         onRenderCode() {
         }
     };
@@ -127,41 +126,20 @@ export default class SplitChange extends PureComponent {
             oldSelected,
             newSelected,
             monotonous,
-            columnDiffMode,
-            columnDiffThreshold,
-            longDistanceColumnDiff,
+            markEdits,
             customClassNames,
             customEvents,
             onRenderCode
         } = this.props;
 
-        const diff = (() => {
-            if (!columnDiffMode === 'disabled' || !oldChange || !newChange) {
-                return null;
-            }
+        const [oldEdits, newEdits] = markEdits(oldChange, newChange);
 
-            // Precheck `columnDiffThreshold !== Infinity` to reduce calls to `leven`
-            if (columnDiffThreshold !== Infinity && leven(oldChange.content, newChange.content) > columnDiffThreshold) {
-                // Mark the whole line as column diff to highlight "this line is completely changed"
-                if (longDistanceColumnDiff === 'mark') {
-                    return [
-                        {removed: true, value: oldChange.content.substring(1)},
-                        {added: true, value: newChange.content.substring(1)}
-                    ];
-                }
-
-                return null;
-            }
-
-            const diffFunction = columnDiffMode === 'word' ? diffWordsWithSpace : diffChars;
-            return diffFunction(oldChange.content.substring(1), newChange.content.substring(1));
-        })();
-
-        const commons = {diff, monotonous, customClassNames, customEvents, onRenderCode};
+        const commons = {monotonous, customClassNames, customEvents, onRenderCode};
         const oldArgs = {
             ...commons,
             change: oldChange,
-            side: 0,
+            side: SIDE_OLD,
+            edits: oldEdits,
             selected: oldSelected,
             bindGutterEvents: this.bindOldGutterEvents,
             bindCodeEvents: this.bindOldCodeEvents
@@ -169,7 +147,8 @@ export default class SplitChange extends PureComponent {
         const newArgs = {
             ...commons,
             change: newChange,
-            side: 1,
+            side: SIDE_NEW,
+            edits: newEdits,
             selected: newSelected,
             bindGutterEvents: this.bindNewGutterEvents,
             bindCodeEvents: this.bindNewCodeEvents

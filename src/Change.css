@@ -41,7 +41,11 @@
     background-color: #eaffee;
 }
 
-.diff-code-insert .diff-column-text {
+.diff-code-edit {
+    color: inherit;
+}
+
+.diff-code-insert .diff-code-edit {
     background-color: #c0dc91;
 }
 
@@ -49,7 +53,7 @@
     background-color: #fdeff0;
 }
 
-.diff-code-delete .diff-column-text {
+.diff-code-delete .diff-code-edit {
     background-color: #f39ea2;
 }
 

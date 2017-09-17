@@ -92,12 +92,10 @@ The `Diff` named export is a component which accepts a diff file object and corr
 - `{string} className`: An extra css class.
 - `{Object} customEvents`: An object containing events for different part, see [Customize events](#customize-events) section for detail.
 - `{Object} customClassNames`: An object containing css classes for different part, see [Customize styles](#customize-styles) section for detail.
-- `{Change[]} selectedChanges`: An array of selected changes's key, these changes will be highlighted.
-- `{string} columnDiffMode`: Can be either `"disabled"`, `"word"` or `"character"` to indicate how column diff works between 2 strings, the default value is `"word"`.
-- `{number} columnDiffThreshold`: The maximum string distance when column diff could be enabled, if two string's distance is greater than it, column diff is disabled, the default value is `15`.
-- `{string} longDistanceColumnDiff`: The method to display codes with a distance longer than `columnDiffThreshold`, can be either `"ignore"` (default) or `"mark"`, when set to `"mark"` the whole line will be treated as column diff.
+- `{string[]} selectedChanges`: An array of selected changes's key, these changes will be highlighted.
+- `{Function} markEdits`: A function to mark edits between old and new content, see [Mark column edits](#mark-column-edits) section for detail.
 - `{Function} onRenderCode`: Callback when code is rendered, can be used to further manipulate the DOM element containing code, see [Syntax highlight](#syntax-highlight) section for detail.
-- `{Array} widgets`: An array of `{changeKey, element}` object to add widget for changes, see [Add widgets](#add-widgets) section for detail.
+- `{Object} widgets`: An object of `{changeKey: element}` to render widget for changes, see [Add widgets](#add-widgets) section for detail.
 
 A basic use case is to pass `chunks` and `viewType` prop to `Diff` component, the diff will be rendered:
 
@@ -174,6 +172,47 @@ const App = ({diffText}) => {
 };
 ```
 
+### Mark column edits
+
+The term "column edits" stands for highlighted areas on a modified line, they are usually produced by further comparing the old and new line content.
+
+To mark an edits between changes, you can provide the `markEdits` function prop to `Diff` component, this function receives two changes and returns a tuple (array) of `[Edit[], Edit[]]`, the first element is edits for the old change, the second element is for the new change.
+
+A edit is simply an array with two numbers `[startIndex, length]`, the first element is the start index in original text, the second number represents the length of this edit.
+
+For example, we have a string `"This is a good day"` and two edits `[5, 2]` and `[10, 4]` as input, the result would be:
+
+```html
+This <mark class="diff-code-edit">is</mark> a <mark class="diff-code-edit">good</mark> day
+```
+
+The `markEdits` function **MUST** comply with some extra restrictions:
+
+- Either `oldChange` or `newChange` can be null, you should check for it.
+- The return value cannot be null, it must be an array with two arrays, neither `null` or `[null, null]` is accepted, for the result of "no edit", just return `[[], []]` instead.
+- Edits must be sorted by `startIndex`.
+- Edits cannot be overlapped with each other, the value `[[1, 3], [2, 3]]` can result undefined behavior.
+
+`react-diff-view` is shipped with 2 built-in `markEdits` functions, they are:
+
+- `{Function} markWordEdits({Object} options)` to diff two strings word by word.
+- `{Function} markCharacterEdits({Object} options)` to diff two string character by character.
+
+They both accept a `options` object with following properties:
+
+- `{number} threshold`: The maximum string distance when this function should try to mark edits, if two string's distance is greater than it, edits marking is disabled, the default value is `Infinity`.
+- `{boolean} markLongDistanceDiff`: If is `true`, two strings with distance greater than `threshold` will create an edit containing the whole string, the default value is `false`.
+
+For example, following code asks `Diff` component to compare old and new content word by word when their distance is shorter than 30, if the content's distance is longer than 30, the entires line is marked:
+
+```javascript
+import {Diff, markWordEdits} from 'react-diff-view';
+
+const markEdits = markWordEdits({threshold: 30, markLongDistanceDiff: true});
+
+<Diff markEdits={markEdits} />
+```
+
 ### Add widgets
 
 In some cases we need functions like commenting on change, `react-diff-view` provides an extensible solution called **widget** to archive such senarios.
@@ -187,12 +226,22 @@ Note although the `widgets` prop is of type array, each change can only render o
 Here is a very basic example which adds a warning text on long lines:
 
 ```javascript
-import {parseDiff, Diff} from 'react-diff-view';
+import {parseDiff, getChangeKey, Diff} from 'react-diff-view';
 
 const getWidgets = ({chunks}) => {
     const changes = chunks.reduce((result, {changes}) => [...result, ...changes], []);
     const longLines = changes.filter(({content}) => content.length > 120);
-    return longLines.map(change => ({change: change, widget: <span className="error">Line too long</span>}));
+    return longLines.reduce(
+        (widgets, change) => {
+            const changeKey = getChangeKey(change);
+
+            return {
+                ...widgets,
+                [changeKey]: <span className="error">Line too long</span>
+            };
+        },
+        {}
+    );
 };
 
 const App = ({diffText}) => {
@@ -235,7 +284,7 @@ You can override styles on certian css classes to customize the appearance of `r
 - `diff-code-del`: Code of a deletion.
 - `diff-code-omit`: Code with no content.
 - `diff-code-selected`: Code of a selected change.
-- `diff-column-text`: Column difference between two lines of code.
+- `diff-code-edit`: Edits on a line of code.
 
 You can pass `className` prop to `Diff` component to add custom class to the `<table>` element.
 

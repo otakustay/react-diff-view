@@ -2,7 +2,7 @@ import {PureComponent} from 'react';
 import {without, sumBy, noop, pick, union} from 'lodash';
 import {bind} from 'lodash-decorators';
 import {Whether, Else} from 'react-whether';
-import {Diff, Hunk, textLinesToHunk, insertHunk, getChangeKey} from '../src';
+import {Diff, Hunk, textLinesToHunk, insertHunk, getChangeKey, markCharacterEdits} from '../src';
 import LargeDiff from './LargeDiff';
 import CommentWidget from './CommentWidget';
 import highlight from './highlight';
@@ -17,6 +17,8 @@ import {
     createRenderingHunksSelector,
     createWidgetsSelector
 } from './selectors';
+
+const markEdits = markCharacterEdits({threshold: 30, markLongDistanceDiff: true});
 
 const renderHunkHeader = (previousHunk, currentHunk) => {
     const isInitialHunk = currentHunk.oldStart === 1 && currentHunk.newStart === 1;
@@ -194,9 +196,7 @@ export default class File extends PureComponent {
                             selectedChanges={selectedChanges}
                             customClassNames={customClassNames}
                             customEvents={customEvents}
-                            columnDiffMode={changeCount <= 200 ? 'character' : 'disabled'}
-                            columnDiffThreshold={30}
-                            longDistanceColumnDiff="mark"
+                            markEdits={changeCount <= 200 ? markEdits : undefined}
                             onRenderCode={changeCount <= 500 ? highlight : noop}
                         >
                             {hunks.reduce(renderHunk, [])}

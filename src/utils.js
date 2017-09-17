@@ -1,4 +1,6 @@
 import parse from 'parse-diff';
+import leven from 'leven';
+import {diffChars, diffWordsWithSpace} from 'diff';
 
 const computeFileType = ({from, to}) => {
     if (from === '/dev/null') {
@@ -46,7 +48,7 @@ const mapChange = ({add, normal, ln1, ln2, ln, content}) => {
             isNormal: true,
             oldLineNumber: ln1,
             newLineNumber: ln2,
-            content: content
+            content: content.substring(1)
         };
     }
 
@@ -55,7 +57,7 @@ const mapChange = ({add, normal, ln1, ln2, ln, content}) => {
             type: 'insert',
             isInsert: true,
             lineNumber: ln,
-            content: content
+            content: content.substring(1)
         };
     }
 
@@ -63,7 +65,7 @@ const mapChange = ({add, normal, ln1, ln2, ln, content}) => {
         type: 'delete',
         isDelete: true,
         lineNumber: ln,
-        content: content
+        content: content.substring(1)
     };
 };
 
@@ -186,3 +188,62 @@ export const getChangeKey = ({isNormal, isInsert, lineNumber, oldLineNumber}) =>
     const prefix = isInsert ? 'I' : 'D';
     return prefix + lineNumber;
 };
+
+const NO_EDITS = [[], []];
+
+const markEditsBy = computeDiff => (options = {}) => {
+    const {threshold = Infinity, markLongDistanceDiff = false} = options;
+
+    return (oldChange, newChange) => {
+        if (!oldChange || !newChange) {
+            return NO_EDITS;
+        }
+
+        const oldContent = oldChange.content;
+        const newContent = newChange.content;
+
+        // Precheck `threshold !== Infinity` to reduce calls to `leven`
+        if (threshold !== Infinity && leven(oldContent, newContent) > threshold) {
+            // Mark the whole line as an edit to highlight "this line is completely changed"
+            if (markLongDistanceDiff) {
+                return [
+                    [[0, oldContent.length]],
+                    [[0, newContent.length]]
+                ];
+            }
+
+            return NO_EDITS;
+        }
+
+        const diff = computeDiff(oldContent, newContent);
+        const {aEdits, bEdits} = diff.reduce(
+            (result, {added, removed, value}) => {
+                if (!added && !removed) {
+                    result.aIndex += value.length;
+                    result.bIndex += value.length;
+
+                    return result;
+                }
+
+                if (added) {
+                    result.bEdits.push([result.bIndex, value.length]);
+                    result.bIndex += value.length;
+
+                    return result;
+                }
+
+                result.aEdits.push([result.aIndex, value.length]);
+                result.aIndex += value.length;
+
+                return result;
+            },
+            {aEdits: [], bEdits: [], aIndex: 0, bIndex: 0}
+        );
+
+        return [aEdits, bEdits];
+    };
+};
+
+export const markWordEdits = markEditsBy(diffWordsWithSpace);
+
+export const markCharacterEdits = markEditsBy(diffChars);
