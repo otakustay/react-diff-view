@@ -1,13 +1,12 @@
 import {PureComponent} from 'react';
+import {uniqueId} from 'lodash';
 import {bind} from 'lodash-decorators';
 import {Button, Radio, Checkbox} from 'antd';
 import 'antd/dist/antd.css';
 import InfiniteScroll from 'react-infinite-scroller';
-import {parseDiff} from '../src';
 import File from './File';
 import './App.css';
-import Perf from 'react-addons-perf';
-window.Perf = Perf;
+import ParseWorker from './parse';
 
 const ButtonGroup = Button.Group;
 const RadioButton = Radio.Button;
@@ -25,8 +24,23 @@ export default class App extends PureComponent {
         viewType: 'split'
     };
 
+    constructor(props) {
+        super(props);
+
+        this.parser = new ParseWorker();
+        this.parser.addEventListener(
+            'message',
+            ({data: {jobID, diff}}) => {
+                if (jobID === this.state.jobID) {
+                    this.setState({diff: diff, rendering: diff.slice(0, 1)});
+                }
+            }
+        );
+    }
+
     componentWillUpdate(nextProps, nextState) {
         if (nextState.diff !== this.state.diff) {
+            console.timeEnd('parse');
             console.time('render');
         }
     }
@@ -35,10 +49,11 @@ export default class App extends PureComponent {
         if (prevState.zip !== this.state.zip || prevState.diffText !== this.state.diffText) {
             const {zip, diffText} = this.state;
             const nearbySequences = zip ? 'zip' : null;
+
             console.time('parse');
-            const diff = parseDiff(diffText, {nearbySequences});
-            console.timeEnd('parse');
-            this.setState({diff: diff, rendering: diff.slice(0, 1)});
+            const jobID = uniqueId();
+            this.parser.postMessage({jobID, diffText, nearbySequences});
+            this.setState({jobID});
         }
 
         if (prevState.diff !== this.state.diff) {

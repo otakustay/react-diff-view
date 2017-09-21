@@ -34,6 +34,10 @@ module.exports = {
                 ]
             },
             {
+                test: require.resolve('./demo/parse'),
+                use: ['worker-loader']
+            },
+            {
                 test: /\.css$/,
                 use: [
                     'style-loader',
