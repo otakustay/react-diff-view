@@ -4,10 +4,10 @@
   "description": "A git diff component to consume the git unified diff output.",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server --config=webpack.demo.config.js",
-    "build": "webpack --config=webpack.build.config.js",
+    "start": "./node_modules/.bin/webpack-dev-server --config=webpack.demo.config.js",
+    "build": "./node_modules/.bin/webpack --config=webpack.build.config.js",
     "prepare": "npm run lint && npm run build",
-    "lint": "eslint src demo"
+    "lint": "./node_modules/.bin/eslint src demo"
   },
   "author": "otakustay",
   "license": "MIT",
