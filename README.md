@@ -43,7 +43,7 @@ For best display effect, you should generate your diff text with `git diff -U1` 
 
 The `{File[] parseDiff({string} text, {Object} [options])` named export is a wrap of [parse-diff](https://www.npmjs.com/package/parse-diff) package with some extra options:
 
-- `{boolean} stubChunk`: Whether to add a stub empty hunk at the tail of each hunk list, this can provide an extra hunk header when [customizing hunk header](#customize-hunk-header), for example, to expand code after the diff.
+- `{boolean} stubHunk`: Whether to add a stub empty hunk at the tail of each hunk list, this can provide an extra hunk header when [customizing hunk header](#customize-hunk-header), for example, to expand code after the diff.
 - `{string} nearbySequences`: The action to take when meet nearby sequences, only the `"zip"` value has its own behavior.
 
 The `nearbySequence` can have a value of `"zip"` to "zip" a sequences of deletion and additions, as an example, here is a diff generated from react:
@@ -86,8 +86,8 @@ Sometimes it can provide a better look.
 
 The `Diff` named export is a component which accepts a diff file object and correctly display it in either unified or split view, here is the full list of its props:
 
-- `{Chunk[]} hunks`: The hunks of diff, simply get it from the `parseDiff` output.
-- `{ReactElement[]} children`: Instead of passing a list of hunks, you can make each hunk a more customizable `Chunk` component, see [Customize hunk header](#customize-hunk-header) sectionf or its use case.
+- `{Hunk[]} hunks`: The hunks of diff, simply get it from the `parseDiff` output.
+- `{ReactElement[]} children`: Instead of passing a list of hunks, you can make each hunk a more customizable `Hunk` component, see [Customize hunk header](#customize-hunk-header) sectionf or its use case.
 - `{string} viewType`: Can be either `"unified"` or `"split"` to determine how the diff should look like.
 - `{string} className`: An extra css class.
 - `{Object} customEvents`: An object containing events for different part, see [Customize events](#customize-events) section for detail.
@@ -139,26 +139,26 @@ You are not required to compute this key yourself, the `getChangeKey(change)` ex
 
 Sometimes you need to add functions to hunks, for example, to load collapsed code between 2 hunks, this can be archived with several steps:
 
-1. Instead of pass the `hunks` props, map each hunk to a `Chunk` component and pass it as children of `Diff`.
-2. Customize your `header` prop for `Chunk` component.
+1. Instead of pass the `hunks` props, map each hunk to a `Hunk` component and pass it as children of `Diff`.
+2. Customize your `header` prop for `Hunk` component.
 
-The `Chunk` named export is a component representing a hunk of diff, each hunk accepts a `header` prop with possible different types of value:
+The `Hunk` named export is a component representing a hunk of diff, each hunk accepts a `header` prop with possible different types of value:
 
-- `undefined`: Then `Chunk` will append a default header containing the content of hunk.
+- `undefined`: Then `Hunk` will append a default header containing the content of hunk.
 - `null`: Header will be removed completely.
 - A single react element: this will be rendered in the entire row.
 - An array containing two react elements: The first element will be rendered in gutter position, the second will be rendered in code position.
 
-When using hunks as children, you are not required to pass extra props such as `viewType` or `customEvents` to `Chunk` component, these props will be passed by `Diff` component, the only reason you build your own children is to add the `header` prop:
+When using hunks as children, you are not required to pass extra props such as `viewType` or `customEvents` to `Hunk` component, these props will be passed by `Diff` component, the only reason you build your own children is to add the `header` prop:
 
 ```javascript
-import {parseDiff, Diff, Chunk} from 'react-diff-view';
+import {parseDiff, Diff, Hunk} from 'react-diff-view';
 
-const renderChunk = hunk => {
+const renderHunk = hunk => {
     // Only render in the code section
     const header = [null, `${hunk.changes} changes below`];
 
-    return <Chunk key={hunk.content} hunk={hunk} header={header} />;
+    return <Hunk key={hunk.content} hunk={hunk} header={header} />;
 };
 
 const App = ({diffText}) => {
@@ -166,7 +166,7 @@ const App = ({diffText}) => {
 
     return (
         <div>
-            {files.map(({hunks}, i) => <Diff key={i} viewType="split">{hunks.map(renderChunk)}</Diff>)}
+            {files.map(({hunks}, i) => <Diff key={i} viewType="split">{hunks.map(renderHunk)}</Diff>)}
         </div>
     );
 };
@@ -382,11 +382,11 @@ class File extends PureComponent {
 
 `react-diff-component` comes with some utility functions to help simplify common issues:
 
-- `{Chunk[]} addStubChunk({Chunk[]} hunks)`: Adds a stub hunk (with no actual changes) to the end of `hunks`, this is useful when you want to expand code after the last line of diff.
+- `{Hunk[]} addStubHunk({Hunk[]} hunks)`: Adds a stub hunk (with no actual changes) to the end of `hunks`, this is useful when you want to expand code after the last line of diff.
 - `{number} computeOldLineNumber({Change} change)`: Compute the line number in old revision for a change.
 - `{number} computeNewLineNumber({Change} change)`: Compute the line number in new revision for a change.
-- `{Chunk} textLinesToChunk({string[]} lines, {number} oldStartLineNumber, {number} newStartLineNumber)`: Create a hunk with all normal changes, this is useful when expanding code between two hunks.
-- `{Chunk[]} insertChunk({Chunk[]} hunks, {Chunk} insertion)`: Insert a new hunk into the original list, it will merge hunk is possible, useful for expanding code.
+- `{Hunk} textLinesToHunk({string[]} lines, {number} oldStartLineNumber, {number} newStartLineNumber)`: Create a hunk with all normal changes, this is useful when expanding code between two hunks.
+- `{Hunk[]} insertHunk({Hunk[]} hunks, {Hunk} insertion)`: Insert a new hunk into the original list, it will merge hunk is possible, useful for expanding code.
 
 ## Unsupported
 
