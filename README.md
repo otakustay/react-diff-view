@@ -6,6 +6,10 @@ A git diff component to consume the git unified diff output.
 
 ![unified view](https://raw.githubusercontent.com/otakustay/react-diff-view/master/screenshots/unified-view.png)
 
+## API changes
+
+In version less than `1.0.0`, API is subjected to change, we may introduce breaking changes in minor versions.
+
 ## Full features
 
 - A clean and small core to display diff.
