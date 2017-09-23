@@ -43,7 +43,7 @@ For best display effect, you should generate your diff text with `git diff -U1` 
 
 The `{File[] parseDiff({string} text, {Object} [options])` named export is a wrap of [parse-diff](https://www.npmjs.com/package/parse-diff) package with some extra options:
 
-- `{boolean} stubChunk`: Whether to add a stub empty chunk at the tail of each chunk list, this can provide an extra hunk header when [customizing chunk header](#customize-chunk-header), for example, to expand code after the diff.
+- `{boolean} stubHunk`: Whether to add a stub empty hunk at the tail of each hunk list, this can provide an extra hunk header when [customizing hunk header](#customize-hunk-header), for example, to expand code after the diff.
 - `{string} nearbySequences`: The action to take when meet nearby sequences, only the `"zip"` value has its own behavior.
 
 The `nearbySequence` can have a value of `"zip"` to "zip" a sequences of deletion and additions, as an example, here is a diff generated from react:
@@ -82,12 +82,12 @@ and as a result rendered as:
 
 Sometimes it can provide a better look.
 
-### Render diff chunks
+### Render diff hunks
 
 The `Diff` named export is a component which accepts a diff file object and correctly display it in either unified or split view, here is the full list of its props:
 
-- `{Chunk[]} chunks`: The chunks of diff, simply get it from the `parseDiff` output.
-- `{ReactElement[]} children`: Instead of passing a list of chunks, you can make each chunk a more customizable `Chunk` component, see [Customize chunk header](#customize-chunk-header) sectionf or its use case.
+- `{Hunk[]} hunks`: The hunks of diff, simply get it from the `parseDiff` output.
+- `{ReactElement[]} children`: Instead of passing a list of hunks, you can make each hunk a more customizable `Hunk` component, see [Customize hunk header](#customize-hunk-header) sectionf or its use case.
 - `{string} viewType`: Can be either `"unified"` or `"split"` to determine how the diff should look like.
 - `{string} className`: An extra css class.
 - `{Object} customEvents`: An object containing events for different part, see [Customize events](#customize-events) section for detail.
@@ -97,7 +97,7 @@ The `Diff` named export is a component which accepts a diff file object and corr
 - `{Function} onRenderCode`: Callback when code is rendered, can be used to further manipulate the DOM element containing code, see [Syntax highlight](#syntax-highlight) section for detail.
 - `{Object} widgets`: An object of `{changeKey: element}` to render widget for changes, see [Add widgets](#add-widgets) section for detail.
 
-A basic use case is to pass `chunks` and `viewType` prop to `Diff` component, the diff will be rendered:
+A basic use case is to pass `hunks` and `viewType` prop to `Diff` component, the diff will be rendered:
 
 ```javascript
 import {parseDiff, Diff} from 'react-diff-view';
@@ -107,7 +107,7 @@ const App = ({diffText}) => {
 
     return (
         <div>
-            {files.map(({chunks}, i) => <Diff key={i} chunks={chunks} viewType="split" />)}
+            {files.map(({hunks}, i) => <Diff key={i} hunks={hunks} viewType="split" />)}
         </div>
     );
 };
@@ -135,30 +135,30 @@ You are not required to compute this key yourself, the `getChangeKey(change)` ex
 
 ## Advanced
 
-### Customize chunk header
+### Customize hunk header
 
-Sometimes you need to add functions to chunks, for example, to load collapsed code between 2 chunks, this can be archived with several steps:
+Sometimes you need to add functions to hunks, for example, to load collapsed code between 2 hunks, this can be archived with several steps:
 
-1. Instead of pass the `chunks` props, map each chunk to a `Chunk` component and pass it as children of `Diff`.
-2. Customize your `header` prop for `Chunk` component.
+1. Instead of pass the `hunks` props, map each hunk to a `Hunk` component and pass it as children of `Diff`.
+2. Customize your `header` prop for `Hunk` component.
 
-The `Chunk` named export is a component representing a chunk of diff, each chunk accepts a `header` prop with possible different types of value:
+The `Hunk` named export is a component representing a hunk of diff, each hunk accepts a `header` prop with possible different types of value:
 
-- `undefined`: Then `Chunk` will append a default header containing the content of chunk.
+- `undefined`: Then `Hunk` will append a default header containing the content of hunk.
 - `null`: Header will be removed completely.
 - A single react element: this will be rendered in the entire row.
 - An array containing two react elements: The first element will be rendered in gutter position, the second will be rendered in code position.
 
-When using chunks as children, you are not required to pass extra props such as `viewType` or `customEvents` to `Chunk` component, these props will be passed by `Diff` component, the only reason you build your own children is to add the `header` prop:
+When using hunks as children, you are not required to pass extra props such as `viewType` or `customEvents` to `Hunk` component, these props will be passed by `Diff` component, the only reason you build your own children is to add the `header` prop:
 
 ```javascript
-import {parseDiff, Diff, Chunk} from 'react-diff-view';
+import {parseDiff, Diff, Hunk} from 'react-diff-view';
 
-const renderChunk = chunk => {
+const renderHunk = hunk => {
     // Only render in the code section
-    const header = [null, `${chunk.changes} changes below`];
+    const header = [null, `${hunk.changes} changes below`];
 
-    return <Chunk key={chunk.content} chunk={chunk} header={header} />;
+    return <Hunk key={hunk.content} hunk={hunk} header={header} />;
 };
 
 const App = ({diffText}) => {
@@ -166,7 +166,7 @@ const App = ({diffText}) => {
 
     return (
         <div>
-            {files.map(({chunks}, i) => <Diff key={i} viewType="split">{chunks.map(renderChunk)}</Diff>)}
+            {files.map(({hunks}, i) => <Diff key={i} viewType="split">{hunks.map(renderHunk)}</Diff>)}
         </div>
     );
 };
@@ -228,8 +228,8 @@ Here is a very basic example which adds a warning text on long lines:
 ```javascript
 import {parseDiff, getChangeKey, Diff} from 'react-diff-view';
 
-const getWidgets = ({chunks}) => {
-    const changes = chunks.reduce((result, {changes}) => [...result, ...changes], []);
+const getWidgets = ({hunks}) => {
+    const changes = hunks.reduce((result, {changes}) => [...result, ...changes], []);
     const longLines = changes.filter(({content}) => content.length > 120);
     return longLines.reduce(
         (widgets, change) => {
@@ -249,7 +249,7 @@ const App = ({diffText}) => {
 
     return (
         <div>
-            {files.map(({chunks}, i) => <Diff key={i} chunks={chunks} widgets={getWidgets(chunks)} viewType="split" />)}
+            {files.map(({hunks}, i) => <Diff key={i} hunks={hunks} widgets={getWidgets(hunks)} viewType="split" />)}
         </div>
     );
 };
@@ -265,10 +265,10 @@ You can override styles on certian css classes to customize the appearance of `r
 
 - `diff`: The diff container, a `<table>` element.
 - `diff-gutter-col`: The `<col>` element to control the gutter column.
-- `diff-chunk`: The `<tbody>` element representing a diff chunk.
-- `diff-chunk-header`: The `<tr>` element reprensenting the chunk's header.
-- `diff-chunk-header-gutter`: The `<td>` element corresponding to gutter within chunk header.
-- `diff-chunk-header-content`: The `<td>` element corresponding to code content within chunk header.
+- `diff-hunk`: The `<tbody>` element representing a diff hunk.
+- `diff-hunk-header`: The `<tr>` element reprensenting the hunk's header.
+- `diff-hunk-header-gutter`: The `<td>` element corresponding to gutter within hunk header.
+- `diff-hunk-header-content`: The `<td>` element corresponding to code content within hunk header.
 - `diff-gutter`: The `<td>` element containing the line number.
 - `diff-gutter-normal`: Gutter of a normal change.
 - `diff-gutter-add`: Gutter of an addition.
@@ -288,7 +288,7 @@ You can override styles on certian css classes to customize the appearance of `r
 
 You can pass `className` prop to `Diff` component to add custom class to the `<table>` element.
 
-The `Diff` component also accepts a `customClassNames` prop which contains custom css classes for different part, it can be a object with multiple keys: `chunk`, `chunkHeader`, `gutterHeader`, `codeHeader`, `line`, `gutter`, `code`, each value can be a string, the value will be appended to corresponding part's `className` prop.
+The `Diff` component also accepts a `customClassNames` prop which contains custom css classes for different part, it can be a object with multiple keys: `hunk`, `hunkHeader`, `gutterHeader`, `codeHeader`, `line`, `gutter`, `code`, each value can be a string, the value will be appended to corresponding part's `className` prop.
 
 ### Customize events
 
@@ -382,11 +382,11 @@ class File extends PureComponent {
 
 `react-diff-component` comes with some utility functions to help simplify common issues:
 
-- `{Chunk[]} addStubChunk({Chunk[]} chunks)`: Adds a stub chunk (with no actual changes) to the end of `chunks`, this is useful when you want to expand code after the last line of diff.
+- `{Hunk[]} addStubHunk({Hunk[]} hunks)`: Adds a stub hunk (with no actual changes) to the end of `hunks`, this is useful when you want to expand code after the last line of diff.
 - `{number} computeOldLineNumber({Change} change)`: Compute the line number in old revision for a change.
 - `{number} computeNewLineNumber({Change} change)`: Compute the line number in new revision for a change.
-- `{Chunk} textLinesToChunk({string[]} lines, {number} oldStartLineNumber, {number} newStartLineNumber)`: Create a chunk with all normal changes, this is useful when expanding code between two chunks.
-- `{Chunk[]} insertChunk({Chunk[]} chunks, {Chunk} insertion)`: Insert a new chunk into the original list, it will merge chunk is possible, useful for expanding code.
+- `{Hunk} textLinesToHunk({string[]} lines, {number} oldStartLineNumber, {number} newStartLineNumber)`: Create a hunk with all normal changes, this is useful when expanding code between two hunks.
+- `{Hunk[]} insertHunk({Hunk[]} hunks, {Hunk} insertion)`: Insert a new hunk into the original list, it will merge hunk is possible, useful for expanding code.
 
 ## Unsupported
 

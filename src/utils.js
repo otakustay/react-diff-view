@@ -93,7 +93,7 @@ const mapFile = (file, options) => {
 
 
 // TODO: Implement a faster diff parser
-export const parseDiff = (text, options) => {
+export const parseDiff = (text, options = {}) => {
     const files = parse(text);
 
     return files.map(file => mapFile(file, options));

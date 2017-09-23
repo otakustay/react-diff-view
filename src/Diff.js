@@ -49,7 +49,7 @@ const Diff = ({diffType, hunks, children, className, ...props}) => {
 };
 
 Diff.propTypes = {
-    diffType: PropTypes.oneOf(['add', 'delete', 'modify', 'rename', 'copy']).isRequired,
+    diffType: PropTypes.oneOf(['add', 'delete', 'modify', 'rename', 'copy']),
     viewType: viewTypePropType.isRequired,
     hunks: PropTypes.arrayOf(hunkPropType),
     children: PropTypes.oneOfType([PropTypes.element, PropTypes.arrayOf(PropTypes.element)])
