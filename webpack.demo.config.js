@@ -30,7 +30,8 @@ module.exports = {
                         options: {
                             cacheDirectory: true
                         }
-                    }
+                    },
+                    'source-map-loader'
                 ]
             },
             {
@@ -59,7 +60,7 @@ module.exports = {
         modules: ['node_modules']
     },
     plugins: [
-        new LoaderOptionsPlugin({minimize: false, debug: false}),
+        new LoaderOptionsPlugin({minimize: false}),
         new HtmlWebpackPlugin({title: 'react-diff-view'}),
         new CaseSensitivePathsPlugin(),
         new CopyWebpackPlugin([{from: 'demo/assets', to: 'assets'}])
@@ -67,8 +68,6 @@ module.exports = {
     devServer: {
         port: 9030,
         open: true,
-        // contentBase: path.join(__dirname, 'demo'),
-        compress: true,
         inline: true,
         hot: false
     }

@@ -61,3 +61,7 @@ typings/
 index.js
 index.js.map
 demo/dist
+index.css
+index.css.map
+parse.js
+parse.js.map
