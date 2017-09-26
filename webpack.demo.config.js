@@ -30,8 +30,7 @@ module.exports = {
                         options: {
                             cacheDirectory: true
                         }
-                    },
-                    'source-map-loader'
+                    }
                 ]
             },
             {

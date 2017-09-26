@@ -44,9 +44,9 @@
     "path-parse": "^1.0.5",
     "prismjs": "^1.6.0",
     "raw-loader": "^0.5.1",
-    "react": "^15.6.1",
+    "react": "^16.0.0-rc.3",
     "react-addons-perf": "^15.4.2",
-    "react-dom": "^15.6.1",
+    "react-dom": "^16.0.0-rc.3",
     "react-infinite-scroller": "^1.0.15",
     "react-markdown": "^2.5.0",
     "react-timeago": "^3.4.3",
@@ -61,7 +61,7 @@
     "worker-loader": "^0.8.1"
   },
   "peerDependencies": {
-    "react": "^15.6.1",
+    "react": "^15.6.1 || ^16.0.0-rc.3",
     "prop-types": "^15.5.10"
   },
   "repository": {
