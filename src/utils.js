@@ -1,28 +1,17 @@
-import parse from 'parse-diff';
+// import parse from 'parse-diff';
 import leven from 'leven';
 import {diffChars, diffWordsWithSpace} from 'diff';
-
-const computeFileType = ({from, to}) => {
-    if (from === '/dev/null') {
-        return 'add';
-    }
-
-    if (to === '/dev/null') {
-        return 'delete';
-    }
-
-    return 'modify';
-};
+import parser from 'gitdiff-parser';
 
 const zipChanges = changes => {
     const [result] = changes.reduce(
         ([result, last, lastDeletionIndex], current, i) => {
             if (!last) {
                 result.push(current);
-                return [result, current, current.del ? i : -1];
+                return [result, current, current.isDelete ? i : -1];
             }
 
-            if (current.add && lastDeletionIndex >= 0) {
+            if (current.isInsert && lastDeletionIndex >= 0) {
                 result.splice(lastDeletionIndex + 1, 0, current);
                 // The new `lastDeletionIndex` may be out of range, but `splice` will fix it
                 return [result, current, lastDeletionIndex + 2];
@@ -31,8 +20,8 @@ const zipChanges = changes => {
             result.push(current);
             // Keep the `lastDeletionIndex` if there are lines of deletions,
             // otherwise update it to the new deletion line
-            const newLastDeletionIndex = current.del
-                ? (last.del ? lastDeletionIndex : i)
+            const newLastDeletionIndex = current.isDelete
+                ? (last.isDelete ? lastDeletionIndex : i)
                 : lastDeletionIndex;
             return [result, current, newLastDeletionIndex];
         },
@@ -41,60 +30,27 @@ const zipChanges = changes => {
     return result;
 };
 
-const mapChange = ({add, normal, ln1, ln2, ln, content}) => {
-    if (normal) {
-        return {
-            type: 'normal',
-            isNormal: true,
-            oldLineNumber: ln1,
-            newLineNumber: ln2,
-            content: content.substring(1)
-        };
-    }
-
-    if (add) {
-        return {
-            type: 'insert',
-            isInsert: true,
-            lineNumber: ln,
-            content: content.substring(1)
-        };
-    }
-
-    return {
-        type: 'delete',
-        isDelete: true,
-        lineNumber: ln,
-        content: content.substring(1)
-    };
-};
-
 const mapHunk = (hunk, options) => {
     const changes = options.nearbySequences === 'zip' ? zipChanges(hunk.changes) : hunk.changes;
 
     return {
         ...hunk,
-        changes: changes.map(mapChange)
+        changes: changes
     };
 };
 
 const mapFile = (file, options) => {
-    const hunks = file.chunks.map(hunk => mapHunk(hunk, options));
+    const hunks = file.hunks.map(hunk => mapHunk(hunk, options));
 
     return {
-        type: computeFileType(file),
-        oldPath: file.from,
-        newPath: file.to,
-        additions: file.additions,
-        deletions: file.deletions,
+        ...file,
         hunks: options.stubHunk ? addStubHunk(hunks) : hunks
     };
 };
 
 
-// TODO: Implement a faster diff parser
 export const parseDiff = (text, options = {}) => {
-    const files = parse(text);
+    const files = parser.parse(text);
 
     return files.map(file => mapFile(file, options));
 };
