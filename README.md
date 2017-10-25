@@ -45,7 +45,7 @@ npm install --save react-diff-view
 
 For best display effect, you should generate your diff text with `git diff -U1` command.
 
-The `{File[] parseDiff({string} text, {Object} [options])` named export is a wrap of [parse-diff](https://www.npmjs.com/package/parse-diff) package with some extra options:
+The `{File[] parseDiff({string} text, {Object} [options])` named export is a wrap of [gitdiff-parser](https://www.npmjs.com/package/gitdiff-parser) package with some extra options:
 
 - `{boolean} stubHunk`: Whether to add a stub empty hunk at the tail of each hunk list, this can provide an extra hunk header when [customizing hunk header](#customize-hunk-header), for example, to expand code after the diff.
 - `{string} nearbySequences`: The action to take when meet nearby sequences, only the `"zip"` value has its own behavior.

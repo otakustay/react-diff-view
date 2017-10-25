@@ -1,4 +1,4 @@
-import parseDiff from '../src/parse';
+import {parseDiff} from '../src/parse';
 
 self.addEventListener(
     'message',

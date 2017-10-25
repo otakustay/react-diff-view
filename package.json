@@ -61,8 +61,8 @@
     "worker-loader": "^0.8.1"
   },
   "peerDependencies": {
-    "react": "^15.6.1 || ^16.0.0-rc.3",
-    "prop-types": "^15.5.10"
+    "react": "^15.6.2 || ^16.0.0",
+    "prop-types": "^15.6.0"
   },
   "repository": {
     "type": "git",

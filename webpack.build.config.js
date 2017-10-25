@@ -4,7 +4,7 @@
  */
 
 const path = require('path');
-const {LoaderOptionsPlugin} = require('webpack');
+const {LoaderOptionsPlugin, optimize: {ModuleConcatenationPlugin}} = require('webpack');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
@@ -45,6 +45,7 @@ module.exports = {
     },
     plugins: [
         new ExtractTextPlugin('index.css'),
+        new ModuleConcatenationPlugin(),
         new UglifyJSPlugin({sourceMap: true}),
         new LoaderOptionsPlugin({minimize: true, debug: false}),
         new CaseSensitivePathsPlugin()
