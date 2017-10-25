@@ -6,10 +6,6 @@ A git diff component to consume the git unified diff output.
 
 ![unified view](https://raw.githubusercontent.com/otakustay/react-diff-view/master/screenshots/unified-view.png)
 
-## API changes
-
-In version less than `1.0.0`, API is subjected to change, we may introduce breaking changes in minor versions.
-
 ## Full features
 
 - A clean and small core to display diff.
@@ -403,3 +399,12 @@ Any solutions of this issue are welcome.
 ### Test
 
 I don't really know how to test such a complicated and UI centric component, any helps are welcome.
+
+## Change Log
+
+### 1.0.0
+
+- Move to a self-implement diff parser which is faster and provides more information (binary, chmod, etc...).
+- Add a `react-diff-view/parse` module providing 2 named exports: `parseDiff` and `addStubHunk`, this can be used on web workers.
+- Styles are now in a standalone `index.css` file with source map support.
+- Upgrade `react` and `prop-types` dependency versions to MIT licensed ones, also `react ^16.0.0` is supported.
