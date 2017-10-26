@@ -43,8 +43,6 @@ const renderHunkHeader = (previousHunk, currentHunk) => {
     ];
 };
 
-const computeInitialFakeHunk = lines => ({oldStart: 1, oldLines: lines, newStart: 1});
-
 export default class File extends PureComponent {
 
     computeFilename = createFilenameSelector();
@@ -142,10 +140,21 @@ export default class File extends PureComponent {
 
     expandInsertionCode(rawCodeLines, hunk) {
         const {hunks} = this.state;
-        const previousHunk = hunks[hunks.indexOf(hunk) - 1] || computeInitialFakeHunk(hunk.oldStart - 1);
-        const collapsedLines = rawCodeLines.slice(previousHunk.oldStart - 1, hunk.oldStart - 1);
-        const collapsedHunk = textLinesToHunk(collapsedLines, previousHunk.oldStart, previousHunk.newStart);
+        const previousHunk = hunks[hunks.indexOf(hunk) - 1];
+        const [collapsedOldStart, collapsedNewStart] = (() => {
+            if (previousHunk) {
+                return [
+                    previousHunk.oldStart + previousHunk.oldLines,
+                    previousHunk.newStart + previousHunk.newLines
+                ];
+            }
+
+            return [1, 1];
+        })();
+        const collapsedLines = rawCodeLines.slice(collapsedOldStart - 1, hunk.oldStart - 1);
+        const collapsedHunk = textLinesToHunk(collapsedLines, collapsedOldStart, collapsedNewStart);
         const newHunks = insertHunk(hunks, collapsedHunk);
+
         this.setState({hunks: newHunks});
     }
 

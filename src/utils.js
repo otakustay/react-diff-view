@@ -34,36 +34,47 @@ export const textLinesToHunk = (lines, oldStartLineNumber, newStartLineNumber) =
     };
 };
 
-const tryMergeHunks = (x, y) => {
-    if (!x || !y) {
-        return null;
+const appendOrMergeHunk = (hunks, nextHunk) => {
+    const lastHunk = last(hunks);
+
+    if (!lastHunk) {
+        return [nextHunk];
     }
 
-    const previousChange = last(x.changes);
-    const nextChange = y.changes[0];
+    const previousChange = last(lastHunk.changes);
+    const nextChange = nextHunk.changes[0];
 
     if (!previousChange || !nextChange) {
-        return null;
+        return hunks.concat(nextHunk);
     }
 
     if (computeOldLineNumber(previousChange) + 1 !== computeOldLineNumber(nextChange)) {
-        return null;
+        return hunks.concat(nextHunk);
     }
 
-    return {
-        ...x,
-        changes: [...x.changes, ...y.changes]
+    const mergedHunk = {
+        ...lastHunk,
+        oldLines: lastHunk.oldLines + nextHunk.oldLines,
+        newLines: lastHunk.newLines + nextHunk.newLines,
+        changes: [...lastHunk.changes, ...nextHunk.changes]
     };
+
+    return [...hunks.slice(0, -1), mergedHunk];
 };
 
-export const insertHunk = (hunks, insertion) => hunks.reduce(
-    (hunks, current) => {
-        const mergedHunk = tryMergeHunks(current, insertion) || tryMergeHunks(insertion, current);
-        hunks.push(mergedHunk || current);
-        return hunks;
-    },
-    []
-);
+export const insertHunk = (hunks, insertion) => {
+    const insertionOldLineNumber = computeOldLineNumber(insertion.changes[0]);
+    const insertPosition = hunks.findIndex(hunk => computeOldLineNumber(hunk.changes[0]) >= insertionOldLineNumber);
+    const hunksWithInsertion = insertPosition === -1
+        ? hunks.concat(insertion)
+        : [
+            ...hunks.slice(0, insertPosition),
+            insertion,
+            ...hunks.slice(insertPosition)
+        ];
+
+    return hunksWithInsertion.reduce(appendOrMergeHunk, []);
+};
 
 export const getChangeKey = ({isNormal, isInsert, lineNumber, oldLineNumber}) => {
     if (isNormal) {
