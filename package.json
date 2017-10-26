@@ -14,7 +14,7 @@
   "dependencies": {
     "classnames": "^2.2.5",
     "diff": "^3.3.1",
-    "gitdiff-parser": "0.0.3",
+    "gitdiff-parser": "0.0.5",
     "leven": "^2.1.0",
     "lodash.escape": "^4.0.1",
     "lodash.mapvalues": "^4.6.0"

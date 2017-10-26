@@ -3,8 +3,8 @@ import './Widget.css';
 const SplitWidget = ({oldElement, newElement, monotonous}) => {
     if (monotonous) {
         return (
-            <tr className="widget">
-                <td colSpan={2}>
+            <tr className="diff-widget">
+                <td colSpan={2} className="diff-widget-content">
                     {oldElement || newElement}
                 </td>
             </tr>
@@ -13,8 +13,8 @@ const SplitWidget = ({oldElement, newElement, monotonous}) => {
 
     if (oldElement === newElement) {
         return (
-            <tr className="widget">
-                <td colSpan={4}>
+            <tr className="diff-widget">
+                <td colSpan={4} className="diff-widget-content">
                     {oldElement}
                 </td>
             </tr>
@@ -22,11 +22,11 @@ const SplitWidget = ({oldElement, newElement, monotonous}) => {
     }
 
     return (
-        <tr className="widget">
-            <td colSpan={2}>
+        <tr className="diff-widget">
+            <td colSpan={2} className="diff-widget-gutter">
                 {oldElement}
             </td>
-            <td colSpan={2}>
+            <td colSpan={2} className="diff-widget-content">
                 {newElement}
             </td>
         </tr>

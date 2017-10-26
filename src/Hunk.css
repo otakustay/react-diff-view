@@ -4,4 +4,5 @@
 
 .diff-hunk-header-content {
     font-family: SFMono-Regular, Consolas, "Liberation Mono", Menlo, Courier, monospace;
+    padding: 0;
 }

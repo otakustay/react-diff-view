@@ -285,6 +285,9 @@ You can override styles on certian css classes to customize the appearance of `r
 - `diff-code-omit`: Code with no content.
 - `diff-code-selected`: Code of a selected change.
 - `diff-code-edit`: Edits on a line of code.
+- `diff-widget`: The `<tr>` element to render widget.
+- `diff-widget-gutter`: The first `<td>` element when widget is rendered in 2 cells.
+- `diff-widget-content`: The `<td>` element to render widget content.
 
 You can pass `className` prop to `Diff` component to add custom class to the `<table>` element.
 
@@ -386,7 +389,7 @@ class File extends PureComponent {
 - `{number} computeOldLineNumber({Change} change)`: Compute the line number in old revision for a change.
 - `{number} computeNewLineNumber({Change} change)`: Compute the line number in new revision for a change.
 - `{Hunk} textLinesToHunk({string[]} lines, {number} oldStartLineNumber, {number} newStartLineNumber)`: Create a hunk with all normal changes, this is useful when expanding code between two hunks.
-- `{Hunk[]} insertHunk({Hunk[]} hunks, {Hunk} insertion)`: Insert a new hunk into the original list, it will merge hunk is possible, useful for expanding code.
+- `{Hunk[]} insertHunk({Hunk[]} hunks, {Hunk} insertion)`: Insert a new hunk into the original list, it will merge sibling hunks if possible, useful for expanding code.
 
 ## Unsupported
 

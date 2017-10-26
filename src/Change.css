@@ -34,6 +34,7 @@
     white-space: pre-wrap;
     word-wrap: break-word;
     word-break: break-all;
+    padding: 0;
     padding-left: .5em;
 }
 
