@@ -411,3 +411,9 @@ I don't really know how to test such a complicated and UI centric component, any
 - Add a `react-diff-view/parse` module providing 2 named exports: `parseDiff` and `addStubHunk`, this can be used on web workers.
 - Styles are now in a standalone `index.css` file with source map support.
 - Upgrade `react` and `prop-types` dependency versions to MIT licensed ones, also `react ^16.0.0` is supported.
+
+### 1.1.0
+
+- Remove unofficial styles such as paddings and borders around widgets.
+- Introduce class names for widgets.
+- Upgrade `gitdiff-parser` to `^0.0.5` to fix a line number issue.
