@@ -129,7 +129,13 @@ const HunkHeader = props => {
 
     return (
         <tr className={computedClassName}>
-            <td colSpan={monotonous ? 2 : 4} className={computedContentClassName}>{elements}</td>
+            <td
+                colSpan={monotonous ? 2 : 4}
+                className={computedContentClassName}
+                {...boundContentEvents}
+            >
+                {elements}
+            </td>
         </tr>
     );
 };
