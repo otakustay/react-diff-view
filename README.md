@@ -417,3 +417,9 @@ I don't really know how to test such a complicated and UI centric component, any
 - Remove unofficial styles such as paddings and borders around widgets.
 - Introduce class names for widgets.
 - Upgrade `gitdiff-parser` to `^0.0.5` to fix a line number issue.
+
+### 1.1.1
+
+- Fix a bug where custom event callbacks on hunk header content are not invoked.
+- Fix the broken `insertHunk` function.
+- Fix a bug in `nearbySequences: 'zip'` implement.
