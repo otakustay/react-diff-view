@@ -15,11 +15,11 @@ const zipChanges = changes => {
             }
 
             result.push(current);
+
             // Keep the `lastDeletionIndex` if there are lines of deletions,
             // otherwise update it to the new deletion line
-            const newLastDeletionIndex = current.isDelete
-                ? (last.isDelete ? lastDeletionIndex : i)
-                : lastDeletionIndex;
+            const newLastDeletionIndex = current.isDelete ? (last.isDelete ? lastDeletionIndex : i) : i;
+
             return [result, current, newLastDeletionIndex];
         },
         [[], null, -1]
