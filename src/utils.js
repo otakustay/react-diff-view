@@ -1,9 +1,21 @@
 import leven from 'leven';
 import {diffChars, diffWordsWithSpace} from 'diff';
 
-export const computeOldLineNumber = ({isNormal, lineNumber, oldLineNumber}) => (isNormal ? oldLineNumber : lineNumber);
+export const computeOldLineNumber = ({isNormal, isInsert, lineNumber, oldLineNumber}) => {
+    if (isInsert) {
+        return -1;
+    }
 
-export const computeNewLineNumber = ({isNormal, lineNumber, newLineNumber}) => (isNormal ? newLineNumber : lineNumber);
+    return isNormal ? oldLineNumber : lineNumber;
+};
+
+export const computeNewLineNumber = ({isNormal, isDelete, lineNumber, newLineNumber}) => {
+    if (isDelete) {
+        return -1;
+    }
+
+    return isNormal ? newLineNumber : lineNumber;
+};
 
 const last = array => array[array.length - 1];
 
