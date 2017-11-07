@@ -7,13 +7,14 @@ import {getChangeKey} from './utils';
 
 const groupElements = (changes, widgets) => changes.reduce(
     (elements, change) => {
-        elements.push(['change', change]);
-
         const key = getChangeKey(change);
+
+        elements.push(['change', key, change]);
+
         const widget = widgets[key];
 
         if (widget) {
-            elements.push(['widget', widget]);
+            elements.push(['widget', key, widget]);
         }
 
         return elements;
@@ -21,14 +22,12 @@ const groupElements = (changes, widgets) => changes.reduce(
     []
 );
 
-const renderRow = ([type, value], i, selectedChanges, props) => {
+const renderRow = ([type, key, value], i, selectedChanges, props) => {
     if (type === 'change') {
-        const changeKey = getChangeKey(value);
-
-        return <UnifiedChange key={i} change={value} selected={selectedChanges.includes(changeKey)} {...props} />;
+        return <UnifiedChange key={`change${key}`} change={value} selected={selectedChanges.includes(key)} {...props} />;
     }
     else if (type === 'widget') {
-        return <UnifiedWidget key={i} element={value} />;
+        return <UnifiedWidget key={`widget${key}`} element={value} />;
     }
 
     return null;

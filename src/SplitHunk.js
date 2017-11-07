@@ -4,6 +4,12 @@ import SplitChange from './SplitChange';
 import SplitWidget from './SplitWidget';
 import {getChangeKey} from './utils';
 
+const keyForPair = (x, y) => {
+    const keyForX = x ? getChangeKey(x) : '00';
+    const keyForY = y ? getChangeKey(y) : '00';
+    return keyForX + keyForY;
+};
+
 const groupElements = (changes, widgets) => {
     const findWidget = change => {
         if (!change) {
@@ -21,41 +27,42 @@ const groupElements = (changes, widgets) => {
 
         // A normal change is displayed on both side
         if (current.isNormal) {
-            elements.push(['change', current, current]);
+            elements.push(['change', keyForPair(current, current), current, current]);
         }
         else if (current.isDelete) {
             const next = changes[i + 1];
             // If an insert change is following a elete change, they should be displayed side by side
             if (next && next.isInsert) {
                 i = i + 1;
-                elements.push(['change', current, next]);
+                elements.push(['change', keyForPair(current, next), current, next]);
             }
             else {
-                elements.push(['change', current, null]);
+                elements.push(['change', keyForPair(current, null), current, null]);
             }
         }
         else {
-            elements.push(['change', null, current]);
+            elements.push(['change', keyForPair(null, current), null, current]);
         }
 
         const rowChanges = elements[elements.length - 1];
-        const [oldWidget, newWidget] = rowChanges.slice(1).map(findWidget);
+        const [oldWidget, newWidget] = rowChanges.slice(2).map(findWidget);
         if (oldWidget || newWidget) {
-            elements.push(['widget', oldWidget, newWidget]);
+            const key = rowChanges[1];
+            elements.push(['widget', key, oldWidget, newWidget]);
         }
     }
 
     return elements;
 };
 
-const renderRow = ([type, oldValue, newValue], i, selectedChanges, monotonous, props) => {
+const renderRow = ([type, key, oldValue, newValue], i, selectedChanges, monotonous, props) => {
     if (type === 'change') {
         const oldSelected = oldValue ? selectedChanges.includes(getChangeKey(oldValue)) : false;
         const newSelected = newValue ? selectedChanges.includes(getChangeKey(newValue)) : false;
 
         return (
             <SplitChange
-                key={i}
+                key={`change${key}`}
                 oldChange={oldValue}
                 newChange={newValue}
                 monotonous={monotonous}
@@ -66,7 +73,7 @@ const renderRow = ([type, oldValue, newValue], i, selectedChanges, monotonous, p
         );
     }
     else if (type === 'widget') {
-        return <SplitWidget key={i} monotonous={monotonous} oldElement={oldValue} newElement={newValue} />;
+        return <SplitWidget key={`widget${key}`} monotonous={monotonous} oldElement={oldValue} newElement={newValue} />;
     }
 
     return null;
