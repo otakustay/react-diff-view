@@ -386,8 +386,8 @@ class File extends PureComponent {
 `react-diff-component` comes with some utility functions to help simplify common issues:
 
 - `{Hunk[]} addStubHunk({Hunk[]} hunks)`: Adds a stub hunk (with no actual changes) to the end of `hunks`, this is useful when you want to expand code after the last line of diff.
-- `{number} computeOldLineNumber({Change} change)`: Compute the line number in old revision for a change.
-- `{number} computeNewLineNumber({Change} change)`: Compute the line number in new revision for a change.
+- `{number} computeOldLineNumber({Change} change)`: Compute the line number in old revision for a change, returns `-1` on insert changes.
+- `{number} computeNewLineNumber({Change} change)`: Compute the line number in new revision for a change, returns `-1` on delete changes.
 - `{Hunk} textLinesToHunk({string[]} lines, {number} oldStartLineNumber, {number} newStartLineNumber)`: Create a hunk with all normal changes, this is useful when expanding code between two hunks.
 - `{Hunk[]} insertHunk({Hunk[]} hunks, {Hunk} insertion)`: Insert a new hunk into the original list, it will merge sibling hunks if possible, useful for expanding code.
 
@@ -423,3 +423,8 @@ I don't really know how to test such a complicated and UI centric component, any
 - Fix a bug where custom event callbacks on hunk header content are not invoked.
 - Fix the broken `insertHunk` function.
 - Fix a bug in `nearbySequences: 'zip'` implement.
+
+### 1.2.0
+
+- Add key prop to hunks to improve widget insertion performance.
+- Fix a bug where `compute(Old|New)LineNumber` will return a valid line number when given unacceptable change object.
