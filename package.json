@@ -53,6 +53,7 @@
     "react-whether": "^1.0.1",
     "reselect": "^3.0.1",
     "shallow-changes": "^1.0.2",
+    "short-hash": "^1.0.0",
     "style-loader": "^0.18.2",
     "svg-react-loader": "^0.4.5",
     "uglifyjs-webpack-plugin": "^1.0.0-beta.2",

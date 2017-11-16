@@ -3,14 +3,21 @@
     font-family: Consolas, Courier, monospace;
 }
 
-.diff-gutter {
+.diff-gutter > a {
+    color: inherit;
+    display: block;
+}
+
+.diff-gutter:empty,
+.diff-gutter > a {
     padding: 0 1ch;
     text-align: right;
     cursor: pointer;
     user-select: none;
 }
 
-.diff-gutter:before {
+.diff-gutter:empty:before,
+.diff-gutter > a:before {
     content: attr(data-line-number);
 }
 

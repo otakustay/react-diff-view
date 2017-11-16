@@ -22,7 +22,10 @@ const renderCells = args => {
         customEvents,
         onRenderCode,
         bindGutterEvents,
-        bindCodeEvents
+        bindCodeEvents,
+        anchorID,
+        gutterAnchor,
+        gutterAnchorTarget
     } = args;
 
     if (!change) {
@@ -43,8 +46,10 @@ const renderCells = args => {
     );
     const gutterProps = {
         'key': 'gutter',
+        id: anchorID,
         'className': gutterClassName,
         'data-line-number': line,
+        children: gutterAnchor ? <a href={'#' + gutterAnchorTarget} data-line-number={line} /> : null,
         ...boundGutterEvents
     };
     const boundCodeEvents = bindCodeEvents(customEvents.code, change);
@@ -129,12 +134,15 @@ export default class SplitChange extends PureComponent {
             markEdits,
             customClassNames,
             customEvents,
-            onRenderCode
+            onRenderCode,
+            generateAnchorID,
+            gutterAnchor
         } = this.props;
 
         const [oldEdits, newEdits] = markEdits(oldChange, newChange);
 
         const commons = {monotonous, customClassNames, customEvents, onRenderCode};
+        const oldAnchorID = oldChange && generateAnchorID(oldChange);
         const oldArgs = {
             ...commons,
             change: oldChange,
@@ -142,8 +150,12 @@ export default class SplitChange extends PureComponent {
             edits: oldEdits,
             selected: oldSelected,
             bindGutterEvents: this.bindOldGutterEvents,
-            bindCodeEvents: this.bindOldCodeEvents
+            bindCodeEvents: this.bindOldCodeEvents,
+            anchorID: oldAnchorID,
+            gutterAnchor: gutterAnchor,
+            gutterAnchorTarget: oldAnchorID
         };
+        const newAnchorID = newChange && generateAnchorID(newChange);
         const newArgs = {
             ...commons,
             change: newChange,
@@ -151,7 +163,10 @@ export default class SplitChange extends PureComponent {
             edits: newEdits,
             selected: newSelected,
             bindGutterEvents: this.bindNewGutterEvents,
-            bindCodeEvents: this.bindNewCodeEvents
+            bindCodeEvents: this.bindNewCodeEvents,
+            anchorID: oldChange === newChange ? undefined : newAnchorID,
+            gutterAnchor: gutterAnchor,
+            gutterAnchorTarget: oldChange === newChange ? oldAnchorID : newAnchorID
         };
 
         if (monotonous) {

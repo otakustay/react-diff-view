@@ -38,14 +38,17 @@ export default class UnifiedChange extends PureComponent {
     }
 
     render() {
-        const {change, selected, customClassNames, customEvents} = this.props;
-        const {type, isInsert, isDelete, content} = change;
+        const {change, selected, customClassNames, customEvents, gutterAnchor, generateAnchorID} = this.props;
+        const {type, content} = change;
         const oldLine = computeOldLineNumber(change);
+        const oldLineNumber = oldLine === -1 ? undefined : oldLine;
         const newLine = computeNewLineNumber(change);
+        const newLineNumber = newLine === -1 ? undefined : newLine;
 
         const boundGutterEvents = this.bindGutterEvents(customEvents.gutter, change);
         const boundCodeEvents = this.bindCodeEvents(customEvents.code, change);
 
+        const anchorID = generateAnchorID(change);
         const gutterClassName = classNames(
             'diff-gutter',
             `diff-gutter-${type}`,
@@ -61,11 +64,16 @@ export default class UnifiedChange extends PureComponent {
 
         return (
             <tr
+                id={anchorID}
                 className={classNames('diff-line', customClassNames.line)}
                 ref={container => this.container = container}
             >
-                <td className={gutterClassName} {...boundGutterEvents}>{!isInsert && oldLine}</td>
-                <td className={gutterClassName} {...boundGutterEvents}>{!isDelete && newLine}</td>
+                <td className={gutterClassName} data-line-number={oldLineNumber} {...boundGutterEvents}>
+                    {gutterAnchor ? <a href={'#' + anchorID} data-line-number={oldLineNumber} /> : null}
+                </td>
+                <td className={gutterClassName} data-line-number={newLineNumber} {...boundGutterEvents}>
+                    {gutterAnchor ? <a href={'#' + anchorID} data-line-number={newLineNumber} /> : null}
+                </td>
                 <td className={codeClassName} {...boundCodeEvents}>{content}</td>
             </tr>
         );

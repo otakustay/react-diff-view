@@ -2,6 +2,7 @@ import {PureComponent} from 'react';
 import {without, sumBy, noop, pick, union} from 'lodash';
 import {bind} from 'lodash-decorators';
 import {Whether, Else} from 'react-whether';
+import hash from 'short-hash';
 import {Diff, Hunk, textLinesToHunk, insertHunk, getChangeKey, markCharacterEdits} from '../src';
 import LargeDiff from './LargeDiff';
 import CommentWidget from './CommentWidget';
@@ -62,13 +63,18 @@ export default class File extends PureComponent {
 
         const {hunks} = props;
         const changeCount = sumBy(hunks, ({changes}) => changes.length);
+        const filename = this.computeFilename(this.props);
+        const idPrefix = hash(filename);
 
         this.state = {
             hunks: this.computeRenderingHunks(props),
             renderDiff: changeCount <= 800,
             comments: [],
             writingChanges: [],
-            selectedChanges: []
+            selectedChanges: [],
+            generateAnchorID(change) {
+                return idPrefix + '-' + getChangeKey(change);
+            }
         };
     }
 
@@ -174,7 +180,7 @@ export default class File extends PureComponent {
 
     render() {
         const {type, additions, deletions, viewType} = this.props;
-        const {renderDiff, selectedChanges, hunks} = this.state;
+        const {renderDiff, selectedChanges, hunks, generateAnchorID} = this.state;
         const methods = pick(this, ['addComment', 'selectChange', 'loadCollapsedBefore']);
         const changeCount = sumBy(hunks, ({changes}) => changes.length);
         const filename = this.computeFilename(this.props);
@@ -199,6 +205,7 @@ export default class File extends PureComponent {
                 <main>
                     <Whether matches={renderDiff}>
                         <Diff
+                            gutterAnchor
                             diffType={type}
                             widgets={widgets}
                             viewType={viewType}
@@ -207,6 +214,7 @@ export default class File extends PureComponent {
                             customEvents={customEvents}
                             markEdits={changeCount <= 200 ? markEdits : undefined}
                             onRenderCode={changeCount <= 500 ? highlight : noop}
+                            generateAnchorID={generateAnchorID}
                         >
                             {hunks.reduce(renderHunk, [])}
                         </Diff>

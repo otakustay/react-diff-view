@@ -52,7 +52,15 @@ Diff.propTypes = {
     diffType: PropTypes.oneOf(['add', 'delete', 'modify', 'rename', 'copy']),
     viewType: viewTypePropType.isRequired,
     hunks: PropTypes.arrayOf(hunkPropType),
+    gutterAnchor: PropTypes.bool,
+    generateAnchorID: PropTypes.func,
     children: PropTypes.oneOfType([PropTypes.element, PropTypes.arrayOf(PropTypes.element)])
+};
+
+Diff.defaultProps = {
+    generateAnchorID() {
+        return undefined;
+    }
 };
 
 export default Diff;

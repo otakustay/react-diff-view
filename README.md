@@ -96,6 +96,8 @@ The `Diff` named export is a component which accepts a diff file object and corr
 - `{Function} markEdits`: A function to mark edits between old and new content, see [Mark column edits](#mark-column-edits) section for detail.
 - `{Function} onRenderCode`: Callback when code is rendered, can be used to further manipulate the DOM element containing code, see [Syntax highlight](#syntax-highlight) section for detail.
 - `{Object} widgets`: An object of `{changeKey: element}` to render widget for changes, see [Add widgets](#add-widgets) section for detail.
+- `Function generateAnchorID`: A function to generate a DOM `id` attribute for each change, this function receives a `change` object as the only argument and should return either a string or `undefined`, if `undefined` is returned no `id` attribute will be placed on DOM. The `id` attribute will be placed on the gutter `<td>` element, for normal changes in split mode, only the left side gutter will have the `id` attribute.
+- `{boolean} gutterAnchor`: Whether to create an `<a>` element in gutter so user can click gutter to scroll to corresponding line, `generateAnchorID` prop must be specified if this prop is `true`.
 
 A basic use case is to pass `hunks` and `viewType` prop to `Diff` component, the diff will be rendered:
 
