@@ -430,3 +430,7 @@ I don't really know how to test such a complicated and UI centric component, any
 
 - Add key prop to hunks to improve widget insertion performance.
 - Fix a bug where `compute(Old|New)LineNumber` will return a valid line number when given unacceptable change object.
+
+### 1.3.0
+
+- Add `generateAnchorID` and `gutterAnchor` props to allow anchor to specific changes.
