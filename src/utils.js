@@ -27,7 +27,7 @@ export const textLinesToHunk = (lines, oldStartLineNumber, newStartLineNumber) =
                 isNormal: true,
                 oldLineNumber: oldStartLineNumber + i,
                 newLineNumber: newStartLineNumber + i,
-                content: ' ' + line
+                content: '' + line
             };
             changes.push(change);
             return changes;

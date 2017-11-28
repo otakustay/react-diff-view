@@ -65,7 +65,7 @@ module.exports = {
         new CopyWebpackPlugin([{from: 'demo/assets', to: 'assets'}])
     ],
     devServer: {
-        host: '0.0.0.0',
+        // host: '0.0.0.0',
         port: 9030,
         open: true,
         inline: true,
