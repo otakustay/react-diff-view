@@ -434,3 +434,7 @@ I don't really know how to test such a complicated and UI centric component, any
 ### 1.3.0
 
 - Add `generateAnchorID` and `gutterAnchor` props to allow anchor to specific changes.
+
+### 1.3.1
+
+- Fix an issue where `textLinesToHunk` mistakenly adds an heading whitespace to each line of code.
