@@ -438,3 +438,7 @@ I don't really know how to test such a complicated and UI centric component, any
 ### 1.3.1
 
 - Fix an issue where `textLinesToHunk` mistakenly adds an heading whitespace to each line of code.
+
+### 1.3.2
+
+- Update `gitdiff-parser` to fix an issue with whitespace in filename.
