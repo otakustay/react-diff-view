@@ -1,15 +1,15 @@
 import {PureComponent} from 'react';
-import {without, sumBy, noop, pick, union} from 'lodash';
+import {without, sumBy, noop, pick, union, last} from 'lodash';
 import {bind} from 'lodash-decorators';
 import {Whether, Else} from 'react-whether';
 import hash from 'short-hash';
-import {Diff, Hunk, textLinesToHunk, insertHunk, getChangeKey, markCharacterEdits} from '../src';
+import {Diff, Hunk, expandFromRawCode, addStubHunk, getChangeKey, markCharacterEdits} from '../src';
+import HunkHeader from './HunkHeader';
 import LargeDiff from './LargeDiff';
 import CommentWidget from './CommentWidget';
 import highlight from './highlight';
 import './File.css';
-import Unfold from './Unfold.svg';
-import rawCode from './assets/ReactLink.raw';
+import rawCode from './assets/CSSPropertyOperations.raw';
 import {
     createFilenameSelector,
     createCanExpandSelector,
@@ -19,30 +19,9 @@ import {
     createWidgetsSelector
 } from './selectors';
 
+const rawCodeLines = rawCode.trim().split('\n');
+
 const markEdits = markCharacterEdits({threshold: 30, markLongDistanceDiff: true});
-
-const renderHunkHeader = (previousHunk, currentHunk) => {
-    const isInitialHunk = currentHunk.oldStart === 1 && currentHunk.newStart === 1;
-
-    if (isInitialHunk) {
-        return null;
-    }
-
-    if (currentHunk.content === 'STUB') {
-        return [
-            <Unfold className="unfold" />,
-            'Expand to file end'
-        ];
-    }
-
-    const collapsedLines = previousHunk
-        ? currentHunk.oldStart - previousHunk.oldStart - previousHunk.oldLines
-        : currentHunk.oldStart - 1;
-    return [
-        <Unfold className="unfold" />,
-        `Expand ${collapsedLines} lines of code`
-    ];
-};
 
 export default class File extends PureComponent {
 
@@ -133,49 +112,12 @@ export default class File extends PureComponent {
     }
 
     @bind()
-    async loadCollapsedBefore(hunk) {
-        const lines = rawCode.split('\n');
-
-        if (hunk.content === 'STUB') {
-            this.expandTailCode(lines, hunk);
-        }
-        else {
-            this.expandInsertionCode(lines, hunk);
-        }
-    }
-
-    expandInsertionCode(rawCodeLines, hunk) {
+    loadCollapsedCode(start, end) {
         const {hunks} = this.state;
-        const previousHunk = hunks[hunks.indexOf(hunk) - 1];
-        const [collapsedOldStart, collapsedNewStart] = (() => {
-            if (previousHunk) {
-                return [
-                    previousHunk.oldStart + previousHunk.oldLines,
-                    previousHunk.newStart + previousHunk.newLines
-                ];
-            }
-
-            return [1, 1];
-        })();
-        const collapsedLines = rawCodeLines.slice(collapsedOldStart - 1, hunk.oldStart - 1);
-        const collapsedHunk = textLinesToHunk(collapsedLines, collapsedOldStart, collapsedNewStart);
-        const newHunks = insertHunk(hunks, collapsedHunk);
-
-        this.setState({hunks: newHunks});
-    }
-
-    expandTailCode(rawCodeLines, stubHunk) {
-        const {hunks} = this.state;
-        const collapsedLines = rawCodeLines.slice(stubHunk.oldStart - 1, rawCodeLines.length);
-        const hunksWithoutStub = hunks.slice(0, -1);
-        if (!collapsedLines.length) {
-            this.setState({hunks: hunksWithoutStub});
-        }
-        else {
-            const collapsedHunk = textLinesToHunk(collapsedLines, stubHunk.oldStart, stubHunk.newStart);
-            const newHunks = insertHunk(hunksWithoutStub, collapsedHunk);
-            this.setState({hunks: newHunks});
-        }
+        const hunksWithoutStub = last(hunks).content === 'STUB' ? hunks.slice(0, -1) : hunks;
+        const newHunks = expandFromRawCode(hunksWithoutStub, rawCodeLines, start, end);
+        const newHunksWithStub = addStubHunk(newHunks, rawCodeLines);
+        this.setState({hunks: newHunksWithStub});
     }
 
     render() {
@@ -190,7 +132,17 @@ export default class File extends PureComponent {
         const widgets = this.computeWidgets(this.state);
 
         const renderHunk = (children, hunk) => {
-            const header = canExpand ? renderHunkHeader(children[children.length - 1], hunk) : undefined;
+            const previousElement = children[children.length - 1];
+            const header = canExpand
+                ? (
+                    <HunkHeader
+                        previousHunk={previousElement && previousElement.props.hunk}
+                        currentHunk={hunk}
+                        rawCodeLines={rawCodeLines}
+                        onExpand={this.loadCollapsedCode}
+                    />
+                )
+                : undefined;
             children.push(<Hunk key={hunk.content} hunk={hunk} header={header} />);
             return children;
         };

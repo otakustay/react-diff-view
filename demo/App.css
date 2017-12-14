@@ -63,17 +63,3 @@
     color: #999;
 }
 
-.unfold {
-    position: absolute;
-    fill: #000;
-    width: 8px;
-    height: 12px;
-    top: 50%;
-    left: 50%;
-    margin-top: -6px;
-    margin-left: -4px;
-}
-
-.diff-hunk-header-gutter:hover .unfold {
-    fill: #fff;
-}

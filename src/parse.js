@@ -1,4 +1,5 @@
 import parser from 'gitdiff-parser';
+import warning from 'warning';
 
 const zipChanges = changes => {
     const [result] = changes.reduce(
@@ -46,13 +47,37 @@ const mapFile = (file, options) => {
 };
 
 export const parseDiff = (text, options = {}) => {
+    warning(
+        !options.stubHunk,
+        'stubHunk options is deprecated, use addStubHunk function later to add a stub hunk, '
+        + 'this function can receive an extra referenceCodeOrLines argument to determine whether stub hunk is required'
+    );
+
     const files = parser.parse(text);
 
     return files.map(file => mapFile(file, options));
 };
 
-export const addStubHunk = hunks => {
+export const addStubHunk = (hunks, referenceCodeOrLines) => {
     if (!hunks || !hunks.length) {
+        return hunks;
+    }
+
+    const isStubRequired = (() => {
+        if (!referenceCodeOrLines) {
+            return true;
+        }
+
+        const linesOfCode = typeof referenceCodeOrLines === 'string'
+            ? referenceCodeOrLines.split('\n')
+            : referenceCodeOrLines;
+        const lastHunk = hunks[hunks.length - 1];
+        const lastLineNumber = lastHunk.oldStart + lastHunk.oldLines - 1;
+
+        return linesOfCode.length > lastLineNumber;
+    })();
+
+    if (!isStubRequired) {
         return hunks;
     }
 

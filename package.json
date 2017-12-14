@@ -17,7 +17,8 @@
     "gitdiff-parser": "0.0.7",
     "leven": "^2.1.0",
     "lodash.escape": "^4.0.1",
-    "lodash.mapvalues": "^4.6.0"
+    "lodash.mapvalues": "^4.6.0",
+    "warning": "^3.0.0"
   },
   "devDependencies": {
     "antd": "^2.13.11",

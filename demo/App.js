@@ -120,15 +120,15 @@ export default class App extends PureComponent {
                                 onClick={() => this.loadPreset('medium')}
                                 size="large"
                             >
-                                Medium preset (slow
-                            )</Button>
+                                Medium preset (slow)
+                            </Button>
                             <Button
                                 className="preset"
                                 onClick={() => this.loadPreset('large')}
                                 size="large"
                             >
-                                Large preset (very slow
-                            )</Button>
+                                Large preset (very slow)
+                            </Button>
                         </ButtonGroup>
                     </div>
                 </header>

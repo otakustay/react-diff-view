@@ -2,7 +2,8 @@ import {createSelector} from 'reselect';
 import {property, union} from 'lodash/fp';
 import {languages} from 'lang-map';
 import parsePath from 'path-parse';
-import {addStubHunk} from '../src';
+import {expandFromRawCode, addStubHunk} from '../src';
+import rawCode from './assets/CSSPropertyOperations.raw';
 
 export const createFilenameSelector = () => createSelector(
     property('type'), property('oldPath'), property('newPath'),
@@ -11,7 +12,7 @@ export const createFilenameSelector = () => createSelector(
 
 export const createCanExpandSelector = computeFilename => createSelector(
     computeFilename,
-    filename => filename === 'src/addons/link/ReactLink.js'
+    filename => filename === 'src/renderers/dom/shared/CSSPropertyOperations.js'
 );
 
 export const createCustomClassNamesSelector = computeFilename => createSelector(
@@ -50,7 +51,14 @@ export const createCustomEventsSelector = computeExpandable => createSelector(
 
 export const createRenderingHunksSelector = computeExpandable => createSelector(
     computeExpandable, property('hunks'),
-    (canExpand, hunks) => (canExpand ? addStubHunk(hunks) : hunks)
+    (canExpand, hunks) => {
+        if (canExpand) {
+            // Expand a normal section to demostrate util function
+            return addStubHunk(expandFromRawCode(hunks, rawCode, 18, 22));
+        }
+
+        return hunks;
+    }
 );
 
 export const createWidgetsSelector = createWidget => createSelector(
