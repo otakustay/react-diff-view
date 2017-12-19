@@ -49,54 +49,63 @@ const first = array => array[0];
 
 const last = array => array[array.length - 1];
 
-const isInHunk = (hunk, oldLineNumber) => {
-    const start = hunk.oldStart;
-    const end = hunk.oldStart + hunk.oldLines;
+const createIsInHunkFunction = (startProperty, linesProperty) => (hunk, lineNumber) => {
+    const start = hunk[startProperty];
+    const end = start + hunk[linesProperty];
 
-    return oldLineNumber >= start && oldLineNumber <= end;
+    return lineNumber >= start && lineNumber <= end;
 };
 
-const isBetweenHunks = (previousHunk, nextHunk, oldLineNumber) => {
-    const start = previousHunk.oldStart + previousHunk.oldLines;
+const createIsBetweenHunksFunction = (startProperty, linesProperty) => (previousHunk, nextHunk, lineNumber) => {
+    const start = previousHunk[startProperty] + previousHunk[linesProperty];
+    const end = nextHunk[startProperty];
 
-    if (!nextHunk) {
-        return oldLineNumber > start;
-    }
-
-    const end = nextHunk.oldStart;
-
-    return oldLineNumber > start  && oldLineNumber < end;
+    return lineNumber > start && lineNumber < end;
 };
 
-const getCorrespondingNewLineNumber = (hunks, oldLineNumber) => {
-    const firstHunk = first(hunks);
+const createCorrespondingLineNumberComputeFunction = baseSide => {
+    const anotherSide = baseSide === 'old' ? 'new' : 'old';
+    const baseStart = baseSide + 'Start';
+    const baseLines = baseSide + 'Lines';
+    const correspondingStart = anotherSide + 'Start';
+    const correspondingLines = anotherSide + 'Lines';
+    const isInHunk = createIsInHunkFunction(baseStart, baseLines);
+    const isBetweenHunks = createIsBetweenHunksFunction(baseStart, baseLines);
 
-    // Before first hunk
-    if (oldLineNumber < firstHunk.oldStart) {
-        const spanFromStart = firstHunk.oldStart - oldLineNumber;
-        return firstHunk.newStart - spanFromStart;
-    }
+    return (hunks, lineNumber) => {
+        const firstHunk = first(hunks);
 
-    // After last hunk, this can be done in `for` loop, just a quick return path
-    const lastHunk = last(hunks);
-    if (lastHunk.oldStart + lastHunk.oldLines <= oldLineNumber) {
-        const spanFromEnd = oldLineNumber - lastHunk.oldStart - lastHunk.oldLines;
-        return lastHunk.newStart + lastHunk.newLines + spanFromEnd;
-    }
-
-    for (let i = 0; i < hunks.length; i++) {
-        const currentHunk = hunks[i];
-        const nextHunk = hunks[i + 1];
-
-        // Within current hunk or between 2 hunks
-        if (isInHunk(currentHunk, oldLineNumber) || isBetweenHunks(currentHunk, nextHunk, oldLineNumber)) {
-            const spanFromEnd = oldLineNumber - currentHunk.oldStart - currentHunk.oldLines;
-            return currentHunk.newStart + currentHunk.newLines + spanFromEnd;
+        // Before first hunk
+        if (lineNumber < firstHunk[baseStart]) {
+            const spanFromStart = firstHunk[baseStart] - lineNumber;
+            return firstHunk[correspondingStart] - spanFromStart;
         }
-    }
 
-    throw new Error(`Unexpected line position ${oldLineNumber}`);
+        // After last hunk, this can be done in `for` loop, just a quick return path
+        const lastHunk = last(hunks);
+        if (lastHunk[baseStart] + lastHunk[baseLines] <= lineNumber) {
+            const spanFromEnd = lineNumber - lastHunk[baseStart] - lastHunk[baseLines];
+            return lastHunk[correspondingStart] + lastHunk[correspondingLines] + spanFromEnd;
+        }
+
+        for (let i = 0; i < hunks.length; i++) {
+            const currentHunk = hunks[i];
+            const nextHunk = hunks[i + 1];
+
+            // Within current hunk or between 2 hunks
+            if (isInHunk(currentHunk, lineNumber) || isBetweenHunks(currentHunk, nextHunk, lineNumber)) {
+                const spanFromEnd = lineNumber - currentHunk[baseStart] - currentHunk[baseLines];
+                return currentHunk[correspondingStart] + currentHunk[correspondingLines] + spanFromEnd;
+            }
+        }
+
+        throw new Error(`Unexpected line position ${lineNumber}`);
+    };
 };
+
+export const getCorrespondingOldLineNumber = createCorrespondingLineNumberComputeFunction('new');
+
+export const getCorrespondingNewLineNumber = createCorrespondingLineNumberComputeFunction('old');
 
 const sliceHunk = (hunk, startOldLineNumber, endOldLineNumber) => {
     const isInRange = change => {
