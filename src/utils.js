@@ -294,25 +294,26 @@ export const getCollapsedLinesCountBetween = (previousHunk, nextHunk) => {
 };
 
 export const expandCollapsedBlockBy = (hunks, rawCodeOrLines, predicate) => {
+    const linesOfCode = typeof rawCodeOrLines === 'string' ? rawCodeOrLines.split('\n') : rawCodeOrLines;
+    const firstHunk = first(hunks);
+    const initialExpandingBlocks = predicate(firstHunk.oldStart - 1, 1, 1) ? [[1, firstHunk.oldStart]] : [];
+
     const expandingBlocks = hunks.reduce(
         (expandingBlocks, currentHunk, index, hunks) => {
             const nextHunk = hunks[index + 1];
-
-            if (!nextHunk) {
-                return expandingBlocks;
-            }
-
             const oldStart = currentHunk.oldStart + currentHunk.oldLines;
             const newStart = currentHunk.newStart + currentHunk.newLines;
-            const lines = getCollapsedLinesCountBetween(currentHunk, nextHunk);
+            const lines = nextHunk
+                ? getCollapsedLinesCountBetween(currentHunk, nextHunk)
+                : linesOfCode.length - oldStart + 1;
             const shouldExpand = predicate(lines, oldStart, newStart);
 
             return shouldExpand ? [...expandingBlocks, [oldStart, oldStart + lines]] : expandingBlocks;
         },
-        []
+        initialExpandingBlocks
     );
 
-    return expandingBlocks.reduce((hunks, [start, end]) => expandFromRawCode(hunks, rawCodeOrLines, start, end), hunks);
+    return expandingBlocks.reduce((hunks, [start, end]) => expandFromRawCode(hunks, linesOfCode, start, end), hunks);
 };
 
 export const getChangeKey = ({isNormal, isInsert, lineNumber, oldLineNumber}) => {

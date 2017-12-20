@@ -10,9 +10,9 @@ const HunkHeader = ({previousHunk, currentHunk, rawCodeLines, onExpand}) => {
         return (
             <div>
                 <Whether matches={collapsedLines > 10}>
-                    <Unfold direction="none" start={nextStart} end={rawCodeLines.length + 1} onExpand={onExpand} />
+                    <Unfold direction="down" start={nextStart} end={nextStart + 10} onExpand={onExpand} />
                 </Whether>
-                <Unfold direction="down" start={nextStart} end={nextStart + 10} onExpand={onExpand} />
+                <Unfold direction="none" start={nextStart} end={rawCodeLines.length + 1} onExpand={onExpand} />
             </div>
         );
     }
@@ -28,10 +28,10 @@ const HunkHeader = ({previousHunk, currentHunk, rawCodeLines, onExpand}) => {
 
         return (
             <div>
+                <Unfold direction="none" start={1} end={currentHunk.oldStart} onExpand={onExpand} />
                 <Whether matches={collapsedLines > 10}>
-                    <Unfold direction="none" start={1} end={currentHunk.oldStart} onExpand={onExpand} />
+                    <Unfold direction="up" start={start} end={currentHunk.oldStart} onExpand={onExpand} />
                 </Whether>
-                <Unfold direction="up" start={start} end={currentHunk.oldStart} onExpand={onExpand} />
             </div>
         );
     }
