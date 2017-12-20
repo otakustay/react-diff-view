@@ -69,6 +69,8 @@ const createCorrespondingLineNumberComputeFunction = baseSide => {
     const baseLines = baseSide + 'Lines';
     const correspondingStart = anotherSide + 'Start';
     const correspondingLines = anotherSide + 'Lines';
+    const baseLineNumber = baseSide === 'old' ? computeOldLineNumber : computeNewLineNumber;
+    const correspondingLineNumber = baseSide === 'old' ? computeOldLineNumber : computeNewLineNumber;
     const isInHunk = createIsInHunkFunction(baseStart, baseLines);
     const isBetweenHunks = createIsBetweenHunksFunction(baseStart, baseLines);
 
@@ -92,8 +94,37 @@ const createCorrespondingLineNumberComputeFunction = baseSide => {
             const currentHunk = hunks[i];
             const nextHunk = hunks[i + 1];
 
-            // Within current hunk or between 2 hunks
-            if (isInHunk(currentHunk, lineNumber) || isBetweenHunks(currentHunk, nextHunk, lineNumber)) {
+            // Within current hunk
+            if (isInHunk(currentHunk, lineNumber)) {
+                const changeIndex = currentHunk.changes.findIndex(change => baseLineNumber(change) === lineNumber);
+                const change = currentHunk.changes[changeIndex];
+
+                if (change.isNormal) {
+                    return correspondingLineNumber(change);
+                }
+
+                // For changes of type "insert" and "delete", the sibling change can be the corresponding one,
+                // or they can have no corresponding change
+                //
+                // Git diff always put delete change before insert change
+                //
+                // Note that `nearbySequences: "zip"` option can affect this function
+                const possibleCorrespondingChangeIndex = change.isDelete ? changeIndex + 1 : changeIndex - 1;
+                const possibleCorrespondingChange = currentHunk.changes[possibleCorrespondingChangeIndex];
+
+                if (!possibleCorrespondingChange) {
+                    return -1;
+                }
+
+                const negativeChangeType = change.isInsert ? 'delete' : 'insert';
+
+                return possibleCorrespondingChange.type === negativeChangeType
+                    ? correspondingLineNumber(possibleCorrespondingChange)
+                    : -1;
+            }
+
+            // Between 2 hunks
+            if (isBetweenHunks(currentHunk, nextHunk, lineNumber)) {
                 const spanFromEnd = lineNumber - currentHunk[baseStart] - currentHunk[baseLines];
                 return currentHunk[correspondingStart] + currentHunk[correspondingLines] + spanFromEnd;
             }
