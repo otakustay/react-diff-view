@@ -16,6 +16,7 @@ A git diff component to consume the git unified diff output.
 - Extensible widget architecture to support code commenting and various requirements.
 - External syntax highlight support in an easy way.
 - Customizable events and styles.
+- A bunch of utility function to manipulate diff structure if source text is provided.
 
 Run `npm start` to enjoy a full featured demo with diff display, collapsed code expansion, code comment and large diff lazy load.
 
@@ -333,7 +334,7 @@ class File extends PureComponent {
 
 ### Syntax highlight
 
-As a minimum core component, `react-diff-component` itself does not provide any highlight functions, however the `onRenderCode` prop will be called each time a line of code is rendered, this can be used to enable code highlight.
+As a minimum core component, `react-diff-view` itself does not provide any highlight functions, however the `onRenderCode` prop will be called each time a line of code is rendered, this can be used to enable code highlight.
 
 The `onRenderCode` callback prop receives two elements: a `<td>` DOM element and its corresponding `change` object, the code is already rendered in the `<td>` element, you can simply call any syntax highlight library to highlight the code.
 
@@ -385,13 +386,27 @@ class File extends PureComponent {
 
 ### Utilities
 
-`react-diff-component` comes with some utility functions to help simplify common issues:
+`react-diff-view` comes with some utility functions to help simplify common issues:
 
 - `{Hunk[]} addStubHunk({Hunk[]} hunks)`: Adds a stub hunk (with no actual changes) to the end of `hunks`, this is useful when you want to expand code after the last line of diff.
 - `{number} computeOldLineNumber({Change} change)`: Compute the line number in old revision for a change, returns `-1` on insert changes.
 - `{number} computeNewLineNumber({Change} change)`: Compute the line number in new revision for a change, returns `-1` on delete changes.
 - `{Hunk} textLinesToHunk({string[]} lines, {number} oldStartLineNumber, {number} newStartLineNumber)`: Create a hunk with all normal changes, this is useful when expanding code between two hunks.
 - `{Hunk[]} insertHunk({Hunk[]} hunks, {Hunk} insertion)`: Insert a new hunk into the original list, it will merge sibling hunks if possible, useful for expanding code.
+- `{number} computeCorrespondingOldLineNumber({Hunk[]} hunks, {number} newLineNumber)`: Get the corresponding old line number by a line number on the new side. This function returns `-1` when no corresponding line exists (pure insert and delete changes).
+- `{number} computeCorrespondingNewLineNumber({Hunk[]} hunks, {number} oldLineNumber)`: Opposite to `computeCorrespondingOldLineNumber` function.
+- `{Change} findChangeByOldLineNumber({Hunk[]} hunks, {number} oldLineNumber)`: Find the change by a line number on the old side, if none is found, returns `undefined`.
+- `{Change} findChangeByNewLineNumber({Hunk[]} hunks, {number} newLineNumber)`: Opposite to `findChangeByNewLineNumber` function.
+- `{number} getCollapsedLinesCountBetween({Hunk} previousHunk, {Hunk} nextHunk)`: Get the count of collapsed line between given sibling hunks.
+
+
+### Enjoy more with raw text provided
+
+Once you can provide a `rawCodeOrLines` object (which can be a string, or an array of lines of code), there are many more utility function you can use to help organize hunks:
+
+- `{Hunk[]} expandFromRawCode({Hunk[]} hunks, {string|string[]} rawCodeOrLines, {number} start, {number} end)`: Create a hunk from source code slicing from `start` to `end`, then insert this hunk into `hunks`, merging with existing hunks are automatically done.
+- `{Hunk[]} addStubHunk({Hunk[]} hunks, {string|string[]} referenceRawCodeOrLines)`: This is an overload of `addStubHunk` function, once you provide the second `referenceRawCodeOrLines`, the stub hunk will only be appended when there are more code after the last hunk.
+- `{Hunk[]} expandCollapsedBlockBy({Hunk[]} hunks, {string|string[]} rawCodeOrLines, {Function} predicate)`: Iterate over all collapsed block (lines between 2 hunks) and expand those with `predicate` returns `true`. The `predicate` function receives `({number} lines, {number} oldStart, {number} newStart)` as arguments.
 
 ## Unsupported
 
