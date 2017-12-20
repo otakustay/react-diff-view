@@ -63,6 +63,27 @@ const createIsBetweenHunksFunction = (startProperty, linesProperty) => (previous
     return lineNumber > start && lineNumber < end;
 };
 
+const createFindChangeByLineNumberFunction = side => {
+    const computeLineNumber = side === 'old' ? computeOldLineNumber : computeNewLineNumber;
+    const startProperty = side + 'Start';
+    const linesProperty = side + 'Lines';
+    const isInHunk = createIsInHunkFunction(startProperty, linesProperty);
+
+    return (hunks, lineNumber) => {
+        const containerHunk = hunks.find(hunk => isInHunk(hunk, lineNumber));
+
+        if (!containerHunk) {
+            return undefined;
+        }
+
+        return containerHunk.changes.find(change => computeLineNumber(change) === lineNumber);
+    };
+};
+
+export const findChangeByOldLineNumber = createFindChangeByLineNumberFunction('old');
+
+export const findChangeByNewLineNumber = createFindChangeByLineNumberFunction('new');
+
 const createCorrespondingLineNumberComputeFunction = baseSide => {
     const anotherSide = baseSide === 'old' ? 'new' : 'old';
     const baseStart = baseSide + 'Start';
