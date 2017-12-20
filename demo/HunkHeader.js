@@ -1,10 +1,25 @@
 import {Whether} from 'react-whether';
+import {getCollapsedLinesCountBetween} from '../src';
 import Unfold from './Unfold';
 
 const HunkHeader = ({previousHunk, currentHunk, rawCodeLines, onExpand}) => {
-    if (!previousHunk) {
-        const collapsedLines = currentHunk.oldStart - 1;
+    if (currentHunk.content === 'STUB') {
+        const nextStart = currentHunk.oldStart + currentHunk.oldLines;
+        const collapsedLines = rawCodeLines.length - nextStart + 1;
 
+        return (
+            <div>
+                <Whether matches={collapsedLines > 10}>
+                    <Unfold direction="none" start={nextStart} end={rawCodeLines.length + 1} onExpand={onExpand} />
+                </Whether>
+                <Unfold direction="down" start={nextStart} end={nextStart + 10} onExpand={onExpand} />
+            </div>
+        );
+    }
+
+    const collapsedLines = getCollapsedLinesCountBetween(previousHunk, currentHunk);
+
+    if (!previousHunk) {
         if (!collapsedLines) {
             return null;
         }
@@ -21,23 +36,8 @@ const HunkHeader = ({previousHunk, currentHunk, rawCodeLines, onExpand}) => {
         );
     }
 
-    if (currentHunk.content === 'STUB') {
-        const nextStart = currentHunk.oldStart + currentHunk.oldLines;
-        const collapsedLines = rawCodeLines.length - nextStart + 1;
-
-        return (
-            <div>
-                <Whether matches={collapsedLines > 10}>
-                    <Unfold direction="none" start={nextStart} end={rawCodeLines.length + 1} onExpand={onExpand} />
-                </Whether>
-                <Unfold direction="down" start={nextStart} end={nextStart + 10} onExpand={onExpand} />
-            </div>
-        );
-    }
-
     const collapsedStart = previousHunk.oldStart + previousHunk.oldLines;
     const collapsedEnd = currentHunk.oldStart;
-    const collapsedLines = collapsedEnd - collapsedStart - 1;
 
     if (collapsedLines < 10) {
         return (

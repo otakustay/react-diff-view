@@ -2,7 +2,7 @@ import {createSelector} from 'reselect';
 import {property, union} from 'lodash/fp';
 import {languages} from 'lang-map';
 import parsePath from 'path-parse';
-import {expandFromRawCode, addStubHunk} from '../src';
+import {expandFromRawCode, addStubHunk, expandCollapsedBlockBy} from '../src';
 import rawCode from './assets/CSSPropertyOperations.raw';
 
 export const createFilenameSelector = () => createSelector(
@@ -54,7 +54,13 @@ export const createRenderingHunksSelector = computeExpandable => createSelector(
     (canExpand, hunks) => {
         if (canExpand) {
             // Expand a normal section to demostrate util function
-            return addStubHunk(expandFromRawCode(hunks, rawCode, 18, 22));
+            return addStubHunk(
+                expandCollapsedBlockBy(
+                    expandFromRawCode(hunks, rawCode, 18, 22),
+                    rawCode,
+                    lines => lines <= 10
+                )
+            );
         }
 
         return hunks;
