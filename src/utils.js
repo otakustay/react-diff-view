@@ -53,14 +53,14 @@ const createIsInHunkFunction = (startProperty, linesProperty) => (hunk, lineNumb
     const start = hunk[startProperty];
     const end = start + hunk[linesProperty];
 
-    return lineNumber >= start && lineNumber <= end;
+    return lineNumber >= start && lineNumber < end;
 };
 
 const createIsBetweenHunksFunction = (startProperty, linesProperty) => (previousHunk, nextHunk, lineNumber) => {
     const start = previousHunk[startProperty] + previousHunk[linesProperty];
     const end = nextHunk[startProperty];
 
-    return lineNumber > start && lineNumber < end;
+    return lineNumber >= start && lineNumber < end;
 };
 
 const createFindChangeByLineNumberFunction = side => {
