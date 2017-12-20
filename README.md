@@ -457,3 +457,14 @@ I don't really know how to test such a complicated and UI centric component, any
 ### 1.3.2
 
 - Update `gitdiff-parser` to fix an issue with whitespace in filename.
+
+### 1.4.0
+
+- Add `expandFromRawCode` function to create hunks from source code.
+- Make `insertHunk` work when hunks have overlaps.
+- Add `referenceRawCodeOrLines` parameter to `addStubHunk` function to automatically determineswhether a stub hunk is required.
+- Add `computeCorresponding(Old|New)LineNumber` functions to get corresponding line number from one side to another side.
+- Add `findChangeBy(Old|New)LineNumber` functions to find specific change in hunks.
+- Add `getCollapsedLinesCountBetween` function to count collapsed lines between two hunks.
+- Add `expandCollapsedBlockBy` function to expand collapsed blocks from a predicate function.
+- `stubHunk` option on `parse` function is deprecated.
