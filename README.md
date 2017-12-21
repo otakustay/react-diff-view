@@ -468,3 +468,7 @@ I don't really know how to test such a complicated and UI centric component, any
 - Add `getCollapsedLinesCountBetween` function to count collapsed lines between two hunks.
 - Add `expandCollapsedBlockBy` function to expand collapsed blocks from a predicate function.
 - `stubHunk` option on `parse` function is deprecated.
+
+### 1.4.1
+
+- Fix an edge case in `sliceHunk`.
