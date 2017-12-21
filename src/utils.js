@@ -91,7 +91,7 @@ const createCorrespondingLineNumberComputeFunction = baseSide => {
     const correspondingStart = anotherSide + 'Start';
     const correspondingLines = anotherSide + 'Lines';
     const baseLineNumber = baseSide === 'old' ? computeOldLineNumber : computeNewLineNumber;
-    const correspondingLineNumber = baseSide === 'old' ? computeOldLineNumber : computeNewLineNumber;
+    const correspondingLineNumber = baseSide === 'old' ? computeNewLineNumber : computeOldLineNumber;
     const isInHunk = createIsInHunkFunction(baseStart, baseLines);
     const isBetweenHunks = createIsBetweenHunksFunction(baseStart, baseLines);
 
@@ -176,6 +176,10 @@ const sliceHunk = (hunk, startOldLineNumber, endOldLineNumber) => {
         [true, []]
     );
 
+    if (!slicedChanges.length) {
+        return null;
+    }
+
     const firstChange = first(slicedChanges);
     const oldStart = computeOldLineNumber(firstChange);
     const newStart = computeNewLineNumber(firstChange);
@@ -195,6 +199,14 @@ const sliceHunk = (hunk, startOldLineNumber, endOldLineNumber) => {
 };
 
 const mergeHunk = (previousHunk, nextHunk) => {
+    if (!previousHunk) {
+        return nextHunk;
+    }
+
+    if (!nextHunk) {
+        return previousHunk;
+    }
+
     const previousStart = computeOldLineNumber(first(previousHunk.changes));
     const previousEnd = computeOldLineNumber(last(previousHunk.changes));
     const nextStart = computeOldLineNumber(first(nextHunk.changes));
