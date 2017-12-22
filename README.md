@@ -476,3 +476,7 @@ I don't really know how to test such a complicated and UI centric component, any
 ### 1.4.2
 
 - Update `gitdiff-parser` to fix an issue when there is only one line in diff.
+
+### 1.4.3
+
+- Fix an issue where `sliceHunk` function will remove all insert changes in slice range.
