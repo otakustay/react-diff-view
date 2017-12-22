@@ -160,8 +160,11 @@ export const getCorrespondingOldLineNumber = createCorrespondingLineNumberComput
 export const getCorrespondingNewLineNumber = createCorrespondingLineNumberComputeFunction('old');
 
 const sliceHunk = (hunk, startOldLineNumber, endOldLineNumber) => {
+    const singleHunkArray = [hunk];
     const isInRange = change => {
-        const oldLineNumber = computeOldLineNumber(change);
+        const oldLineNumber = change.isInsert
+            ? getCorrespondingOldLineNumber(singleHunkArray, change.lineNumber)
+            : computeOldLineNumber(change);
         return oldLineNumber >= startOldLineNumber
             && (endOldLineNumber === undefined || oldLineNumber < endOldLineNumber);
     };
