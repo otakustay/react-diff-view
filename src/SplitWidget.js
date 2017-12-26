@@ -23,7 +23,7 @@ const SplitWidget = ({oldElement, newElement, monotonous}) => {
 
     return (
         <tr className="diff-widget">
-            <td colSpan={2} className="diff-widget-gutter">
+            <td colSpan={2} className="diff-widget-content">
                 {oldElement}
             </td>
             <td colSpan={2} className="diff-widget-content">

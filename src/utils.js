@@ -1,5 +1,10 @@
 import leven from 'leven';
 import {diffChars, diffWordsWithSpace} from 'diff';
+import findLastIndex from 'lodash.findlastindex';
+
+const first = array => array[0];
+
+const last = array => array[array.length - 1];
 
 export const computeOldLineNumber = ({isNormal, isInsert, lineNumber, oldLineNumber}) => {
     if (isInsert) {
@@ -17,37 +22,68 @@ export const computeNewLineNumber = ({isNormal, isDelete, lineNumber, newLineNum
     return isNormal ? newLineNumber : lineNumber;
 };
 
-export const textLinesToHunk = (lines, oldStartLineNumber, newStartLineNumber) => {
-    const changes = lines.reduce(
-        (changes, line, i) => {
-            const change = {
-                type: 'normal',
-                isNormal: true,
-                oldLineNumber: oldStartLineNumber + i,
-                newLineNumber: newStartLineNumber + i,
-                content: '' + line
-            };
-            changes.push(change);
-            return changes;
+const createHunkFromChanges = changes => {
+    if (!changes.length) {
+        return null;
+    }
+
+    const initial = {
+        isTextHunk: true,
+        content: '',
+        oldStart: -1,
+        oldLines: 0,
+        newStart: -1,
+        newLines: 0
+    };
+    const hunk = changes.reduce(
+        (hunk, change) => {
+            if (!change.isNormal) {
+                hunk.isTextHunk = false;
+            }
+
+            if (!change.isInsert) {
+                hunk.oldLines = hunk.oldLines + 1;
+
+                if (hunk.oldStart === -1) {
+                    hunk.oldStart = computeOldLineNumber(change);
+                }
+            }
+
+            if (!change.isDelete) {
+                hunk.newLines = hunk.newLines + 1;
+
+                if (hunk.newStart === -1) {
+                    hunk.newStart = computeNewLineNumber(change);
+                }
+            }
+
+            return hunk;
         },
-        []
+        initial
     );
-    const changeLength = changes.length;
+    const {oldStart, oldLines, newStart, newLines} = hunk;
 
     return {
-        isTextHunk: true,
-        content: `@@ -${oldStartLineNumber},${changeLength} +${newStartLineNumber},${changeLength}`,
-        oldStart: oldStartLineNumber,
-        oldLines: changeLength,
-        newStart: newStartLineNumber,
-        newLines: changeLength,
+        ...hunk,
+        content: `@@ -${oldStart},${oldLines} +${newStart},${newLines}`,
         changes: changes
     };
 };
 
-const first = array => array[0];
+export const textLinesToHunk = (lines, oldStartLineNumber, newStartLineNumber) => {
+    const lineToChange = (line, i) => {
+        return {
+            type: 'normal',
+            isNormal: true,
+            oldLineNumber: oldStartLineNumber + i,
+            newLineNumber: newStartLineNumber + i,
+            content: '' + line
+        };
+    };
+    const changes = lines.map(lineToChange);
 
-const last = array => array[array.length - 1];
+    return createHunkFromChanges(changes);
+};
 
 const createIsInHunkFunction = (startProperty, linesProperty) => (hunk, lineNumber) => {
     const start = hunk[startProperty];
@@ -63,14 +99,22 @@ const createIsBetweenHunksFunction = (startProperty, linesProperty) => (previous
     return lineNumber >= start && lineNumber < end;
 };
 
-const createFindChangeByLineNumberFunction = side => {
-    const computeLineNumber = side === 'old' ? computeOldLineNumber : computeNewLineNumber;
+const createFindContainerHunkFunction = side => {
     const startProperty = side + 'Start';
     const linesProperty = side + 'Lines';
     const isInHunk = createIsInHunkFunction(startProperty, linesProperty);
 
+    return (hunks, lineNumber) => hunks.find(hunk => isInHunk(hunk, lineNumber));
+};
+
+const findContainerHunkByOldLineNumber = createFindContainerHunkFunction('old');
+
+const createFindChangeByLineNumberFunction = side => {
+    const computeLineNumber = side === 'old' ? computeOldLineNumber : computeNewLineNumber;
+    const findContainerHunk = createFindContainerHunkFunction(side);
+
     return (hunks, lineNumber) => {
-        const containerHunk = hunks.find(hunk => isInHunk(hunk, lineNumber));
+        const containerHunk = findContainerHunk(hunks, lineNumber);
 
         if (!containerHunk) {
             return undefined;
@@ -160,45 +204,22 @@ export const getCorrespondingOldLineNumber = createCorrespondingLineNumberComput
 export const getCorrespondingNewLineNumber = createCorrespondingLineNumberComputeFunction('old');
 
 const sliceHunk = (hunk, startOldLineNumber, endOldLineNumber) => {
-    const singleHunkArray = [hunk];
-    const isInRange = change => {
-        const oldLineNumber = change.isInsert
-            ? getCorrespondingOldLineNumber(singleHunkArray, change.lineNumber)
-            : computeOldLineNumber(change);
-        return oldLineNumber >= startOldLineNumber
-            && (endOldLineNumber === undefined || oldLineNumber < endOldLineNumber);
-    };
-    const [isTextHunk, slicedChanges] = hunk.changes.reduce(
-        ([isTextHunk, changes], change) => {
-            if (isInRange(change)) {
-                changes.push(change);
-            }
+    const startIndex = hunk.changes.findIndex(change => computeOldLineNumber(change) >= startOldLineNumber);
 
-            return [isTextHunk && !change.isNormal, changes];
-        },
-        [true, []]
-    );
-
-    if (!slicedChanges.length) {
+    if (startIndex === -1) {
         return null;
     }
 
-    const firstChange = first(slicedChanges);
-    const oldStart = computeOldLineNumber(firstChange);
-    const newStart = computeNewLineNumber(firstChange);
-    const lastChange = last(slicedChanges);
-    const oldEnd = computeOldLineNumber(lastChange);
-    const newEnd = computeNewLineNumber(lastChange);
+    if (endOldLineNumber === undefined) {
+        const slicedChanges = hunk.changes.slice(startIndex);
 
-    return {
-        isTextHunk: isTextHunk,
-        content: 'SLICED',
-        oldStart: oldStart,
-        oldLines: oldEnd - oldStart + 1,
-        newStart: newStart,
-        newLines: newEnd - newStart + 1,
-        changes: slicedChanges
-    };
+        return createHunkFromChanges(slicedChanges);
+    }
+
+    const endIndex = findLastIndex(hunk.changes, change => computeOldLineNumber(change) <= endOldLineNumber);
+    const slicedChanges = hunk.changes.slice(startIndex, endIndex === -1 ? undefined : endIndex);
+
+    return createHunkFromChanges(slicedChanges);
 };
 
 const mergeHunk = (previousHunk, nextHunk) => {
@@ -250,14 +271,10 @@ const appendOrMergeHunk = (hunks, nextHunk) => {
         return [nextHunk];
     }
 
-    const previousChange = last(lastHunk.changes);
-    const nextChange = first(nextHunk.changes);
+    const expectedNextStart = lastHunk.oldStart + lastHunk.oldLines;
+    const actualNextStart = nextHunk.oldStart;
 
-    if (!previousChange || !nextChange) {
-        return hunks.concat(nextHunk);
-    }
-
-    if (computeOldLineNumber(previousChange) + 1 < computeOldLineNumber(nextChange)) {
+    if (expectedNextStart < actualNextStart) {
         return hunks.concat(nextHunk);
     }
 
@@ -280,16 +297,44 @@ export const insertHunk = (hunks, insertion) => {
     return hunksWithInsertion.reduce(appendOrMergeHunk, []);
 };
 
+const adjustStartToNormalChange = (hunks, start) => {
+    const hunk = findContainerHunkByOldLineNumber(hunks, start);
+
+    if (!hunk) {
+        return start;
+    }
+
+    const {changes} = hunk;
+    const index = changes.findIndex(change => computeOldLineNumber(change) === start);
+
+    for (let i = index; i < changes.length; i++) {
+        const change = changes[i];
+
+        if (change.isNormal) {
+            return computeOldLineNumber(change);
+        }
+    }
+
+    throw new Error(`There is no nearby normal change after line ${start} in hunks`);
+};
+
 export const expandFromRawCode = (hunks, rawCodeOrLines, start, end) => {
+    // It is not possible to  slice from a normal change since there is no corresponding new line number.
+    //
+    // In this case, we need to find the nearest subsequent normal change and start from there.
+    //
+    // The issue does not apply to `end` because we need only a `newStart` property in hunk object.
+    const adjustedStart = adjustStartToNormalChange(hunks, start);
+
     // Note `end` is not inclusive, this is the same as `Array.prototype.slice` method
     const linesOfCode = typeof rawCodeOrLines === 'string' ? rawCodeOrLines.split('\n') : rawCodeOrLines;
-    const slicedLines = linesOfCode.slice(Math.max(start, 1) - 1, end - 1);
+    const slicedLines = linesOfCode.slice(Math.max(adjustedStart, 1) - 1, end - 1);
 
     if (!slicedLines.length) {
         return hunks;
     }
 
-    const slicedHunk = textLinesToHunk(slicedLines, start, getCorrespondingNewLineNumber(hunks, start));
+    const slicedHunk = textLinesToHunk(slicedLines, adjustedStart, getCorrespondingNewLineNumber(hunks, adjustedStart));
     return insertHunk(hunks, slicedHunk);
 };
 
@@ -331,7 +376,13 @@ export const expandCollapsedBlockBy = (hunks, rawCodeOrLines, predicate) => {
     return expandingBlocks.reduce((hunks, [start, end]) => expandFromRawCode(hunks, linesOfCode, start, end), hunks);
 };
 
-export const getChangeKey = ({isNormal, isInsert, lineNumber, oldLineNumber}) => {
+export const getChangeKey = hunk => {
+    if (!hunk) {
+        throw new Error('hunk is not provided');
+    }
+
+    const {isNormal, isInsert, lineNumber, oldLineNumber} = hunk;
+
     if (isNormal) {
         return 'N' + oldLineNumber;
     }

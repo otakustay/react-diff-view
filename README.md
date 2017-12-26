@@ -289,7 +289,6 @@ You can override styles on certian css classes to customize the appearance of `r
 - `diff-code-selected`: Code of a selected change.
 - `diff-code-edit`: Edits on a line of code.
 - `diff-widget`: The `<tr>` element to render widget.
-- `diff-widget-gutter`: The first `<td>` element when widget is rendered in 2 cells.
 - `diff-widget-content`: The `<td>` element to render widget content.
 
 You can pass `className` prop to `Diff` component to add custom class to the `<table>` element.
