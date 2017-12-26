@@ -22,6 +22,8 @@ export const computeNewLineNumber = ({isNormal, isDelete, lineNumber, newLineNum
     return isNormal ? newLineNumber : lineNumber;
 };
 
+const getOldRangeFromHunk = ({oldStart, oldLines}) => [oldStart, oldStart + oldLines + 1];
+
 const createHunkFromChanges = changes => {
     if (!changes.length) {
         return null;
@@ -231,10 +233,8 @@ const mergeHunk = (previousHunk, nextHunk) => {
         return previousHunk;
     }
 
-    const previousStart = computeOldLineNumber(first(previousHunk.changes));
-    const previousEnd = computeOldLineNumber(last(previousHunk.changes));
-    const nextStart = computeOldLineNumber(first(nextHunk.changes));
-    const nextEnd = computeOldLineNumber(last(nextHunk.changes));
+    const [previousStart, previousEnd] = getOldRangeFromHunk(previousHunk);
+    const [nextStart, nextEnd] = getOldRangeFromHunk(nextHunk);
 
     // They are just neighboring, simply concat changes and adjust lines count
     if (previousEnd + 1 === nextStart) {
