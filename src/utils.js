@@ -22,7 +22,7 @@ export const computeNewLineNumber = ({isNormal, isDelete, lineNumber, newLineNum
     return isNormal ? newLineNumber : lineNumber;
 };
 
-const getOldRangeFromHunk = ({oldStart, oldLines}) => [oldStart, oldStart + oldLines + 1];
+const getOldRangeFromHunk = ({oldStart, oldLines}) => [oldStart, oldStart + oldLines - 1];
 
 const createHunkFromChanges = changes => {
     if (!changes.length) {
