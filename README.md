@@ -479,3 +479,8 @@ I don't really know how to test such a complicated and UI centric component, any
 ### 1.4.3
 
 - Fix an issue where `sliceHunk` function will remove all insert changes in slice range.
+
+### 1.4.4
+
+- Improve `expandFromRawCode` function to support start from a delete change.
+- Simplified `sliceHunk` internal function to have a more stable behavior.
