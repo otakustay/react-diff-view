@@ -488,3 +488,7 @@ I don't really know how to test such a complicated and UI centric component, any
 ### 1.4.5
 
 - Fix an issue where hunks with insert changes at tail will fail to merge.
+
+### 1.4.6
+
+- Fix a bug computing end line of a hunk
