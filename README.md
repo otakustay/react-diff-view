@@ -484,3 +484,7 @@ I don't really know how to test such a complicated and UI centric component, any
 
 - Improve `expandFromRawCode` function to support start from a delete change.
 - Simplified `sliceHunk` internal function to have a more stable behavior.
+
+### 1.4.5
+
+- Fix an issue where hunks with insert changes at tail will fail to merge.
