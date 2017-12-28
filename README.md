@@ -492,3 +492,8 @@ I don't really know how to test such a complicated and UI centric component, any
 ### 1.4.6
 
 - Fix a bug computing end line of a hunk
+
+### 1.4.7
+
+- Fix a bug where isTextHunk property get the wrong value when merged.
+- Fix a bug where code expanding range includes insert or delete change results incorrect hunks.
