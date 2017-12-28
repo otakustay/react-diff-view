@@ -240,6 +240,7 @@ const mergeHunk = (previousHunk, nextHunk) => {
     if (previousEnd + 1 === nextStart) {
         return {
             ...previousHunk,
+            isTextHunk: previousHunk.isTextHunk && nextHunk.isTextHunk,
             oldLines: previousHunk.oldLines + nextHunk.oldLines,
             newLines: previousHunk.newLines + nextHunk.newLines,
             changes: [...previousHunk.changes, ...nextHunk.changes]
@@ -248,7 +249,11 @@ const mergeHunk = (previousHunk, nextHunk) => {
 
     // It is possible that `previousHunk` entirely **contains** `nextHunk`,
     // and if `nextHunk` is not a fake one, we need to replace `nextHunk`'s corresponding range
-    if (previousStart <= nextStart && previousEnd >= nextEnd && !nextHunk.isTextHunk) {
+    if (previousStart <= nextStart && previousEnd >= nextEnd) {
+        if (nextHunk.isTextHunk) {
+            return previousHunk;
+        }
+
         const head = sliceHunk(previousHunk, previousStart, nextStart);
         const tail = sliceHunk(previousHunk, nextEnd + 1);
         return mergeHunk(mergeHunk(head, nextHunk), tail);
