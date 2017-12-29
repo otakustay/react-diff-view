@@ -126,7 +126,7 @@ const findCorrespondingValidHunkIndex = (hunks, oldLineNumber) => {
     for (let i = 1; i < hunks.length; i++) {
         const currentHunk = hunks[i];
 
-        if (isOldLineNumberInHunk(currentHunk)) {
+        if (isOldLineNumberInHunk(currentHunk, oldLineNumber)) {
             return i;
         }
 
