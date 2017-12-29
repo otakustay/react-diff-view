@@ -497,3 +497,7 @@ I don't really know how to test such a complicated and UI centric component, any
 
 - Fix a bug where isTextHunk property get the wrong value when merged.
 - Fix a bug where code expanding range includes insert or delete change results incorrect hunks.
+
+### 1.4.8
+
+- Fix a bug missing argument to compute valid expand ranges.
