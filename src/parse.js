@@ -33,6 +33,7 @@ const mapHunk = (hunk, options) => {
 
     return {
         ...hunk,
+        isPlain: false,
         changes: changes
     };
 };

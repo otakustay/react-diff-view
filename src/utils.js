@@ -30,7 +30,7 @@ const createHunkFromChanges = changes => {
     }
 
     const initial = {
-        isTextHunk: true,
+        isPlain: true,
         content: '',
         oldStart: -1,
         oldLines: 0,
@@ -40,7 +40,7 @@ const createHunkFromChanges = changes => {
     const hunk = changes.reduce(
         (hunk, change) => {
             if (!change.isNormal) {
-                hunk.isTextHunk = false;
+                hunk.isPlain = false;
             }
 
             if (!change.isInsert) {
@@ -267,19 +267,13 @@ const mergeHunk = (previousHunk, nextHunk) => {
 
     // They are just neighboring, simply concat changes and adjust lines count
     if (previousEnd + 1 === nextStart) {
-        return {
-            ...previousHunk,
-            isTextHunk: previousHunk.isTextHunk && nextHunk.isTextHunk,
-            oldLines: previousHunk.oldLines + nextHunk.oldLines,
-            newLines: previousHunk.newLines + nextHunk.newLines,
-            changes: [...previousHunk.changes, ...nextHunk.changes]
-        };
+        return createHunkFromChanges([...previousHunk.changes, ...nextHunk.changes]);
     }
 
     // It is possible that `previousHunk` entirely **contains** `nextHunk`,
     // and if `nextHunk` is not a fake one, we need to replace `nextHunk`'s corresponding range
     if (previousStart <= nextStart && previousEnd >= nextEnd) {
-        if (nextHunk.isTextHunk) {
+        if (nextHunk.isPlain) {
             return previousHunk;
         }
 
@@ -289,7 +283,7 @@ const mergeHunk = (previousHunk, nextHunk) => {
     }
 
     // The 2 hunks have some overlapping, we need to slice the fake one in order to preserve non-normal changes
-    if (previousHunk.isTextHunk) {
+    if (previousHunk.isPlain) {
         const head = sliceHunk(previousHunk, previousStart, nextStart);
         return mergeHunk(head, nextHunk);
     }
