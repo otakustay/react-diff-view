@@ -501,3 +501,8 @@ I don't really know how to test such a complicated and UI centric component, any
 ### 1.4.8
 
 - Fix a bug missing argument to compute valid expand ranges.
+
+### 1.4.9
+
+- Fix incorrect content property on custom hunks.
+- Fix a bug where edge insert changes can be omitted when merge.
