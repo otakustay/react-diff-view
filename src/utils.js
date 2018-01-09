@@ -234,21 +234,32 @@ export const getCorrespondingOldLineNumber = createCorrespondingLineNumberComput
 
 export const getCorrespondingNewLineNumber = createCorrespondingLineNumberComputeFunction('old');
 
-const sliceHunk = (hunk, startOldLineNumber, endOldLineNumber) => {
-    const startIndex = hunk.changes.findIndex(change => computeOldLineNumber(change) >= startOldLineNumber);
+const sliceHunk = ({changes}, startOldLineNumber, endOldLineNumber) => {
+    const changeIndex = changes.findIndex(change => computeOldLineNumber(change) >= startOldLineNumber);
 
-    if (startIndex === -1) {
+    if (changeIndex === -1) {
         return null;
     }
 
+    // It is possible to have some insert changes before `startOldLineNumber`,
+    // since we slice from old line number, these changes can be ommited, so we need to grab them back
+    const startIndex = (() => {
+        if (changeIndex === 0) {
+            return changeIndex;
+        }
+
+        const nearestHeadingNocmalChangeIndex = findLastIndex(changes, change => !change.isInsert, changeIndex - 1);
+        return nearestHeadingNocmalChangeIndex === -1 ? changeIndex : nearestHeadingNocmalChangeIndex + 1;
+    })();
+
     if (endOldLineNumber === undefined) {
-        const slicedChanges = hunk.changes.slice(startIndex);
+        const slicedChanges = changes.slice(startIndex);
 
         return createHunkFromChanges(slicedChanges);
     }
 
-    const endIndex = findLastIndex(hunk.changes, change => computeOldLineNumber(change) <= endOldLineNumber);
-    const slicedChanges = hunk.changes.slice(startIndex, endIndex === -1 ? undefined : endIndex);
+    const endIndex = findLastIndex(changes, change => computeOldLineNumber(change) <= endOldLineNumber);
+    const slicedChanges = changes.slice(startIndex, endIndex === -1 ? undefined : endIndex);
 
     return createHunkFromChanges(slicedChanges);
 };
@@ -271,15 +282,15 @@ const mergeHunk = (previousHunk, nextHunk) => {
     }
 
     // It is possible that `previousHunk` entirely **contains** `nextHunk`,
-    // and if `nextHunk` is not a fake one, we need to replace `nextHunk`'s corresponding range
+    // and if we are merging a fake hunk with a valid hunk, we need to replace `nextHunk`'s corresponding range
     if (previousStart <= nextStart && previousEnd >= nextEnd) {
-        if (nextHunk.isPlain) {
-            return previousHunk;
+        if (previousHunk.isPlain && !nextHunk.isPlain) {
+            const head = sliceHunk(previousHunk, previousStart, nextStart);
+            const tail = sliceHunk(previousHunk, nextEnd + 1);
+            return mergeHunk(mergeHunk(head, nextHunk), tail);
         }
 
-        const head = sliceHunk(previousHunk, previousStart, nextStart);
-        const tail = sliceHunk(previousHunk, nextEnd + 1);
-        return mergeHunk(mergeHunk(head, nextHunk), tail);
+        return previousHunk;
     }
 
     // The 2 hunks have some overlapping, we need to slice the fake one in order to preserve non-normal changes
@@ -362,20 +373,22 @@ const splitRangeToValidOnes = (hunks, start, end) => {
         ];
     }
 
-    // Now the `correspondingHunk` must be a hunk containing `start`
+    // Now the `correspondingHunk` must be a hunk containing `start`,
+    // however it is still possible that `start` is not a normal change
     const {changes} = correspondingHunk;
     const nearestNormalChangeIndex = findNearestNormalChangeIndex(correspondingHunk, start);
     const validStartChange = changes[nearestNormalChangeIndex];
+    const validStart = computeOldLineNumber(validStartChange);
     // Iterate to `end`, if `end` falls out of hunk, we can split it to 2 ranges
     const adjacentChangesCount = changes.slice(nearestNormalChangeIndex + 1).findIndex(change => !change.isNormal);
     const validEnd = computeOldLineNumber(validStartChange) + Math.max(adjacentChangesCount, 0);
 
     if (validEnd >= end) {
-        return [[start, end]];
+        return [[validStart, end]];
     }
 
     return [
-        [start, validEnd],
+        [validStart, validEnd],
         ...splitRangeToValidOnes(hunks, validEnd + 1, end)
     ];
 };
@@ -451,12 +464,12 @@ export const expandCollapsedBlockBy = (hunks, rawCodeOrLines, predicate) => {
     return expandingBlocks.reduce((hunks, [start, end]) => expandFromRawCode(hunks, linesOfCode, start, end), hunks);
 };
 
-export const getChangeKey = hunk => {
-    if (!hunk) {
-        throw new Error('hunk is not provided');
+export const getChangeKey = change => {
+    if (!change) {
+        throw new Error('change is not provided');
     }
 
-    const {isNormal, isInsert, lineNumber, oldLineNumber} = hunk;
+    const {isNormal, isInsert, lineNumber, oldLineNumber} = change;
 
     if (isNormal) {
         return 'N' + oldLineNumber;
