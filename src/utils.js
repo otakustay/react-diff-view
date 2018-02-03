@@ -346,6 +346,8 @@ const findNearestNormalChangeIndex = ({changes}, start) => {
             return i;
         }
     }
+
+    return -1;
 };
 
 const splitRangeToValidOnes = (hunks, start, end) => {
@@ -377,6 +379,12 @@ const splitRangeToValidOnes = (hunks, start, end) => {
     // however it is still possible that `start` is not a normal change
     const {changes} = correspondingHunk;
     const nearestNormalChangeIndex = findNearestNormalChangeIndex(correspondingHunk, start);
+
+    // If there is no normal changes after `start`, splitting ends up here
+    if (nearestNormalChangeIndex === -1) {
+        return [];
+    }
+
     const validStartChange = changes[nearestNormalChangeIndex];
     const validStart = computeOldLineNumber(validStartChange);
     // Iterate to `end`, if `end` falls out of hunk, we can split it to 2 ranges
