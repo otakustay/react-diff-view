@@ -506,3 +506,7 @@ I don't really know how to test such a complicated and UI centric component, any
 
 - Fix incorrect content property on custom hunks.
 - Fix a bug where edge insert changes can be omitted when merge.
+
+### 1.4.10
+
+- Fix a logic bug when split range of lines into valid ones.
