@@ -64,7 +64,7 @@ This is the normal behavior, which will displaed as 3 lines of deletion, 1 line 
 
 ![Normal sequence behavior](https://raw.githubusercontent.com/otakustay/react-diff-view/master/screenshots/sequence-normal.png)
 
-WHen the value `"zip"` is passed, the diff will be modified to:
+When the value `"zip"` is passed, the diff will be modified to:
 
 ```diff
 -    // if someone has already defined a value bail and don't track value
@@ -88,7 +88,7 @@ Sometimes it can provide a better look.
 The `Diff` named export is a component which accepts a diff file object and correctly display it in either unified or split view, here is the full list of its props:
 
 - `{Hunk[]} hunks`: The hunks of diff, simply get it from the `parseDiff` output.
-- `{ReactElement[]} children`: Instead of passing a list of hunks, you can make each hunk a more customizable `Hunk` component, see [Customize hunk header](#customize-hunk-header) sectionf or its use case.
+- `{ReactElement[]} children`: Instead of passing a list of hunks, you can make each hunk a more customizable `Hunk` component, see [Customize hunk header](#customize-hunk-header) section or its use case.
 - `{string} viewType`: Can be either `"unified"` or `"split"` to determine how the diff should look like.
 - `{string} className`: An extra css class.
 - `{Object} customEvents`: An object containing events for different part, see [Customize events](#customize-events) section for detail.
@@ -142,10 +142,10 @@ You are not required to compute this key yourself, the `getChangeKey(change)` ex
 
 Sometimes you need to add functions to hunks, for example, to load collapsed code between 2 hunks, this can be archived with several steps:
 
-1. Instead of pass the `hunks` props, map each hunk to a `Hunk` component and pass it as children of `Diff`.
+1. Instead of passing the `hunks` prop, map each hunk to a `Hunk` component and pass it as children of `Diff`.
 2. Customize your `header` prop for `Hunk` component.
 
-The `Hunk` named export is a component representing a hunk of diff, each hunk accepts a `header` prop with possible different types of value:
+The `Hunk` named export is a component representing a hunk of diff, each hunk accepts a `header` prop with possible different types of values:
 
 - `undefined`: Then `Hunk` will append a default header containing the content of hunk.
 - `null`: Header will be removed completely.
@@ -179,7 +179,7 @@ const App = ({diffText}) => {
 
 The term "column edits" stands for highlighted areas on a modified line, they are usually produced by further comparing the old and new line content.
 
-To mark an edits between changes, you can provide the `markEdits` function prop to `Diff` component, this function receives two changes and returns a tuple (array) of `[Edit[], Edit[]]`, the first element is edits for the old change, the second element is for the new change.
+To mark edits between changes, you can provide the `markEdits` function prop to `Diff` component, this function receives two changes and returns a tuple (array) of `[Edit[], Edit[]]`, the first element is edits for the old change, the second element is for the new change.
 
 A edit is simply an array with two numbers `[startIndex, length]`, the first element is the start index in original text, the second number represents the length of this edit.
 
@@ -206,7 +206,7 @@ They both accept a `options` object with following properties:
 - `{number} threshold`: The maximum string distance when this function should try to mark edits, if two string's distance is greater than it, edits marking is disabled, the default value is `Infinity`.
 - `{boolean} markLongDistanceDiff`: If is `true`, two strings with distance greater than `threshold` will create an edit containing the whole string, the default value is `false`.
 
-For example, following code asks `Diff` component to compare old and new content word by word when their distance is shorter than 30, if the content's distance is longer than 30, the entires line is marked:
+For example, the following code asks the `Diff` component to compare old and new content word by word when their distance is shorter than 30, if the content's distance is longer than 30, the entires line is marked:
 
 ```javascript
 import {Diff, markWordEdits} from 'react-diff-view';
@@ -258,7 +258,7 @@ const App = ({diffText}) => {
 };
 ```
 
-For more complex case, you can get a full example in [demo/File.js](demo/File.js) about how to implement code comment with `widgets` prop
+For a more complex case, you can reference the example in [demo/File.js](demo/File.js) about implementing code comments with the `widgets` prop.
 
 ### Customize styles
 
@@ -278,7 +278,7 @@ You can override styles on certian css classes to customize the appearance of `r
 - `diff-gutter-del`: Gutter of a deletion.
 - `diff-gutter-omit`: Gutter with no content.
 - `diff-gutter-selected`: Gutter of a selected change.
-- `diff-line`: The `<tr>` element for a line of diff.
+- `diff-line`: The `<tr>` element for a diff line.
 - `diff-line-old-only`: The `<tr>` element which only contains the left side columns, appears in split view
 - `diff-line-new-only`: The `<tr>` element which only contains the right side columns, appears in split view
 - `diff-code`: The `<td>` element containing code.
@@ -291,15 +291,15 @@ You can override styles on certian css classes to customize the appearance of `r
 - `diff-widget`: The `<tr>` element to render widget.
 - `diff-widget-content`: The `<td>` element to render widget content.
 
-You can pass `className` prop to `Diff` component to add custom class to the `<table>` element.
+You can pass the `className` prop to a `Diff` component to add a custom class to the `<table>` element.
 
-The `Diff` component also accepts a `customClassNames` prop which contains custom css classes for different part, it can be a object with multiple keys: `hunk`, `hunkHeader`, `gutterHeader`, `codeHeader`, `line`, `gutter`, `code`, each value can be a string, the value will be appended to corresponding part's `className` prop.
+The `Diff` component also accepts a `customClassNames` prop which contains custom css classes for a different part, it can be an object with multiple keys: `hunk`, `hunkHeader`, `gutterHeader`, `codeHeader`, `line`, `gutter`, `code`. Each value can be a string, and the value will be appended to corresponding part's `className` prop.
 
 ### Customize events
 
-You can pass a `customEvents` object to `Diff` component to add events to different part, the accepted keys are `gutterHeader`, `codeHeader`, `gutter` and `code`, each value is an object containing DOM events key/value pair.
+You can pass a `customEvents` object to a `Diff` component to add events to different parts. The accepted keys are `gutterHeader`, `codeHeader`, `gutter` and `code`. Each value is an object containing DOM events key/value pair.
 
-One of the common case for `customEvents` is to add code selecting functionality, this can be archived simply by passing a `onClick` event to gutter and manipulate the `selectedChanges` prop:
+One of the common cases for `customEvents` is to add code selecting functionality. This can be archived simply by passing an `onClick` event to gutter and manipulating the `selectedChanges` prop:
 
 ```javascript
 import {PureComponent} from 'react';
@@ -329,7 +329,7 @@ class File extends PureComponent {
 }
 ```
 
-`customEvents` can also be utilized to add comment or expand collapsed code, see [demo/File.js](demo/File.js) for more implementation details.
+`customEvents` can also be utilized to add a comment or expand collapsed code, see [demo/File.js](demo/File.js) for more implementation details.
 
 ### Syntax highlight
 
@@ -404,20 +404,20 @@ class File extends PureComponent {
 Once you can provide a `rawCodeOrLines` object (which can be a string, or an array of lines of code), there are many more utility function you can use to help organize hunks:
 
 - `{Hunk[]} expandFromRawCode({Hunk[]} hunks, {string|string[]} rawCodeOrLines, {number} start, {number} end)`: Create a hunk from source code slicing from `start` to `end`, then insert this hunk into `hunks`, merging with existing hunks are automatically done.
-- `{Hunk[]} addStubHunk({Hunk[]} hunks, {string|string[]} referenceRawCodeOrLines)`: This is an overload of `addStubHunk` function, once you provide the second `referenceRawCodeOrLines`, the stub hunk will only be appended when there are more code after the last hunk.
+- `{Hunk[]} addStubHunk({Hunk[]} hunks, {string|string[]} referenceRawCodeOrLines)`: This is an overload of `addStubHunk` function, once you provide the second `referenceRawCodeOrLines`, the stub hunk will only be appended when there is more code after the last hunk.
 - `{Hunk[]} expandCollapsedBlockBy({Hunk[]} hunks, {string|string[]} rawCodeOrLines, {Function} predicate)`: Iterate over all collapsed block (lines between 2 hunks) and expand those with `predicate` returns `true`. The `predicate` function receives `({number} lines, {number} oldStart, {number} newStart)` as arguments.
 
 ## Unsupported
 
 ### Wordwrap
 
-No, there isn't a wordwrap configuration, lines are automatically wrapped by default, and there is almost impossible to implement other wrap styles, unless we choose `table-layout: auto` which critically hit the performance.
+No, there isn't a wordwrap configuration. Lines are automatically wrapped by default, and it is almost impossible to implement other wrap styles, unless we choose `table-layout: auto` which critically hinders the performance.
 
-Any solutions of this issue are welcome.
+Any solutions for this issue are welcome.
 
 ### Test
 
-I don't really know how to test such a complicated and UI centric component, any helps are welcome.
+I don't really know how to test such a complicated and UI centric component, any help is welcome.
 
 ## Change Log
 
