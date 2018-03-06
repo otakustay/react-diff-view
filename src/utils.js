@@ -324,7 +324,14 @@ const appendOrMergeHunk = (hunks, nextHunk) => {
 
 export const insertHunk = (hunks, insertion) => {
     const insertionOldLineNumber = computeOldLineNumber(insertion.changes[0]);
-    const insertPosition = hunks.findIndex(hunk => computeOldLineNumber(hunk.changes[0]) >= insertionOldLineNumber);
+    const isLaterThanInsertion = ({changes}) => {
+        if (!changes.length) {
+            return false;
+        }
+
+        return computeOldLineNumber(changes[0]) >= insertionOldLineNumber;
+    };
+    const insertPosition = hunks.findIndex(isLaterThanInsertion);
     const hunksWithInsertion = insertPosition === -1
         ? hunks.concat(insertion)
         : [
