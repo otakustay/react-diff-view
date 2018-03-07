@@ -24,7 +24,14 @@ const groupElements = (changes, widgets) => changes.reduce(
 
 const renderRow = ([type, key, value], i, selectedChanges, props) => {
     if (type === 'change') {
-        return <UnifiedChange key={`change${key}`} change={value} selected={selectedChanges.includes(key)} {...props} />;
+        return (
+            <UnifiedChange
+                key={`change${key}`}
+                change={value}
+                selected={selectedChanges.includes(key)}
+                {...props}
+            />
+        );
     }
     else if (type === 'widget') {
         return <UnifiedWidget key={`widget${key}`} element={value} />;

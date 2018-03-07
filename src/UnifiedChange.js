@@ -23,6 +23,7 @@ export default class UnifiedChange extends PureComponent {
 
     static defaultProps = {
         customEvents: {},
+        customClassNames: {},
         onRenderCode() {
         }
     };
@@ -66,7 +67,7 @@ export default class UnifiedChange extends PureComponent {
             <tr
                 id={anchorID}
                 className={classNames('diff-line', customClassNames.line)}
-                ref={container => this.container = container}
+                ref={container => (this.container = container)}
             >
                 <td className={gutterClassName} data-line-number={oldLineNumber} {...boundGutterEvents}>
                     {gutterAnchor ? <a href={'#' + anchorID} data-line-number={oldLineNumber} /> : null}

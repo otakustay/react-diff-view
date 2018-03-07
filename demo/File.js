@@ -19,6 +19,8 @@ import {
     createWidgetsSelector
 } from './selectors';
 
+/* eslint-disable react/jsx-no-bind */
+
 const rawCodeLines = rawCode.trim().split('\n');
 
 const markEdits = markCharacterEdits({threshold: 30, markLongDistanceDiff: true});

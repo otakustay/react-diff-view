@@ -7,6 +7,7 @@ const styles = [
     {display: 'block', height: 20, marginBottom: '1em', width: '60%', backgroundColor: '#eeffef'}
 ];
 
+/* eslint-disable react/no-array-index-key */
 const LargeDiff = ({onClick}) => (
     <div className="large-diff">
         {styles.map((style, i) => <span key={i} style={style} />)}
@@ -15,5 +16,6 @@ const LargeDiff = ({onClick}) => (
         </a>
     </div>
 );
+/* eslint-enable react/no-array-index-key */
 
 export default LargeDiff;

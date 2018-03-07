@@ -7,7 +7,7 @@ import rawCode from './assets/CSSPropertyOperations.raw';
 
 export const createFilenameSelector = () => createSelector(
     property('type'), property('oldPath'), property('newPath'),
-    (type, oldPath, newPath) => type === 'delete' ? oldPath : newPath
+    (type, oldPath, newPath) => (type === 'delete' ? oldPath : newPath)
 );
 
 export const createCanExpandSelector = computeFilename => createSelector(

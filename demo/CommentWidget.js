@@ -14,11 +14,13 @@ const Comment = ({content, postTime}) => (
     </div>
 );
 
+/* eslint-disable react/no-array-index-key */
 const CommentWidget = ({comments, writing, onSave}) => (
     <div className="comment-widget">
         {comments.map((comment, i) => <Comment key={i} {...comment} />)}
         {writing && <CommentInput onSave={onSave} />}
     </div>
 );
+/* eslint-enable react/no-array-index-key */
 
 export default CommentWidget;

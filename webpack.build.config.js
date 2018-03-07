@@ -4,14 +4,12 @@
  */
 
 const path = require('path');
-const {LoaderOptionsPlugin, optimize: {ModuleConcatenationPlugin}} = require('webpack');
-const ExtractTextPlugin = require("extract-text-webpack-plugin");
-const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
-const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
     devtool: 'source-map',
     context: __dirname,
+    mode: "production",
     entry: {
         index: './src/index.js',
         parse: './src/parse.js'
@@ -27,11 +25,14 @@ module.exports = {
             {
                 test: /\.js$/,
                 exclude: /node_modules/,
-                use: ['babel-loader']
+                use: [
+                    'babel-loader',
+                    'eslint-loader'
+                ]
             },
             {
                 test: /\.css$/,
-                use: ExtractTextPlugin.extract({use: 'css-loader'})
+                use: ExtractTextPlugin.extract({use: {loader: 'css-loader', options: {minimize: true}}})
             }
         ]
     },
@@ -44,10 +45,6 @@ module.exports = {
         'prop-types': {root: 'propTypes', commonjs2: 'prop-types', commonjs: 'prop-types', amd: 'prop-types'}
     },
     plugins: [
-        new ExtractTextPlugin('index.css'),
-        new ModuleConcatenationPlugin(),
-        new UglifyJSPlugin({sourceMap: true}),
-        new LoaderOptionsPlugin({minimize: true, debug: false}),
-        new CaseSensitivePathsPlugin()
+        new ExtractTextPlugin('index.css')
     ]
 };

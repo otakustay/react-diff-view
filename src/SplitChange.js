@@ -45,7 +45,6 @@ const renderCells = args => {
         {'diff-gutter-selected': selected}
     );
     const gutterProps = {
-        'key': 'gutter',
         id: anchorID,
         'className': gutterClassName,
         'data-line-number': line,
@@ -60,7 +59,6 @@ const renderCells = args => {
         {'diff-code-selected': selected}
     );
     const codeProps = {
-        key: 'code',
         className: codeClassName,
         onRender: onRenderCode,
         ...boundCodeEvents
@@ -68,11 +66,12 @@ const renderCells = args => {
 
     if (!edits.length) {
         return [
-            <td {...gutterProps} />,
-            <CodeCell {...codeProps} text={content} />
+            <td key="gutter" {...gutterProps} />,
+            <CodeCell key="code" {...codeProps} text={content} />
         ];
     }
 
+    /* eslint-disable no-param-reassign */
     const {html: editMarkedHTML, lastIndex} = edits.reduce(
         (result, [start, length]) => {
             const normalText = content.slice(result.lastIndex, start);
@@ -85,11 +84,12 @@ const renderCells = args => {
         },
         {html: '', lastIndex: 0}
     );
+    /* eslint-enable no-param-reassign */
     const tailHTML = escape(content.substring(lastIndex));
 
     return [
-        <td {...gutterProps} />,
-        <CodeCell {...codeProps} html={editMarkedHTML + tailHTML} />
+        <td key="gutter" {...gutterProps} />,
+        <CodeCell key="code" {...codeProps} html={editMarkedHTML + tailHTML} />
     ];
 };
 
@@ -116,7 +116,10 @@ export default class SplitChange extends PureComponent {
     };
 
     static defaultProps = {
+        oldChange: null,
+        newChange: null,
         customEvents: {},
+        customClassNames: {},
         markEdits() {
             return NO_EDITS;
         },

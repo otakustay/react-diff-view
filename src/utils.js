@@ -37,6 +37,7 @@ const createHunkFromChanges = changes => {
         newStart: -1,
         newLines: 0
     };
+    /* eslint-disable no-param-reassign */
     const hunk = changes.reduce(
         (hunk, change) => {
             if (!change.isNormal) {
@@ -63,6 +64,7 @@ const createHunkFromChanges = changes => {
         },
         initial
     );
+    /* eslint-enable no-param-reassign */
     const {oldStart, oldLines, newStart, newLines} = hunk;
 
     return {
@@ -140,6 +142,7 @@ const findCorrespondingValidHunkIndex = (hunks, oldLineNumber) => {
     return -1;
 };
 
+/* eslint-disable consistent-return */
 const createFindChangeByLineNumberFunction = side => {
     const computeLineNumber = side === 'old' ? computeOldLineNumber : computeNewLineNumber;
     const findContainerHunk = createFindContainerHunkFunction(side);
@@ -154,6 +157,7 @@ const createFindChangeByLineNumberFunction = side => {
         return containerHunk.changes.find(change => computeLineNumber(change) === lineNumber);
     };
 };
+/* eslint-enable consistent-return */
 
 export const findChangeByOldLineNumber = createFindChangeByLineNumberFunction('old');
 
@@ -170,6 +174,7 @@ const createCorrespondingLineNumberComputeFunction = baseSide => {
     const isInHunk = createIsInHunkFunction(baseStart, baseLines);
     const isBetweenHunks = createIsBetweenHunksFunction(baseStart, baseLines);
 
+    /* eslint-disable complexity */
     return (hunks, lineNumber) => {
         const firstHunk = first(hunks);
 
@@ -228,6 +233,7 @@ const createCorrespondingLineNumberComputeFunction = baseSide => {
 
         throw new Error(`Unexpected line position ${lineNumber}`);
     };
+    /* eslint-enable complexity */
 };
 
 export const getCorrespondingOldLineNumber = createCorrespondingLineNumberComputeFunction('new');
@@ -521,6 +527,7 @@ const markEditsBy = computeDiff => (options = {}) => {
         }
 
         const diff = computeDiff(oldContent, newContent);
+        /* eslint-disable no-param-reassign */
         const {aEdits, bEdits} = diff.reduce(
             (result, {added, removed, value}) => {
                 if (!added && !removed) {
@@ -544,6 +551,7 @@ const markEditsBy = computeDiff => (options = {}) => {
             },
             {aEdits: [], bEdits: [], aIndex: 0, bIndex: 0}
         );
+        /* eslint-enable no-param-reassign */
 
         return [aEdits, bEdits];
     };
