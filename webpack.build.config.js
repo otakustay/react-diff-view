@@ -5,7 +5,7 @@
 
 const path = require('path');
 const {LoaderOptionsPlugin, optimize: {ModuleConcatenationPlugin}} = require('webpack');
-const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 
