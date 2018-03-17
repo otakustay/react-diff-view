@@ -1,6 +1,6 @@
 import React from 'react';
-import { spy } from 'sinon';
-import { shallow } from 'enzyme';
+import {spy} from 'sinon';
+import {shallow} from 'enzyme';
 
 describe('CodeCell', () => {
     it('notifyRender should call props.onRender', () => {

@@ -19,6 +19,8 @@ import {
     createWidgetsSelector
 } from './selectors';
 
+/* eslint-disable react/jsx-no-bind */
+
 const rawCodeLines = rawCode.trim().split('\n');
 
 const markEdits = markCharacterEdits({threshold: 30, markLongDistanceDiff: true});
@@ -165,7 +167,7 @@ export default class File extends PureComponent {
                             customClassNames={customClassNames}
                             customEvents={customEvents}
                             markEdits={changeCount <= 200 ? markEdits : undefined}
-                            onRenderCode={changeCount <= 500 ? highlight : noop}
+                            onRenderCode={changeCount <= 50000 ? highlight : noop}
                             generateAnchorID={generateAnchorID}
                         >
                             {hunks.reduce(renderHunk, [])}

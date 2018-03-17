@@ -45,6 +45,7 @@ export default class App extends PureComponent {
         }
     }
 
+    /* eslint-disable react/no-did-update-set-state */
     componentDidUpdate(prevProps, prevState) {
         if (prevState.zip !== this.state.zip || prevState.diffText !== this.state.diffText) {
             const {zip, diffText} = this.state;
@@ -61,8 +62,8 @@ export default class App extends PureComponent {
             console.time('paint');
             requestAnimationFrame(() => requestAnimationFrame(() => console.timeEnd('paint')));
         }
-
     }
+    /* eslint-enable react/no-did-update-set-state */
 
     @bind()
     switchViewType(e) {
@@ -94,6 +95,7 @@ export default class App extends PureComponent {
     render() {
         const {diff, rendering, viewType} = this.state;
 
+        /* eslint-disable react/jsx-no-bind, react/no-array-index-key */
         return (
             <div className="app">
                 <header className="config">
@@ -146,5 +148,6 @@ export default class App extends PureComponent {
                 </div>
             </div>
         );
+        /* eslint-enable react/jsx-no-bind, react/no-array-index-key */
     }
 }

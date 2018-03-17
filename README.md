@@ -510,3 +510,7 @@ I don't really know how to test such a complicated and UI centric component, any
 ### 1.4.10
 
 - Fix a logic bug when split range of lines into valid ones.
+
+### 1.4.11
+
+- Fix a bug where a stub hunk will crash the hunk insertion.

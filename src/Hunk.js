@@ -14,11 +14,12 @@ export default class Hunk extends PureComponent {
         header: PropTypes.oneOfType([PropTypes.node, PropTypes.shape([PropTypes.node, PropTypes.node])]),
         widgets: PropTypes.objectOf(PropTypes.element),
         selectedChanges: PropTypes.arrayOf(PropTypes.string),
-        customEvents: eventsPropType,
+        customEvents: eventsPropType
     };
 
     static defaultProps = {
         viewType: 'split',
+        header: undefined,
         widgets: {},
         selectedChanges: [],
         customEvents: {}

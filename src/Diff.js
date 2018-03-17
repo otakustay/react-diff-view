@@ -49,6 +49,7 @@ const Diff = ({diffType, hunks, children, className, ...props}) => {
 };
 
 Diff.propTypes = {
+    // TODO: [2.x] `diffType` should be required.
     diffType: PropTypes.oneOf(['add', 'delete', 'modify', 'rename', 'copy']),
     viewType: viewTypePropType.isRequired,
     hunks: PropTypes.arrayOf(hunkPropType),
@@ -58,6 +59,10 @@ Diff.propTypes = {
 };
 
 Diff.defaultProps = {
+    diffType: 'modify',
+    hunks: undefined,
+    children: undefined,
+    gutterAnchor: false,
     generateAnchorID() {
         return undefined;
     }
