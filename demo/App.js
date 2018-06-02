@@ -12,12 +12,13 @@ const ButtonGroup = Button.Group;
 const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;
 
-/* eslint-disable no-console */
+/* eslint-disable no-console, react/no-deprecated */
 
 export default class App extends PureComponent {
 
     state = {
         zip: false,
+        hideGutter: false,
         diff: [],
         rendering: [],
         diffText: '',
@@ -76,6 +77,11 @@ export default class App extends PureComponent {
     }
 
     @bind()
+    changeHideGutter(e) {
+        this.setState({hideGutter: e.target.checked});
+    }
+
+    @bind()
     receiveNewDiff(e) {
         this.setState({diffText: e.target.value});
     }
@@ -93,12 +99,16 @@ export default class App extends PureComponent {
     }
 
     render() {
-        const {diff, rendering, viewType} = this.state;
+        const {diff, rendering, hideGutter, viewType} = this.state;
+        const renderFile = (file, i) => <File key={i} {...file} hideGutter={hideGutter} viewType={viewType} />;
 
         /* eslint-disable react/jsx-no-bind, react/no-array-index-key */
         return (
             <div className="app">
                 <header className="config">
+                    <div>
+                        <Checkbox size="large" onChange={this.changeHideGutter}>Hide gutter column</Checkbox>
+                    </div>
                     <div>
                         <Checkbox size="large" onChange={this.changeZipType}>Zip nearby sequences</Checkbox>
                     </div>
@@ -143,7 +153,7 @@ export default class App extends PureComponent {
                         loadMore={this.loadMoreFile}
                         hasMore={diff.length > rendering.length}
                     >
-                        {rendering.map((file, i) => <File key={i} {...file} viewType={viewType} />)}
+                        {rendering.map(renderFile)}
                     </InfiniteScroll>
                 </div>
             </div>

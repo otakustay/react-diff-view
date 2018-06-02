@@ -7,12 +7,13 @@ import './Diff.css';
 
 const Diff = ({diffType, hunks, children, className, ...props}) => {
     const monotonous = diffType === 'add' || diffType === 'delete';
+    const {hideGutter} = props;
     const cols = ((viewType, monotonous) => {
         if (viewType === 'unified') {
             return (
                 <colgroup>
-                    <col className="diff-gutter-col" />
-                    <col className="diff-gutter-col" />
+                    {!hideGutter && <col className="diff-gutter-col" />}
+                    {!hideGutter && <col className="diff-gutter-col" />}
                     <col />
                 </colgroup>
             );
@@ -21,7 +22,7 @@ const Diff = ({diffType, hunks, children, className, ...props}) => {
         if (monotonous) {
             return (
                 <colgroup>
-                    <col className="diff-gutter-col" />
+                    {!hideGutter && <col className="diff-gutter-col" />}
                     <col />
                 </colgroup>
             );
@@ -29,9 +30,9 @@ const Diff = ({diffType, hunks, children, className, ...props}) => {
 
         return (
             <colgroup>
-                <col className="diff-gutter-col" />
+                {!hideGutter && <col className="diff-gutter-col" />}
                 <col />
-                <col className="diff-gutter-col" />
+                {!hideGutter && <col className="diff-gutter-col" />}
                 <col />
             </colgroup>
         );
@@ -52,6 +53,8 @@ Diff.propTypes = {
     // TODO: [2.x] `diffType` should be required.
     diffType: PropTypes.oneOf(['add', 'delete', 'modify', 'rename', 'copy']),
     viewType: viewTypePropType.isRequired,
+    // TODO: [2.x] Merge `hideGutter` and `gutterAnchor` into `gutterType`
+    hideGutter: PropTypes.bool,
     hunks: PropTypes.arrayOf(hunkPropType),
     gutterAnchor: PropTypes.bool,
     generateAnchorID: PropTypes.func,
@@ -62,6 +65,7 @@ Diff.defaultProps = {
     diffType: 'modify',
     hunks: undefined,
     children: undefined,
+    hideGutter: false,
     gutterAnchor: false,
     generateAnchorID() {
         return undefined;

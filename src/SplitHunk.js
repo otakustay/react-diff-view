@@ -1,3 +1,4 @@
+import warning from 'warning';
 import mapValues from 'lodash.mapvalues';
 import classNames from 'classnames';
 import SplitChange from './SplitChange';
@@ -55,7 +56,7 @@ const groupElements = (changes, widgets) => {
     return elements;
 };
 
-const renderRow = ([type, key, oldValue, newValue], i, selectedChanges, monotonous, props) => {
+const renderRow = ([type, key, oldValue, newValue], i, selectedChanges, monotonous, hideGutter, props) => {
     if (type === 'change') {
         const oldSelected = oldValue ? selectedChanges.includes(getChangeKey(oldValue)) : false;
         const newSelected = newValue ? selectedChanges.includes(getChangeKey(newValue)) : false;
@@ -66,6 +67,7 @@ const renderRow = ([type, key, oldValue, newValue], i, selectedChanges, monotono
                 oldChange={oldValue}
                 newChange={newValue}
                 monotonous={monotonous}
+                hideGutter={hideGutter}
                 oldSelected={oldSelected}
                 newSelected={newSelected}
                 {...props}
@@ -73,7 +75,15 @@ const renderRow = ([type, key, oldValue, newValue], i, selectedChanges, monotono
         );
     }
     else if (type === 'widget') {
-        return <SplitWidget key={`widget${key}`} monotonous={monotonous} oldElement={oldValue} newElement={newValue} />;
+        return (
+            <SplitWidget
+                key={`widget${key}`}
+                monotonous={monotonous}
+                hideGutter={hideGutter}
+                oldElement={oldValue}
+                newElement={newValue}
+            />
+        );
     }
 
     return null;
@@ -81,6 +91,7 @@ const renderRow = ([type, key, oldValue, newValue], i, selectedChanges, monotono
 
 const HunkHeader = props => {
     const {
+        hideGutter,
         hunk,
         monotonous,
         elements,
@@ -97,13 +108,15 @@ const HunkHeader = props => {
     const computedClassName = classNames('diff-hunk-header', className);
     const computedGutterClassName = classNames('diff-hunk-header-gutter', gutterClassName);
     const computedContentClassName = classNames('diff-hunk-header-content', contentClassName);
+    const columnCount = (hideGutter ? 2 : 4) / (monotonous ? 2 : 1);
+    const headerContentColSpan = columnCount - (hideGutter ? 0 : 1);
 
     if (elements === undefined) {
         return (
             <tr className={computedClassName}>
-                <td className={computedGutterClassName} {...boundGutterEvents}></td>
+                {!hideGutter && <td className={computedGutterClassName} {...boundGutterEvents} />}
                 <td
-                    colSpan={monotonous ? 1 : 3}
+                    colSpan={headerContentColSpan}
                     className={computedContentClassName}
                     {...boundContentEvents}
                 >
@@ -118,13 +131,18 @@ const HunkHeader = props => {
     }
 
     if (Array.isArray(elements)) {
+        warning(
+            !hideGutter,
+            'Gutter element in hunk header will not be rendered since hideGutter prop is set to true'
+        );
+
         const [gutter, content] = elements;
 
         return (
             <tr className={computedClassName}>
-                <td className={computedGutterClassName} {...boundGutterEvents}>{gutter}</td>
+                {!hideGutter && <td className={computedGutterClassName} {...boundGutterEvents}>{gutter}</td>}
                 <td
-                    colSpan={monotonous ? 1 : 3}
+                    colSpan={headerContentColSpan}
                     className={computedContentClassName}
                     {...boundContentEvents}
                 >
@@ -137,7 +155,7 @@ const HunkHeader = props => {
     return (
         <tr className={computedClassName}>
             <td
-                colSpan={monotonous ? 2 : 4}
+                colSpan={columnCount}
                 className={computedContentClassName}
                 {...boundContentEvents}
             >
@@ -151,6 +169,7 @@ const SplitHunk = props => {
     const {
         hunk,
         monotonous,
+        hideGutter,
         widgets,
         selectedChanges,
         header,
@@ -169,6 +188,7 @@ const SplitHunk = props => {
             <HunkHeader
                 hunk={hunk}
                 monotonous={monotonous}
+                hideGutter={hideGutter}
                 elements={header}
                 gutterEvents={headerGutterEvents}
                 contentEvents={headerContentEvents}
@@ -176,7 +196,7 @@ const SplitHunk = props => {
                 gutterClassName={headerGutterClassName}
                 contentClassName={headerContentClassName}
             />
-            {elements.map((element, i) => renderRow(element, i, selectedChanges, monotonous, childrenProps))}
+            {elements.map((item, i) => renderRow(item, i, selectedChanges, monotonous, hideGutter, childrenProps))}
         </tbody>
     );
 };

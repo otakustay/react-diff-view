@@ -1,10 +1,10 @@
 import './Widget.css';
 
-const SplitWidget = ({oldElement, newElement, monotonous}) => {
+const SplitWidget = ({oldElement, newElement, monotonous, hideGutter}) => {
     if (monotonous) {
         return (
             <tr className="diff-widget">
-                <td colSpan={2} className="diff-widget-content">
+                <td colSpan={hideGutter ? 1 : 2} className="diff-widget-content">
                     {oldElement || newElement}
                 </td>
             </tr>
@@ -14,7 +14,7 @@ const SplitWidget = ({oldElement, newElement, monotonous}) => {
     if (oldElement === newElement) {
         return (
             <tr className="diff-widget">
-                <td colSpan={4} className="diff-widget-content">
+                <td colSpan={hideGutter ? 2 : 4} className="diff-widget-content">
                     {oldElement}
                 </td>
             </tr>
@@ -23,10 +23,10 @@ const SplitWidget = ({oldElement, newElement, monotonous}) => {
 
     return (
         <tr className="diff-widget">
-            <td colSpan={2} className="diff-widget-content">
+            <td colSpan={hideGutter ? 1 : 2} className="diff-widget-content">
                 {oldElement}
             </td>
-            <td colSpan={2} className="diff-widget-content">
+            <td colSpan={hideGutter ? 1 : 2} className="diff-widget-content">
                 {newElement}
             </td>
         </tr>

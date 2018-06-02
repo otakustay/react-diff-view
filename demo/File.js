@@ -19,7 +19,7 @@ import {
     createWidgetsSelector
 } from './selectors';
 
-/* eslint-disable react/jsx-no-bind */
+/* eslint-disable react/jsx-no-bind, react/no-deprecated */
 
 const rawCodeLines = rawCode.trim().split('\n');
 
@@ -123,7 +123,7 @@ export default class File extends PureComponent {
     }
 
     render() {
-        const {type, additions, deletions, viewType} = this.props;
+        const {type, additions, deletions, hideGutter, viewType} = this.props;
         const {renderDiff, selectedChanges, hunks, generateAnchorID} = this.state;
         const methods = pick(this, ['addComment', 'selectChange', 'loadCollapsedBefore']);
         const changeCount = sumBy(hunks, ({changes}) => changes.length);
@@ -160,6 +160,7 @@ export default class File extends PureComponent {
                     <Whether matches={renderDiff}>
                         <Diff
                             gutterAnchor
+                            hideGutter={hideGutter}
                             diffType={type}
                             widgets={widgets}
                             viewType={viewType}

@@ -67,8 +67,8 @@
     "style-loader": "^0.21.0",
     "svg-react-loader": "^0.4.5",
     "webpack": "^4.1.0",
-    "webpack-cli": "^3.0.0",
-    "webpack-dev-server": "^3.1.0",
+    "webpack-cli": "^2.1.5",
+    "webpack-dev-server": "^3.1.4",
     "worker-loader": "^2.0.0"
   },
   "peerDependencies": {

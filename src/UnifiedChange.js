@@ -7,6 +7,18 @@ import {changePropType, eventsPropType, classNamesPropType} from './propTypes';
 import {createEventsBindingSelector} from './selectors';
 import './Change.css';
 
+const GutterCell = ({hide, className, lineNumber, gutterAnchor, anchorID, ...props}) => {
+    if (hide) {
+        return null;
+    }
+
+    return (
+        <td className={className} data-line-number={lineNumber} {...props}>
+            {gutterAnchor ? <a href={'#' + anchorID} data-line-number={lineNumber} /> : null}
+        </td>
+    );
+};
+
 export default class UnifiedChange extends PureComponent {
 
 
@@ -40,7 +52,15 @@ export default class UnifiedChange extends PureComponent {
     }
 
     render() {
-        const {change, selected, customClassNames, customEvents, gutterAnchor, generateAnchorID} = this.props;
+        const {
+            change,
+            selected,
+            customClassNames,
+            customEvents,
+            hideGutter,
+            gutterAnchor,
+            generateAnchorID
+        } = this.props;
         const {type, content} = change;
         const oldLine = computeOldLineNumber(change);
         const oldLineNumber = oldLine === -1 ? undefined : oldLine;
@@ -70,12 +90,22 @@ export default class UnifiedChange extends PureComponent {
                 className={classNames('diff-line', customClassNames.line)}
                 ref={container => (this.container = container)}
             >
-                <td className={gutterClassName} data-line-number={oldLineNumber} {...boundGutterEvents}>
-                    {gutterAnchor ? <a href={'#' + anchorID} data-line-number={oldLineNumber} /> : null}
-                </td>
-                <td className={gutterClassName} data-line-number={newLineNumber} {...boundGutterEvents}>
-                    {gutterAnchor ? <a href={'#' + anchorID} data-line-number={newLineNumber} /> : null}
-                </td>
+                <GutterCell
+                    hide={hideGutter}
+                    className={gutterClassName}
+                    lineNumber={oldLineNumber}
+                    gutterAnchor={gutterAnchor}
+                    anchorID={anchorID}
+                    {...boundGutterEvents}
+                />
+                <GutterCell
+                    hide={hideGutter}
+                    className={gutterClassName}
+                    lineNumber={newLineNumber}
+                    gutterAnchor={gutterAnchor}
+                    anchorID={anchorID}
+                    {...boundGutterEvents}
+                />
                 <td className={codeClassName} {...boundCodeEvents}>{content}</td>
             </tr>
         );

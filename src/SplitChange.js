@@ -26,13 +26,17 @@ const renderCells = args => {
         bindCodeEvents,
         anchorID,
         gutterAnchor,
-        gutterAnchorTarget
+        gutterAnchorTarget,
+        hideGutter
     } = args;
 
     if (!change) {
+        const gutterClassName = classNames('diff-gutter', 'diff-gutter-omit', customClassNames.gutter);
+        const codeClassName = classNames('diff-code', 'diff-code-omit', customClassNames.code);
+
         return [
-            <td key="gutter" className={classNames('diff-gutter', 'diff-gutter-omit', customClassNames.gutter)} />,
-            <td key="code" className={classNames('diff-code', 'diff-code-omit', customClassNames.code)} />
+            !hideGutter && <td key="gutter" className={gutterClassName} />,
+            <td key="code" className={codeClassName} />
         ];
     }
 
@@ -67,7 +71,7 @@ const renderCells = args => {
 
     if (!edits.length) {
         return [
-            <td key="gutter" {...gutterProps} />,
+            !hideGutter && <td key="gutter" {...gutterProps} />,
             <CodeCell key="code" {...codeProps} text={content} />
         ];
     }
@@ -89,7 +93,7 @@ const renderCells = args => {
     const tailHTML = escape(content.substring(lastIndex));
 
     return [
-        <td key="gutter" {...gutterProps} />,
+        !hideGutter && <td key="gutter" {...gutterProps} />,
         <CodeCell key="code" {...codeProps} html={editMarkedHTML + tailHTML} />
     ];
 };
@@ -139,13 +143,14 @@ export default class SplitChange extends PureComponent {
             customClassNames,
             customEvents,
             onRenderCode,
+            hideGutter,
             generateAnchorID,
             gutterAnchor
         } = this.props;
 
         const [oldEdits, newEdits] = markEdits(oldChange, newChange);
 
-        const commons = {monotonous, customClassNames, customEvents, onRenderCode};
+        const commons = {monotonous, hideGutter, customClassNames, customEvents, onRenderCode};
         const oldAnchorID = oldChange && generateAnchorID(oldChange);
         const oldArgs = {
             ...commons,

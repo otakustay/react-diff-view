@@ -23,6 +23,8 @@ const groupElements = (changes, widgets) => changes.reduce(
 );
 
 const renderRow = ([type, key, value], i, selectedChanges, props) => {
+    const {hideGutter} = props;
+
     if (type === 'change') {
         return (
             <UnifiedChange
@@ -34,7 +36,7 @@ const renderRow = ([type, key, value], i, selectedChanges, props) => {
         );
     }
     else if (type === 'widget') {
-        return <UnifiedWidget key={`widget${key}`} element={value} />;
+        return <UnifiedWidget key={`widget${key}`} hideGutter={hideGutter} element={value} />;
     }
 
     return null;
@@ -48,6 +50,7 @@ class HunkHeader extends PureComponent {
 
     render() {
         const {
+            hideGutter,
             hunk,
             elements,
             gutterEvents,
@@ -60,14 +63,21 @@ class HunkHeader extends PureComponent {
         const boundContentEvents = this.bindGutterEvents(contentEvents, hunk);
 
         const computedClassName = classNames('diff-hunk-header', className);
-        const computedGutterClassName = classNames('diff-hunk-header-gutter', gutterClassName);
-        const computedContentClassName = classNames('diff-hunk-header-content', contentClassName);
+        const gutterProps = {
+            colSpan: 2,
+            className: classNames('diff-hunk-header-gutter', gutterClassName),
+            ...boundGutterEvents
+        };
+        const contentProps = {
+            className: classNames('diff-hunk-header-content', contentClassName),
+            ...boundContentEvents
+        };
 
         if (elements === undefined) {
             return (
                 <tr className={computedClassName}>
-                    <td colSpan={2} className={computedGutterClassName} {...boundGutterEvents}></td>
-                    <td className={computedContentClassName} {...boundContentEvents}>{hunk.content}</td>
+                    {!hideGutter && <td {...gutterProps} />}
+                    <td {...contentProps}>{hunk.content}</td>
                 </tr>
             );
         }
@@ -81,15 +91,15 @@ class HunkHeader extends PureComponent {
 
             return (
                 <tr className={computedClassName}>
-                    <td colSpan={2} className={computedGutterClassName} {...boundGutterEvents}>{gutter}</td>
-                    <td className={computedContentClassName} {...boundContentEvents}>{content}</td>
+                    {!hideGutter && <td {...gutterProps}>{gutter}</td>}
+                    <td {...contentProps}>{content}</td>
                 </tr>
             );
         }
 
         return (
             <tr className={computedClassName}>
-                <td colSpan={3} className={computedContentClassName} {...boundContentEvents}>{elements}</td>
+                <td {...contentProps} colSpan={hideGutter ? 1 : 3}>{elements}</td>
             </tr>
         );
     }
@@ -109,11 +119,13 @@ const UnifiedHunk = props => {
         headerContentClassName,
         ...childrenProps
     } = props;
+    const {hideGutter} = childrenProps;
     const elements = groupElements(hunk.changes, widgets);
 
     return (
         <tbody className={classNames('diff-hunk', className)}>
             <HunkHeader
+                hideGutter={hideGutter}
                 hunk={hunk}
                 elements={header}
                 gutterEvents={headerGutterEvents}
