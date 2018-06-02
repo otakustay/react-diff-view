@@ -515,3 +515,7 @@ I don't really know how to test such a complicated and UI centric component, any
 ### 1.4.11
 
 - Fix a bug where a stub hunk will crash the hunk insertion.
+
+### 1.5.0
+
+- Add `hideGutter` prop to hide gutter columns
