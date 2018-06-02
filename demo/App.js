@@ -6,7 +6,7 @@ import 'antd/dist/antd.css';
 import InfiniteScroll from 'react-infinite-scroller';
 import File from './File';
 import './App.css';
-import ParseWorker from './parse';
+import ParseWorker from './parse'; // eslint-disable-line import/default
 
 const ButtonGroup = Button.Group;
 const RadioButton = Radio.Button;

@@ -1,3 +1,4 @@
+/* eslint-disable no-empty-function */
 import {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';

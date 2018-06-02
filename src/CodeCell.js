@@ -1,3 +1,4 @@
+/* eslint-disable no-empty-function */
 import {PureComponent} from 'react';
 
 export default class CodeCell extends PureComponent {
