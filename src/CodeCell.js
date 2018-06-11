@@ -28,14 +28,27 @@ export default class CodeCell extends PureComponent {
         /* eslint-disable no-unused-vars */
         const {text, html, onRender, ...props} = this.props;
         /* eslint-enable no-unused-vars */
+
         const ref = cell => (this.cell = cell);
 
         if (html) {
             /* eslint-disable react/no-danger */
-            return <td ref={ref} {...props} dangerouslySetInnerHTML={{__html: html}} />;
+            return (
+                <td {...props}>
+                    <span
+                        ref={ref}
+                        className="diff-code-text"
+                        dangerouslySetInnerHTML={{__html: html}}
+                    />
+                </td>
+            );
             /* eslint-enable react/no-danger */
         }
 
-        return <td ref={ref} {...props}>{text}</td>;
+        return (
+            <td {...props}>
+                <span ref={ref} className="diff-code-text">{text}</span>
+            </td>
+        );
     }
 }

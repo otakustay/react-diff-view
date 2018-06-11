@@ -160,6 +160,7 @@ export default class File extends PureComponent {
                     <Whether matches={renderDiff}>
                         <Diff
                             gutterAnchor
+                            optimizeSelection
                             hideGutter={hideGutter}
                             diffType={type}
                             widgets={widgets}
