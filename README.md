@@ -530,3 +530,7 @@ I don't really know how to test such a complicated and UI centric component, any
 ### 1.5.0
 
 - Add `hideGutter` prop to hide gutter columns
+
+### 1.6.0
+
+- Enable optimized selection to select only one side in split view, a `optimizeSelection` prop is added.
