@@ -6,12 +6,22 @@ import Hunk from './Hunk';
 import {viewTypePropType, hunkPropType} from './propTypes';
 import './Diff.css';
 
+const noop = () => {}; // eslint-disable-line no-empty-function
+
 const findClosest = (target, className) => {
     while (target && target.classList && !target.classList.contains(className)) {
         target = target.parentNode; // eslint-disable-line no-param-reassign
     }
 
     return target;
+};
+
+const setUserSelectStyle = (element, selectable) => {
+    const value = selectable ? 'auto' : 'none';
+
+    if (element.style.userSelect !== value) {
+        element.style.userSelect = value; // eslint-disable-line no-param-reassign
+    }
 };
 
 export default class Diff extends PureComponent {
@@ -45,12 +55,6 @@ export default class Diff extends PureComponent {
 
     @bind()
     enableColumnSelection({target}) {
-        const {viewType, optimizeSelection} = this.props;
-
-        if (viewType !== 'split' || !optimizeSelection) {
-            return;
-        }
-
         const closestCell = findClosest(target, 'diff-code');
 
         if (!closestCell) {
@@ -65,23 +69,21 @@ export default class Diff extends PureComponent {
             return;
         }
 
-        /* eslint-disable no-param-reassign */
-        [...this.root.querySelectorAll('.diff-line > td')].forEach(cell => (cell.style.userSelect = 'auto'));
-        for (let i = 1; i <= 4; i++) {
-            if (i === index + 1) {
-                continue;
-            }
-
-            const cells = [...this.root.querySelectorAll(`.diff-line > td:nth-child(${i})`)];
-            cells.forEach(cell => (cell.style.userSelect = 'none'));
+        const lines = this.root.querySelectorAll('.diff-line');
+        for (const line of lines) {
+            const cells = line.children;
+            setUserSelectStyle(cells[1], index === 1);
+            setUserSelectStyle(cells[3], index === 3);
         }
-        /* eslint-enable no-param-reassign */
     }
 
     render() {
-        const {diffType, hunks, children, className, ...props} = this.props;
+        const {diffType, hunks, children, className, optimizeSelection, ...props} = this.props;
+        const {hideGutter, viewType} = props;
         const monotonous = diffType === 'add' || diffType === 'delete';
-        const {hideGutter} = props;
+        const onTableMouseDown = (viewType === 'split' && !monotonous && optimizeSelection)
+            ? this.enableColumnSelection
+            : noop;
         const cols = ((viewType, monotonous) => {
             if (viewType === 'unified') {
                 return (
@@ -119,7 +121,7 @@ export default class Diff extends PureComponent {
             <table
                 ref={element => (this.root = element)}
                 className={classNames('diff', className)}
-                onMouseDown={this.enableColumnSelection}
+                onMouseDown={onTableMouseDown}
             >
                 {cols}
                 {hunksChildren}
