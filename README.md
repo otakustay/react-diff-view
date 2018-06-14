@@ -538,3 +538,7 @@ I don't really know how to test such a complicated and UI centric component, any
 ### 1.6.1
 
 - Optimize performance of column selection.
+
+### 1.6.2
+
+- Fix an issue where click on hunk header can cause error because optimized selection doesn't handle clicks in non code cells.
