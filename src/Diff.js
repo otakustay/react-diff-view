@@ -9,11 +9,11 @@ import './Diff.css';
 const noop = () => {}; // eslint-disable-line no-empty-function
 
 const findClosest = (target, className) => {
-    while (target && target.classList && !target.classList.contains(className)) {
+    while (target && target !== document && !target.classList.contains(className)) {
         target = target.parentNode; // eslint-disable-line no-param-reassign
     }
 
-    return target;
+    return target === document ? null : target;
 };
 
 const setUserSelectStyle = (element, selectable) => {
