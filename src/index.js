@@ -1,4 +1,5 @@
 export Diff from './Diff';
 export Hunk from './Hunk';
-export * from './parse';
+export Decoration from './Decoration';
 export * from './utils';
+export * from './tokenize';

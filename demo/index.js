@@ -5,7 +5,7 @@
 
 import 'babel-polyfill';
 import {render} from 'react-dom';
-import App from './App';
+import {App} from './components';
 
 render(
     <App />,

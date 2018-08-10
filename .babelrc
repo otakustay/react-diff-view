@@ -1,13 +1,20 @@
 {
     "presets": [
-        "env",        
-        ["es2015", {"modules": false}],
+        ["env", {"modules": false}],
         "stage-0",
         "react"
     ],
     "plugins": [
+        "lodash",
         "react-require",
         "add-react-displayname",
         "transform-decorators-legacy"
-    ]
+    ],
+    "env": {
+        "production": {
+            "plugins": [
+                "external-helpers"
+            ]
+        }
+    }
 }

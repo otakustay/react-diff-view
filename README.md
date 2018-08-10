@@ -286,8 +286,8 @@ You can override styles on certian css classes to customize the appearance of `r
 - `diff-hunk-header-content`: The `<td>` element corresponding to code content within hunk header.
 - `diff-gutter`: The `<td>` element containing the line number.
 - `diff-gutter-normal`: Gutter of a normal change.
-- `diff-gutter-add`: Gutter of an addition.
-- `diff-gutter-del`: Gutter of a deletion.
+- `diff-gutter-insert`: Gutter of an addition.
+- `diff-gutter-delete`: Gutter of a deletion.
 - `diff-gutter-omit`: Gutter with no content.
 - `diff-gutter-selected`: Gutter of a selected change.
 - `diff-line`: The `<tr>` element for a diff line.
@@ -295,8 +295,8 @@ You can override styles on certian css classes to customize the appearance of `r
 - `diff-line-new-only`: The `<tr>` element which only contains the right side columns, appears in split view
 - `diff-code`: The `<td>` element containing code.
 - `diff-code-normal`: Code of a normal change.
-- `diff-code-add`: Code of an addition.
-- `diff-code-del`: Code of a deletion.
+- `diff-code-insert`: Code of an addition.
+- `diff-code-delete`: Code of a deletion.
 - `diff-code-omit`: Code with no content.
 - `diff-code-selected`: Code of a selected change.
 - `diff-code-edit`: Edits on a line of code.
@@ -430,6 +430,19 @@ Any solutions for this issue are welcome.
 ### Test
 
 I don't really know how to test such a complicated and UI centric component, any help is welcome.
+
+## Breaking Changes
+
+### 2.x
+
+- The main module is now `cjs/index.js`, with an ES version at `es/index.js`, style is placed at `style/index.css`.
+- `Diff` component does not use `hunks` prop anymore, `children` is required.
+- `diffType` prop on `Diff` component is now required.
+- `hideGutter` and `gutterAnchor` props are merged into `gutterType` prop with 3 values: `"default"`, `"anchor"` and `"none"`.
+- `markEdits` and `onRenderCode` props are removed, now the tokenizer system takes all enhancement on code view.
+- `parse` module is removed, use named exports from main module instead, tree shaking can be enabled on ES version.
+- `stubHunk` options of `parseDiff` function is removed, with the power of `Decoration` component, we no longer need the stub hunk.
+- `addStubHunk` function is also removed since `Decoration` component is provided.
 
 ## Change Log
 

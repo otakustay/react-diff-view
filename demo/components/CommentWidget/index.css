@@ -1,0 +1,29 @@
+.comment-widget {
+    border: 1px solid #dfe2e5;
+    padding: 0 10px;
+    background-color: #f7f8fa;
+}
+
+.comment-content {
+    padding: 10px 0;
+    margin: 0;
+    border-bottom: 1px solid #dfe2e5;
+}
+
+.comment-icon {
+    width: 1em;
+    height: 1em;
+    fill: currentColor;
+    position: relative;
+    top: 2px;
+    margin-right: .5em;
+}
+
+.comment-content {
+    white-space: pre;
+    line-height: 1.5;
+}
+
+.comment:last-child {
+    border-bottom: none;
+}
