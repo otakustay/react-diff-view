@@ -1,0 +1,8 @@
+diff --git a/src/ReactVersion.js b/src/ReactVersion.js
+index 4972f9494..cf91b4c58 100644
+--- a/src/ReactVersion.js
++++ b/src/ReactVersion.js
+@@ -13,2 +13,2 @@
+ 
+-module.exports = '15.6.0';
++module.exports = '15.6.1';
