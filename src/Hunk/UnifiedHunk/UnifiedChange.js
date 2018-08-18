@@ -45,7 +45,8 @@ export default class UnifiedChange extends PureComponent {
             codeEvents,
             hideGutter,
             gutterAnchor,
-            generateAnchorID
+            generateAnchorID,
+            renderToken
         } = this.props;
         const {type, content} = change;
         const oldLine = computeOldLineNumber(change);
@@ -92,7 +93,13 @@ export default class UnifiedChange extends PureComponent {
                     anchorID={anchorID}
                     {...boundGutterEvents}
                 />
-                <CodeCell className={codeClassNameValue} text={content} tokens={tokens} {...boundCodeEvents} />
+                <CodeCell
+                    className={codeClassNameValue}
+                    text={content}
+                    tokens={tokens}
+                    renderToken={renderToken}
+                    {...boundCodeEvents}
+                />
             </tr>
         );
     }

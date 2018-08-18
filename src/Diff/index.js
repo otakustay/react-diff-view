@@ -33,6 +33,7 @@ export default class Diff extends PureComponent {
         widgets: PropTypes.objectOf(PropTypes.node),
         optimizeSelection: PropTypes.bool,
         className: PropTypes.string,
+        renderToken: PropTypes.func,
         children: PropTypes.oneOfType([PropTypes.element, PropTypes.arrayOf(PropTypes.element)]).isRequired
     };
 
@@ -43,6 +44,7 @@ export default class Diff extends PureComponent {
         selectedChanges: [],
         widgets: {},
         className: '',
+        renderToken: undefined,
         generateAnchorID() {
             return undefined;
         }

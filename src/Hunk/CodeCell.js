@@ -2,10 +2,10 @@ import {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-const renderToken = ({type, value, markType, properties, children}, i) => {
+const defaultRenderToken = ({type, value, markType, properties, children}, i) => {
     const renderWithClassName = className => (
         <span key={i} className={className}>
-            {value ? value : (children && children.map(renderToken))}
+            {value ? value : (children && children.map(defaultRenderToken))}
         </span>
     );
 
@@ -34,13 +34,16 @@ export default class CodeCell extends PureComponent { // eslint-disable-line rea
     };
 
     render() {
-        const {text, tokens, className, ...props} = this.props;
+        const {text, tokens, className, renderToken, ...props} = this.props;
+        const actualRenderToken = renderToken
+            ? (token, i) => renderToken(token, defaultRenderToken, i)
+            : defaultRenderToken;
 
         return (
             <td className={className} {...props}>
                 {
                     tokens
-                        ? (tokens.length ? tokens.map(renderToken) : ' ')
+                        ? (tokens.length ? tokens.map(actualRenderToken) : ' ')
                         : (text || ' ')
                 }
             </td>

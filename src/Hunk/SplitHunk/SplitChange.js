@@ -22,7 +22,8 @@ const renderCells = args => {
         anchorID,
         gutterAnchor,
         gutterAnchorTarget,
-        hideGutter
+        hideGutter,
+        renderToken
     } = args;
 
     if (!change) {
@@ -59,7 +60,14 @@ const renderCells = args => {
 
     return [
         !hideGutter && <td key="gutter" {...gutterProps} />,
-        <CodeCell key="code" className={codeClassNameValue} {...codeEvents} text={content} tokens={tokens} />
+        <CodeCell
+            key="code"
+            className={codeClassNameValue}
+            text={content}
+            tokens={tokens}
+            renderToken={renderToken}
+            {...codeEvents}
+        />
     ];
 };
 
@@ -101,7 +109,8 @@ export default class SplitChange extends PureComponent {
             monotonous,
             hideGutter,
             generateAnchorID,
-            gutterAnchor
+            gutterAnchor,
+            renderToken
         } = this.props;
 
         const commons = {
@@ -110,7 +119,8 @@ export default class SplitChange extends PureComponent {
             gutterClassName,
             codeClassName,
             gutterEvents,
-            codeEvents
+            codeEvents,
+            renderToken
         };
         const oldAnchorID = oldChange && generateAnchorID(oldChange);
         const oldArgs = {

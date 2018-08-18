@@ -1,5 +1,5 @@
 import {PureComponent} from 'react';
-import {without, sumBy, pick, union, last, uniqueId} from 'lodash';
+import {without, sumBy, union, last, uniqueId} from 'lodash';
 import {bind} from 'lodash-decorators';
 import {Whether, Else} from 'react-whether';
 import hash from 'short-hash';
@@ -22,6 +22,12 @@ import './index.css';
 /* eslint-disable react/jsx-no-bind, react/no-deprecated */
 
 const rawCodeLines = rawCode.split('\n');
+
+const renderToken = (token, defaultRender, i) => {
+    console.log(token); // eslint-disable-line no-console
+
+    return defaultRender(token, i);
+};
 
 export default class File extends PureComponent {
 
@@ -218,6 +224,7 @@ export default class File extends PureComponent {
                             selectedChanges={selectedChanges}
                             generateAnchorID={generateAnchorID}
                             tokens={tokens}
+                            renderToken={renderToken}
                         >
                             {hunks.reduce(renderHunk, [])}
                         </Diff>
