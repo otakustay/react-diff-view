@@ -21,18 +21,17 @@ A git diff component to consume the git unified diff output.
 - A clean and small core to display diff.
 - Support split (side by side) and unified (one column) views.
 - Tolerable performance.
-- Configurable column diffs.
-- Code select and highlight.
+- Flexible decoration component to render custom content around blocks of changes.
 - Extensible widget architecture to support code commenting and various requirements.
-- External syntax highlight support in an easy way.
 - Customizable events and styles.
+- Powerful token system to enable code highlight, mark special words, inline diff and more, supports web worker.
 - A bunch of utility function to manipulate diff structure if source text is provided.
 
 Run `npm start` to enjoy a full featured demo with diff display, collapsed code expansion, code comment and large diff lazy load.
 
 You can modify the `small.diff` to `large.diff` in `demo/App.js` to test the performance, the `large.diff` is a **2.2MB diff file with 375 files changed, 18721 insertions(+), 35671 deletions(-)**, it can possibly hung your computer so use it in caution.
 
-In my laptop (MacBook Pro 15-inch 2016, 2.6 GHz Intel Core i7, 16 GB 2133 MHz LPDDR3) it performs quite slow but tolerable:
+In my laptop (MacBook Pro 15-inch 2016, 2.6 GHz Intel Core i7, 16 GB 2133 MHz LPDDR3) it performs quite slow but tolerable without lazy rendering:
 
 ```
 parse: 88.73291015625ms
@@ -54,7 +53,6 @@ For best display effect, you should generate your diff text with `git diff -U1` 
 
 The `{File[] parseDiff({string} text, {Object} [options])` named export is a wrap of [gitdiff-parser](https://www.npmjs.com/package/gitdiff-parser) package with some extra options:
 
-- `{boolean} stubHunk`: Whether to add a stub empty hunk at the tail of each hunk list, this can provide an extra hunk header when [customizing hunk header](#customize-hunk-header), for example, to expand code after the diff.
 - `{string} nearbySequences`: The action to take when meet nearby sequences, only the `"zip"` value has its own behavior.
 
 The `nearbySequence` can have a value of `"zip"` to "zip" a sequences of deletion and additions, as an example, here is a diff generated from react:
@@ -91,44 +89,44 @@ and as a result rendered as:
 
 ![Normal sequence behavior](https://raw.githubusercontent.com/otakustay/react-diff-view/master/screenshots/sequence-zip.png)
 
-Sometimes it can provide a better look.
+In most cases it can provide a better look in split view.
 
 ### Render diff hunks
 
-The `Diff` named export is a component which accepts a diff file object and correctly display it in either unified or split view, here is the full list of its props:
+The `Diff` named export is a component to render a diff, a simplest case to render a diff could be:
 
-- `{Hunk[]} hunks`: The hunks of diff, simply get it from the `parseDiff` output.
-- `{ReactElement[]} children`: Instead of passing a list of hunks, you can make each hunk a more customizable `Hunk` component, see [Customize hunk header](#customize-hunk-header) section or its use case.
-- `{string} viewType`: Can be either `"unified"` or `"split"` to determine how the diff should look like.
-- `{string} className`: An extra css class.
-- `{Object} customEvents`: An object containing events for different part, see [Customize events](#customize-events) section for detail.
-- `{Object} customClassNames`: An object containing css classes for different part, see [Customize styles](#customize-styles) section for detail.
-- `{string[]} selectedChanges`: An array of selected changes's key, these changes will be highlighted.
-- `{Function} markEdits`: A function to mark edits between old and new content, see [Mark column edits](#mark-column-edits) section for detail.
-- `{Function} onRenderCode`: Callback when code is rendered, can be used to further manipulate the DOM element containing code, see [Syntax highlight](#syntax-highlight) section for detail.
-- `{Object} widgets`: An object of `{changeKey: element}` to render widget for changes, see [Add widgets](#add-widgets) section for detail.
-- `Function generateAnchorID`: A function to generate a DOM `id` attribute for each change, this function receives a `change` object as the only argument and should return either a string or `undefined`, if `undefined` is returned no `id` attribute will be placed on DOM. The `id` attribute will be placed on the gutter `<td>` element, for normal changes in split mode, only the left side gutter will have the `id` attribute.
-- `{boolean} gutterAnchor`: Whether to create an `<a>` element in gutter so user can click gutter to scroll to corresponding line, `generateAnchorID` prop must be specified if this prop is `true`.
-- `{boolean} hideGutter`: Whether to hide gutter (line number) columns.
-- `{boolean} optimizeSelection`: Whether to optimize selection to a single column, when this prop is set to `true` in split mode, user can only select code from either old or new side, this can help copy and paste lines of code. This feature can cause some performance dropdown when the diff is extremely large, so it is turned off by default.
-
-A basic use case is to pass `hunks` and `viewType` prop to `Diff` component, the diff will be rendered:
-
-```javascript
-import {parseDiff, Diff} from 'react-diff-view';
+```jsx
+import {parseDiff, Diff, Hunk} from 'react-diff-view';
 
 const App = ({diffText}) => {
     const {files} = parseDiff(diffText);
+    const renderFile = ({oldRevision, newRevision, type, hunks}) => (
+        <Diff key={oldRevision + '-' + newRevision} viewType="split" diffType={type}>
+            {hunks.map(hunk => <Hunk key={hunk.content} hunk={hunk} />)}
+        </Diff>
+    );
 
     return (
         <div>
-            {files.map(({hunks}, i) => <Diff key={i} hunks={hunks} viewType="split" />)}
+            {files.map(renderFile)}
         </div>
     );
 };
 ```
 
-This will render diff in a default split (side by side) view.
+Here is the full list of its props:
+
+- `{ReactElement[]} children`: You should pass hunks or decorations through `children` prop, for each `Hunk` component it receives a single `hunk` prop generated from `parseDiff` function.
+- `{string} viewType`: Can be either `"unified"` or `"split"` to determine how the diff should look like.
+- `{string} className`: An extra css class.
+- `{Object} customEvents`: An object containing events for different part, see [Customize events](#customize-events) section for detail.
+- `{Object} customClassNames`: An object containing css classes for different part, see [Customize styles](#customize-styles) section for detail.
+- `{string[]} selectedChanges`: An array of selected changes's key, these changes will be highlighted.
+- `{Object} widgets`: An object of `{changeKey: element}` to render widget for changes, see [Add widgets](#add-widgets) section for detail.
+- `{string} gutterType`: How the gutter cell should be rendered, can be either `"default"` to render only the line number, `"none"` to hide the gutter column, or `"anchor"` to render line number as an `<a>` element so user can click gutter to scroll to corresponding line.
+- `{Function} generateAnchorID`: A function to generate a DOM `id` attribute for each change, this is required when `gutterType` is set to `"anchor"`. Provided function receives a `change` object as the only argument and should return either a string or `undefined`, if `undefined` is returned no `id` attribute will be placed on DOM. The `id` attribute will be placed on the gutter `<td>` element, for normal changes in split mode, only the left side gutter will have the `id` attribute.
+- `{boolean} optimizeSelection`: Whether to optimize selection to a single column, when this prop is set to `true` in split mode, user can only select code from either old or new side, this can help copy and paste lines of code. This feature can cause some performance dropdown when the diff is extremely large, so it is turned off by default.
+- `{Function} renderToken`: A function to render customized syntax tokens, see [Pick ranges](#pick-ranges) section for detail.
 
 #### Key of change
 
@@ -148,87 +146,48 @@ else {
 
 You are not required to compute this key yourself, the `getChangeKey(change)` exported function will do it.
 
-## Advanced
+## Add decoration around hunks
 
-### Customize hunk header
+A decoration is customized content rendered around `Hunk` component, pass a `Decoration` element in `Diff`'s `children` is the only required action.
 
-Sometimes you need to add functions to hunks, for example, to load collapsed code between 2 hunks, this can be archived with several steps:
+`Decoration` component basically receives a `children` prop which can either have one or two elements:
 
-1. Instead of passing the `hunks` prop, map each hunk to a `Hunk` component and pass it as children of `Diff`.
-2. Customize your `header` prop for `Hunk` component.
+- A single element: this will be rendered in the entire row.
+- An array containing two elements: The first element will be rendered in gutter position, the second will be rendered in code position.
 
-The `Hunk` named export is a component representing a hunk of diff, each hunk accepts a `header` prop with possible different types of values:
+A very simple use case of `Decoration` is to provide a summary infomation of hunk:
 
-- `undefined`: Then `Hunk` will append a default header containing the content of hunk.
-- `null`: Header will be removed completely.
-- A single react element: this will be rendered in the entire row.
-- An array containing two react elements: The first element will be rendered in gutter position, the second will be rendered in code position.
+```jsx
+import {flatMap} from 'lodash';
+import {Diff, Hunk, Decoration} from 'react-diff-view';
 
-When using hunks as children, you are not required to pass extra props such as `viewType` or `customEvents` to `Hunk` component, these props will be passed by `Diff` component, the only reason you build your own children is to add the `header` prop:
+const renderHunk = hunk => [
+    <Decoration key={'decoration-' + hunk.content}>
+        {hunk.content}
+    </Decoration>,
+    <Hunk key={'hunk-' + hunk.content}> hunk={hunk} />
+];
 
-```javascript
-import {parseDiff, Diff, Hunk} from 'react-diff-view';
-
-const renderHunk = hunk => {
-    // Only render in the code section
-    const header = [null, `${hunk.changes} changes below`];
-
-    return <Hunk key={hunk.content} hunk={hunk} header={header} />;
-};
-
-const App = ({diffText}) => {
-    const {files} = parseDiff(diffText);
-
-    return (
-        <div>
-            {files.map(({hunks}, i) => <Diff key={i} viewType="split">{hunks.map(renderHunk)}</Diff>)}
-        </div>
-    );
-};
+const DiffFile = ({diffType, hunks}) => (
+    <Diff viewType="split" diffType={diffType}>
+        {flatMap(hunks, renderHunk)}
+    </Diff>
+);
 ```
 
-### Mark column edits
+We can also render more content by providing two elements to `Decoration`:
 
-The term "column edits" stands for highlighted areas on a modified line, they are usually produced by further comparing the old and new line content.
-
-To mark edits between changes, you can provide the `markEdits` function prop to `Diff` component, this function receives two changes and returns a tuple (array) of `[Edit[], Edit[]]`, the first element is edits for the old change, the second element is for the new change.
-
-A edit is simply an array with two numbers `[startIndex, length]`, the first element is the start index in original text, the second number represents the length of this edit.
-
-For example, we have a string `"This is a good day"` and two edits `[5, 2]` and `[10, 4]` as input, the result would be:
-
-```html
-This <mark class="diff-code-edit">is</mark> a <mark class="diff-code-edit">good</mark> day
+```jsx
+const renderHunk = hunk => [
+    <Decoration key={'decoration-' + hunk.content}>
+        <SmileFace />,
+        <span>{hunk.content}</span>
+    </Decoration>,
+    <Hunk key={'hunk-' + hunk.content}> hunk={hunk} />
+]
 ```
 
-The `markEdits` function **MUST** comply with some extra restrictions:
-
-- Either `oldChange` or `newChange` can be null, you should check for it.
-- The return value cannot be null, it must be an array with two arrays, neither `null` or `[null, null]` is accepted, for the result of "no edit", just return `[[], []]` instead.
-- Edits must be sorted by `startIndex`.
-- Edits cannot be overlapped with each other, the value `[[1, 3], [2, 3]]` can result undefined behavior.
-
-`react-diff-view` is shipped with 2 built-in `markEdits` functions, they are:
-
-- `{Function} markWordEdits({Object} options)` to diff two strings word by word.
-- `{Function} markCharacterEdits({Object} options)` to diff two string character by character.
-
-They both accept a `options` object with following properties:
-
-- `{number} threshold`: The maximum string distance when this function should try to mark edits, if two string's distance is greater than it, edits marking is disabled, the default value is `Infinity`.
-- `{boolean} markLongDistanceDiff`: If is `true`, two strings with distance greater than `threshold` will create an edit containing the whole string, the default value is `false`.
-
-For example, the following code asks the `Diff` component to compare old and new content word by word when their distance is shorter than 30, if the content's distance is longer than 30, the entires line is marked:
-
-```javascript
-import {Diff, markWordEdits} from 'react-diff-view';
-
-const markEdits = markWordEdits({threshold: 30, markLongDistanceDiff: true});
-
-<Diff markEdits={markEdits} />
-```
-
-### Add widgets
+## Add widgets
 
 In some cases we need functions like commenting on change, `react-diff-view` provides an extensible solution called **widget** to archive such senarios.
 
@@ -272,7 +231,7 @@ const App = ({diffText}) => {
 
 For a more complex case, you can reference the example in [demo/File.js](demo/File.js) about implementing code comments with the `widgets` prop.
 
-### Customize styles
+## Customize styles
 
 The basic theme of `react-diff-view` is simply "picked" from github, with some additional colors for column diffs, the style is bundled with js using [style-loader](https://github.com/webpack-contrib/style-loader) by default, if you want to separate the style, you can build it from the `src` folder, [webpack's `resolve.aliases` configuration](https://webpack.js.org/configuration/resolve/#resolve-alias) can help to archive this.
 
@@ -281,9 +240,9 @@ You can override styles on certian css classes to customize the appearance of `r
 - `diff`: The diff container, a `<table>` element.
 - `diff-gutter-col`: The `<col>` element to control the gutter column.
 - `diff-hunk`: The `<tbody>` element representing a diff hunk.
-- `diff-hunk-header`: The `<tr>` element reprensenting the hunk's header.
-- `diff-hunk-header-gutter`: The `<td>` element corresponding to gutter within hunk header.
-- `diff-hunk-header-content`: The `<td>` element corresponding to code content within hunk header.
+- `diff-decoration`: The `<tr>` element reprensenting the decoration row.
+- `diff-decoration-gutter`: The `<td>` element corresponding to gutter within decoration.
+- `diff-decoration-content`: The `<td>` element corresponding to code content within decoration.
 - `diff-gutter`: The `<td>` element containing the line number.
 - `diff-gutter-normal`: Gutter of a normal change.
 - `diff-gutter-insert`: Gutter of an addition.
@@ -300,18 +259,32 @@ You can override styles on certian css classes to customize the appearance of `r
 - `diff-code-omit`: Code with no content.
 - `diff-code-selected`: Code of a selected change.
 - `diff-code-edit`: Edits on a line of code.
+- `diff-code-mark`: Marked word on a line of code.
 - `diff-widget`: The `<tr>` element to render widget.
 - `diff-widget-content`: The `<td>` element to render widget content.
 
 You can pass the `className` prop to a `Diff` component to add a custom class to the `<table>` element.
 
-The `Diff` component also accepts a `customClassNames` prop which contains custom css classes for a different part, it can be an object with multiple keys: `hunk`, `hunkHeader`, `gutterHeader`, `codeHeader`, `line`, `gutter`, `code`. Each value can be a string, and the value will be appended to corresponding part's `className` prop.
+The `Hunk` component receives class name props as:
+
+- `className`: The class name of hunk's root `<tbody>` element.
+- `lineClassName`: The class name of each change's `<tr>` element.
+- `gutterClassName`: The class name of the gutter `<td>` element in each row.
+- `codeClassName`: The class name of the code `<td>` element in each row.
+
+Similarly `Decoration` component also receives some props to customize class names:
+
+- `className`: The class name of decoration's root `<tr>` element.
+- `gutterClassName`: The class name of the gutter `<td>` element.
+- `contentClassName`: The class name of the content `<td>` element.
 
 ### Customize events
 
-You can pass a `customEvents` object to a `Diff` component to add events to different parts. The accepted keys are `gutterHeader`, `codeHeader`, `gutter` and `code`. Each value is an object containing DOM events key/value pair.
+The `Hunk` component receives `gutterEvents` and `codeEvents` props to customize events on either gutter or code `<td>` element.
 
-One of the common cases for `customEvents` is to add code selecting functionality. This can be archived simply by passing an `onClick` event to gutter and manipulating the `selectedChanges` prop:
+Both of the above prop is an object containing DOM events key/value pair.
+
+One of the common cases is to add code selecting functionality. This can be archived simply by passing an `onClick` event to gutter and coe and manipulating the `selectedChanges` prop:
 
 ```javascript
 import {PureComponent} from 'react';
@@ -321,10 +294,11 @@ import {Diff} from 'react-diff-view';
 class File extends PureComponent {
     state = {
         selectedChanges: [],
-        customEvents: {
-            gutter: {
-                onClick: this.selectChange
-            }
+        gutterEvents: {
+            onClick: this.selectChange
+        },
+        codeEvents: {
+            onClick: this.selectChange
         }
     };
 
@@ -336,70 +310,106 @@ class File extends PureComponent {
     }
 
     render() {
-        return <Diff {...this.props} {...this.state}>;
+        const {hunks, diffType} = this.props;
+        const {gutterEvents, codeEvents} = this.state;
+        const hunkProps = {gutterEvents, codeEvents};
+
+        return (
+            <Diff viewType="split" diffType={diffType}>
+                {hunk.map(hunk => <Hunk key={hunk.content} hunk={hunk} {...hunkProps} />)}
+            </Diff>
+        );
     }
 }
 ```
 
-`customEvents` can also be utilized to add a comment or expand collapsed code, see [demo/File.js](demo/File.js) for more implementation details.
+## Token system
 
-### Syntax highlight
+Since the version `2.0.0` we introduce a powerful token system to provide enhancements such as code highlighting, special word marking, inline diff edits and more.
 
-As a minimum core component, `react-diff-view` itself does not provide any highlight functions, however the `onRenderCode` prop will be called each time a line of code is rendered, this can be used to enable code highlight.
+The token system is quite complicated internally, so we recommend to use only the exported `tokenize` function to parse and tokenize diffs.
 
-The `onRenderCode` callback prop receives two elements: a `<td>` DOM element and its corresponding `change` object, the code is already rendered in the `<td>` element, you can simply call any syntax highlight library to highlight the code.
+The `tokenize` function accepts 2 arguments, the first is the `hunks` array, the second one is an `options` object containing many optional configurations:
 
-Note if `columnDiff` is enabled, there may be multiple `<span>` elements in `<td>` to highlight column differences, your syntax highlight library may stripped out all of them. Here we recommend [Prism](http://prismjs.com/) as the syntax highlighting library, combining with its [keep-markup plugin](https://github.com/PrismJS/prism/tree/gh-pages/plugins/keep-markup) the column difference can be preserved perfectly.
+- `{boolean} highlight`: Whether to highlight code syntax.
+- `{Object} refractor`: If `highlight` is set to `true`, we require the [refractor](https://github.com/wooorm/refractor) library to highlight code, you can simply pass the default export of `refractor` lib, or [create a custom build of it](https://github.com/wooorm/refractor#browser).
+- `{string} oldSource`: When highlight is enabled, it can generate more accurate syntax result when the entire source code is provided. Only the old source code is required, new code will be automatically generated from the diff patch. This is **not** required, however lack of it can result incorrect highlight in cases like multiline comments or template strings.
+- `{string} language`: When highlight is enabled, you **must** provide the language of your source code, your `refractor` object should also support the providing language, a list of language can be found [here](https://github.com/wooorm/refractor#syntaxes).
+- `{Function[]} enhancers`: A list of enhancers to enhance the result syntax tokens.
 
-Another problem is most syntax highlighting library requires a css class on the container element, this can be solved by adding the `code` property in `customClassNames` prop, a very simple example could be:
+The `react-diff-view` also ships with several common enhancers:
 
-```javascript
-import {PureComponent} from 'react';
-import parsePath from 'path-parse';
-import {languages} from 'lang-map';
-import {bind} from 'lodash-decorators';
-import {Diff} from 'react-diff-view';
-// Create your custom bundle of Prism with keep-markup plugin enabled
-import Prism from './3rd/prism';
-import './3rd/prism.css';
+### Edits
 
-const highlight = element => Prisim.highlightElement(element);
+The `markEdits(hunks)` exported function will further diff the old and new text within a hunk, the differences between two sides will be marked a class name `diff-code-edit`.
 
-class File extends PureComponent {
-    state = {
-        selectedChanges: [],
-        customEvents: {
-            code: {
-                onClick: highlight
-            }
-        }
-    };
+It uses [diff-match-patch](https://www.npmjs.com/package/diff-match-patch) as its internal implement.
 
-    @bind()
-    selectChange(change) {
-        const {selectedChanges} = this.state;
-        const selected = selectedChanges.includes(change);
-        this.setState({selectedChanges: selected ? without(selectedChanges, change) : [...selectedChanges, change]});
+### Special words
+
+The `markword(word, name)` exported function enables you to mark some special word with 2 arguments:
+
+- `{string} word`: The word you want to mark, such as `"\r"` or `"Hello"`.
+- `{string} name`: The name of word, such as `"carriage-return"` or `"hello"`.
+
+Marked word will have a class name of `diff-code-${name}`.
+
+### Pick ranges
+
+The `pickRanges(oldRanges, newRanges)` exported function is a more low level function which helps you to pick some ranges of text from each line.
+
+Each range is an object with properties:
+
+- `{string} type`: The custom type of range, this will be passed to your custom render function.
+- `{number} lineNumber`: The line number of this ranges, starting from 1.
+- `{number} start`: The starting index within line, starting from 0.
+- `{number} length`: The length of range.
+- `{object} properties`: Extra properties of range, these properties will be passed to your custom render function.
+
+By giving an array of ranges on both old and new side, the token system will pick them out of each line, you should pass a `renderToken` function prop to `Diff` component to customize your render implement of customzied token. The `renderToken` is a simple function receiving `(token, defaultRender)` as arguments:
+
+```jsx
+// Suppose we pick ranges of type `searchResult`
+const renderToken = (token, defaultRender, i) => {
+    if (token.type === 'searchResult') {
+        return (
+            <span key={i} className="search-result">
+                {token.children && token.children.map((token, i) => renderToken(token, defaultRender, i))}
+            </span>
+        );
     }
 
-    render() {
-        const {from, to} = this.props;
-        const filename = to === '/dev/null' ? from : to;
-        const {ext = ''} = parsePath(filename);
-        const [language] = languages(ext);
-        const classNames = {
-            code: `language-${language || 'unknown'}`
-        };
-        return <Diff {...this.props} {...this.state} customClassNames={classNames}>;
-    }
-}
+    // For other types, use the default render function
+    return defaultRender(token, i);
+};
 ```
 
-### Utilities
+We can utilize enhancers to create effects above diffs, for example we want to enable inline diff edits, and highlight tab and carriage return characters, this can be done by:
+
+```jsx
+import refractor from 'refractor';
+
+const options = {
+    highlight: true,
+    refractor: refractor,
+    oldSource: oldSource,
+    language: 'jsx',
+    enhancers: [
+        markWord('\r', 'carriage-return'),
+        markWord('\t', 'tab'),
+        markEdits(hunks)
+    ]
+};
+
+const tokens = tokenize(hunks, options);
+```
+
+The `tokenize` function can work inside a web worker so it does not block the user interface.
+
+## Utilities
 
 `react-diff-view` comes with some utility functions to help simplify common issues:
 
-- `{Hunk[]} addStubHunk({Hunk[]} hunks)`: Adds a stub hunk (with no actual changes) to the end of `hunks`, this is useful when you want to expand code after the last line of diff.
 - `{number} computeOldLineNumber({Change} change)`: Compute the line number in old revision for a change, returns `-1` on insert changes.
 - `{number} computeNewLineNumber({Change} change)`: Compute the line number in new revision for a change, returns `-1` on delete changes.
 - `{Hunk} textLinesToHunk({string[]} lines, {number} oldStartLineNumber, {number} newStartLineNumber)`: Create a hunk with all normal changes, this is useful when expanding code between two hunks.
@@ -410,8 +420,7 @@ class File extends PureComponent {
 - `{Change} findChangeByNewLineNumber({Hunk[]} hunks, {number} newLineNumber)`: Opposite to `findChangeByNewLineNumber` function.
 - `{number} getCollapsedLinesCountBetween({Hunk} previousHunk, {Hunk} nextHunk)`: Get the count of collapsed line between given sibling hunks.
 
-
-### Enjoy more with raw text provided
+## Enjoy more with raw text provided
 
 Once you can provide a `rawCodeOrLines` object (which can be a string, or an array of lines of code), there are many more utility function you can use to help organize hunks:
 
@@ -438,6 +447,7 @@ I don't really know how to test such a complicated and UI centric component, any
 - The main module is now `cjs/index.js`, with an ES version at `es/index.js`, style is placed at `style/index.css`.
 - `Diff` component does not use `hunks` prop anymore, `children` is required.
 - `diffType` prop on `Diff` component is now required.
+- `customClassNames` and `customEvents` props are removed from `Diff` component, instead of it `Hunk` and `Decoration` component receives `xxxClassName` and `xxxEvents`, see [Customize events](#customize-events) and [Customize styles](#customize-styles) sections.
 - `hideGutter` and `gutterAnchor` props are merged into `gutterType` prop with 3 values: `"default"`, `"anchor"` and `"none"`.
 - `markEdits` and `onRenderCode` props are removed, now the tokenizer system takes all enhancement on code view.
 - `parse` module is removed, use named exports from main module instead, tree shaking can be enabled on ES version.
