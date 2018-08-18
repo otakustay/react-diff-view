@@ -24,33 +24,17 @@ const setUserSelectStyle = (element, selectable) => {
 
 export default class Diff extends PureComponent {
 
-    static propTypes = (() => {
-        const events = {
-            gutter: PropTypes.object,
-            code: PropTypes.object
-        };
-
-        const classNames = {
-            hunk: PropTypes.string,
-            line: PropTypes.string,
-            gutter: PropTypes.string,
-            code: PropTypes.string
-        };
-
-        return {
-            diffType: PropTypes.oneOf(['add', 'delete', 'modify', 'rename', 'copy']).isRequired,
-            viewType: PropTypes.oneOf(['unified', 'split']).isRequired,
-            gutterType: PropTypes.oneOf(['default', 'none', 'anchor']),
-            generateAnchorID: PropTypes.func,
-            selectedChanges: PropTypes.arrayOf(PropTypes.string),
-            widgets: PropTypes.object,
-            optimizeSelection: PropTypes.bool,
-            className: PropTypes.string,
-            customEvents: PropTypes.shape(events),
-            customClassNames: PropTypes.shape(classNames),
-            children: PropTypes.oneOfType([PropTypes.element, PropTypes.arrayOf(PropTypes.element)]).isRequired
-        };
-    })();
+    static propTypes = {
+        diffType: PropTypes.oneOf(['add', 'delete', 'modify', 'rename', 'copy']).isRequired,
+        viewType: PropTypes.oneOf(['unified', 'split']).isRequired,
+        gutterType: PropTypes.oneOf(['default', 'none', 'anchor']),
+        generateAnchorID: PropTypes.func,
+        selectedChanges: PropTypes.arrayOf(PropTypes.string),
+        widgets: PropTypes.objectOf(PropTypes.node),
+        optimizeSelection: PropTypes.bool,
+        className: PropTypes.string,
+        children: PropTypes.oneOfType([PropTypes.element, PropTypes.arrayOf(PropTypes.element)]).isRequired
+    };
 
     static defaultProps = {
         children: undefined,
@@ -59,8 +43,6 @@ export default class Diff extends PureComponent {
         selectedChanges: [],
         widgets: {},
         className: '',
-        customEvents: {},
-        customClassNames: {},
         generateAnchorID() {
             return undefined;
         }

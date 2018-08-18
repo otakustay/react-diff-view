@@ -15,10 +15,10 @@ const renderCells = args => {
         side,
         selected,
         tokens,
-        customClassNames,
-        customEvents,
-        bindGutterEvents,
-        bindCodeEvents,
+        gutterClassName,
+        codeClassName,
+        gutterEvents,
+        codeEvents,
         anchorID,
         gutterAnchor,
         gutterAnchorTarget,
@@ -26,46 +26,40 @@ const renderCells = args => {
     } = args;
 
     if (!change) {
-        const gutterClassName = classNames('diff-gutter', 'diff-gutter-omit', customClassNames.gutter);
-        const codeClassName = classNames('diff-code', 'diff-code-omit', customClassNames.code);
+        const gutterClassNameValue = classNames('diff-gutter', 'diff-gutter-omit', gutterClassName);
+        const codeClassNameValue = classNames('diff-code', 'diff-code-omit', codeClassName);
 
         return [
-            !hideGutter && <td key="gutter" className={gutterClassName} />,
-            <td key="code" className={codeClassName} />
+            !hideGutter && <td key="gutter" className={gutterClassNameValue} />,
+            <td key="code" className={codeClassNameValue} />
         ];
     }
 
     const {type, content} = change;
     const line = side === SIDE_OLD ? computeOldLineNumber(change) : computeNewLineNumber(change);
-    const boundGutterEvents = bindGutterEvents(customEvents.gutter, change);
-    const gutterClassName = classNames(
+    const gutterClassNameValue = classNames(
         'diff-gutter',
         `diff-gutter-${type}`,
-        customClassNames.gutter,
+        gutterClassName,
         {'diff-gutter-selected': selected}
     );
     const gutterProps = {
-        id: anchorID,
-        'className': gutterClassName,
+        'id': anchorID,
+        'className': gutterClassNameValue,
         'data-line-number': line,
-        children: gutterAnchor ? <a href={'#' + gutterAnchorTarget} data-line-number={line} /> : null,
-        ...boundGutterEvents
+        'children': gutterAnchor ? <a href={'#' + gutterAnchorTarget} data-line-number={line} /> : null,
+        ...gutterEvents
     };
-    const boundCodeEvents = bindCodeEvents(customEvents.code, change);
-    const codeClassName = classNames(
+    const codeClassNameValue = classNames(
         'diff-code',
         `diff-code-${type}`,
-        customClassNames.code,
+        codeClassName,
         {'diff-code-selected': selected}
     );
-    const codeProps = {
-        className: codeClassName,
-        ...boundCodeEvents
-    };
 
     return [
         !hideGutter && <td key="gutter" {...gutterProps} />,
-        <CodeCell key="code" {...codeProps} text={content} tokens={tokens} />
+        <CodeCell key="code" className={codeClassNameValue} {...codeEvents} text={content} tokens={tokens} />
     ];
 };
 
@@ -93,6 +87,11 @@ export default class SplitChange extends PureComponent {
 
     render() {
         const {
+            className,
+            gutterClassName,
+            codeClassName,
+            gutterEvents,
+            codeEvents,
             oldChange,
             newChange,
             oldSelected,
@@ -100,14 +99,19 @@ export default class SplitChange extends PureComponent {
             oldTokens,
             newTokens,
             monotonous,
-            customClassNames,
-            customEvents,
             hideGutter,
             generateAnchorID,
             gutterAnchor
         } = this.props;
 
-        const commons = {monotonous, hideGutter, customClassNames, customEvents};
+        const commons = {
+            monotonous,
+            hideGutter,
+            gutterClassName,
+            codeClassName,
+            gutterEvents,
+            codeEvents
+        };
         const oldAnchorID = oldChange && generateAnchorID(oldChange);
         const oldArgs = {
             ...commons,
@@ -115,8 +119,8 @@ export default class SplitChange extends PureComponent {
             side: SIDE_OLD,
             selected: oldSelected,
             tokens: oldTokens,
-            bindGutterEvents: this.bindOldGutterEvents,
-            bindCodeEvents: this.bindOldCodeEvents,
+            gutterEvents: this.bindOldGutterEvents(gutterEvents, oldChange),
+            codeEvents: this.bindOldCodeEvents(codeEvents, oldChange),
             anchorID: oldAnchorID,
             gutterAnchor: gutterAnchor,
             gutterAnchorTarget: oldAnchorID
@@ -128,8 +132,8 @@ export default class SplitChange extends PureComponent {
             side: SIDE_NEW,
             selected: newSelected,
             tokens: newTokens,
-            bindGutterEvents: this.bindNewGutterEvents,
-            bindCodeEvents: this.bindNewCodeEvents,
+            gutterEvents: this.bindNewGutterEvents(gutterEvents, newChange),
+            codeEvents: this.bindNewCodeEvents(codeEvents, newChange),
             anchorID: oldChange === newChange ? undefined : newAnchorID,
             gutterAnchor: gutterAnchor,
             gutterAnchorTarget: oldChange === newChange ? oldAnchorID : newAnchorID
@@ -137,7 +141,7 @@ export default class SplitChange extends PureComponent {
 
         if (monotonous) {
             return (
-                <tr className={classNames('diff-line', customClassNames.line)}>
+                <tr className={classNames('diff-line', className)}>
                     {renderCells(oldChange ? oldArgs : newArgs)}
                 </tr>
             );
@@ -160,7 +164,7 @@ export default class SplitChange extends PureComponent {
         })(oldChange, newChange);
 
         return (
-            <tr className={classNames('diff-line', customClassNames.line, lineTypeClassName)}>
+            <tr className={classNames('diff-line', lineTypeClassName, className)}>
                 {renderCells(oldArgs)}
                 {renderCells(newArgs)}
             </tr>

@@ -1,21 +1,21 @@
 import {flatMap, last} from 'lodash';
 import {replace} from './utils';
 
-const markInPaths = (character, name) => paths => flatMap(
+const markInPaths = (word, name) => paths => flatMap(
     paths,
     path => {
         const leaf = last(path);
 
-        if (!leaf.value.includes(character)) {
+        if (!leaf.value.includes(word)) {
             return [path];
         }
 
-        const segments = leaf.value.split(character);
+        const segments = leaf.value.split(word);
 
         return segments.reduce(
             (output, text, i) => {
                 if (i !== 0) {
-                    output.push(replace(path, {type: 'mark', markType: name, value: character}));
+                    output.push(replace(path, {type: 'mark', markType: name, value: word}));
                 }
 
                 if (text) {
@@ -29,9 +29,9 @@ const markInPaths = (character, name) => paths => flatMap(
     }
 );
 
-const process = (linesOfPaths, character, name) => linesOfPaths.map(markInPaths(character, name));
+const process = (linesOfPaths, word, name) => linesOfPaths.map(markInPaths(word, name));
 
-export default (character, name) => ([oldLinesOfPaths, newLinesOfPaths]) => [
-    process(oldLinesOfPaths, character, name),
-    process(newLinesOfPaths, character, name)
+export default (word, name) => ([oldLinesOfPaths, newLinesOfPaths]) => [
+    process(oldLinesOfPaths, word, name),
+    process(newLinesOfPaths, word, name)
 ];

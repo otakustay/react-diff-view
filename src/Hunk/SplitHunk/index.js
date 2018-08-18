@@ -54,7 +54,16 @@ const groupElements = (changes, widgets) => {
     return elements;
 };
 
-const renderRow = ([type, key, oldValue, newValue], selectedChanges, monotonous, hideGutter, tokens, props) => {
+const renderRow = ([type, key, oldValue, newValue], props) => {
+    const {
+        selectedChanges,
+        monotonous,
+        hideGutter,
+        tokens,
+        lineClassName,
+        ...changeProps
+    } = props;
+
     if (type === 'change') {
         const oldSelected = oldValue ? selectedChanges.includes(getChangeKey(oldValue)) : false;
         const newSelected = newValue ? selectedChanges.includes(getChangeKey(newValue)) : false;
@@ -64,6 +73,7 @@ const renderRow = ([type, key, oldValue, newValue], selectedChanges, monotonous,
         return (
             <SplitChange
                 key={`change${key}`}
+                className={lineClassName}
                 oldChange={oldValue}
                 newChange={newValue}
                 monotonous={monotonous}
@@ -72,7 +82,7 @@ const renderRow = ([type, key, oldValue, newValue], selectedChanges, monotonous,
                 newSelected={newSelected}
                 oldTokens={oldTokens}
                 newTokens={newTokens}
-                {...props}
+                {...changeProps}
             />
         );
     }
@@ -94,11 +104,7 @@ const renderRow = ([type, key, oldValue, newValue], selectedChanges, monotonous,
 const SplitHunk = props => {
     const {
         hunk,
-        monotonous,
-        hideGutter,
         widgets,
-        selectedChanges,
-        tokens,
         className,
         ...childrenProps
     } = props;
@@ -106,7 +112,7 @@ const SplitHunk = props => {
 
     return (
         <tbody className={classNames('diff-hunk', className)}>
-            {elements.map(item => renderRow(item, selectedChanges, monotonous, hideGutter, tokens, childrenProps))}
+            {elements.map(item => renderRow(item, childrenProps))}
         </tbody>
     );
 };

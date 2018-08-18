@@ -20,8 +20,8 @@ const groupElements = (changes, widgets) => changes.reduce(
     []
 );
 
-const renderRow = ([type, key, value], selectedChanges, tokens, props) => {
-    const {hideGutter} = props;
+const renderRow = ([type, key, value], props) => {
+    const {hideGutter, selectedChanges, tokens, lineClassName, ...changeProps} = props;
 
     if (type === 'change') {
         const side = value.isDelete ? 'old' : 'new';
@@ -31,10 +31,12 @@ const renderRow = ([type, key, value], selectedChanges, tokens, props) => {
         return (
             <UnifiedChange
                 key={`change${key}`}
+                className={lineClassName}
                 change={value}
+                hideGutter={hideGutter}
                 selected={selectedChanges.includes(key)}
                 tokens={tokensOfLine}
-                {...props}
+                {...changeProps}
             />
         );
     }
@@ -49,8 +51,6 @@ const UnifiedHunk = props => {
     const {
         hunk,
         widgets,
-        selectedChanges,
-        tokens,
         className,
         ...childrenProps
     } = props;
@@ -58,7 +58,7 @@ const UnifiedHunk = props => {
 
     return (
         <tbody className={classNames('diff-hunk', className)}>
-            {elements.map(element => renderRow(element, selectedChanges, tokens, childrenProps))}
+            {elements.map(element => renderRow(element, childrenProps))}
         </tbody>
     );
 };

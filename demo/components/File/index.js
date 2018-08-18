@@ -9,7 +9,6 @@ import rawCode from '../../assets/CSSPropertyOperations.raw';
 import {
     createFilenameSelector,
     createCanExpandSelector,
-    createCustomEventsSelector,
     createRenderingHunksSelector,
     createWidgetsSelector
 } from '../../selectors';
@@ -29,8 +28,6 @@ export default class File extends PureComponent {
     computeFilename = createFilenameSelector();
 
     computeExpandable = createCanExpandSelector(this.computeFilename);
-
-    computeEvents = createCustomEventsSelector(this.computeExpandable);
 
     computeRenderingHunks = createRenderingHunksSelector(this.computeExpandable);
 
@@ -54,6 +51,13 @@ export default class File extends PureComponent {
             selectedChanges: [],
             workerID: uniqueId(),
             tokens: null,
+            gutterEvents: {
+                onClick: this.selectChange
+            },
+            codeEvents: {
+                onClick: this.selectChange,
+                onDoubleClick: this.addComment
+            },
             generateAnchorID(change) {
                 return idPrefix + '-' + getChangeKey(change);
             }
@@ -151,16 +155,14 @@ export default class File extends PureComponent {
 
     render() {
         const {type, additions, deletions, hideGutter, viewType} = this.props;
-        const {renderDiff, selectedChanges, hunks, generateAnchorID, tokens} = this.state;
-        const methods = pick(this, ['addComment', 'selectChange', 'loadCollapsedBefore']);
+        const {renderDiff, selectedChanges, hunks, generateAnchorID, tokens, gutterEvents, codeEvents} = this.state;
         const filename = this.computeFilename(this.props);
         const canExpand = this.computeExpandable(this.props);
-        const customEvents = this.computeEvents({...this.props, ...methods});
         const widgets = this.computeWidgets(this.state);
 
         const renderHunk = (children, hunk, i, hunks) => {
             const previousElement = children[children.length - 1];
-            const decoration = canExpand
+            const decorationElement = canExpand
                 ? (
                     <UnfoldCollapsed
                         key={'decoration-' + hunk.content}
@@ -171,11 +173,20 @@ export default class File extends PureComponent {
                     />
                 )
                 : <HunkInfo key={'decoration-' + hunk.content} hunk={hunk} />;
-            children.push(decoration);
-            children.push(<Hunk key={hunk.content} hunk={hunk} />);
+            children.push(decorationElement);
+
+            const hunkElement = (
+                <Hunk
+                    key={'hunk-' + hunk.content}
+                    hunk={hunk}
+                    gutterEvents={gutterEvents}
+                    codeEvents={codeEvents}
+                />
+            );
+            children.push(hunkElement);
 
             if (i === hunks.length - 1 && canExpand) {
-                const unfoldTail = (
+                const unfoldTailElement = (
                     <UnfoldCollapsed
                         key="decoration-tail"
                         previousHunk={hunk}
@@ -183,7 +194,7 @@ export default class File extends PureComponent {
                         onExpand={this.loadCollapsedCode}
                     />
                 );
-                children.push(unfoldTail);
+                children.push(unfoldTailElement);
             }
 
             return children;
@@ -205,7 +216,6 @@ export default class File extends PureComponent {
                             widgets={widgets}
                             viewType={viewType}
                             selectedChanges={selectedChanges}
-                            customEvents={customEvents}
                             generateAnchorID={generateAnchorID}
                             tokens={tokens}
                         >

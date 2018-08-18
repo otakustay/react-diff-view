@@ -3,22 +3,22 @@ import {Consumer} from '../context';
 import UnifiedHunk from './UnifiedHunk';
 import SplitHunk from './SplitHunk';
 
-const Hunk = ({hunk}) => (
+const Hunk = ({hunk, className, ...props}) => (
     <Consumer>
         {
             ({gutterType, ...context}) => {
-                const {viewType, customClassNames} = context;
                 const hideGutter = gutterType === 'none';
                 const gutterAnchor = gutterType === 'anchor';
-                const RenderingHunk = viewType === 'unified' ? UnifiedHunk : SplitHunk;
+                const RenderingHunk = context.viewType === 'unified' ? UnifiedHunk : SplitHunk;
 
                 return (
                     <RenderingHunk
                         {...context}
+                        {...props}
                         hunk={hunk}
                         hideGutter={hideGutter}
                         gutterAnchor={gutterAnchor}
-                        className={customClassNames.hunk}
+                        className={className}
                     />
                 );
             }
@@ -48,8 +48,23 @@ Hunk.propTypes = (() => {
     };
 
     return {
-        hunk: PropTypes.shape(hunk).isRequired
+        hunk: PropTypes.shape(hunk).isRequired,
+        className: PropTypes.string,
+        lineClassName: PropTypes.string,
+        gutterClassName: PropTypes.string,
+        contentClassName: PropTypes.string,
+        gutterEvents: PropTypes.object,
+        codeEvents: PropTypes.object
     };
 })();
+
+Hunk.defaultProps = {
+    className: '',
+    lineClassName: '',
+    gutterClassName: '',
+    contentClassName: '',
+    gutterEvents: {},
+    codeEvents: {}
+};
 
 export default Hunk;

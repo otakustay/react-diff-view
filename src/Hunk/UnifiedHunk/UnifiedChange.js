@@ -20,7 +20,6 @@ const GutterCell = ({hide, className, lineNumber, gutterAnchor, anchorID, ...pro
 
 export default class UnifiedChange extends PureComponent {
 
-
     bindGutterEvents = createEventsBindingSelector();
 
     bindCodeEvents = createEventsBindingSelector();
@@ -39,8 +38,11 @@ export default class UnifiedChange extends PureComponent {
             change,
             selected,
             tokens,
-            customClassNames,
-            customEvents,
+            className,
+            gutterClassName,
+            codeClassName,
+            gutterEvents,
+            codeEvents,
             hideGutter,
             gutterAnchor,
             generateAnchorID
@@ -51,32 +53,32 @@ export default class UnifiedChange extends PureComponent {
         const newLine = computeNewLineNumber(change);
         const newLineNumber = newLine === -1 ? undefined : newLine;
 
-        const boundGutterEvents = this.bindGutterEvents(customEvents.gutter, change);
-        const boundCodeEvents = this.bindCodeEvents(customEvents.code, change);
+        const boundGutterEvents = this.bindGutterEvents(gutterEvents, change);
+        const boundCodeEvents = this.bindCodeEvents(codeEvents, change);
 
         const anchorID = generateAnchorID(change);
-        const gutterClassName = classNames(
+        const gutterClassNameValue = classNames(
             'diff-gutter',
             `diff-gutter-${type}`,
-            customClassNames.gutter,
+            gutterClassName,
             {'diff-gutter-selected': selected}
         );
-        const codeClassName = classNames(
+        const codeClassNameValue = classNames(
             'diff-code',
             `diff-code-${type}`,
-            customClassNames.code,
+            codeClassName,
             {'diff-code-selected': selected}
         );
 
         return (
             <tr
                 id={anchorID}
-                className={classNames('diff-line', customClassNames.line)}
+                className={classNames('diff-line', className)}
                 ref={container => (this.container = container)}
             >
                 <GutterCell
                     hide={hideGutter}
-                    className={gutterClassName}
+                    className={gutterClassNameValue}
                     lineNumber={oldLineNumber}
                     gutterAnchor={gutterAnchor}
                     anchorID={anchorID}
@@ -84,13 +86,13 @@ export default class UnifiedChange extends PureComponent {
                 />
                 <GutterCell
                     hide={hideGutter}
-                    className={gutterClassName}
+                    className={gutterClassNameValue}
                     lineNumber={newLineNumber}
                     gutterAnchor={gutterAnchor}
                     anchorID={anchorID}
                     {...boundGutterEvents}
                 />
-                <CodeCell className={codeClassName} text={content} tokens={tokens} {...boundCodeEvents} />
+                <CodeCell className={codeClassNameValue} text={content} tokens={tokens} {...boundCodeEvents} />
             </tr>
         );
     }
