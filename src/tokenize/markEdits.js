@@ -88,6 +88,18 @@ const convertToLinesOfEdits = (linesOfDiffs, startLineNumber) => flatMap(
     (diffs, i) => diffsToEdits(diffs, startLineNumber + i)
 );
 
+const diffText = (x, y) => {
+    const dmp = new DiffMatchPatch();
+    const diffs = dmp.diff_main(x, y);
+    dmp.diff_cleanupSemantic(diffs);
+
+    if (diffs.length <= 1) {
+        return [[], []];
+    }
+
+    return groupDiffs(diffs);
+};
+
 const diffChangeBlock = changes => {
     const [oldSource, newSource] = changes.reduce(
         ([oldSource, newSource], {isDelete, content}) => (
@@ -98,15 +110,12 @@ const diffChangeBlock = changes => {
         ['', '']
     );
 
-    const dmp = new DiffMatchPatch();
-    const diffs = dmp.diff_main(oldSource, newSource);
-    dmp.diff_cleanupSemantic(diffs);
+    const [oldDiffs, newDiffs] = diffText(oldSource, newSource);
 
-    if (diffs.length <= 1) {
-        return [[], []];
+    if (oldDiffs.length === 0 && newDiffs.length === 0) {
+        return [oldDiffs, newDiffs];
     }
 
-    const [oldDiffs, newDiffs] = groupDiffs(diffs);
     const getLineNumber = change => change && change.lineNumber;
     const oldStartLineNumber = getLineNumber(changes.find(change => change.isDelete));
     const newStartLineNumber = getLineNumber(changes.find(change => change.isInsert));
@@ -116,9 +125,27 @@ const diffChangeBlock = changes => {
     return [oldEdits, newEdits];
 };
 
-export default hunks => {
+const diffByLine = changes => changes.reduce(
+    ([oldEdits, newEdits, previousChange], currentChange) => {
+        if (!previousChange.isDelete || !currentChange.isInsert) {
+            return [oldEdits, newEdits, currentChange];
+        }
+
+        const [oldDiffs, newDiffs] = diffText(previousChange.content, currentChange.content);
+        return [
+            oldEdits.concat(diffsToEdits(oldDiffs, previousChange.lineNumber)),
+            newEdits.concat(diffsToEdits(newDiffs, currentChange.lineNumber)),
+            currentChange
+        ];
+    },
+    [[], [], {}]
+);
+
+export default (hunks, {type = 'block'} = {}) => {
     const changeBlocks = flatMap(hunks.map(hunk => hunk.changes), findChangeBlocks);
-    const [oldEdits, newEdits] = changeBlocks.map(diffChangeBlock).reduce(
+    const findEdits = type === 'block' ? diffChangeBlock : diffByLine;
+
+    const [oldEdits, newEdits] = changeBlocks.map(findEdits).reduce(
         ([oldEdits, newEdits], [currentOld, currentNew]) => [
             oldEdits.concat(currentOld),
             newEdits.concat(currentNew)

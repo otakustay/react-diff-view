@@ -341,7 +341,11 @@ The `react-diff-view` also ships with several common enhancers:
 
 ### Edits
 
-The `markEdits(hunks)` exported function will further diff the old and new text within a hunk, the differences between two sides will be marked a class name `diff-code-edit`.
+The `markEdits(hunks, options)` exported function will further diff the old and new text within a hunk, the differences between two sides will be marked a class name `diff-code-edit`.
+
+The `options` object accepts properties:
+
+- `{string} type`: How inline diff should work, the value could be `"line"` to diff texts line by line, or `"block"` (by default) which diffs text with a hunk.
 
 It uses [diff-match-patch](https://www.npmjs.com/package/diff-match-patch) as its internal implement.
 
