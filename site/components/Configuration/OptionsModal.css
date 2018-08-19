@@ -1,0 +1,19 @@
+.row {
+    padding: 8px 0;
+    border-bottom: 1px solid #ccc;
+}
+
+.field {
+    display: flex;
+    align-items: center;
+}
+
+.tooltip {
+    color: #999;
+    font-size: 12px;
+    margin-top: 8px;
+}
+
+.row-title {
+    flex: 1;
+}

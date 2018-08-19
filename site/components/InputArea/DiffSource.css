@@ -1,0 +1,17 @@
+.root {
+    margin-bottom: 20px;
+}
+
+.switch {
+    text-align: right;
+    margin-bottom: 6px;
+}
+
+.input {
+    display: flex;
+    justify-content: space-between;
+}
+
+.input-text {
+    width: 48%;
+}

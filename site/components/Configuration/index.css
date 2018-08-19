@@ -1,0 +1,16 @@
+.root {
+    display: flex;
+    margin-bottom: 10px;
+    flex-direction: row-reverse;
+    align-items: center;
+}
+
+.setting {
+    font-size: 20px;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+.language {
+    width: 180px;
+}

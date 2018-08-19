@@ -1,0 +1,8 @@
+.root {
+    text-align: center;
+    cursor: pointer;
+}
+
+.root:hover {
+    background-color: #e0ecfc;
+}

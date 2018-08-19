@@ -1,0 +1,11 @@
+:global(.diff-decoration) {
+    line-height: 2;
+    font-family: SFMono-Regular, Consolas, "Liberation Mono", Menlo, Courier, monospace;
+    background-color: #f2f8ff;
+}
+
+:global(.diff-decoration-content) {
+    background-color: #f2f8ff;
+    padding-left: .5em;
+    color: #999;
+}

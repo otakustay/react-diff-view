@@ -1,0 +1,35 @@
+.root {
+    margin-bottom: 20px;
+}
+
+.switch {
+    text-align: right;
+    margin-bottom: 6px;
+}
+
+.toggle {
+    display: flex;
+    align-items: center;
+    margin: .3em 0;
+    user-select: none;
+}
+
+.toggle::before {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background-color: #666;
+    margin-right: .3em;
+}
+
+.toggle::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background-color: #666;
+    margin-left: .3em;
+}
+
+.hidden {
+    display: none;
+}

@@ -1,0 +1,20 @@
+.title {
+    margin: 0;
+    font-size: 16px;
+    line-height: 30px;
+    border: 1px solid #ccc;
+    border-bottom: none;
+    background-color: #ecebeb;
+    text-align: center;
+    font-weight: bold;
+}
+
+.input {
+    display: block;
+    width: 100%;
+    border: 1px solid #ddd;
+    font-family: monospace;
+    resize: none;
+    outline: none;
+    height: 200px;
+}

@@ -8,7 +8,15 @@
         "lodash",
         "react-require",
         "add-react-displayname",
-        "transform-decorators-legacy"
+        "transform-decorators-legacy",
+        [
+            "babel-plugin-import",
+            {
+                "libraryName": "antd",
+                "libraryDirectory": "es",
+                "style": "css"
+            }
+        ]
     ],
     "env": {
         "production": {

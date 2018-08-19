@@ -1,0 +1,18 @@
+.root {
+    display: block;
+    margin-top: 10px;
+    width: 100%;
+    line-height: 2.5;
+    font-size: 16px;
+    font-weight: bold;
+    color: #fff;
+    border: none;
+    background-color: #239956;
+    cursor: pointer;
+    outline: none;
+    transition: background-color linear .3s;
+}
+
+.root:hover {
+    background-color: #1d8449;
+}
