@@ -1,6 +1,18 @@
 import {last, isEqual, omit} from 'lodash';
 
-const isNodeEqual = (x, y) => {
+const areNodesMeregable = (x, y) => {
+    if (x.type !== y.type) {
+        return false;
+    }
+
+    if (x.type === 'text') {
+        return true;
+    }
+
+    if (!x.children || !y.children) {
+        return false;
+    }
+
     const xBase = 'children' in x ? omit(x, 'children') : x;
     const yBase = 'children' in y ? omit(y, 'children') : y;
 
@@ -21,7 +33,7 @@ const mergeNode = (x, y) => {
 const attachNode = (parent, node) => {
     const previousSibling = last(parent.children);
 
-    if (previousSibling && isNodeEqual(previousSibling, node)) {
+    if (previousSibling && areNodesMeregable(previousSibling, node)) {
         /* eslint-disable no-param-reassign */
         parent.children[parent.children.length - 1] = mergeNode(previousSibling, node);
         /* eslint-enable no-param-reassign */
