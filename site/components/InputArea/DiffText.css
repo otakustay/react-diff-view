@@ -33,3 +33,13 @@
 .hidden {
     display: none;
 }
+
+.diff-code-mark-tab {
+    display: inline-block;
+    width: 8ch;
+    background-color: #666;
+}
+
+.diff-code-mark-carriage-return {
+    color: #f00;
+}

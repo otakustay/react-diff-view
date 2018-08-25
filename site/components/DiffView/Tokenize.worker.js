@@ -6,8 +6,8 @@ self.addEventListener(
     'message',
     ({data: {id, hunks, oldSource, language, editsType}}) => {
         const enhancers = [
-            markWord('\r', 'carriage-return'),
-            markWord('\t', 'tab'),
+            markWord('\r', 'carriage-return', '␍'),
+            markWord('\t', 'tab', '→'),
             editsType === 'none' ? null : markEdits(hunks, {type: editsType})
         ];
 
