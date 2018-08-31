@@ -123,27 +123,35 @@ export default class SplitChange extends PureComponent {
             renderToken
         };
         const oldAnchorID = oldChange && generateAnchorID(oldChange);
+        const oldEventArg = {
+            change: oldChange,
+            side: 'old'
+        };
         const oldArgs = {
             ...commons,
             change: oldChange,
             side: SIDE_OLD,
             selected: oldSelected,
             tokens: oldTokens,
-            gutterEvents: this.bindOldGutterEvents(gutterEvents, oldChange),
-            codeEvents: this.bindOldCodeEvents(codeEvents, oldChange),
+            gutterEvents: this.bindOldGutterEvents(gutterEvents, oldEventArg),
+            codeEvents: this.bindOldCodeEvents(codeEvents, oldEventArg),
             anchorID: oldAnchorID,
             gutterAnchor: gutterAnchor,
             gutterAnchorTarget: oldAnchorID
         };
         const newAnchorID = newChange && generateAnchorID(newChange);
+        const newEventArg = {
+            change: newChange,
+            side: 'new'
+        };
         const newArgs = {
             ...commons,
             change: newChange,
             side: SIDE_NEW,
             selected: newSelected,
             tokens: newTokens,
-            gutterEvents: this.bindNewGutterEvents(gutterEvents, newChange),
-            codeEvents: this.bindNewCodeEvents(codeEvents, newChange),
+            gutterEvents: this.bindNewGutterEvents(gutterEvents, newEventArg),
+            codeEvents: this.bindNewCodeEvents(codeEvents, newEventArg),
             anchorID: oldChange === newChange ? undefined : newAnchorID,
             gutterAnchor: gutterAnchor,
             gutterAnchorTarget: oldChange === newChange ? oldAnchorID : newAnchorID

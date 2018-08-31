@@ -54,8 +54,9 @@ export default class UnifiedChange extends PureComponent {
         const newLine = computeNewLineNumber(change);
         const newLineNumber = newLine === -1 ? undefined : newLine;
 
-        const boundGutterEvents = this.bindGutterEvents(gutterEvents, change);
-        const boundCodeEvents = this.bindCodeEvents(codeEvents, change);
+        const eventArg = {change};
+        const boundGutterEvents = this.bindGutterEvents(gutterEvents, eventArg);
+        const boundCodeEvents = this.bindCodeEvents(codeEvents, eventArg);
 
         const anchorID = generateAnchorID(change);
         const gutterClassNameValue = classNames(

@@ -1,21 +1,8 @@
 import {mapValues} from 'lodash';
-
-const inputEquals = (prev, current) => {
-    if (prev.length !== current.length) {
-        return false;
-    }
-
-    for (let i = 0; i < prev.length; i++) {
-        if (prev[i] !== current[i]) {
-            return false;
-        }
-    }
-
-    return true;
-};
+import shallowEquals from 'shallow-equal/objects';
 
 // Simplified version of reselect
-const createSelector = select => {
+const createSelector = (select, inputEquals) => {
     let lastInput = null;
     let lastResult = null;
 
@@ -29,6 +16,9 @@ const createSelector = select => {
     };
 };
 
-const bindAllEvents = (events, arg) => mapValues(events, fn => () => fn(arg));
-
-export const createEventsBindingSelector = () => createSelector(bindAllEvents);
+export const createEventsBindingSelector = () => createSelector(
+    // Bind args of all event callbacks to given input
+    (events, arg) => mapValues(events, fn => () => fn(arg)),
+    // [events, {change, side}]
+    (prev, next) => shallowEquals(prev[0], next[0]) && shallowEquals(prev[1], next[1])
+);

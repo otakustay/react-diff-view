@@ -284,6 +284,8 @@ The `Hunk` component receives `gutterEvents` and `codeEvents` props to customize
 
 Both of the above prop is an object containing DOM events key/value pair.
 
+Each event callback receivs an object with key `change` and `side`, the `side` property is `undefined` in unified mode, in split mode it could be either `"old"` and `"new"` responding to the triggering element.
+
 One of the common cases is to add code selecting functionality. This can be archived simply by passing an `onClick` event to gutter and coe and manipulating the `selectedChanges` prop:
 
 ```javascript
@@ -303,7 +305,7 @@ class File extends PureComponent {
     };
 
     @bind()
-    selectChange(change) {
+    selectChange({change}) {
         const {selectedChanges} = this.state;
         const selected = selectedChanges.includes(change);
         this.setState({selectedChanges: selected ? without(selectedChanges, change) : [...selectedChanges, change]});
@@ -458,6 +460,7 @@ I don't really know how to test such a complicated and UI centric component, any
 - `parse` module is removed, use named exports from main module instead, tree shaking can be enabled on ES version.
 - `stubHunk` options of `parseDiff` function is removed, with the power of `Decoration` component, we no longer need the stub hunk.
 - `addStubHunk` function is also removed since `Decoration` component is provided.
+- All callbacks defined in `codeEvents` and `gutterEvents` now receivs an object with key `change` and `side`.
 
 ## Change Log
 

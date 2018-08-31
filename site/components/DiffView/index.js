@@ -1,7 +1,8 @@
 import {PureComponent} from 'react';
-import {uniqueId, without} from 'lodash';
+import {uniqueId, without, omit} from 'lodash';
 import {bind} from 'lodash-decorators';
 import sha from 'sha1';
+import shallowEquals from 'shallow-equal/objects';
 import {parseDiff, Diff, Hunk, expandFromRawCode, getChangeKey} from 'react-diff-view';
 import {withTransientRegion} from 'react-kiss';
 import 'prism-themes/themes/prism-vs.css';
@@ -32,7 +33,9 @@ class DiffView extends PureComponent {
     }
 
     componentDidUpdate(prevProps) {
-        if (this.props !== prevProps) {
+        const currentTokenizeContext = omit(this.props, 'selection');
+        const nextTokenizeContext = omit(prevProps, 'selection');
+        if (!shallowEquals(currentTokenizeContext, nextTokenizeContext)) {
             this.tokenize();
         }
     }
@@ -146,7 +149,7 @@ const workflows = {
         return {hunks: newHunks};
     },
 
-    onToggleChangeSelection(change) {
+    onToggleChangeSelection({change}) {
         const key = getChangeKey(change);
         const toggle = selection => {
             if (selection.includes(key)) {

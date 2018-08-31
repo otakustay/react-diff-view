@@ -20,6 +20,7 @@
     "classnames": "^2.2.6",
     "diff-match-patch": "^1.0.1",
     "gitdiff-parser": "0.0.8",
+    "shallow-equal": "^1.0.0",
     "warning": "^4.0.1"
   },
   "devDependencies": {
