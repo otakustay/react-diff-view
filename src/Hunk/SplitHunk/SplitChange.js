@@ -1,7 +1,6 @@
 /* eslint-disable no-empty-function */
 import {PureComponent} from 'react';
 import PropTypes from 'prop-types';
-import {indexOf} from 'lodash';
 import classNames from 'classnames';
 import {computeOldLineNumber, computeNewLineNumber, createEventsBindingSelector} from '../../utils';
 import CodeCell from '../CodeCell';
@@ -97,25 +96,24 @@ export default class SplitChange extends PureComponent {
         hover: ''
     };
 
-    bindOldGutterEvents = createEventsBindingSelector();
+    constructor(props) {
+        super(props);
 
-    bindNewGutterEvents = createEventsBindingSelector();
+        const unmarkHover = () => this.setState({hover: ''});
+        const markHoverAs = side => () => this.setState({hover: side});
+        const ownEventsOnOldSide = {
+            onMouseEnter: markHoverAs('old'),
+            onMouseLeave: unmarkHover
+        };
+        const ownEventsOnNewSide = {
+            onMouseEnter: markHoverAs('new'),
+            onMouseLeave: unmarkHover
+        };
 
-    bindOldCodeEvents = createEventsBindingSelector();
-
-    bindNewCodeEvents = createEventsBindingSelector();
-
-    markHover = ({type, target}) => {
-        if (type === 'mouseleave') {
-            this.setState({hover: ''});
-        }
-        else {
-            const {hideGutter} = this.props;
-            const index = indexOf(target.parentNode.children, target);
-            const sideEdge = hideGutter ? 1 : 2;
-            const side = index <= sideEdge ? 'old' : 'new';
-            this.setState({hover: side});
-        }
+        this.bindOldGutterEvents = createEventsBindingSelector(ownEventsOnOldSide);
+        this.bindNewGutterEvents = createEventsBindingSelector(ownEventsOnNewSide);
+        this.bindOldCodeEvents = createEventsBindingSelector(ownEventsOnOldSide);
+        this.bindNewCodeEvents = createEventsBindingSelector(ownEventsOnNewSide);
     }
 
     render() {
@@ -210,11 +208,7 @@ export default class SplitChange extends PureComponent {
         })(oldChange, newChange);
 
         return (
-            <tr
-                className={classNames('diff-line', lineTypeClassName, className)}
-                onMouseEnter={this.markHover}
-                onMouseLeave={this.markHover}
-            >
+            <tr className={classNames('diff-line', lineTypeClassName, className)}>
                 {renderCells(oldArgs)}
                 {renderCells(newArgs)}
             </tr>
