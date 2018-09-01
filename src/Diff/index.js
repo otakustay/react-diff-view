@@ -117,7 +117,7 @@ export default class Diff extends PureComponent {
             <Provider value={{...props, monotonous}}>
                 <table
                     ref={element => (this.root = element)}
-                    className={classNames('diff', className)}
+                    className={classNames('diff', `diff-${viewType}`, className)}
                     onMouseDown={onTableMouseDown}
                 >
                     {cols}

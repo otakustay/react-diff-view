@@ -262,6 +262,22 @@ You can override styles on certian css classes to customize the appearance of `r
 - `diff-code-mark`: Marked word on a line of code.
 - `diff-widget`: The `<tr>` element to render widget.
 - `diff-widget-content`: The `<td>` element to render widget content.
+- `diff-line-hover-old`: The `<td>` element of the old side gutter and code which is currently hovered.
+- `diff-line-hover-new`: The `<td>` element of the new side gutter and code which is currently hovered.
+
+The `diff-line-hover-(old|new)` class is especially designed to tell the precise hover element in split mode, so it only applies when `viewType` is set to `"split"`, if you want a style on a hovering change, the selector could be:
+
+```less
+// Less selector to disable the line number and add an icon in the gutter element when a change is hovered
+.diff-line-hover-old.diff-gutter,
+.diff-line-hover-new.diff-gutter,
+.diff-unified .diff-line:hover .diff-gutter {
+    &::before {
+        font-family: "FontAwesome";
+        content: "\f4b2"; // comment-plus
+    }
+}
+```
 
 You can pass the `className` prop to a `Diff` component to add a custom class to the `<table>` element.
 

@@ -1,6 +1,7 @@
 /* eslint-disable no-empty-function */
 import {PureComponent} from 'react';
 import PropTypes from 'prop-types';
+import {indexOf} from 'lodash';
 import classNames from 'classnames';
 import {computeOldLineNumber, computeNewLineNumber, createEventsBindingSelector} from '../../utils';
 import CodeCell from '../CodeCell';
@@ -23,6 +24,7 @@ const renderCells = args => {
         gutterAnchor,
         gutterAnchorTarget,
         hideGutter,
+        hover,
         renderToken
     } = args;
 
@@ -38,11 +40,15 @@ const renderCells = args => {
 
     const {type, content} = change;
     const line = side === SIDE_OLD ? computeOldLineNumber(change) : computeNewLineNumber(change);
+    const sideName = side === SIDE_OLD ? 'old' : 'new';
     const gutterClassNameValue = classNames(
         'diff-gutter',
         `diff-gutter-${type}`,
-        gutterClassName,
-        {'diff-gutter-selected': selected}
+        {
+            'diff-gutter-selected': selected,
+            ['diff-line-hover-' + sideName]: hover
+        },
+        gutterClassName
     );
     const gutterProps = {
         'id': anchorID,
@@ -54,8 +60,11 @@ const renderCells = args => {
     const codeClassNameValue = classNames(
         'diff-code',
         `diff-code-${type}`,
-        codeClassName,
-        {'diff-code-selected': selected}
+        {
+            'diff-code-selected': selected,
+            ['diff-line-hover-' + sideName]: hover
+        },
+        codeClassName
     );
 
     return [
@@ -73,14 +82,6 @@ const renderCells = args => {
 
 export default class SplitChange extends PureComponent {
 
-    bindOldGutterEvents = createEventsBindingSelector();
-
-    bindNewGutterEvents = createEventsBindingSelector();
-
-    bindOldCodeEvents = createEventsBindingSelector();
-
-    bindNewCodeEvents = createEventsBindingSelector();
-
     static propTypes = {
         oldSelected: PropTypes.bool.isRequired,
         newSelected: PropTypes.bool.isRequired,
@@ -92,6 +93,31 @@ export default class SplitChange extends PureComponent {
         oldTokens: null,
         newTokens: null
     };
+
+    state = {
+        hover: ''
+    };
+
+    bindOldGutterEvents = createEventsBindingSelector();
+
+    bindNewGutterEvents = createEventsBindingSelector();
+
+    bindOldCodeEvents = createEventsBindingSelector();
+
+    bindNewCodeEvents = createEventsBindingSelector();
+
+    markHover = ({type, target}) => {
+        if (type === 'mouseleave') {
+            this.setState({hover: ''});
+        }
+        else {
+            const {hideGutter} = this.props;
+            const index = indexOf(target.parentNode.children, target);
+            const sideEdge = hideGutter ? 1 : 2;
+            const side = index <= sideEdge ? 'old' : 'new';
+            this.setState({hover: side});
+        }
+    }
 
     render() {
         const {
@@ -112,6 +138,7 @@ export default class SplitChange extends PureComponent {
             gutterAnchor,
             renderToken
         } = this.props;
+        const {hover} = this.state;
 
         const commons = {
             monotonous,
@@ -137,7 +164,8 @@ export default class SplitChange extends PureComponent {
             codeEvents: this.bindOldCodeEvents(codeEvents, oldEventArg),
             anchorID: oldAnchorID,
             gutterAnchor: gutterAnchor,
-            gutterAnchorTarget: oldAnchorID
+            gutterAnchorTarget: oldAnchorID,
+            hover: hover === 'old'
         };
         const newAnchorID = newChange && generateAnchorID(newChange);
         const newEventArg = {
@@ -154,7 +182,8 @@ export default class SplitChange extends PureComponent {
             codeEvents: this.bindNewCodeEvents(codeEvents, newEventArg),
             anchorID: oldChange === newChange ? undefined : newAnchorID,
             gutterAnchor: gutterAnchor,
-            gutterAnchorTarget: oldChange === newChange ? oldAnchorID : newAnchorID
+            gutterAnchorTarget: oldChange === newChange ? oldAnchorID : newAnchorID,
+            hover: hover === 'new'
         };
 
         if (monotonous) {
@@ -182,7 +211,11 @@ export default class SplitChange extends PureComponent {
         })(oldChange, newChange);
 
         return (
-            <tr className={classNames('diff-line', lineTypeClassName, className)}>
+            <tr
+                className={classNames('diff-line', lineTypeClassName, className)}
+                onMouseEnter={this.markHover}
+                onMouseLeave={this.markHover}
+            >
                 {renderCells(oldArgs)}
                 {renderCells(newArgs)}
             </tr>
