@@ -477,6 +477,7 @@ I don't really know how to test such a complicated and UI centric component, any
 - `stubHunk` options of `parseDiff` function is removed, with the power of `Decoration` component, we no longer need the stub hunk.
 - `addStubHunk` function is also removed since `Decoration` component is provided.
 - All callbacks defined in `codeEvents` and `gutterEvents` now receivs an object with key `change` and `side`.
+- The line number is no longer rendered via a `::before` element and a `data-line-number` attribute, it is an actual child node of the gutter element, `user-select: none` is applied to disable selection.
 
 ## Change Log
 

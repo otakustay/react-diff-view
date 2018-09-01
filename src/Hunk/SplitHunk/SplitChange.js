@@ -53,8 +53,7 @@ const renderCells = args => {
     const gutterProps = {
         'id': anchorID,
         'className': gutterClassNameValue,
-        'data-line-number': line,
-        'children': gutterAnchor ? <a href={'#' + gutterAnchorTarget} data-line-number={line} /> : null,
+        'children': gutterAnchor ? <a href={'#' + gutterAnchorTarget}>{line}</a> : line.toString(),
         ...gutterEvents
     };
     const codeClassNameValue = classNames(

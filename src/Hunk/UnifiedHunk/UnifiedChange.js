@@ -12,8 +12,12 @@ const GutterCell = ({hide, className, lineNumber, gutterAnchor, anchorID, ...pro
     }
 
     return (
-        <td className={className} data-line-number={lineNumber} {...props}>
-            {gutterAnchor ? <a href={'#' + anchorID} data-line-number={lineNumber} /> : null}
+        <td className={className} {...props}>
+            {
+                gutterAnchor
+                    ? <a href={'#' + anchorID} data-line-number={lineNumber}>{lineNumber}</a>
+                    : lineNumber
+            }
         </td>
     );
 };
