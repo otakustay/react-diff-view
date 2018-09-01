@@ -133,7 +133,7 @@ const initialState = ({diff, source}) => {
         diff
     ];
 
-    const files = parseDiff(segments.join('\n'), {nearbySequence: 'zip'});
+    const files = parseDiff(segments.join('\n'), {nearbySequences: 'zip'});
 
     return {
         ...files[0],
