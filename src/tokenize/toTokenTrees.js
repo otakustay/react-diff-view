@@ -71,12 +71,15 @@ const toTextPair = hunks => {
 const createRoot = children => ({type: 'root', children: children});
 
 export default (hunks, {highlight, refractor, oldSource, language}) => {
-    if (highlight && oldSource) {
+    if (oldSource) {
         const newSource = applyDiff(oldSource, hunks);
+        const highlightText = highlight
+            ? (text, language) => refractor.highlight(text, language)
+            : text => [{type: 'text', value: text}];
 
         return [
-            createRoot(refractor.highlight(oldSource, language)),
-            createRoot(refractor.highlight(newSource, language))
+            createRoot(highlightText(oldSource, language)),
+            createRoot(highlightText(newSource, language))
         ];
     }
 
