@@ -4,7 +4,9 @@ import refractor from 'refractor';
 
 self.addEventListener(
     'message',
-    ({data: {id, hunks, oldSource, language, editsType}}) => {
+    ({data: {id, payload}}) => {
+        const {hunks, oldSource, language, editsType} = payload;
+
         const enhancers = [
             markWord('\r', 'carriage-return', '␍'),
             markWord('\t', 'tab', '→'),
@@ -19,7 +21,20 @@ self.addEventListener(
             enhancers: compact(enhancers)
         };
 
-        const tokens = tokenize(hunks, options);
-        self.postMessage({id, tokens});
+        try {
+            const tokens = tokenize(hunks, options);
+            const payload = {
+                success: true,
+                tokens: tokens
+            };
+            self.postMessage({id, payload});
+        }
+        catch (ex) {
+            const payload = {
+                success: false,
+                reason: ex.message
+            };
+            self.postMessage({id, payload});
+        }
     }
 );

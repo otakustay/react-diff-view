@@ -3,10 +3,10 @@ import {Whether} from 'react-whether';
 import {getCollapsedLinesCountBetween} from 'react-diff-view';
 import Unfold from './Unfold';
 
-const UnfoldCollapsed = ({previousHunk, currentHunk, rawCodeLines, onExpand}) => {
+const UnfoldCollapsed = ({previousHunk, currentHunk, linesCount, onExpand}) => {
     if (!currentHunk) {
         const nextStart = previousHunk.oldStart + previousHunk.oldLines;
-        const collapsedLines = rawCodeLines.length - nextStart + 1;
+        const collapsedLines = linesCount - nextStart + 1;
 
         if (collapsedLines <= 0) {
             return null;
@@ -17,7 +17,7 @@ const UnfoldCollapsed = ({previousHunk, currentHunk, rawCodeLines, onExpand}) =>
                 <Whether matches={collapsedLines > 10}>
                     <Unfold direction="down" start={nextStart} end={nextStart + 10} onExpand={onExpand} />
                 </Whether>
-                <Unfold direction="none" start={nextStart} end={rawCodeLines.length + 2} onExpand={onExpand} />
+                <Unfold direction="none" start={nextStart} end={linesCount + 1} onExpand={onExpand} />
             </Fragment>
         );
     }

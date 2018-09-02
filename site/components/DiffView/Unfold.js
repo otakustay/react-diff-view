@@ -15,7 +15,7 @@ export default class Unfold extends PureComponent {
     @bind()
     expand() {
         const {start, end, onExpand} = this.props;
-        onExpand({start, end});
+        onExpand(start, end);
     }
 
     render() {
