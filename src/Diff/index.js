@@ -27,6 +27,7 @@ export default class Diff extends PureComponent {
     static propTypes = {
         diffType: PropTypes.oneOf(['add', 'delete', 'modify', 'rename', 'copy']).isRequired,
         viewType: PropTypes.oneOf(['unified', 'split']).isRequired,
+        hunks: PropTypes.arrayOf(PropTypes.object).isRequired,
         gutterType: PropTypes.oneOf(['default', 'none', 'anchor']),
         generateAnchorID: PropTypes.func,
         selectedChanges: PropTypes.arrayOf(PropTypes.string),
@@ -34,7 +35,7 @@ export default class Diff extends PureComponent {
         optimizeSelection: PropTypes.bool,
         className: PropTypes.string,
         renderToken: PropTypes.func,
-        children: PropTypes.oneOfType([PropTypes.element, PropTypes.arrayOf(PropTypes.element)]).isRequired
+        children: PropTypes.func.isRequired
     };
 
     static defaultProps = {
@@ -76,7 +77,7 @@ export default class Diff extends PureComponent {
     };
 
     render() {
-        const {diffType, children, className, optimizeSelection, ...props} = this.props;
+        const {diffType, children, className, optimizeSelection, hunks, ...props} = this.props;
         const {gutterType, viewType} = props;
         const hideGutter = gutterType === 'none';
         const monotonous = diffType === 'add' || diffType === 'delete';
@@ -121,7 +122,7 @@ export default class Diff extends PureComponent {
                     onMouseDown={onTableMouseDown}
                 >
                     {cols}
-                    {children}
+                    {children(hunks)}
                 </table>
             </Provider>
         );

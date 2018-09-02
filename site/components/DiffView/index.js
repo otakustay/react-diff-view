@@ -116,11 +116,12 @@ class DiffView extends PureComponent {
             <Diff
                 viewType={viewType}
                 diffType={type}
+                hunks={hunks}
                 gutterType={showGutter ? 'default' : 'none'}
                 selectedChanges={selection}
                 tokens={tokens}
             >
-                {hunks.reduce(renderHunk, [])}
+                {hunks => hunks.reduce(renderHunk, [])}
             </Diff>
         );
     }

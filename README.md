@@ -100,9 +100,10 @@ import {parseDiff, Diff, Hunk} from 'react-diff-view';
 
 const App = ({diffText}) => {
     const {files} = parseDiff(diffText);
+
     const renderFile = ({oldRevision, newRevision, type, hunks}) => (
-        <Diff key={oldRevision + '-' + newRevision} viewType="split" diffType={type}>
-            {hunks.map(hunk => <Hunk key={hunk.content} hunk={hunk} />)}
+        <Diff key={oldRevision + '-' + newRevision} viewType="split" diffType={type} hunks={hunks}>
+            {hunks => hunks.map(hunk => <Hunk key={hunk.content} hunk={hunk} />)}
         </Diff>
     );
 
@@ -114,9 +115,37 @@ const App = ({diffText}) => {
 };
 ```
 
+As you can see, `Diff` component requires a `hunks` prop as well as a function `children` prop which receivs the `hunks` prop as its argument, this may looks redundant but actually very useful when work with HOCs modifying hunks. For example, we have a HOC to remove all normal changes:
+
+```jsx
+const filterOuteNormalChanges = hunk => {
+    return {
+        ...hunk,
+        changes: hunk.changes.filter(change => !change.isNormal);
+    };
+};
+
+const removeNormalChanges = ComponentIn => {
+    const ComponentOut = ({hunks, ...props}) => {
+        const purgedHunks = hunks.map(filterOutNormalChanges);
+
+        return <ComponentIn {...props} hunks={hunks} />;
+    };
+
+    ComponentOut.displayName = `removeNormalChanges(${ComponentIn.displayName})`;
+
+    return ComponentOut;
+};
+
+const MyDiff = removeNomalChanges(Diff);
+```
+
+We can still pass original `hunks` to `MyDiff`, however all normal changes are removed from the `hunks` argument in `children` prop.
+
 Here is the full list of its props:
 
-- `{ReactElement[]} children`: You should pass hunks or decorations through `children` prop, for each `Hunk` component it receives a single `hunk` prop generated from `parseDiff` function.
+- `{Object[] hunks}`: Hunks of diff.
+- `{Function} children`: A function which receives an array of hunks and returns react elements.
 - `{string} viewType`: Can be either `"unified"` or `"split"` to determine how the diff should look like.
 - `{string} className`: An extra css class.
 - `{Object} customEvents`: An object containing events for different part, see [Customize events](#customize-events) section for detail.
@@ -468,7 +497,7 @@ I don't really know how to test such a complicated and UI centric component, any
 ### 2.x
 
 - The main module is now `cjs/index.js`, with an ES version at `es/index.js`, style is placed at `style/index.css`.
-- `Diff` component does not use `hunks` prop anymore, `children` is required.
+- `Diff` component requires a function `children` prop to render hunks.
 - `diffType` prop on `Diff` component is now required.
 - `customClassNames` and `customEvents` props are removed from `Diff` component, instead of it `Hunk` and `Decoration` component receives `xxxClassName` and `xxxEvents`, see [Customize events](#customize-events) and [Customize styles](#customize-styles) sections.
 - `hideGutter` and `gutterAnchor` props are merged into `gutterType` prop with 3 values: `"default"`, `"anchor"` and `"none"`.
