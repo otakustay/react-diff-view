@@ -1,8 +1,9 @@
 import {mapValues} from 'lodash';
 import shallowEquals from 'shallow-equal/objects';
+import arrayShallowEquals from 'shallow-equal/arrays';
 
 // Simplified version of reselect
-const createSelector = (select, inputEquals) => {
+export const createSelector = (select, inputEquals = arrayShallowEquals) => {
     let lastInput = null;
     let lastResult = null;
 
@@ -21,7 +22,7 @@ const composeCallback = (customCallback, ownCallback) => e => {
     customCallback(); // `customCallback` is already bound with `arg`
 };
 
-export const createEventsBindingSelector = ownEvents => {
+export const createEventsBindingSelector = (ownEvents = {}) => {
     const ownEventEntries = Object.entries(ownEvents);
 
     return createSelector(
