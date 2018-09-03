@@ -38,6 +38,8 @@ const DiffView = ({hunks, selectedChanges, onToggleChangeSelection}) => {
     );
 };
 
+export default withChangeSelect({multiple: true})(DiffView);
+
 <DiffView ... />
 ```
 
@@ -115,6 +117,8 @@ const DiffView = ({hunks, onExpandRange}) => (
         {hunks => hunks.reduce(renderHunk, [])}
     </Diff>
 );
+
+export default withSourceExpansion()(DiffView);
 
 <DiffView ... /> // Remember to provide oldSource prop
 ```

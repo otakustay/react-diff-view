@@ -115,6 +115,8 @@ const App = ({diffText}) => {
 };
 ```
 
+The children is optional if you only need all hunks to be displaed, however you can use this function children to add custome events or classes to hunks.
+
 As you can see, `Diff` component requires a `hunks` prop as well as a function `children` prop which receivs the `hunks` prop as its argument, this may looks redundant but actually very useful when work with HOCs modifying hunks. For example, we have a HOC to remove all normal changes:
 
 ```jsx
@@ -497,7 +499,7 @@ I don't really know how to test such a complicated and UI centric component, any
 ### 2.x
 
 - The main module is now `cjs/index.js`, with an ES version at `es/index.js`, style is placed at `style/index.css`.
-- `Diff` component requires a function `children` prop to render hunks.
+- `children` prop on `Diff` component is now of type function which receives `hunks` as its argument.
 - `diffType` prop on `Diff` component is now required.
 - `customClassNames` and `customEvents` props are removed from `Diff` component, instead of it `Hunk` and `Decoration` component receives `xxxClassName` and `xxxEvents`, see [Customize events](#customize-events) and [Customize styles](#customize-styles) sections.
 - `hideGutter` and `gutterAnchor` props are merged into `gutterType` prop with 3 values: `"default"`, `"anchor"` and `"none"`.

@@ -2,6 +2,7 @@ import {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import {Provider} from '../context';
+import Hunk from '../Hunk';
 import './index.css';
 
 const noop = () => {}; // eslint-disable-line no-empty-function
@@ -35,11 +36,10 @@ export default class Diff extends PureComponent {
         optimizeSelection: PropTypes.bool,
         className: PropTypes.string,
         renderToken: PropTypes.func,
-        children: PropTypes.func.isRequired
+        children: PropTypes.func
     };
 
     static defaultProps = {
-        children: undefined,
         gutterType: 'default',
         optimizeSelection: false,
         selectedChanges: [],
@@ -48,6 +48,10 @@ export default class Diff extends PureComponent {
         renderToken: undefined,
         generateAnchorID() {
             return undefined;
+        },
+        children(hunks) {
+            const key = hunk => `-${hunk.oldStart},${hunk.oldLines} +${hunk.newStart},${hunk.newLines}`;
+            return hunks.map(hunk => <Hunk key={key(hunk)} hunk={hunk} />);
         }
     };
 
