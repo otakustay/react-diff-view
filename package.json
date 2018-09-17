@@ -14,7 +14,7 @@
   "license": "MIT",
   "dependencies": {
     "classnames": "^2.2.6",
-    "gitdiff-parser": "0.0.8",
+    "gitdiff-parser": "^0.1.0",
     "leven": "^2.1.0",
     "lodash.escape": "^4.0.1",
     "lodash.findlastindex": "^4.6.0",
