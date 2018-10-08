@@ -118,7 +118,7 @@ A basic use case is to pass `hunks` and `viewType` prop to `Diff` component, the
 import {parseDiff, Diff} from 'react-diff-view';
 
 const App = ({diffText}) => {
-    const {files} = parseDiff(diffText);
+    const files = parseDiff(diffText);
 
     return (
         <div>
@@ -177,7 +177,7 @@ const renderHunk = hunk => {
 };
 
 const App = ({diffText}) => {
-    const {files} = parseDiff(diffText);
+    const files = parseDiff(diffText);
 
     return (
         <div>
@@ -260,7 +260,7 @@ const getWidgets = ({hunks}) => {
 };
 
 const App = ({diffText}) => {
-    const {files} = parseDiff(diffText);
+    const files = parseDiff(diffText);
 
     return (
         <div>
