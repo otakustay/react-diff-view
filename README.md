@@ -99,7 +99,7 @@ The `Diff` named export is a component to render a diff, a simplest case to rend
 import {parseDiff, Diff, Hunk} from 'react-diff-view';
 
 const App = ({diffText}) => {
-    const {files} = parseDiff(diffText);
+    const files = parseDiff(diffText);
 
     const renderFile = ({oldRevision, newRevision, type, hunks}) => (
         <Diff key={oldRevision + '-' + newRevision} viewType="split" diffType={type} hunks={hunks}>
@@ -250,7 +250,7 @@ const getWidgets = ({hunks}) => {
 };
 
 const App = ({diffText}) => {
-    const {files} = parseDiff(diffText);
+    const files = parseDiff(diffText);
 
     return (
         <div>
