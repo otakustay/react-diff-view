@@ -23,10 +23,12 @@ const inputOptions = {
     ]
 };
 
+// TODO: https://github.com/TrySound/rollup-plugin-terser/issues/5
 const build = async filename => {
-    const bundle = await rollup(inputOptions);
-    bundle.write({format: 'cjs', file: `cjs/index.js`, sourcemap: true});
-    bundle.write({format: 'es', file: `es/index.js`, sourcemap: true});
+    const cjs = await rollup(inputOptions);
+    cjs.write({format: 'cjs', file: `cjs/index.js`, sourcemap: true});
+    const es = await rollup(inputOptions);
+    es.write({format: 'es', file: `es/index.js`, sourcemap: true});
 };
 
 build();
