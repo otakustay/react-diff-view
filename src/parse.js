@@ -47,6 +47,26 @@ const mapFile = (file, options) => {
     };
 };
 
+const normalizeDiffText = text => {
+    if (text.indexOf('diff --git') === 0) {
+        return text;
+    }
+
+    const indexOfFirstLineBreak = text.indexOf('\n');
+    const indexOfSecondLineBreak = text.indexOf('\n', indexOfFirstLineBreak + 1);
+    const firstLine = text.slice(0, indexOfFirstLineBreak);
+    const secondLine = text.slice(indexOfFirstLineBreak + 1, indexOfSecondLineBreak);
+    const oldPath = firstLine.slice(4);
+    const newPath = secondLine.slice(4);
+    const segments = [
+        `diff --git ${oldPath} ${newPath}`,
+        'index 1111111..2222222 100644',
+        text
+    ];
+
+    return segments.join('\n');
+};
+
 export const parseDiff = (text, options = {}) => {
     warning(
         !options.stubHunk,
@@ -54,7 +74,8 @@ export const parseDiff = (text, options = {}) => {
         + 'this function can receive an extra referenceCodeOrLines argument to determine whether stub hunk is required'
     );
 
-    const files = parser.parse(text);
+    const diffText = normalizeDiffText(text);
+    const files = parser.parse(diffText);
 
     return files.map(file => mapFile(file, options));
 };
