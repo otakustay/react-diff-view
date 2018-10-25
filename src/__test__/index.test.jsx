@@ -31,6 +31,6 @@ const App = ({diffText}) => {
 
 describe('basic test', () => {
     test('App renders correctly', () => {
-        expect(renderer.create(<App diffText={'asdf'} />).toJSON()).toMatchSnapshot();
+        expect(renderer.create(<App diffText={diffTextExample} />).toJSON()).toMatchSnapshot();
     });
 });
