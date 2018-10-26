@@ -1,27 +1,46 @@
 {
-    "presets": [
-        "env",
-        "stage-0",
-        "react"
-    ],
-    "plugins": [
-        "lodash",
-        "react-require",
-        "add-react-displayname",
-        "transform-decorators-legacy",
-        [
-            "babel-plugin-import",
-            {
-                "libraryName": "antd",
-                "libraryDirectory": "es",
-                "style": "css"
-            }
-        ]
-    ],
     "env": {
         "production": {
+            "presets": [
+                ["env", {"modules": false}],
+                "stage-0",
+                "react"
+            ],
             "plugins": [
+                "lodash",
+                "react-require",
+                "add-react-displayname",
+                "transform-decorators-legacy",
+                [
+                    "babel-plugin-import",
+                    {
+                        "libraryName": "antd",
+                        "libraryDirectory": "es",
+                        "style": "css"
+                    }
+                ],
                 "external-helpers"
+            ]
+        },
+        "development": {
+            "presets": [
+                "env",
+                "stage-0",
+                "react"
+            ],
+            "plugins": [
+                "lodash",
+                "react-require",
+                "add-react-displayname",
+                "transform-decorators-legacy",
+                [
+                    "babel-plugin-import",
+                    {
+                        "libraryName": "antd",
+                        "libraryDirectory": "es",
+                        "style": "css"
+                    }
+                ]
             ]
         }
     }

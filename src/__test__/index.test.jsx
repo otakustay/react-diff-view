@@ -1,6 +1,6 @@
 import renderer from 'react-test-renderer';
 import {parseDiff, Diff, Hunk} from '../index';
-import { basic, multiple } from "./cases";
+import {basic, multiple} from './cases';
 
 const App = ({diffText}) => {
     const files = parseDiff(diffText);
@@ -22,7 +22,8 @@ describe('basic test', () => {
     test('App renders correctly', () => {
         expect(renderer.create(<App diffText={basic} />).toJSON()).toMatchSnapshot();
     });
+
     test('multiple diff', () => {
         expect(renderer.create(<App diffText={multiple} />).toJSON()).toMatchSnapshot();
-    })
+    });
 });
