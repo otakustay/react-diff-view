@@ -1,3 +1,5 @@
+import {parseDiff} from '..';
+
 export const basic = `
 diff --git a/src/__test__/index.test.jsx b/src/__test__/index.test.jsx
 index 643c2f0..7883597 100644
@@ -9,6 +11,8 @@ index 643c2f0..7883597 100644
 +        expect(renderer.create(<App diffText={'diff'} />).toJSON()).toMatchSnapshot();
      });
 `;
+
+export const basicHunk = parseDiff(basic)[0].hunks[0];
 
 export const multiple = `
 diff --git a/src/index1.js b/src/index1.js
@@ -31,3 +35,5 @@ index 0cfbf08..e69de29 100644
 @@ -1 +0,0 @@
 -2
 `;
+
+export const multipleHunk = parseDiff(basic)[0].hunks[0];
