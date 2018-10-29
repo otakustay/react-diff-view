@@ -1,5 +1,5 @@
 import renderer from 'react-test-renderer';
-import {parseDiff, Diff, Hunk} from '../index';
+import {parseDiff, Diff, Hunk} from '..';
 import {basic, multiple} from './cases';
 
 const App = ({diffText}) => {

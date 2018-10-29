@@ -1,5 +1,5 @@
 import renderer from 'react-test-renderer';
-import withTokenizeWorker from '../withTokenizeWorker';
+import {withTokenizeWorker} from '..';
 
 const journey = [];
 let handleReceiveTokens = null;
@@ -30,10 +30,17 @@ describe('withTokenizeWorker', () => {
 
     test('render component', () => {
         const ComponentOut = withTokenizeWorker(worker)(ComponentIn);
-        expect(renderer.create(<ComponentOut />).toJSON()).toMatchSnapshot();
+        const wrapper = renderer.create(<ComponentOut />);
+        expect(wrapper.toJSON()).toMatchSnapshot();
         expect(journey).toEqual([
             ['addEventListener', 'message', 'function'],
             ['postMessage', 'object']
+        ]);
+        wrapper.unmount();
+        expect(journey).toEqual([
+            ['addEventListener', 'message', 'function'],
+            ['postMessage', 'object'],
+            ['removeEventListener', 'message', 'function']
         ]);
     });
 });
