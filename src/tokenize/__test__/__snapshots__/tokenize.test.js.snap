@@ -1,0 +1,286 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`tokenize withHunk 1`] = `
+Object {
+  "new": Array [
+    Array [
+      Object {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    Array [
+      Object {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    Array [
+      Object {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    Array [
+      Object {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    Array [
+      Object {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    Array [
+      Object {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    Array [
+      Object {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    Array [
+      Object {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    Array [
+      Object {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    Array [
+      Object {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    Array [
+      Object {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    Array [
+      Object {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    Array [
+      Object {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    Array [
+      Object {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    Array [
+      Object {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    Array [
+      Object {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    Array [
+      Object {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    Array [
+      Object {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    Array [
+      Object {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    Array [
+      Object {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    Array [
+      Object {
+        "type": "text",
+        "value": "    test('App renders correctly', () => {",
+      },
+    ],
+    Array [
+      Object {
+        "type": "text",
+        "value": "        expect(renderer.create(<App diffText={'diff'} />).toJSON()).toMatchSnapshot();",
+      },
+    ],
+    Array [
+      Object {
+        "type": "text",
+        "value": "    });",
+      },
+    ],
+  ],
+  "old": Array [
+    Array [
+      Object {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    Array [
+      Object {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    Array [
+      Object {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    Array [
+      Object {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    Array [
+      Object {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    Array [
+      Object {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    Array [
+      Object {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    Array [
+      Object {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    Array [
+      Object {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    Array [
+      Object {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    Array [
+      Object {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    Array [
+      Object {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    Array [
+      Object {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    Array [
+      Object {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    Array [
+      Object {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    Array [
+      Object {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    Array [
+      Object {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    Array [
+      Object {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    Array [
+      Object {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    Array [
+      Object {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    Array [
+      Object {
+        "type": "text",
+        "value": "    test('App renders correctly', () => {",
+      },
+    ],
+    Array [
+      Object {
+        "type": "text",
+        "value": "        expect(renderer.create(<App diffText={'deff'} />).toJSON()).toMatchSnapshot();",
+      },
+    ],
+    Array [
+      Object {
+        "type": "text",
+        "value": "    });",
+      },
+    ],
+  ],
+}
+`;
