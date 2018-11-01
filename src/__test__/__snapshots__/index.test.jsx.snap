@@ -16,21 +16,6 @@ exports[`basic test App renders correctly 1`] = `
       />
       <col />
     </colgroup>
-  </table>
-  <table
-    className="diff diff-split"
-    onMouseDown={[Function]}
-  >
-    <colgroup>
-      <col
-        className="diff-gutter-col"
-      />
-      <col />
-      <col
-        className="diff-gutter-col"
-      />
-      <col />
-    </colgroup>
     <tbody
       className="diff-hunk"
     >
@@ -137,21 +122,6 @@ exports[`basic test App renders correctly 1`] = `
 
 exports[`basic test multiple diff 1`] = `
 <div>
-  <table
-    className="diff diff-split"
-    onMouseDown={[Function]}
-  >
-    <colgroup>
-      <col
-        className="diff-gutter-col"
-      />
-      <col />
-      <col
-        className="diff-gutter-col"
-      />
-      <col />
-    </colgroup>
-  </table>
   <table
     className="diff diff-split"
     onMouseDown={[Function]}
