@@ -1,0 +1,293 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`basic test App renders correctly 1`] = `
+<div>
+  <table
+    className="diff diff-split"
+    onMouseDown={[Function]}
+  >
+    <colgroup>
+      <col
+        className="diff-gutter-col"
+      />
+      <col />
+      <col
+        className="diff-gutter-col"
+      />
+      <col />
+    </colgroup>
+  </table>
+  <table
+    className="diff diff-split"
+    onMouseDown={[Function]}
+  >
+    <colgroup>
+      <col
+        className="diff-gutter-col"
+      />
+      <col />
+      <col
+        className="diff-gutter-col"
+      />
+      <col />
+    </colgroup>
+    <tbody
+      className="diff-hunk"
+    >
+      <tr
+        className="diff-line diff-line-normal"
+      >
+        <td
+          className="diff-gutter diff-gutter-normal"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+        >
+          21
+        </td>
+        <td
+          className="diff-code diff-code-normal"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+        >
+              test('App renders correctly', () =&gt; {
+        </td>
+        <td
+          className="diff-gutter diff-gutter-normal"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+        >
+          21
+        </td>
+        <td
+          className="diff-code diff-code-normal"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+        >
+              test('App renders correctly', () =&gt; {
+        </td>
+      </tr>
+      <tr
+        className="diff-line diff-line-compare"
+      >
+        <td
+          className="diff-gutter diff-gutter-delete"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+        >
+          22
+        </td>
+        <td
+          className="diff-code diff-code-delete"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+        >
+                  expect(renderer.create(&lt;App diffText={'deff'} /&gt;).toJSON()).toMatchSnapshot();
+        </td>
+        <td
+          className="diff-gutter diff-gutter-insert"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+        >
+          22
+        </td>
+        <td
+          className="diff-code diff-code-insert"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+        >
+                  expect(renderer.create(&lt;App diffText={'diff'} /&gt;).toJSON()).toMatchSnapshot();
+        </td>
+      </tr>
+      <tr
+        className="diff-line diff-line-normal"
+      >
+        <td
+          className="diff-gutter diff-gutter-normal"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+        >
+          23
+        </td>
+        <td
+          className="diff-code diff-code-normal"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+        >
+              });
+        </td>
+        <td
+          className="diff-gutter diff-gutter-normal"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+        >
+          23
+        </td>
+        <td
+          className="diff-code diff-code-normal"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+        >
+              });
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+`;
+
+exports[`basic test multiple diff 1`] = `
+<div>
+  <table
+    className="diff diff-split"
+    onMouseDown={[Function]}
+  >
+    <colgroup>
+      <col
+        className="diff-gutter-col"
+      />
+      <col />
+      <col
+        className="diff-gutter-col"
+      />
+      <col />
+    </colgroup>
+  </table>
+  <table
+    className="diff diff-split"
+    onMouseDown={[Function]}
+  >
+    <colgroup>
+      <col
+        className="diff-gutter-col"
+      />
+      <col />
+      <col
+        className="diff-gutter-col"
+      />
+      <col />
+    </colgroup>
+    <tbody
+      className="diff-hunk"
+    >
+      <tr
+        className="diff-line diff-line-new-only"
+      >
+        <td
+          className="diff-gutter diff-gutter-omit"
+        />
+        <td
+          className="diff-code diff-code-omit"
+        />
+        <td
+          className="diff-gutter diff-gutter-insert"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+        >
+          1
+        </td>
+        <td
+          className="diff-code diff-code-insert"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+        >
+          1
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <table
+    className="diff diff-split"
+    onMouseDown={[Function]}
+  >
+    <colgroup>
+      <col
+        className="diff-gutter-col"
+      />
+      <col />
+      <col
+        className="diff-gutter-col"
+      />
+      <col />
+    </colgroup>
+    <tbody
+      className="diff-hunk"
+    >
+      <tr
+        className="diff-line diff-line-compare"
+      >
+        <td
+          className="diff-gutter diff-gutter-delete"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+        >
+          1
+        </td>
+        <td
+          className="diff-code diff-code-delete"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+        >
+          1
+        </td>
+        <td
+          className="diff-gutter diff-gutter-insert"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+        >
+          1
+        </td>
+        <td
+          className="diff-code diff-code-insert"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+        >
+          2
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <table
+    className="diff diff-split"
+    onMouseDown={[Function]}
+  >
+    <colgroup>
+      <col
+        className="diff-gutter-col"
+      />
+      <col />
+      <col
+        className="diff-gutter-col"
+      />
+      <col />
+    </colgroup>
+    <tbody
+      className="diff-hunk"
+    >
+      <tr
+        className="diff-line diff-line-old-only"
+      >
+        <td
+          className="diff-gutter diff-gutter-delete"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+        >
+          1
+        </td>
+        <td
+          className="diff-code diff-code-delete"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+        >
+          2
+        </td>
+        <td
+          className="diff-gutter diff-gutter-omit"
+        />
+        <td
+          className="diff-code diff-code-omit"
+        />
+      </tr>
+    </tbody>
+  </table>
+</div>
+`;

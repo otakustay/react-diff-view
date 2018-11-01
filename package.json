@@ -6,7 +6,7 @@
   "module": "es/index.js",
   "sideEffects": false,
   "scripts": {
-    "test": "jest",
+    "test": "jest --config ./jest.config.js",
     "start": "webpack-dev-server --config=site/webpack.config.js",
     "clean": "rm -rf cjs es style",
     "build": "npm run clean && NODE_ENV=production node rollup.js",
@@ -35,7 +35,9 @@
     "@babel/preset-react": "^7.0.0",
     "@ecomfe/eslint-config": "^2.0.0",
     "antd": "^3.10.1",
+    "babel-core": "^7.0.0-bridge.0",
     "babel-eslint": "^10.0.1",
+    "babel-jest": "^23.6.0",
     "babel-loader": "^8.0.0",
     "babel-plugin-add-react-displayname": "0.0.5",
     "babel-plugin-import": "^1.9.1",
@@ -46,9 +48,11 @@
     "eslint": "^5.7.0",
     "eslint-plugin-babel": "^5.2.1",
     "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-jest": "^21.26.2",
     "eslint-plugin-react": "^7.11.1",
     "gitdiff-parser": "^0.1.2",
     "html-webpack-plugin": "^3.0.6",
+    "identity-obj-proxy": "^3.0.0",
     "jest": "^23.6.0",
     "lodash": "^4.17.11",
     "lodash-decorators": "^6.0.0",
@@ -109,27 +113,5 @@
     "es",
     "cjs",
     "style"
-  ],
-  "jest": {
-    "collectCoverage": true,
-    "coverageDirectory": "coverage",
-    "verbose": true,
-    "roots": [
-      "./test"
-    ],
-    "transform": {
-      "^.+\\.jsx?$": "babel-jest"
-    },
-    "coverageThreshold": {
-      "global": {
-        "branches": 78,
-        "functions": 90,
-        "lines": 90,
-        "statements": 90
-      }
-    },
-    "setupFiles": [
-      "./test/setupTest"
-    ]
-  }
+  ]
 }
