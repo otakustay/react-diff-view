@@ -1,3 +1,4 @@
+/* In case you are looking for type of hunk, see src/Hunk/index.js */
 import {parseDiff} from '..';
 
 export const basic = `diff --git a/src/__test__/index.test.jsx b/src/__test__/index.test.jsx

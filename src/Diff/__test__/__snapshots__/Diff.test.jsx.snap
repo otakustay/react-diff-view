@@ -1,0 +1,105 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Diff renders correctly 1`] = `
+<table
+  className="diff diff-split"
+  onMouseDown={[Function]}
+>
+  <colgroup>
+    <col
+      className="diff-gutter-col"
+    />
+    <col />
+    <col
+      className="diff-gutter-col"
+    />
+    <col />
+  </colgroup>
+  <div>
+    [{"content":"@@ -21,3 +21,3 @@ describe('basic test', () =&gt; {","oldStart":21,"newStart":21,"oldLines":3,"newLines":3,"changes":[{"content":"    test('App renders correctly', () =&gt; {","type":"normal","isNormal":true,"oldLineNumber":21,"newLineNumber":21},{"content":"        expect(renderer.create(&lt;App diffText={'deff'} /&gt;).toJSON()).toMatchSnapshot();","type":"delete","isDelete":true,"lineNumber":22},{"content":"        expect(renderer.create(&lt;App diffText={'diff'} /&gt;).toJSON()).toMatchSnapshot();","type":"insert","isInsert":true,"lineNumber":22},{"content":"    });","type":"normal","isNormal":true,"oldLineNumber":23,"newLineNumber":23}],"isPlain":false}]
+  </div>
+</table>
+`;
+
+exports[`Diff unified Diff 1`] = `
+<table
+  className="diff diff-unified"
+  onMouseDown={[Function]}
+>
+  <colgroup>
+    <col
+      className="diff-gutter-col"
+    />
+    <col
+      className="diff-gutter-col"
+    />
+    <col />
+  </colgroup>
+  <div>
+    [{"content":"@@ -21,3 +21,3 @@ describe('basic test', () =&gt; {","oldStart":21,"newStart":21,"oldLines":3,"newLines":3,"changes":[{"content":"    test('App renders correctly', () =&gt; {","type":"normal","isNormal":true,"oldLineNumber":21,"newLineNumber":21},{"content":"        expect(renderer.create(&lt;App diffText={'deff'} /&gt;).toJSON()).toMatchSnapshot();","type":"delete","isDelete":true,"lineNumber":22},{"content":"        expect(renderer.create(&lt;App diffText={'diff'} /&gt;).toJSON()).toMatchSnapshot();","type":"insert","isInsert":true,"lineNumber":22},{"content":"    });","type":"normal","isNormal":true,"oldLineNumber":23,"newLineNumber":23}],"isPlain":false}]
+  </div>
+</table>
+`;
+
+exports[`Diff with Decoration renders correctly 1`] = `
+<table
+  className="diff diff-split"
+  onMouseDown={[Function]}
+>
+  <colgroup>
+    <col
+      className="diff-gutter-col"
+    />
+    <col />
+    <col
+      className="diff-gutter-col"
+    />
+    <col />
+  </colgroup>
+  <tbody
+    className="diff-decoration"
+  >
+    <tr>
+      <td
+        className="diff-decoration-content"
+        colSpan={4}
+      >
+        <div>
+          xxx
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
+`;
+
+exports[`Diff with Decoration unified Diff with Decoration 1`] = `
+<table
+  className="diff diff-unified"
+  onMouseDown={[Function]}
+>
+  <colgroup>
+    <col
+      className="diff-gutter-col"
+    />
+    <col
+      className="diff-gutter-col"
+    />
+    <col />
+  </colgroup>
+  <tbody
+    className="diff-decoration"
+  >
+    <tr>
+      <td
+        className="diff-decoration-content"
+        colSpan={3}
+      >
+        <div>
+          xxx
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
+`;
