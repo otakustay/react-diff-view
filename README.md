@@ -233,7 +233,7 @@ Here is a very basic example which adds a warning text on long lines:
 ```javascript
 import {parseDiff, getChangeKey, Diff} from 'react-diff-view';
 
-const getWidgets = ({hunks}) => {
+const getWidgets = hunks => {
     const changes = hunks.reduce((result, {changes}) => [...result, ...changes], []);
     const longLines = changes.filter(({content}) => content.length > 120);
     return longLines.reduce(

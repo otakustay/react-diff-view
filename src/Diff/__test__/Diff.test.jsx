@@ -1,6 +1,6 @@
 import renderer from 'react-test-renderer';
 import Diff from '..';
-import Decoration from '../../Decoration';
+import {Decoration, getChangeKey} from '../..';
 import {basicHunk} from '../../__test__/cases';
 
 const DiffSplit = ({children}) => (
@@ -28,7 +28,6 @@ describe('Diff', () => {
     });
 });
 
-
 describe('Diff with Decoration', () => {
     const renderDecoration = () => <Decoration><div>xxx</div></Decoration>;
 
@@ -38,5 +37,37 @@ describe('Diff with Decoration', () => {
 
     test('unified Diff with Decoration', () => {
         expect(renderer.create(<DiffUnified>{renderDecoration}</DiffUnified>).toJSON()).toMatchSnapshot();
+    });
+});
+
+const getWidgets = hunks => {
+    const changes = hunks.reduce((result, {changes}) => [...result, ...changes], []);
+    const longLines = changes.filter(({content}) => content.length > 20);
+    return longLines.reduce(
+        (widgets, change) => {
+            const changeKey = getChangeKey(change);
+
+            return {
+                ...widgets,
+                [changeKey]: <span className="error">Line too long</span>
+            };
+        },
+        {}
+    );
+};
+
+describe('Diff with Widget', () => {
+    test('split widget', () => {
+        const hunks = [basicHunk];
+        expect(renderer.create(
+            <Diff hunks={hunks} widgets={getWidgets(hunks)} diffType="modify" viewType="split" />
+        ).toJSON()).toMatchSnapshot();
+    });
+
+    test('unified widget', () => {
+        const hunks = [basicHunk];
+        expect(renderer.create(
+            <Diff hunks={hunks} widgets={getWidgets(hunks)} diffType="modify" viewType="unified" />
+        ).toJSON()).toMatchSnapshot();
     });
 });
