@@ -32,7 +32,7 @@ const DiffView = ({hunks, selectedChanges, onToggleChangeSelection}) => {
     );
 
     return (
-        <Diff hunks={hunks} selectedChanges={selectedChange}>
+        <Diff hunks={hunks} selectedChanges={selectedChanges}>
             {hunks => hunks.map(renderHunk)}
         </Diff>
     );
