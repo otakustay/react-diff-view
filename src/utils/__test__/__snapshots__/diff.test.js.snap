@@ -1,0 +1,103 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`expandCollapsedBlockBy basic 1`] = `
+Array [
+  Object {
+    "changes": Array [
+      Object {
+        "content": "    test('App renders correctly', () => {",
+        "isNormal": true,
+        "newLineNumber": 21,
+        "oldLineNumber": 21,
+        "type": "normal",
+      },
+      Object {
+        "content": "        expect(renderer.create(<App diffText={'deff'} />).toJSON()).toMatchSnapshot();",
+        "isDelete": true,
+        "lineNumber": 22,
+        "type": "delete",
+      },
+      Object {
+        "content": "        expect(renderer.create(<App diffText={'diff'} />).toJSON()).toMatchSnapshot();",
+        "isInsert": true,
+        "lineNumber": 22,
+        "type": "insert",
+      },
+      Object {
+        "content": "    });",
+        "isNormal": true,
+        "newLineNumber": 23,
+        "oldLineNumber": 23,
+        "type": "normal",
+      },
+    ],
+    "content": "@@ -21,3 +21,3 @@ describe('basic test', () => {",
+    "isPlain": false,
+    "newLines": 3,
+    "newStart": 21,
+    "oldLines": 3,
+    "oldStart": 21,
+  },
+]
+`;
+
+exports[`expandFromRawCode basic 1`] = `
+Array [
+  Object {
+    "changes": Array [
+      Object {
+        "content": "    test('App renders correctly', () => {",
+        "isNormal": true,
+        "newLineNumber": 21,
+        "oldLineNumber": 21,
+        "type": "normal",
+      },
+      Object {
+        "content": "        expect(renderer.create(<App diffText={'deff'} />).toJSON()).toMatchSnapshot();",
+        "isDelete": true,
+        "lineNumber": 22,
+        "type": "delete",
+      },
+      Object {
+        "content": "        expect(renderer.create(<App diffText={'diff'} />).toJSON()).toMatchSnapshot();",
+        "isInsert": true,
+        "lineNumber": 22,
+        "type": "insert",
+      },
+      Object {
+        "content": "    });",
+        "isNormal": true,
+        "newLineNumber": 23,
+        "oldLineNumber": 23,
+        "type": "normal",
+      },
+    ],
+    "content": "@@ -21,3 +21,3 @@ describe('basic test', () => {",
+    "isPlain": false,
+    "newLines": 3,
+    "newStart": 21,
+    "oldLines": 3,
+    "oldStart": 21,
+  },
+]
+`;
+
+exports[`textLinesToHunk basic 1`] = `
+Object {
+  "changes": Array [
+    Object {
+      "content": "",
+      "isNormal": true,
+      "newLineNumber": 0,
+      "oldLineNumber": 0,
+      "type": "normal",
+    },
+  ],
+  "content": "@@ -0,1 +0,1",
+  "isPlain": true,
+  "newLines": 1,
+  "newStart": 0,
+  "oldLines": 1,
+  "oldStart": 0,
+}
+`;
