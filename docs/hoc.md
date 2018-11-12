@@ -32,7 +32,7 @@ const DiffView = ({hunks, selectedChanges, onToggleChangeSelection}) => {
     );
 
     return (
-        <Diff hunks={hunks} selectedChanges={selectedChange}>
+        <Diff hunks={hunks} selectedChanges={selectedChanges}>
             {hunks => hunks.map(renderHunk)}
         </Diff>
     );
@@ -78,7 +78,7 @@ As an example, we add a decoration between hunks and allow user to expand the co
 ```jsx
 import {Diff, Decoration, Hunk, withSourceExpansion} from 'react-diff-view';
 
-const UnfoldCollapsed = ({previousHunk, currentHunk, onClock}) => {
+const UnfoldCollapsed = ({previousHunk, currentHunk, onClick}) => {
     const start = previousHunk ? previousHunk.oldStart + previousHunk.oldLines : 1;
     const end = currentHunk.oldStart - 1;
 
@@ -86,10 +86,10 @@ const UnfoldCollapsed = ({previousHunk, currentHunk, onClock}) => {
         <div onClick={() => onClick(start, end)}>
             Click to expand
         </div>
-    )
+    );
 };
 
-const renderHunk = (children, hunk, i, hunks) => {
+const renderHunk = onExpandRange => (children, hunk, i, hunks) => {
     const previousElement = children[children.length - 1];
     const decorationElement = (
         <UnfoldCollapsed
@@ -114,7 +114,7 @@ const renderHunk = (children, hunk, i, hunks) => {
 
 const DiffView = ({hunks, onExpandRange}) => (
     <Diff hunks={hunks}>
-        {hunks => hunks.reduce(renderHunk, [])}
+        {hunks => hunks.reduce(renderHunk(onExpandRange), [])}
     </Diff>
 );
 

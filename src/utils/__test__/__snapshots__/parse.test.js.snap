@@ -1,0 +1,121 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`parseDiff basic 1`] = `
+Array [
+  Object {
+    "hunks": Array [
+      Object {
+        "changes": Array [
+          Object {
+            "content": "    test('App renders correctly', () => {",
+            "isNormal": true,
+            "newLineNumber": 21,
+            "oldLineNumber": 21,
+            "type": "normal",
+          },
+          Object {
+            "content": "        expect(renderer.create(<App diffText={'deff'} />).toJSON()).toMatchSnapshot();",
+            "isDelete": true,
+            "lineNumber": 22,
+            "type": "delete",
+          },
+          Object {
+            "content": "        expect(renderer.create(<App diffText={'diff'} />).toJSON()).toMatchSnapshot();",
+            "isInsert": true,
+            "lineNumber": 22,
+            "type": "insert",
+          },
+          Object {
+            "content": "    });",
+            "isNormal": true,
+            "newLineNumber": 23,
+            "oldLineNumber": 23,
+            "type": "normal",
+          },
+        ],
+        "content": "@@ -21,3 +21,3 @@ describe('basic test', () => {",
+        "isPlain": false,
+        "newLines": 3,
+        "newStart": 21,
+        "oldLines": 3,
+        "oldStart": 21,
+      },
+    ],
+    "newEndingNewLine": true,
+    "newMode": "100644",
+    "newPath": "src/__test__/index.test.jsx",
+    "newRevision": "7883597",
+    "oldEndingNewLine": true,
+    "oldMode": "100644",
+    "oldPath": "src/__test__/index.test.jsx",
+    "oldRevision": "643c2f0",
+    "type": "modify",
+  },
+]
+`;
+
+exports[`parseDiff trim 1`] = `
+Array [
+  Object {
+    "hunks": Array [],
+    "newEndingNewLine": true,
+    "newMode": "100644",
+    "newPath": "",
+    "newRevision": "2222222",
+    "oldEndingNewLine": true,
+    "oldMode": "100644",
+    "oldPath": "",
+    "oldRevision": "1111111",
+    "type": "modify",
+  },
+  Object {
+    "hunks": Array [
+      Object {
+        "changes": Array [
+          Object {
+            "content": "    test('App renders correctly', () => {",
+            "isNormal": true,
+            "newLineNumber": 21,
+            "oldLineNumber": 21,
+            "type": "normal",
+          },
+          Object {
+            "content": "        expect(renderer.create(<App diffText={'deff'} />).toJSON()).toMatchSnapshot();",
+            "isDelete": true,
+            "lineNumber": 22,
+            "type": "delete",
+          },
+          Object {
+            "content": "        expect(renderer.create(<App diffText={'diff'} />).toJSON()).toMatchSnapshot();",
+            "isInsert": true,
+            "lineNumber": 22,
+            "type": "insert",
+          },
+          Object {
+            "content": "    });",
+            "isNormal": true,
+            "newLineNumber": 23,
+            "oldLineNumber": 23,
+            "type": "normal",
+          },
+        ],
+        "content": "@@ -21,3 +21,3 @@ describe('basic test', () => {",
+        "isPlain": false,
+        "newLines": 3,
+        "newStart": 21,
+        "oldLines": 3,
+        "oldStart": 21,
+      },
+    ],
+    "newEndingNewLine": true,
+    "newMode": "100644",
+    "newPath": "src/__test__/index.test.jsx",
+    "newRevision": "7883597",
+    "oldEndingNewLine": true,
+    "oldMode": "100644",
+    "oldPath": "src/__test__/index.test.jsx",
+    "oldRevision": "643c2f0",
+    "type": "modify",
+  },
+]
+`;

@@ -1,0 +1,396 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Diff renders correctly 1`] = `
+<table
+  className="diff diff-split"
+  onMouseDown={[Function]}
+>
+  <colgroup>
+    <col
+      className="diff-gutter-col"
+    />
+    <col />
+    <col
+      className="diff-gutter-col"
+    />
+    <col />
+  </colgroup>
+  <div>
+    [{"content":"@@ -21,3 +21,3 @@ describe('basic test', () =&gt; {","oldStart":21,"newStart":21,"oldLines":3,"newLines":3,"changes":[{"content":"    test('App renders correctly', () =&gt; {","type":"normal","isNormal":true,"oldLineNumber":21,"newLineNumber":21},{"content":"        expect(renderer.create(&lt;App diffText={'deff'} /&gt;).toJSON()).toMatchSnapshot();","type":"delete","isDelete":true,"lineNumber":22},{"content":"        expect(renderer.create(&lt;App diffText={'diff'} /&gt;).toJSON()).toMatchSnapshot();","type":"insert","isInsert":true,"lineNumber":22},{"content":"    });","type":"normal","isNormal":true,"oldLineNumber":23,"newLineNumber":23}],"isPlain":false}]
+  </div>
+</table>
+`;
+
+exports[`Diff unified Diff 1`] = `
+<table
+  className="diff diff-unified"
+  onMouseDown={[Function]}
+>
+  <colgroup>
+    <col
+      className="diff-gutter-col"
+    />
+    <col
+      className="diff-gutter-col"
+    />
+    <col />
+  </colgroup>
+  <div>
+    [{"content":"@@ -21,3 +21,3 @@ describe('basic test', () =&gt; {","oldStart":21,"newStart":21,"oldLines":3,"newLines":3,"changes":[{"content":"    test('App renders correctly', () =&gt; {","type":"normal","isNormal":true,"oldLineNumber":21,"newLineNumber":21},{"content":"        expect(renderer.create(&lt;App diffText={'deff'} /&gt;).toJSON()).toMatchSnapshot();","type":"delete","isDelete":true,"lineNumber":22},{"content":"        expect(renderer.create(&lt;App diffText={'diff'} /&gt;).toJSON()).toMatchSnapshot();","type":"insert","isInsert":true,"lineNumber":22},{"content":"    });","type":"normal","isNormal":true,"oldLineNumber":23,"newLineNumber":23}],"isPlain":false}]
+  </div>
+</table>
+`;
+
+exports[`Diff with Decoration renders correctly 1`] = `
+<table
+  className="diff diff-split"
+  onMouseDown={[Function]}
+>
+  <colgroup>
+    <col
+      className="diff-gutter-col"
+    />
+    <col />
+    <col
+      className="diff-gutter-col"
+    />
+    <col />
+  </colgroup>
+  <tbody
+    className="diff-decoration"
+  >
+    <tr>
+      <td
+        className="diff-decoration-content"
+        colSpan={4}
+      >
+        <div>
+          xxx
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
+`;
+
+exports[`Diff with Decoration unified Diff with Decoration 1`] = `
+<table
+  className="diff diff-unified"
+  onMouseDown={[Function]}
+>
+  <colgroup>
+    <col
+      className="diff-gutter-col"
+    />
+    <col
+      className="diff-gutter-col"
+    />
+    <col />
+  </colgroup>
+  <tbody
+    className="diff-decoration"
+  >
+    <tr>
+      <td
+        className="diff-decoration-content"
+        colSpan={3}
+      >
+        <div>
+          xxx
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
+`;
+
+exports[`Diff with Widget split widget 1`] = `
+<table
+  className="diff diff-split"
+  onMouseDown={[Function]}
+>
+  <colgroup>
+    <col
+      className="diff-gutter-col"
+    />
+    <col />
+    <col
+      className="diff-gutter-col"
+    />
+    <col />
+  </colgroup>
+  <tbody
+    className="diff-hunk"
+  >
+    <tr
+      className="diff-line diff-line-normal"
+    >
+      <td
+        className="diff-gutter diff-gutter-normal"
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+      >
+        21
+      </td>
+      <td
+        className="diff-code diff-code-normal"
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+      >
+            test('App renders correctly', () =&gt; {
+      </td>
+      <td
+        className="diff-gutter diff-gutter-normal"
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+      >
+        21
+      </td>
+      <td
+        className="diff-code diff-code-normal"
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+      >
+            test('App renders correctly', () =&gt; {
+      </td>
+    </tr>
+    <tr
+      className="diff-widget"
+    >
+      <td
+        className="diff-widget-content"
+        colSpan={4}
+      >
+        <span
+          className="error"
+        >
+          Line too long
+        </span>
+      </td>
+    </tr>
+    <tr
+      className="diff-line diff-line-compare"
+    >
+      <td
+        className="diff-gutter diff-gutter-delete"
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+      >
+        22
+      </td>
+      <td
+        className="diff-code diff-code-delete"
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+      >
+                expect(renderer.create(&lt;App diffText={'deff'} /&gt;).toJSON()).toMatchSnapshot();
+      </td>
+      <td
+        className="diff-gutter diff-gutter-insert"
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+      >
+        22
+      </td>
+      <td
+        className="diff-code diff-code-insert"
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+      >
+                expect(renderer.create(&lt;App diffText={'diff'} /&gt;).toJSON()).toMatchSnapshot();
+      </td>
+    </tr>
+    <tr
+      className="diff-widget"
+    >
+      <td
+        className="diff-widget-content"
+        colSpan={2}
+      >
+        <span
+          className="error"
+        >
+          Line too long
+        </span>
+      </td>
+      <td
+        className="diff-widget-content"
+        colSpan={2}
+      >
+        <span
+          className="error"
+        >
+          Line too long
+        </span>
+      </td>
+    </tr>
+    <tr
+      className="diff-line diff-line-normal"
+    >
+      <td
+        className="diff-gutter diff-gutter-normal"
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+      >
+        23
+      </td>
+      <td
+        className="diff-code diff-code-normal"
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+      >
+            });
+      </td>
+      <td
+        className="diff-gutter diff-gutter-normal"
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+      >
+        23
+      </td>
+      <td
+        className="diff-code diff-code-normal"
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+      >
+            });
+      </td>
+    </tr>
+  </tbody>
+</table>
+`;
+
+exports[`Diff with Widget unified widget 1`] = `
+<table
+  className="diff diff-unified"
+  onMouseDown={[Function]}
+>
+  <colgroup>
+    <col
+      className="diff-gutter-col"
+    />
+    <col
+      className="diff-gutter-col"
+    />
+    <col />
+  </colgroup>
+  <tbody
+    className="diff-hunk"
+  >
+    <tr
+      className="diff-line"
+    >
+      <td
+        className="diff-gutter diff-gutter-normal"
+      >
+        21
+      </td>
+      <td
+        className="diff-gutter diff-gutter-normal"
+      >
+        21
+      </td>
+      <td
+        className="diff-code diff-code-normal"
+      >
+            test('App renders correctly', () =&gt; {
+      </td>
+    </tr>
+    <tr
+      className="diff-widget"
+    >
+      <td
+        className="diff-widget-content"
+        colSpan={3}
+      >
+        <span
+          className="error"
+        >
+          Line too long
+        </span>
+      </td>
+    </tr>
+    <tr
+      className="diff-line"
+    >
+      <td
+        className="diff-gutter diff-gutter-delete"
+      >
+        22
+      </td>
+      <td
+        className="diff-gutter diff-gutter-delete"
+      />
+      <td
+        className="diff-code diff-code-delete"
+      >
+                expect(renderer.create(&lt;App diffText={'deff'} /&gt;).toJSON()).toMatchSnapshot();
+      </td>
+    </tr>
+    <tr
+      className="diff-widget"
+    >
+      <td
+        className="diff-widget-content"
+        colSpan={3}
+      >
+        <span
+          className="error"
+        >
+          Line too long
+        </span>
+      </td>
+    </tr>
+    <tr
+      className="diff-line"
+    >
+      <td
+        className="diff-gutter diff-gutter-insert"
+      />
+      <td
+        className="diff-gutter diff-gutter-insert"
+      >
+        22
+      </td>
+      <td
+        className="diff-code diff-code-insert"
+      >
+                expect(renderer.create(&lt;App diffText={'diff'} /&gt;).toJSON()).toMatchSnapshot();
+      </td>
+    </tr>
+    <tr
+      className="diff-widget"
+    >
+      <td
+        className="diff-widget-content"
+        colSpan={3}
+      >
+        <span
+          className="error"
+        >
+          Line too long
+        </span>
+      </td>
+    </tr>
+    <tr
+      className="diff-line"
+    >
+      <td
+        className="diff-gutter diff-gutter-normal"
+      >
+        23
+      </td>
+      <td
+        className="diff-gutter diff-gutter-normal"
+      >
+        23
+      </td>
+      <td
+        className="diff-code diff-code-normal"
+      >
+            });
+      </td>
+    </tr>
+  </tbody>
+</table>
+`;

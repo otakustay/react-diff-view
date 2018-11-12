@@ -1,157 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`basic test App renders correctly 1`] = `
+exports[`App with viewType === split multiple diff 1`] = `
 <div>
-  <table
-    className="diff diff-split"
-    onMouseDown={[Function]}
-  >
-    <colgroup>
-      <col
-        className="diff-gutter-col"
-      />
-      <col />
-      <col
-        className="diff-gutter-col"
-      />
-      <col />
-    </colgroup>
-  </table>
-  <table
-    className="diff diff-split"
-    onMouseDown={[Function]}
-  >
-    <colgroup>
-      <col
-        className="diff-gutter-col"
-      />
-      <col />
-      <col
-        className="diff-gutter-col"
-      />
-      <col />
-    </colgroup>
-    <tbody
-      className="diff-hunk"
-    >
-      <tr
-        className="diff-line diff-line-normal"
-      >
-        <td
-          className="diff-gutter diff-gutter-normal"
-          onMouseEnter={[Function]}
-          onMouseLeave={[Function]}
-        >
-          21
-        </td>
-        <td
-          className="diff-code diff-code-normal"
-          onMouseEnter={[Function]}
-          onMouseLeave={[Function]}
-        >
-              test('App renders correctly', () =&gt; {
-        </td>
-        <td
-          className="diff-gutter diff-gutter-normal"
-          onMouseEnter={[Function]}
-          onMouseLeave={[Function]}
-        >
-          21
-        </td>
-        <td
-          className="diff-code diff-code-normal"
-          onMouseEnter={[Function]}
-          onMouseLeave={[Function]}
-        >
-              test('App renders correctly', () =&gt; {
-        </td>
-      </tr>
-      <tr
-        className="diff-line diff-line-compare"
-      >
-        <td
-          className="diff-gutter diff-gutter-delete"
-          onMouseEnter={[Function]}
-          onMouseLeave={[Function]}
-        >
-          22
-        </td>
-        <td
-          className="diff-code diff-code-delete"
-          onMouseEnter={[Function]}
-          onMouseLeave={[Function]}
-        >
-                  expect(renderer.create(&lt;App diffText={'deff'} /&gt;).toJSON()).toMatchSnapshot();
-        </td>
-        <td
-          className="diff-gutter diff-gutter-insert"
-          onMouseEnter={[Function]}
-          onMouseLeave={[Function]}
-        >
-          22
-        </td>
-        <td
-          className="diff-code diff-code-insert"
-          onMouseEnter={[Function]}
-          onMouseLeave={[Function]}
-        >
-                  expect(renderer.create(&lt;App diffText={'diff'} /&gt;).toJSON()).toMatchSnapshot();
-        </td>
-      </tr>
-      <tr
-        className="diff-line diff-line-normal"
-      >
-        <td
-          className="diff-gutter diff-gutter-normal"
-          onMouseEnter={[Function]}
-          onMouseLeave={[Function]}
-        >
-          23
-        </td>
-        <td
-          className="diff-code diff-code-normal"
-          onMouseEnter={[Function]}
-          onMouseLeave={[Function]}
-        >
-              });
-        </td>
-        <td
-          className="diff-gutter diff-gutter-normal"
-          onMouseEnter={[Function]}
-          onMouseLeave={[Function]}
-        >
-          23
-        </td>
-        <td
-          className="diff-code diff-code-normal"
-          onMouseEnter={[Function]}
-          onMouseLeave={[Function]}
-        >
-              });
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-`;
-
-exports[`basic test multiple diff 1`] = `
-<div>
-  <table
-    className="diff diff-split"
-    onMouseDown={[Function]}
-  >
-    <colgroup>
-      <col
-        className="diff-gutter-col"
-      />
-      <col />
-      <col
-        className="diff-gutter-col"
-      />
-      <col />
-    </colgroup>
-  </table>
   <table
     className="diff diff-split"
     onMouseDown={[Function]}
@@ -286,6 +136,348 @@ exports[`basic test multiple diff 1`] = `
         <td
           className="diff-code diff-code-omit"
         />
+      </tr>
+    </tbody>
+  </table>
+</div>
+`;
+
+exports[`App with viewType === split renders correctly 1`] = `
+<div>
+  <table
+    className="diff diff-split"
+    onMouseDown={[Function]}
+  >
+    <colgroup>
+      <col
+        className="diff-gutter-col"
+      />
+      <col />
+      <col
+        className="diff-gutter-col"
+      />
+      <col />
+    </colgroup>
+    <tbody
+      className="diff-hunk"
+    >
+      <tr
+        className="diff-line diff-line-normal"
+      >
+        <td
+          className="diff-gutter diff-gutter-normal"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+        >
+          21
+        </td>
+        <td
+          className="diff-code diff-code-normal"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+        >
+              test('App renders correctly', () =&gt; {
+        </td>
+        <td
+          className="diff-gutter diff-gutter-normal"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+        >
+          21
+        </td>
+        <td
+          className="diff-code diff-code-normal"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+        >
+              test('App renders correctly', () =&gt; {
+        </td>
+      </tr>
+      <tr
+        className="diff-line diff-line-compare"
+      >
+        <td
+          className="diff-gutter diff-gutter-delete"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+        >
+          22
+        </td>
+        <td
+          className="diff-code diff-code-delete"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+        >
+                  expect(renderer.create(&lt;App diffText={'deff'} /&gt;).toJSON()).toMatchSnapshot();
+        </td>
+        <td
+          className="diff-gutter diff-gutter-insert"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+        >
+          22
+        </td>
+        <td
+          className="diff-code diff-code-insert"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+        >
+                  expect(renderer.create(&lt;App diffText={'diff'} /&gt;).toJSON()).toMatchSnapshot();
+        </td>
+      </tr>
+      <tr
+        className="diff-line diff-line-normal"
+      >
+        <td
+          className="diff-gutter diff-gutter-normal"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+        >
+          23
+        </td>
+        <td
+          className="diff-code diff-code-normal"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+        >
+              });
+        </td>
+        <td
+          className="diff-gutter diff-gutter-normal"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+        >
+          23
+        </td>
+        <td
+          className="diff-code diff-code-normal"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+        >
+              });
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+`;
+
+exports[`App with viewType === unified multiple diff 1`] = `
+<div>
+  <table
+    className="diff diff-unified"
+    onMouseDown={[Function]}
+  >
+    <colgroup>
+      <col
+        className="diff-gutter-col"
+      />
+      <col
+        className="diff-gutter-col"
+      />
+      <col />
+    </colgroup>
+    <tbody
+      className="diff-hunk"
+    >
+      <tr
+        className="diff-line"
+      >
+        <td
+          className="diff-gutter diff-gutter-insert"
+        />
+        <td
+          className="diff-gutter diff-gutter-insert"
+        >
+          1
+        </td>
+        <td
+          className="diff-code diff-code-insert"
+        >
+          1
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <table
+    className="diff diff-unified"
+    onMouseDown={[Function]}
+  >
+    <colgroup>
+      <col
+        className="diff-gutter-col"
+      />
+      <col
+        className="diff-gutter-col"
+      />
+      <col />
+    </colgroup>
+    <tbody
+      className="diff-hunk"
+    >
+      <tr
+        className="diff-line"
+      >
+        <td
+          className="diff-gutter diff-gutter-delete"
+        >
+          1
+        </td>
+        <td
+          className="diff-gutter diff-gutter-delete"
+        />
+        <td
+          className="diff-code diff-code-delete"
+        >
+          1
+        </td>
+      </tr>
+      <tr
+        className="diff-line"
+      >
+        <td
+          className="diff-gutter diff-gutter-insert"
+        />
+        <td
+          className="diff-gutter diff-gutter-insert"
+        >
+          1
+        </td>
+        <td
+          className="diff-code diff-code-insert"
+        >
+          2
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <table
+    className="diff diff-unified"
+    onMouseDown={[Function]}
+  >
+    <colgroup>
+      <col
+        className="diff-gutter-col"
+      />
+      <col
+        className="diff-gutter-col"
+      />
+      <col />
+    </colgroup>
+    <tbody
+      className="diff-hunk"
+    >
+      <tr
+        className="diff-line"
+      >
+        <td
+          className="diff-gutter diff-gutter-delete"
+        >
+          1
+        </td>
+        <td
+          className="diff-gutter diff-gutter-delete"
+        />
+        <td
+          className="diff-code diff-code-delete"
+        >
+          2
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+`;
+
+exports[`App with viewType === unified renders correctly 1`] = `
+<div>
+  <table
+    className="diff diff-unified"
+    onMouseDown={[Function]}
+  >
+    <colgroup>
+      <col
+        className="diff-gutter-col"
+      />
+      <col
+        className="diff-gutter-col"
+      />
+      <col />
+    </colgroup>
+    <tbody
+      className="diff-hunk"
+    >
+      <tr
+        className="diff-line"
+      >
+        <td
+          className="diff-gutter diff-gutter-normal"
+        >
+          21
+        </td>
+        <td
+          className="diff-gutter diff-gutter-normal"
+        >
+          21
+        </td>
+        <td
+          className="diff-code diff-code-normal"
+        >
+              test('App renders correctly', () =&gt; {
+        </td>
+      </tr>
+      <tr
+        className="diff-line"
+      >
+        <td
+          className="diff-gutter diff-gutter-delete"
+        >
+          22
+        </td>
+        <td
+          className="diff-gutter diff-gutter-delete"
+        />
+        <td
+          className="diff-code diff-code-delete"
+        >
+                  expect(renderer.create(&lt;App diffText={'deff'} /&gt;).toJSON()).toMatchSnapshot();
+        </td>
+      </tr>
+      <tr
+        className="diff-line"
+      >
+        <td
+          className="diff-gutter diff-gutter-insert"
+        />
+        <td
+          className="diff-gutter diff-gutter-insert"
+        >
+          22
+        </td>
+        <td
+          className="diff-code diff-code-insert"
+        >
+                  expect(renderer.create(&lt;App diffText={'diff'} /&gt;).toJSON()).toMatchSnapshot();
+        </td>
+      </tr>
+      <tr
+        className="diff-line"
+      >
+        <td
+          className="diff-gutter diff-gutter-normal"
+        >
+          23
+        </td>
+        <td
+          className="diff-gutter diff-gutter-normal"
+        >
+          23
+        </td>
+        <td
+          className="diff-code diff-code-normal"
+        >
+              });
+        </td>
       </tr>
     </tbody>
   </table>

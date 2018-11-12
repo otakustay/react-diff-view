@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renderToken renders correctly 1`] = `
+<td>
+  A
+</td>
+`;
+
+exports[`renderToken use renderToken 1`] = `
+<td>
+  A
+</td>
+`;

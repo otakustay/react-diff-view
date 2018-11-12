@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`markEdits withHunk 1`] = `
+Array [
+  Array [],
+  Array [],
+]
+`;
+
+exports[`markEdits withHunk 2`] = `
+Array [
+  Array [],
+  Array [],
+]
+`;
+
+exports[`markEdits withHunk 3`] = `
+Array [
+  Array [],
+  Array [],
+]
+`;
+
+exports[`markEdits withHunk 4`] = `
+Array [
+  Array [],
+  Array [],
+]
+`;

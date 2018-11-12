@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`minCollapsedLines render component 1`] = `<div />`;
+
+exports[`minCollapsedLines render component with minLinesExclusive 1`] = `<div />`;
+
+exports[`minCollapsedLines render component with oldSource 1`] = `<div />`;
