@@ -1,4 +1,4 @@
-import {last, isEmpty} from 'lodash';
+import {last} from 'lodash';
 
 export const clone = path => path.map(node => ({...node}));
 
@@ -35,24 +35,3 @@ export const split = (path, splitStart, splitEnd, wrapSplitNode) => {
 
     return output;
 };
-
-// TODO the func is unused, make sure it is useless and delete it
-export const flatMapTraverse = (paths, fn) => paths.reduce(
-    (output, path) => {
-        const iterationValue = fn(last(path), path);
-
-        if (isEmpty(iterationValue)) {
-            return output;
-        }
-
-        if (Array.isArray(iterationValue[0])) {
-            output.push(...iterationValue);
-        }
-        else {
-            output.push(iterationValue);
-        }
-
-        return output;
-    },
-    []
-);
