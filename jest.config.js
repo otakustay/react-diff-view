@@ -1,6 +1,7 @@
 module.exports = {
     verbose: true,
     testURL: 'http://localhost/',
+    setupTestFrameworkScriptFile: '<rootDir>src/__test__/setup.js',
     moduleNameMapper: {
         '\\.(css|less)$': 'identity-obj-proxy'
     },
