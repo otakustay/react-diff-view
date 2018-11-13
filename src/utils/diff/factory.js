@@ -1,4 +1,4 @@
-import {first, last} from './util';
+import {first, last, sideToProperty} from './util';
 
 export const computeLineNumberFactory = side => {
     if (side === 'old') {
@@ -34,8 +34,7 @@ export const isBetweenHunksFactory = (startProperty, linesProperty) => (previous
 };
 
 const findContainerHunkFactory = side => {
-    const startProperty = side + 'Start';
-    const linesProperty = side + 'Lines';
+    const [startProperty, linesProperty] = sideToProperty(side);
     const isInHunk = isInHunkFactory(startProperty, linesProperty);
 
     return (hunks, lineNumber) => hunks.find(hunk => isInHunk(hunk, lineNumber));
@@ -60,10 +59,8 @@ export const findChangeByLineNumberFactory = side => {
 
 export const getCorrespondingLineNumberFactory = baseSide => {
     const anotherSide = baseSide === 'old' ? 'new' : 'old';
-    const baseStart = baseSide + 'Start';
-    const baseLines = baseSide + 'Lines';
-    const correspondingStart = anotherSide + 'Start';
-    const correspondingLines = anotherSide + 'Lines';
+    const [baseStart, baseLines] = sideToProperty(baseSide);
+    const [correspondingStart, correspondingLines] = sideToProperty(anotherSide);
     const baseLineNumber = computeLineNumberFactory(baseSide);
     const correspondingLineNumber = computeLineNumberFactory(anotherSide);
     const isInHunk = isInHunkFactory(baseStart, baseLines);

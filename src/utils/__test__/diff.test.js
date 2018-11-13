@@ -1,6 +1,4 @@
 import {
-    computeOldLineNumber,
-    computeNewLineNumber,
     textLinesToHunk,
     findChangeByOldLineNumber,
     findChangeByNewLineNumber,
@@ -15,19 +13,6 @@ import {
 import {normalChange, insertChange, deleteChange} from '../../__test__/changes.case';
 import {basicHunk} from '../../__test__/cases';
 
-describe('computeLineNumber', () => {
-    test('old', () => {
-        expect(computeOldLineNumber({isInsert: true})).toBe(-1);
-        expect(computeOldLineNumber({isNormal: true, lineNumber: 0, oldLineNumber: 1})).toBe(1);
-        expect(computeOldLineNumber({isNormal: false, lineNumber: 0, oldLineNumber: 1})).toBe(0);
-    });
-
-    test('new', () => {
-        expect(computeNewLineNumber({isDelete: true})).toBe(-1);
-        expect(computeNewLineNumber({isNormal: true, lineNumber: 0, newLineNumber: 1})).toBe(1);
-        expect(computeNewLineNumber({isNormal: false, lineNumber: 0, newLineNumber: 1})).toBe(0);
-    });
-});
 
 describe('textLinesToHunk', () => {
     test('basic', () => {
