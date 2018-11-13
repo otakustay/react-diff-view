@@ -1,9 +1,5 @@
 import {
     textLinesToHunk,
-    findChangeByOldLineNumber,
-    findChangeByNewLineNumber,
-    getCorrespondingOldLineNumber,
-    getCorrespondingNewLineNumber,
     insertHunk,
     expandFromRawCode,
     getCollapsedLinesCountBetween,
@@ -18,20 +14,6 @@ describe('textLinesToHunk', () => {
     test('basic', () => {
         const lines = [''];
         expect(textLinesToHunk(lines, 0, 0)).toMatchSnapshot();
-    });
-});
-
-describe('findChangeByLineNumber', () => {
-    test('is function', () => {
-        expect(typeof findChangeByOldLineNumber).toBe('function');
-        expect(typeof findChangeByNewLineNumber).toBe('function');
-    });
-});
-
-describe('getCorrespondingLineNumber', () => {
-    test('is function', () => {
-        expect(typeof getCorrespondingOldLineNumber).toBe('function');
-        expect(typeof getCorrespondingNewLineNumber).toBe('function');
     });
 });
 
@@ -91,6 +73,10 @@ describe('expandCollapsedBlockBy', () => {
 });
 
 describe('getChangeKey', () => {
+    test('throws when empty', () => {
+        expect(() => getChangeKey()).toThrow();
+    });
+
     test('normal change', () => {
         expect(getChangeKey(normalChange)).toBe('N0');
     });

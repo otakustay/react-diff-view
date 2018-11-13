@@ -123,6 +123,7 @@ export const getCorrespondingLineNumberFactory = baseSide => {
             }
         }
 
+        /* istanbul ignore next Should not arrive here */
         throw new Error(`Unexpected line position ${lineNumber}`);
     };
     /* eslint-enable complexity */
