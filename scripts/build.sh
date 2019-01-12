@@ -1,4 +1,4 @@
 set -ex
 
-rm -r assets *.js *.map
+rm -rf assets *.js *.map
 cp -r dist/* .
