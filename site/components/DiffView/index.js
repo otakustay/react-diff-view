@@ -4,7 +4,7 @@ import {
     withSourceExpansion,
     minCollapsedLines,
     withChangeSelect,
-    withTokenizeWorker
+    withTokenizeWorker,
 } from 'react-diff-view';
 import {compose} from 'recompose';
 import 'prism-themes/themes/prism-vs.css';
@@ -25,7 +25,7 @@ const DiffView = props => {
         selectedChanges,
         tokens,
         onExpandRange,
-        onToggleChangeSelection
+        onToggleChangeSelection,
     } = props;
     const linesCount = oldSource ? oldSource.split('\n').length : 0;
     const renderHunk = (children, hunk, i, hunks) => {
@@ -87,9 +87,9 @@ const tokenizeOptions = {
     mapPayload(data, {editsType}) {
         return {
             ...data,
-            editsType: editsType
+            editsType: editsType,
         };
-    }
+    },
 };
 
 const enhance = compose(

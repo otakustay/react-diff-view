@@ -10,7 +10,7 @@ import {
     expandFromRawCode,
     getCollapsedLinesCountBetween,
     expandCollapsedBlockBy,
-    getChangeKey
+    getChangeKey,
 } from '..';
 import {normalChange, insertChange, deleteChange} from '../../__test__/changes.case';
 import {basicHunk} from '../../__test__/cases';

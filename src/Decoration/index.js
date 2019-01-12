@@ -43,13 +43,13 @@ Decoration.propTypes = {
     className: PropTypes.string,
     gutterClassName: PropTypes.string,
     contentClassName: PropTypes.string,
-    children: PropTypes.node.isRequired
+    children: PropTypes.node.isRequired,
 };
 
 Decoration.defaultProps = {
     className: '',
     gutterClassName: '',
-    contentClassName: ''
+    contentClassName: '',
 };
 
 export default Decoration;

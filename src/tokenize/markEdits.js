@@ -19,7 +19,7 @@ const findChangeBlocks = changes => {
 
     return [
         changes.slice(start, end),
-        ...findChangeBlocks(changes.slice(end))
+        ...findChangeBlocks(changes.slice(end)),
     ];
 };
 
@@ -53,7 +53,7 @@ const splitDiffToLines = diffs => diffs.reduce(
         const next = [
             ...lines.slice(0, -1),
             [...last(lines), currentLineRemaining],
-            ...nextLines.map(line => [line])
+            ...nextLines.map(line => [line]),
         ];
         return next;
     },
@@ -70,7 +70,7 @@ const diffsToEdits = (diffs, lineNumber) => {
                     type: 'edit',
                     lineNumber: lineNumber,
                     start: start,
-                    length: value.length
+                    length: value.length,
                 };
                 edits.push(edit);
             }
@@ -135,7 +135,7 @@ const diffByLine = changes => changes.reduce(
         return [
             oldEdits.concat(diffsToEdits(oldDiffs, previousChange.lineNumber)),
             newEdits.concat(diffsToEdits(newDiffs, currentChange.lineNumber)),
-            currentChange
+            currentChange,
         ];
     },
     [[], [], {}]
@@ -148,7 +148,7 @@ export default (hunks, {type = 'block'} = {}) => {
     const [oldEdits, newEdits] = changeBlocks.map(findEdits).reduce(
         ([oldEdits, newEdits], [currentOld, currentNew]) => [
             oldEdits.concat(currentOld),
-            newEdits.concat(currentNew)
+            newEdits.concat(currentNew),
         ],
         [[], []]
     );

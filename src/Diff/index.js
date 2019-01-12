@@ -36,7 +36,7 @@ export default class Diff extends PureComponent {
         optimizeSelection: PropTypes.bool,
         className: PropTypes.string,
         renderToken: PropTypes.func,
-        children: PropTypes.func
+        children: PropTypes.func,
     };
 
     static defaultProps = {
@@ -52,7 +52,7 @@ export default class Diff extends PureComponent {
         children(hunks) {
             const key = hunk => `-${hunk.oldStart},${hunk.oldLines} +${hunk.newStart},${hunk.newLines}`;
             return hunks.map(hunk => <Hunk key={key(hunk)} hunk={hunk} />);
-        }
+        },
     };
 
     root = null;

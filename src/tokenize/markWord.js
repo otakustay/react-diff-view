@@ -34,6 +34,6 @@ export default (word, name, replacement = word) => {
 
     return ([oldLinesOfPaths, newLinesOfPaths]) => [
         oldLinesOfPaths.map(mark),
-        newLinesOfPaths.map(mark)
+        newLinesOfPaths.map(mark),
     ];
 };

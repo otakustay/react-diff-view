@@ -4,6 +4,11 @@ module.exports = {
     env: {
         'jest/globals': true
     },
+    settings: {
+        react: {
+            version: 'detect'
+        }
+    },
     rules: {
         'import/no-unresolved': [
             'error',

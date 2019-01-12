@@ -7,7 +7,7 @@ import styles from './Unfold.css';
 const ICON_TYPE_MAPPING = {
     up: 'caret-up',
     down: 'caret-down',
-    none: 'plus-circle'
+    none: 'plus-circle',
 };
 
 export default class Unfold extends PureComponent {

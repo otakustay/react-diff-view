@@ -12,17 +12,17 @@ describe('markWord', () => {
     test('value', () => {
         expect(markWord('A')([
             [[[{value: ''}]]], // oldLinesOfPaths
-            [[[{value: ''}]]] // newLinesOfPaths
+            [[[{value: ''}]]], // newLinesOfPaths
         ])).toEqual([[[[{value: ''}]]], [[[{value: ''}]]]]);
     });
 
     test('hit', () => {
         expect(markWord('A')([
             [[[{value: 'A'}]]], // oldLinesOfPaths
-            [[[{value: 'A'}]]] // newLinesOfPaths
+            [[[{value: 'A'}]]], // newLinesOfPaths
         ])).toEqual([
             [[[{markType: undefined, type: 'mark', value: 'A'}]]],
-            [[[{markType: undefined, type: 'mark', value: 'A'}]]]
+            [[[{markType: undefined, type: 'mark', value: 'A'}]]],
         ]);
     });
 });

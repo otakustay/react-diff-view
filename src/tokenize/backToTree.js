@@ -23,7 +23,7 @@ const mergeNode = (x, y) => {
     if ('value' in x) {
         return {
             ...x,
-            value: x.value + y.value
+            value: x.value + y.value,
         };
     }
 

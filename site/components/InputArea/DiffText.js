@@ -11,7 +11,7 @@ export default class DiffText extends PureComponent {
     state = {
         diff: '',
         source: '',
-        isSourceVisible: false
+        isSourceVisible: false,
     };
 
     @bind()
@@ -35,7 +35,7 @@ export default class DiffText extends PureComponent {
         const {diff, source, isSourceVisible} = this.state;
         const data = {
             diff: diff,
-            source: (isSourceVisible && source) ? source : null
+            source: (isSourceVisible && source) ? source : null,
         };
 
         onSubmit(data);

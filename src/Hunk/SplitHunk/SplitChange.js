@@ -24,7 +24,7 @@ const renderCells = args => {
         gutterAnchorTarget,
         hideGutter,
         hover,
-        renderToken
+        renderToken,
     } = args;
 
     if (!change) {
@@ -33,7 +33,7 @@ const renderCells = args => {
 
         return [
             !hideGutter && <td key="gutter" className={gutterClassNameValue} />,
-            <td key="code" className={codeClassNameValue} />
+            <td key="code" className={codeClassNameValue} />,
         ];
     }
 
@@ -45,7 +45,7 @@ const renderCells = args => {
         `diff-gutter-${type}`,
         {
             'diff-gutter-selected': selected,
-            ['diff-line-hover-' + sideName]: hover
+            ['diff-line-hover-' + sideName]: hover,
         },
         gutterClassName
     );
@@ -53,14 +53,14 @@ const renderCells = args => {
         'id': anchorID,
         'className': gutterClassNameValue,
         'children': gutterAnchor ? <a href={'#' + gutterAnchorTarget}>{line}</a> : line.toString(),
-        ...gutterEvents
+        ...gutterEvents,
     };
     const codeClassNameValue = classNames(
         'diff-code',
         `diff-code-${type}`,
         {
             'diff-code-selected': selected,
-            ['diff-line-hover-' + sideName]: hover
+            ['diff-line-hover-' + sideName]: hover,
         },
         codeClassName
     );
@@ -74,7 +74,7 @@ const renderCells = args => {
             tokens={tokens}
             renderToken={renderToken}
             {...codeEvents}
-        />
+        />,
     ];
 };
 
@@ -84,16 +84,16 @@ export default class SplitChange extends PureComponent {
         oldSelected: PropTypes.bool.isRequired,
         newSelected: PropTypes.bool.isRequired,
         oldTokens: PropTypes.arrayOf(PropTypes.object),
-        newTokens: PropTypes.arrayOf(PropTypes.object)
+        newTokens: PropTypes.arrayOf(PropTypes.object),
     };
 
     static defaultProps = {
         oldTokens: null,
-        newTokens: null
+        newTokens: null,
     };
 
     state = {
-        hover: ''
+        hover: '',
     };
 
     constructor(props) {
@@ -103,11 +103,11 @@ export default class SplitChange extends PureComponent {
         const markHoverAs = side => () => this.setState({hover: side});
         const ownEventsOnOldSide = {
             onMouseEnter: markHoverAs('old'),
-            onMouseLeave: unmarkHover
+            onMouseLeave: unmarkHover,
         };
         const ownEventsOnNewSide = {
             onMouseEnter: markHoverAs('new'),
-            onMouseLeave: unmarkHover
+            onMouseLeave: unmarkHover,
         };
 
         this.bindOldGutterEvents = createEventsBindingSelector(ownEventsOnOldSide);
@@ -133,7 +133,7 @@ export default class SplitChange extends PureComponent {
             hideGutter,
             generateAnchorID,
             gutterAnchor,
-            renderToken
+            renderToken,
         } = this.props;
         const {hover} = this.state;
 
@@ -144,12 +144,12 @@ export default class SplitChange extends PureComponent {
             codeClassName,
             gutterEvents,
             codeEvents,
-            renderToken
+            renderToken,
         };
         const oldAnchorID = oldChange && generateAnchorID(oldChange);
         const oldEventArg = {
             change: oldChange,
-            side: 'old'
+            side: 'old',
         };
         const oldArgs = {
             ...commons,
@@ -162,12 +162,12 @@ export default class SplitChange extends PureComponent {
             anchorID: oldAnchorID,
             gutterAnchor: gutterAnchor,
             gutterAnchorTarget: oldAnchorID,
-            hover: hover === 'old'
+            hover: hover === 'old',
         };
         const newAnchorID = newChange && generateAnchorID(newChange);
         const newEventArg = {
             change: newChange,
-            side: 'new'
+            side: 'new',
         };
         const newArgs = {
             ...commons,
@@ -180,7 +180,7 @@ export default class SplitChange extends PureComponent {
             anchorID: oldChange === newChange ? undefined : newAnchorID,
             gutterAnchor: gutterAnchor,
             gutterAnchorTarget: oldChange === newChange ? oldAnchorID : newAnchorID,
-            hover: hover === 'new'
+            hover: hover === 'new',
         };
 
         if (monotonous) {

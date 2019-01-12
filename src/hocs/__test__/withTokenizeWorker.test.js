@@ -15,7 +15,7 @@ const worker = {
     postMessage(data) {
         journey.push(['postMessage', typeof data]);
         handleReceiveTokens({data});
-    }
+    },
 };
 const ComponentIn = () => <div />;
 
@@ -34,13 +34,13 @@ describe('withTokenizeWorker', () => {
         expect(wrapper.toJSON()).toMatchSnapshot();
         expect(journey).toEqual([
             ['addEventListener', 'message', 'function'],
-            ['postMessage', 'object']
+            ['postMessage', 'object'],
         ]);
         wrapper.unmount();
         expect(journey).toEqual([
             ['addEventListener', 'message', 'function'],
             ['postMessage', 'object'],
-            ['removeEventListener', 'message', 'function']
+            ['removeEventListener', 'message', 'function'],
         ]);
     });
 });

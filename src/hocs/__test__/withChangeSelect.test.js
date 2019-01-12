@@ -22,7 +22,7 @@ describe('withChangeSelect', () => {
 
 const DiffView = ({hunks, selectedChanges, onToggleChangeSelection}) => {
     const codeEvents = {
-        onClick: onToggleChangeSelection
+        onClick: onToggleChangeSelection,
     };
     const renderHunk = hunk => (
         <Hunk

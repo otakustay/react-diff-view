@@ -4,7 +4,7 @@ import {joinConfiguration} from '../regions';
 const mapToProps = ({update, ...configuration}) => {
     return {
         onChange: update,
-        ...configuration
+        ...configuration,
     };
 };
 

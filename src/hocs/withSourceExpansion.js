@@ -17,7 +17,7 @@ export default () => ComponentIn => class ComponentOut extends Component {
 
     state = {
         expandRanges: [],
-        prevProps: {}
+        prevProps: {},
     };
 
     computeExpandedHunks = createSelector(expandRangesFromHunks);
@@ -31,8 +31,8 @@ export default () => ComponentIn => class ComponentOut extends Component {
             expandRanges: [],
             prevProps: {
                 hunks: nextProps.hunks,
-                oldSource: nextProps.oldSource
-            }
+                oldSource: nextProps.oldSource,
+            },
         };
     }
 

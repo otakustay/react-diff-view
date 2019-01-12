@@ -33,7 +33,7 @@ const createHunkFromChanges = changes => {
         oldStart: -1,
         oldLines: 0,
         newStart: -1,
-        newLines: 0
+        newLines: 0,
     };
     /* eslint-disable no-param-reassign */
     const hunk = changes.reduce(
@@ -68,7 +68,7 @@ const createHunkFromChanges = changes => {
     return {
         ...hunk,
         content: `@@ -${oldStart},${oldLines} +${newStart},${newLines}`,
-        changes: changes
+        changes: changes,
     };
 };
 
@@ -79,7 +79,7 @@ export const textLinesToHunk = (lines, oldStartLineNumber, newStartLineNumber) =
             isNormal: true,
             oldLineNumber: oldStartLineNumber + i,
             newLineNumber: newStartLineNumber + i,
-            content: '' + line
+            content: '' + line,
         };
     };
     const changes = lines.map(lineToChange);
@@ -341,7 +341,7 @@ export const insertHunk = (hunks, insertion) => {
         : [
             ...hunks.slice(0, insertPosition),
             insertion,
-            ...hunks.slice(insertPosition)
+            ...hunks.slice(insertPosition),
         ];
 
     return hunksWithInsertion.reduce(appendOrMergeHunk, []);
@@ -382,7 +382,7 @@ const splitRangeToValidOnes = (hunks, start, end) => {
 
         return [
             [start, validEnd],
-            ...splitRangeToValidOnes(hunks, validEnd + 1, end)
+            ...splitRangeToValidOnes(hunks, validEnd + 1, end),
         ];
     }
 
@@ -408,7 +408,7 @@ const splitRangeToValidOnes = (hunks, start, end) => {
 
     return [
         [validStart, validEnd],
-        ...splitRangeToValidOnes(hunks, validEnd + 1, end)
+        ...splitRangeToValidOnes(hunks, validEnd + 1, end),
     ];
 };
 

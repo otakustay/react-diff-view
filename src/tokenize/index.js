@@ -9,7 +9,7 @@ export const tokenize = (hunks, options) => {
         refractor,
         oldSource,
         language,
-        enhancers = []
+        enhancers = [],
     } = options;
 
     const tokenTreesPair = toTokenTrees(hunks, {highlight, refractor, oldSource, language});
@@ -20,7 +20,7 @@ export const tokenize = (hunks, options) => {
     const [oldTrees, newTrees] = enhancedLinesOfPathsPair.map(paths => paths.map(backToTree));
     return {
         old: oldTrees.map(root => root.children),
-        new: newTrees.map(root => root.children)
+        new: newTrees.map(root => root.children),
     };
 };
 

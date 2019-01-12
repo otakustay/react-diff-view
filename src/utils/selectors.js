@@ -36,7 +36,7 @@ export const createEventsBindingSelector = (ownEvents = {}) => {
 
                     return {
                         ...events,
-                        [name]: callback
+                        [name]: callback,
                     };
                 },
                 customEvents

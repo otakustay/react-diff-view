@@ -35,7 +35,7 @@ Hunk.propTypes = (() => {
         isDelete: PropTypes.bool,
         lineNumber: PropTypes.number,
         oldLineNumber: PropTypes.number,
-        newLineNumber: PropTypes.number
+        newLineNumber: PropTypes.number,
     };
 
     const hunk = {
@@ -44,7 +44,7 @@ Hunk.propTypes = (() => {
         newStart: PropTypes.number.isRequired,
         newLines: PropTypes.number.isRequired,
         content: PropTypes.string.isRequired,
-        changes: PropTypes.arrayOf(PropTypes.shape(change)).isRequired
+        changes: PropTypes.arrayOf(PropTypes.shape(change)).isRequired,
     };
 
     return {
@@ -54,7 +54,7 @@ Hunk.propTypes = (() => {
         gutterClassName: PropTypes.string,
         contentClassName: PropTypes.string,
         gutterEvents: PropTypes.object,
-        codeEvents: PropTypes.object
+        codeEvents: PropTypes.object,
     };
 })();
 
@@ -64,7 +64,7 @@ Hunk.defaultProps = {
     gutterClassName: '',
     contentClassName: '',
     gutterEvents: {},
-    codeEvents: {}
+    codeEvents: {},
 };
 
 export default Hunk;

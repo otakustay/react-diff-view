@@ -48,7 +48,7 @@ export default (worker, options = {}) => {
         const input = {
             language: language,
             oldSource: oldSource,
-            hunks: hunks
+            hunks: hunks,
         };
         return mapPayload(input, props);
     };
@@ -59,7 +59,7 @@ export default (worker, options = {}) => {
 
         state = {
             tokens: null,
-            tokenizationFailReason: null
+            tokenizationFailReason: null,
         };
 
         jobID = null;
@@ -92,7 +92,7 @@ export default (worker, options = {}) => {
             const data = {
                 id: this.jobID,
                 type: 'tokenize',
-                payload: payload
+                payload: payload,
             };
             worker.postMessage(data);
         };

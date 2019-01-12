@@ -79,7 +79,7 @@ export default (hunks, {highlight, refractor, oldSource, language}) => {
 
         return [
             createRoot(highlightText(oldSource, language)),
-            createRoot(highlightText(newSource, language))
+            createRoot(highlightText(newSource, language)),
         ];
     }
 

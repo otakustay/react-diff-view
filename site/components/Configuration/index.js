@@ -22,7 +22,7 @@ class Configuration extends PureComponent {
         const current = pick(this.props, 'viewType', 'markEdits', 'language');
         const newConfiguration = {
             ...current,
-            [name]: value
+            [name]: value,
         };
         this.props.onChange(newConfiguration);
     }
@@ -60,7 +60,7 @@ class Configuration extends PureComponent {
 }
 
 const initialState = {
-    isModalVisible: false
+    isModalVisible: false,
 };
 
 const workflows = {
@@ -70,7 +70,7 @@ const workflows = {
 
     onCloseModal() {
         return {isModalVisible: false};
-    }
+    },
 };
 
 export default withTransientRegion(initialState, workflows)(Configuration);

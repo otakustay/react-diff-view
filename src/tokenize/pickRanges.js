@@ -45,5 +45,5 @@ const process = (linesOfPaths, ranges) => {
 
 export default (oldRanges, newRanges) => ([oldLinesOfPaths, newLinesOfPaths]) => [
     process(oldLinesOfPaths, oldRanges),
-    process(newLinesOfPaths, newRanges)
+    process(newLinesOfPaths, newRanges),
 ];

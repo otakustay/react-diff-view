@@ -20,7 +20,7 @@ class DiffSource extends PureComponent {
         const diffText = formatLines(diffLines(oldSource, newSource), {context: 3});
         const data = {
             diff: diffText,
-            source: oldSource
+            source: oldSource,
         };
 
         onSubmit(data);
@@ -56,7 +56,7 @@ class DiffSource extends PureComponent {
 
 const initialState = {
     oldSource: '',
-    newSource: ''
+    newSource: '',
 };
 
 const workflows = {
@@ -65,7 +65,7 @@ const workflows = {
     },
     onNewSourceChange(newSource) {
         return {newSource};
-    }
+    },
 };
 
 export default withTransientRegion(initialState, workflows)(DiffSource);

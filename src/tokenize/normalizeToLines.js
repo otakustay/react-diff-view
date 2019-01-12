@@ -36,7 +36,7 @@ const splitByLineBreak = paths => paths.reduce(
         return [
             ...lines.slice(0, -1),
             [...currentLine, currentRemaining],
-            ...nextLines.map(path => [path])
+            ...nextLines.map(path => [path]),
         ];
     },
     [[]]

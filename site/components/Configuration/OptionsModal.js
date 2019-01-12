@@ -28,7 +28,7 @@ const OptionsModal = props => {
         onSwitchViewType,
         onSwitchEditsType,
         onSwitchGutterVisibility,
-        onClose
+        onClose,
     } = props;
 
     return (

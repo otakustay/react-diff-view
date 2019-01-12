@@ -16,7 +16,7 @@ class App extends PureComponent {
 
     state = {
         diff: null,
-        source: null
+        source: null,
     };
 
     parse = createSelector(
@@ -29,7 +29,7 @@ class App extends PureComponent {
             const segments = [
                 'diff --git a/a b/b',
                 `index ${fakeIndex()}..${fakeIndex()} 100644`,
-                diff
+                diff,
             ];
 
             const files = parseDiff(segments.join('\n'), {nearbySequences: 'zip'});

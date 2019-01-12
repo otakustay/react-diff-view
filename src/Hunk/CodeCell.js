@@ -26,11 +26,11 @@ export default class CodeCell extends PureComponent { // eslint-disable-line rea
 
     static propTypes = {
         text: PropTypes.string.isRequired,
-        tokens: PropTypes.arrayOf(PropTypes.object)
+        tokens: PropTypes.arrayOf(PropTypes.object),
     };
 
     static defaultProps = {
-        tokens: null
+        tokens: null,
     };
 
     render() {

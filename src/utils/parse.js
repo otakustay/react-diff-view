@@ -33,7 +33,7 @@ const mapHunk = (hunk, options) => {
     return {
         ...hunk,
         isPlain: false,
-        changes: changes
+        changes: changes,
     };
 };
 
@@ -57,7 +57,7 @@ const normalizeDiffText = text => {
     const segments = [
         `diff --git ${oldPath} ${newPath}`,
         'index 1111111..2222222 100644',
-        text
+        text,
     ];
 
     return segments.join('\n');

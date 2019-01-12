@@ -30,11 +30,11 @@ export default class UnifiedChange extends PureComponent {
 
     static propTypes = {
         selected: PropTypes.bool.isRequired,
-        tokens: PropTypes.arrayOf(PropTypes.object)
+        tokens: PropTypes.arrayOf(PropTypes.object),
     };
 
     static defaultProps = {
-        tokens: null
+        tokens: null,
     };
 
     render() {
@@ -50,7 +50,7 @@ export default class UnifiedChange extends PureComponent {
             hideGutter,
             gutterAnchor,
             generateAnchorID,
-            renderToken
+            renderToken,
         } = this.props;
         const {type, content} = change;
         const oldLine = computeOldLineNumber(change);

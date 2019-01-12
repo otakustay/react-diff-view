@@ -8,7 +8,7 @@ export default ({multiple = false} = {}) => ComponentIn => class ComponentOut ex
 
     state = {
         selection: [],
-        prevProps: {}
+        prevProps: {},
     };
 
     static getDerivedStateFromProps(nextProps, {prevProps}) {
@@ -19,8 +19,8 @@ export default ({multiple = false} = {}) => ComponentIn => class ComponentOut ex
         return {
             selection: [],
             prevProps: {
-                hunks: nextProps.hunks
-            }
+                hunks: nextProps.hunks,
+            },
         };
     }
 

@@ -13,7 +13,7 @@ const InputArea = ({inputType, ...props}) => (
 );
 
 const initialState = {
-    inputType: 'source'
+    inputType: 'source',
 };
 
 const workflows = {
@@ -21,7 +21,7 @@ const workflows = {
         const newInputType = inputType === 'diff' ? 'source' : 'diff';
 
         return {inputType: newInputType};
-    }
+    },
 };
 
 export default withTransientRegion(initialState, workflows)(InputArea);

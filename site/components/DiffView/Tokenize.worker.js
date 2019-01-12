@@ -10,7 +10,7 @@ self.addEventListener(
         const enhancers = [
             markWord('\r', 'carriage-return', '␍'),
             markWord('\t', 'tab', '→'),
-            editsType === 'none' ? null : markEdits(hunks, {type: editsType})
+            editsType === 'none' ? null : markEdits(hunks, {type: editsType}),
         ];
 
         const options = {
@@ -18,21 +18,21 @@ self.addEventListener(
             refractor: refractor,
             language: language,
             oldSource: oldSource,
-            enhancers: compact(enhancers)
+            enhancers: compact(enhancers),
         };
 
         try {
             const tokens = tokenize(hunks, options);
             const payload = {
                 success: true,
-                tokens: tokens
+                tokens: tokens,
             };
             self.postMessage({id, payload});
         }
         catch (ex) {
             const payload = {
                 success: false,
-                reason: ex.message
+                reason: ex.message,
             };
             self.postMessage({id, payload});
         }
