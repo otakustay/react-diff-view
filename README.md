@@ -29,7 +29,7 @@ A git diff component to consume the git unified diff output.
 
 Run `npm start` to enjoy a full featured demo with diff display, collapsed code expansion, code comment and large diff lazy load.
 
-You can modify the `small.diff` to `large.diff` in `demo/App.js` to test the performance, the `large.diff` is a **2.2MB diff file with 375 files changed, 18721 insertions(+), 35671 deletions(-)**, it can possibly hung your computer so use it in caution.
+I test the performance with a **2.2MB diff file with 375 files changed, 18721 insertions(+), 35671 deletions(-)**.
 
 In my laptop (MacBook Pro 15-inch 2016, 2.6 GHz Intel Core i7, 16 GB 2133 MHz LPDDR3) it performs quite slow but tolerable without lazy rendering:
 
