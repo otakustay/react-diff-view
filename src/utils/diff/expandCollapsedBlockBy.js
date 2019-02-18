@@ -1,6 +1,10 @@
 import {insertHunk, textLinesToHunk} from './insertHunk';
-import {computeLineNumberFactory, isInHunkFactory, isBetweenHunksFactory} from './factory';
+import {
+    computeLineNumberFactory, isInHunkFactory, isBetweenHunksFactory, getCorrespondingLineNumberFactory,
+} from './factory';
 import {first} from './util';
+
+const getCorrespondingNewLineNumber = getCorrespondingLineNumberFactory('old');
 
 const computeOldLineNumber = computeLineNumberFactory('old');
 
