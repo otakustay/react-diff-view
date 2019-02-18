@@ -70,7 +70,7 @@ const splitRangeToValidOnes = (hunks, start, end) => {
 
         return [
             [start, validEnd],
-            ...splitRangeToValidOnes(hunks, validEnd + 1, end)
+            ...splitRangeToValidOnes(hunks, validEnd + 1, end),
         ];
     }
 
@@ -96,7 +96,7 @@ const splitRangeToValidOnes = (hunks, start, end) => {
 
     return [
         [validStart, validEnd],
-        ...splitRangeToValidOnes(hunks, validEnd + 1, end)
+        ...splitRangeToValidOnes(hunks, validEnd + 1, end),
     ];
 };
 

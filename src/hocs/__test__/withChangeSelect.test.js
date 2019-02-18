@@ -24,7 +24,7 @@ describe('withChangeSelect', () => {
 describe('withChangeSelect usage in document', () => {
     const DiffView = ({hunks, selectedChanges, onToggleChangeSelection}) => {
         const codeEvents = {
-            onClick: onToggleChangeSelection
+            onClick: onToggleChangeSelection,
         };
         const renderHunk = hunk => (
             <Hunk
