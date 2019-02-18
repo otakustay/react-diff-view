@@ -1,11 +1,12 @@
 import renderer from 'react-test-renderer';
+import {shallow} from 'enzyme';
 import {withChangeSelect} from '..';
 import {Diff, Hunk} from '../..';
 import {basicHunk} from '../../__test__/cases';
-
-const ComponentIn = () => <div />;
+import {normalChange} from '../../__test__/changes.case';
 
 describe('withChangeSelect', () => {
+    const ComponentIn = () => <div />;
     test('returns a hoc function', () => {
         expect(typeof withChangeSelect()).toBe('function');
     });
@@ -20,27 +21,26 @@ describe('withChangeSelect', () => {
     });
 });
 
-const DiffView = ({hunks, selectedChanges, onToggleChangeSelection}) => {
-    const codeEvents = {
-        onClick: onToggleChangeSelection,
-    };
-    const renderHunk = hunk => (
-        <Hunk
-            key={hunk.content}
-            hunk={hunk}
-            codeEvents={codeEvents}
-        />
-    );
-
-    // TODO modify document
-    return (
-        <Diff hunks={hunks} selectedChanges={selectedChanges} diffType="modify" viewType="split" >
-            {hunks => hunks.map(renderHunk)}
-        </Diff>
-    );
-};
-
 describe('withChangeSelect usage in document', () => {
+    const DiffView = ({hunks, selectedChanges, onToggleChangeSelection}) => {
+        const codeEvents = {
+            onClick: onToggleChangeSelection,
+        };
+        const renderHunk = hunk => (
+            <Hunk
+                key={hunk.content}
+                hunk={hunk}
+                codeEvents={codeEvents}
+            />
+        );
+
+        return (
+            <Diff hunks={hunks} selectedChanges={selectedChanges} diffType="modify" viewType="split" >
+                {hunks => hunks.map(renderHunk)}
+            </Diff>
+        );
+    };
+
     test('EnhancedDiffView snapshot', () => {
         const EnhancedDiffView = withChangeSelect({multiple: false})(DiffView);
         expect(renderer.create(<EnhancedDiffView hunks={[basicHunk]} />).toJSON()).toMatchSnapshot();
@@ -50,6 +50,28 @@ describe('withChangeSelect usage in document', () => {
         const EnhancedDiffView = withChangeSelect({multiple: true})(DiffView);
         expect(renderer.create(<EnhancedDiffView hunks={[basicHunk]} />).toJSON()).toMatchSnapshot();
     });
+});
 
-    // TODO use enzyme to test click
+describe('withChangeSelect handler', () => {
+    const ComponentIn = () => <div />;
+
+    test('onToggleChangeSelection', () => {
+        const EnhancedDiffView = withChangeSelect({multiple: false})(ComponentIn);
+        const wrapper = shallow(<EnhancedDiffView hunks={[]} />);
+        expect(typeof wrapper.props().onToggleChangeSelection).toBe('function');
+        expect(wrapper.props().onToggleChangeSelection({change: normalChange})).toBe(undefined);
+        expect(wrapper.state().selection).toEqual(['N0']);
+        expect(wrapper.props().onToggleChangeSelection({change: normalChange})).toBe(undefined);
+        expect(wrapper.state().selection).toEqual(['N0']);
+    });
+
+    test('multiple onToggleChangeSelection', () => {
+        const EnhancedDiffView = withChangeSelect({multiple: true})(ComponentIn);
+        const wrapper = shallow(<EnhancedDiffView hunks={[]} />);
+        expect(typeof wrapper.props().onToggleChangeSelection).toBe('function');
+        expect(wrapper.props().onToggleChangeSelection({change: normalChange})).toBe(undefined);
+        expect(wrapper.state().selection).toEqual(['N0']);
+        expect(wrapper.props().onToggleChangeSelection({change: normalChange})).toBe(undefined);
+        expect(wrapper.state().selection).toEqual([]);
+    });
 });

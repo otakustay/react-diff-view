@@ -33,34 +33,36 @@ const UnfoldCollapsed = ({previousHunk, currentHunk, onClick}) => {
     /* eslint-enable react/jsx-no-bind */
 };
 
-const renderHunk = onExpandRange => (children, hunk) => {
-    const previousElement = children[children.length - 1];
-    const decorationElement = (
-        <UnfoldCollapsed
-            key={'decoration-' + hunk.content}
-            previousHunk={previousElement && previousElement.props.hunk}
-            currentHunk={hunk}
-            onClick={onExpandRange}
-        />
-    );
-    children.push(decorationElement);
+const DiffView = ({hunks, onExpandRange}) => {
+    const renderHunk = (children, hunk) => {
+        const previousElement = children[children.length - 1];
+        const decorationElement = (
+            <UnfoldCollapsed
+                key={'decoration-' + hunk.content}
+                previousHunk={previousElement && previousElement.props.hunk}
+                currentHunk={hunk}
+                onClick={onExpandRange}
+            />
+        );
+        children.push(decorationElement);
 
-    const hunkElement = (
-        <Hunk
-            key={'hunk-' + hunk.content}
-            hunk={hunk}
-        />
-    );
-    children.push(hunkElement);
+        const hunkElement = (
+            <Hunk
+                key={'hunk-' + hunk.content}
+                hunk={hunk}
+            />
+        );
+        children.push(hunkElement);
 
-    return children;
+        return children;
+    };
+
+    return (
+        <Diff hunks={hunks} diffType="modify" viewType="split">
+            {hunks => hunks.reduce(renderHunk, [])}
+        </Diff>
+    );
 };
-
-const DiffView = ({hunks, onExpandRange}) => (
-    <Diff hunks={hunks} diffType="modify" viewType="split">
-        {hunks => hunks.reduce(renderHunk(onExpandRange), [])}
-    </Diff>
-);
 
 describe('withSourceExpansion document usage', () => {
     test('renders correctly', () => {
