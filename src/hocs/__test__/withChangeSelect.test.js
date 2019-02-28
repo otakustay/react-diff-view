@@ -60,9 +60,7 @@ describe('withChangeSelect handler', () => {
         const wrapper = shallow(<EnhancedDiffView hunks={[]} />);
         expect(typeof wrapper.props().onToggleChangeSelection).toBe('function');
         expect(wrapper.props().onToggleChangeSelection({change: normalChange})).toBe(undefined);
-        expect(wrapper.state().selection).toEqual(['N0']);
         expect(wrapper.props().onToggleChangeSelection({change: normalChange})).toBe(undefined);
-        expect(wrapper.state().selection).toEqual(['N0']);
     });
 
     test('multiple onToggleChangeSelection', () => {
@@ -70,8 +68,6 @@ describe('withChangeSelect handler', () => {
         const wrapper = shallow(<EnhancedDiffView hunks={[]} />);
         expect(typeof wrapper.props().onToggleChangeSelection).toBe('function');
         expect(wrapper.props().onToggleChangeSelection({change: normalChange})).toBe(undefined);
-        expect(wrapper.state().selection).toEqual(['N0']);
         expect(wrapper.props().onToggleChangeSelection({change: normalChange})).toBe(undefined);
-        expect(wrapper.state().selection).toEqual([]);
     });
 });

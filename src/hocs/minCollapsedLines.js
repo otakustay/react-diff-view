@@ -1,28 +1,13 @@
-import {Component} from 'react';
 import {wrapDisplayName} from 'recompose';
-import {createSelector, expandCollapsedBlockBy} from '../utils';
+import {useMinCollapsedLines} from '../hooks';
 
-const expandCollapsedUnder = minLinesExclusive => {
-    const predicate = lines => lines < minLinesExclusive;
+export default minLinesExclusive => ComponentIn => {
+    const ComponentOut = props => {
+        const renderingHunks = useMinCollapsedLines(minLinesExclusive, props.hunks, props.oldSource);
+        return <ComponentIn {...props} hunks={renderingHunks} />;
+    };
 
-    return (hunks, oldSource) => expandCollapsedBlockBy(hunks, oldSource, predicate);
-};
+    ComponentOut.displayName = wrapDisplayName(ComponentIn, 'minCollapsedLines');
 
-export default minLinesExclusive => ComponentIn => class ComponentOut extends Component {
-
-    static displayName = wrapDisplayName(ComponentIn, 'minCollapsedLines');
-
-    expandSmallCollapsedBlocks = createSelector(expandCollapsedUnder(minLinesExclusive));
-
-    render() {
-        const {hunks, oldSource} = this.props;
-
-        if (!oldSource) {
-            return <ComponentIn {...this.props} />;
-        }
-
-        const renderingHunks = this.expandSmallCollapsedBlocks(hunks, oldSource);
-
-        return <ComponentIn {...this.props} hunks={renderingHunks} />;
-    }
+    return ComponentOut;
 };
