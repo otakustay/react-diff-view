@@ -1,7 +1,7 @@
 import {Children} from 'react';
 import PropTypes from 'prop-types';
 import warning from 'warning';
-import {Consumer} from '../context';
+import {useDiffSettings} from '../context';
 import SplitDecoration from './SplitDecoration';
 import UnifiedDecoration from './UnifiedDecoration';
 import './index.css';
@@ -19,23 +19,15 @@ const Decoration = props => {
         'Gutter element in decoration will not be rendered since hideGutter prop is set to true'
     );
 
+    const {viewType, gutterType, monotonous} = useDiffSettings();
+    const RenderingDecoration = viewType === 'split' ? SplitDecoration : UnifiedDecoration;
 
     return (
-        <Consumer>
-            {
-                ({viewType, gutterType, monotonous}) => {
-                    const RenderingDecoration = viewType === 'split' ? SplitDecoration : UnifiedDecoration;
-
-                    return (
-                        <RenderingDecoration
-                            hideGutter={gutterType === 'none'}
-                            monotonous={monotonous}
-                            {...props}
-                        />
-                    );
-                }
-            }
-        </Consumer>
+        <RenderingDecoration
+            hideGutter={gutterType === 'none'}
+            monotonous={monotonous}
+            {...props}
+        />
     );
 };
 
