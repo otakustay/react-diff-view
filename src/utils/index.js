@@ -1,3 +1,3 @@
 export * from './diff';
-export * from './selectors';
+export * from './callbacks';
 export * from './parse';

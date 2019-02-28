@@ -1,4 +1,4 @@
-import {PureComponent} from 'react';
+import {memo} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
@@ -21,32 +21,30 @@ const defaultRenderToken = ({type, value, markType, properties, children}, i) =>
     }
 };
 
-// `CodeCell` is very performance sensitive, use `PureComponent` here
-export default class CodeCell extends PureComponent { // eslint-disable-line react/prefer-stateless-function
+const CodeCell = props => {
+    const {text, tokens, renderToken, ...attributes} = props;
+    const actualRenderToken = renderToken
+        ? (token, i) => renderToken(token, defaultRenderToken, i)
+        : defaultRenderToken;
 
-    static propTypes = {
-        text: PropTypes.string.isRequired,
-        tokens: PropTypes.arrayOf(PropTypes.object),
-    };
+    return (
+        <td {...attributes}>
+            {
+                tokens
+                    ? (tokens.length ? tokens.map(actualRenderToken) : ' ')
+                    : (text || ' ')
+            }
+        </td>
+    );
+};
 
-    static defaultProps = {
-        tokens: null,
-    };
+CodeCell.propTypes = {
+    text: PropTypes.string.isRequired,
+    tokens: PropTypes.arrayOf(PropTypes.object),
+};
 
-    render() {
-        const {text, tokens, className, renderToken, ...props} = this.props;
-        const actualRenderToken = renderToken
-            ? (token, i) => renderToken(token, defaultRenderToken, i)
-            : defaultRenderToken;
+CodeCell.defaultProps = {
+    tokens: null,
+};
 
-        return (
-            <td className={className} {...props}>
-                {
-                    tokens
-                        ? (tokens.length ? tokens.map(actualRenderToken) : ' ')
-                        : (text || ' ')
-                }
-            </td>
-        );
-    }
-}
+export default memo(CodeCell);

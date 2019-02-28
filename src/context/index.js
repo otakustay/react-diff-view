@@ -1,5 +1,10 @@
-import {createContext} from 'react';
+import {createContext, useContext} from 'react';
 
-const {Provider, Consumer} = createContext();
+const ContextType = createContext();
+const {Provider} = ContextType;
+const useDiffSettings = () => useContext(ContextType);
 
-export {Provider, Consumer};
+export {
+    Provider,
+    useDiffSettings,
+};

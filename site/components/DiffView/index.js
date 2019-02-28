@@ -70,6 +70,7 @@ const DiffView = props => {
 
     return (
         <Diff
+            optimizeSelection
             viewType={viewType}
             diffType={type}
             hunks={hunks}

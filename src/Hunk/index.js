@@ -1,30 +1,25 @@
 import PropTypes from 'prop-types';
-import {Consumer} from '../context';
+import {useDiffSettings} from '../context';
 import UnifiedHunk from './UnifiedHunk';
 import SplitHunk from './SplitHunk';
 
-const Hunk = ({hunk, className, ...props}) => (
-    <Consumer>
-        {
-            ({gutterType, ...context}) => {
-                const hideGutter = gutterType === 'none';
-                const gutterAnchor = gutterType === 'anchor';
-                const RenderingHunk = context.viewType === 'unified' ? UnifiedHunk : SplitHunk;
+const Hunk = ({hunk, className, ...props}) => {
+    const {gutterType, ...context} = useDiffSettings();
+    const hideGutter = gutterType === 'none';
+    const gutterAnchor = gutterType === 'anchor';
+    const RenderingHunk = context.viewType === 'unified' ? UnifiedHunk : SplitHunk;
 
-                return (
-                    <RenderingHunk
-                        {...context}
-                        {...props}
-                        hunk={hunk}
-                        hideGutter={hideGutter}
-                        gutterAnchor={gutterAnchor}
-                        className={className}
-                    />
-                );
-            }
-        }
-    </Consumer>
-);
+    return (
+        <RenderingHunk
+            {...context}
+            {...props}
+            hunk={hunk}
+            hideGutter={hideGutter}
+            gutterAnchor={gutterAnchor}
+            className={className}
+        />
+    );
+};
 
 Hunk.propTypes = (() => {
     const change = {

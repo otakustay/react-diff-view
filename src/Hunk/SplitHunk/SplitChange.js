@@ -1,8 +1,8 @@
 /* eslint-disable no-empty-function */
-import {PureComponent} from 'react';
+import {memo, useState, useMemo, useCallback} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import {computeOldLineNumber, computeNewLineNumber, createEventsBindingSelector} from '../../utils';
+import {computeOldLineNumber, computeNewLineNumber, mergeCallbacks} from '../../utils';
 import CodeCell from '../CodeCell';
 import '../Change.css';
 
@@ -78,140 +78,132 @@ const renderCells = args => {
     ];
 };
 
-export default class SplitChange extends PureComponent {
+const SplitChange = props => {
+    const {
+        className,
+        gutterClassName,
+        codeClassName,
+        gutterEvents,
+        codeEvents,
+        oldChange,
+        newChange,
+        oldSelected,
+        newSelected,
+        oldTokens,
+        newTokens,
+        monotonous,
+        hideGutter,
+        generateAnchorID,
+        gutterAnchor,
+        renderToken,
+    } = props;
 
-    static propTypes = {
-        oldSelected: PropTypes.bool.isRequired,
-        newSelected: PropTypes.bool.isRequired,
-        oldTokens: PropTypes.arrayOf(PropTypes.object),
-        newTokens: PropTypes.arrayOf(PropTypes.object),
-    };
-
-    static defaultProps = {
-        oldTokens: null,
-        newTokens: null,
-    };
-
-    state = {
-        hover: '',
-    };
-
-    constructor(props) {
-        super(props);
-
-        const unmarkHover = () => this.setState({hover: ''});
-        const markHoverAs = side => () => this.setState({hover: side});
-        const ownEventsOnOldSide = {
-            onMouseEnter: markHoverAs('old'),
+    const [hover, setHover] = useState('');
+    const unmarkHover = useCallback(() => setHover(''), []);
+    const useCallbackOnSide = (side, customCallbacks) => {
+        const markHover = useCallback(() => setHover(side), []);
+        const hoverCallbacks = {
+            onMouseEnter: markHover,
             onMouseLeave: unmarkHover,
         };
-        const ownEventsOnNewSide = {
-            onMouseEnter: markHoverAs('new'),
-            onMouseLeave: unmarkHover,
+        const arg = {
+            side,
+            change: side === 'old' ? oldChange : newChange,
         };
+        // Unlike selectors, hooks do not provide native functionality to customize comparator,
+        // on realizing that this does not reduce amount of renders, only preventing duplicate merge computations,
+        // we decide not to optimize this extremely, leave it recomputed on certain rerenders.
+        const callbacks = useMemo(
+            () => mergeCallbacks(hoverCallbacks, customCallbacks, arg),
+            [unmarkHover, markHover, customCallbacks, arg.change]
+        );
+        return callbacks;
+    };
+    const oldGutterEvents = useCallbackOnSide('old', gutterEvents);
+    const newGutterEvents = useCallbackOnSide('new', gutterEvents);
+    const oldCodeEvents = useCallbackOnSide('old', codeEvents);
+    const newCodeEvents = useCallbackOnSide('new', codeEvents);
+    const oldAnchorID = oldChange && generateAnchorID(oldChange);
+    const newAnchorID = newChange && generateAnchorID(newChange);
+    const commons = {
+        monotonous,
+        hideGutter,
+        gutterClassName,
+        codeClassName,
+        gutterEvents,
+        codeEvents,
+        renderToken,
+    };
+    const oldArgs = {
+        ...commons,
+        change: oldChange,
+        side: SIDE_OLD,
+        selected: oldSelected,
+        tokens: oldTokens,
+        gutterEvents: oldGutterEvents,
+        codeEvents: oldCodeEvents,
+        anchorID: oldAnchorID,
+        gutterAnchor: gutterAnchor,
+        gutterAnchorTarget: oldAnchorID,
+        hover: hover === 'old',
+    };
+    const newArgs = {
+        ...commons,
+        change: newChange,
+        side: SIDE_NEW,
+        selected: newSelected,
+        tokens: newTokens,
+        gutterEvents: newGutterEvents,
+        codeEvents: newCodeEvents,
+        anchorID: oldChange === newChange ? undefined : newAnchorID,
+        gutterAnchor: gutterAnchor,
+        gutterAnchorTarget: oldChange === newChange ? oldAnchorID : newAnchorID,
+        hover: hover === 'new',
+    };
 
-        this.bindOldGutterEvents = createEventsBindingSelector(ownEventsOnOldSide);
-        this.bindNewGutterEvents = createEventsBindingSelector(ownEventsOnNewSide);
-        this.bindOldCodeEvents = createEventsBindingSelector(ownEventsOnOldSide);
-        this.bindNewCodeEvents = createEventsBindingSelector(ownEventsOnNewSide);
-    }
-
-    render() {
-        const {
-            className,
-            gutterClassName,
-            codeClassName,
-            gutterEvents,
-            codeEvents,
-            oldChange,
-            newChange,
-            oldSelected,
-            newSelected,
-            oldTokens,
-            newTokens,
-            monotonous,
-            hideGutter,
-            generateAnchorID,
-            gutterAnchor,
-            renderToken,
-        } = this.props;
-        const {hover} = this.state;
-
-        const commons = {
-            monotonous,
-            hideGutter,
-            gutterClassName,
-            codeClassName,
-            gutterEvents,
-            codeEvents,
-            renderToken,
-        };
-        const oldAnchorID = oldChange && generateAnchorID(oldChange);
-        const oldEventArg = {
-            change: oldChange,
-            side: 'old',
-        };
-        const oldArgs = {
-            ...commons,
-            change: oldChange,
-            side: SIDE_OLD,
-            selected: oldSelected,
-            tokens: oldTokens,
-            gutterEvents: this.bindOldGutterEvents(gutterEvents, oldEventArg),
-            codeEvents: this.bindOldCodeEvents(codeEvents, oldEventArg),
-            anchorID: oldAnchorID,
-            gutterAnchor: gutterAnchor,
-            gutterAnchorTarget: oldAnchorID,
-            hover: hover === 'old',
-        };
-        const newAnchorID = newChange && generateAnchorID(newChange);
-        const newEventArg = {
-            change: newChange,
-            side: 'new',
-        };
-        const newArgs = {
-            ...commons,
-            change: newChange,
-            side: SIDE_NEW,
-            selected: newSelected,
-            tokens: newTokens,
-            gutterEvents: this.bindNewGutterEvents(gutterEvents, newEventArg),
-            codeEvents: this.bindNewCodeEvents(codeEvents, newEventArg),
-            anchorID: oldChange === newChange ? undefined : newAnchorID,
-            gutterAnchor: gutterAnchor,
-            gutterAnchorTarget: oldChange === newChange ? oldAnchorID : newAnchorID,
-            hover: hover === 'new',
-        };
-
-        if (monotonous) {
-            return (
-                <tr className={classNames('diff-line', className)}>
-                    {renderCells(oldChange ? oldArgs : newArgs)}
-                </tr>
-            );
-        }
-
-        const lineTypeClassName = ((oldChange, newChange) => {
-            if (oldChange && !newChange) {
-                return 'diff-line-old-only';
-            }
-
-            if (!oldChange && newChange) {
-                return 'diff-line-new-only';
-            }
-
-            if (oldChange === newChange) {
-                return 'diff-line-normal';
-            }
-
-            return 'diff-line-compare';
-        })(oldChange, newChange);
-
+    if (monotonous) {
         return (
-            <tr className={classNames('diff-line', lineTypeClassName, className)}>
-                {renderCells(oldArgs)}
-                {renderCells(newArgs)}
+            <tr className={classNames('diff-line', className)}>
+                {renderCells(oldChange ? oldArgs : newArgs)}
             </tr>
         );
     }
-}
+
+    const lineTypeClassName = ((oldChange, newChange) => {
+        if (oldChange && !newChange) {
+            return 'diff-line-old-only';
+        }
+
+        if (!oldChange && newChange) {
+            return 'diff-line-new-only';
+        }
+
+        if (oldChange === newChange) {
+            return 'diff-line-normal';
+        }
+
+        return 'diff-line-compare';
+    })(oldChange, newChange);
+
+    return (
+        <tr className={classNames('diff-line', lineTypeClassName, className)}>
+            {renderCells(oldArgs)}
+            {renderCells(newArgs)}
+        </tr>
+    );
+};
+
+
+SplitChange.propTypes = {
+    oldSelected: PropTypes.bool.isRequired,
+    newSelected: PropTypes.bool.isRequired,
+    oldTokens: PropTypes.arrayOf(PropTypes.object),
+    newTokens: PropTypes.arrayOf(PropTypes.object),
+};
+
+SplitChange.defaultProps = {
+    oldTokens: null,
+    newTokens: null,
+};
+
+export default memo(SplitChange);
