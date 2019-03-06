@@ -11,8 +11,8 @@ const SIDE_OLD = 0;
 const SIDE_NEW = 1;
 
 const useCallbackOnSide = (side, setHover, change, customCallbacks) => {
-    const markHover = useCallback(() => setHover(side), []);
-    const unmarkHover = useCallback(() => setHover(''), []);
+    const markHover = useCallback(() => setHover(side), [side, setHover]);
+    const unmarkHover = useCallback(() => setHover(''), [setHover]);
     const arg = {side, change};
     const composeCallback = (own, custom) => {
         if (custom) {
@@ -34,7 +34,7 @@ const useCallbackOnSide = (side, setHover, change, customCallbacks) => {
             callbacks.onMouseLeave = composeCallback(unmarkHover, callbacks.onMouseLeave);
             return callbacks;
         },
-        [change, customCallbacks]
+        [change, customCallbacks, markHover, unmarkHover]
     );
     return callbacks;
 };

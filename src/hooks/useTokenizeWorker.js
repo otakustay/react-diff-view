@@ -2,6 +2,7 @@ import {useState, useRef, useEffect} from 'react';
 import shallowEquals from 'shallow-equal/objects';
 import arrayShallowEquals from 'shallow-equal/arrays';
 import {flatMap} from 'lodash';
+import {useCustomEqualIdentifier} from './helpers';
 
 const uid = (() => {
     let current = 0;
@@ -11,20 +12,6 @@ const uid = (() => {
         return current;
     };
 })();
-
-// This is actually a hack around the lack of custom comparator support in `useEffect` hook.
-const useCustomEqualIdentifier = (value, equals) => {
-    const cache = useRef({});
-    const identifier = useRef(0);
-    const isEqual = equals(value, cache.current);
-
-    if (!isEqual) {
-        cache.current = value;
-        identifier.current = identifier.current + 1;
-    }
-
-    return identifier.current;
-};
 
 const findAbnormalChanges = hunks => flatMap(hunks, hunk => hunk.changes.filter(change => !change.isNormal));
 
@@ -86,6 +73,7 @@ export default (worker, payload, options = {}) => {
             };
             worker.postMessage(data);
         },
+        // eslint-disable-next-line: react-hooks/exhaustive-deps
         [payloadIdentifier, worker, shouldTokenize] // TODO: How about worker changes when payload keeps identical?
     );
 
