@@ -12,7 +12,7 @@
     height: 0;
 }
 
-.diff-gutter-omit:before {
+.diff-gutter-omit::before {
     content: " ";
     display: block;
     white-space: pre;

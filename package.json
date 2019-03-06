@@ -70,6 +70,7 @@
     "react-whether": "^1.0.1",
     "refractor": "^2.6.2",
     "reselect": "^4.0.0",
+    "reskript": "/Users/otakustay/Develop/baidu/ee-fe/ee-fe-tools",
     "rollup": "^1.1.0",
     "rollup-plugin-auto-external": "^2.0.0",
     "rollup-plugin-babel": "^4.3.0",
