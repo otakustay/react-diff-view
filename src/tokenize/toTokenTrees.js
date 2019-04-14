@@ -8,18 +8,18 @@ const applyDiff = (oldSource, hunks) => {
         []
     );
 
+    // We use a cursor based algorithm since `changes` are sequential here
     const [patchedLines] = changes.reduce(
-        ([lines, continuousDeleteCount], {lineNumber, content, isInsert, isDelete}) => {
+        ([lines, cursor], {content, isInsert, isDelete}) => {
             if (isDelete) {
-                lines.splice(lineNumber - 1 - continuousDeleteCount, 1);
-                return [lines, continuousDeleteCount + 1];
+                lines.splice(cursor, 1);
+                return [lines, cursor];
             }
 
             if (isInsert) {
-                lines.splice(lineNumber - 1, 0, content);
+                lines.splice(cursor, 0, content);
             }
-
-            return [lines, 0];
+            return [lines, cursor + 1];
         },
         [lines, 0]
     );
