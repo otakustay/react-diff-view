@@ -14,7 +14,7 @@ const inputOptions = {
     plugins: [
         eslint({throwOnError: true, include: 'src/**/*.js'}),
         postcss({extract: 'style/index.css', minimize: true}),
-        resolve({main: true, module: true}),
+        resolve(),
         commonjs({include: 'node_modules/**'}),
         autoExternal({dependencies: false}),
         sourcemaps(),
@@ -23,12 +23,10 @@ const inputOptions = {
     ]
 };
 
-// TODO: https://github.com/TrySound/rollup-plugin-terser/issues/5
-const build = async filename => {
-    const cjs = await rollup(inputOptions);
-    cjs.write({format: 'cjs', file: `cjs/index.js`, sourcemap: true});
-    const es = await rollup(inputOptions);
-    es.write({format: 'es', file: `es/index.js`, sourcemap: true});
+const build = async () => {
+    const bundle = await rollup(inputOptions);
+    bundle.write({format: 'cjs', file: `cjs/index.js`, sourcemap: true});
+    bundle.write({format: 'es', file: `es/index.js`, sourcemap: true});
 };
 
 build();

@@ -621,3 +621,22 @@ I don't really know how to test such a complicated and UI centric component, any
 ### 1.6.2
 
 - Fix an issue where click on hunk header can cause error because optimized selection doesn't handle clicks in non code cells.
+
+### 2.0.0
+
+- All big reimplement.
+- Require `react^16.8.0`
+
+### 2.0.1
+
+- Fix a build issue by disabling `mangle` in terser.
+
+### 2.1.0
+
+- Add hooks to provide HOC funcionalities.
+- Fix a bug in diff apply function.
+
+### 2.1.1
+
+- Fix unexpected dependency to `reskript`.
+- Upgrade all dependencies.
