@@ -19,14 +19,14 @@ const inputOptions = {
         autoExternal({dependencies: false}),
         sourcemaps(),
         babel({exclude: 'node_modules/**'}),
-        terser()
-    ]
+        terser({mangle: false}),
+    ],
 };
 
 const build = async () => {
     const bundle = await rollup(inputOptions);
-    bundle.write({format: 'cjs', file: `cjs/index.js`, sourcemap: true});
-    bundle.write({format: 'es', file: `es/index.js`, sourcemap: true});
+    bundle.write({format: 'cjs', file: 'cjs/index.js', sourcemap: true});
+    bundle.write({format: 'es', file: 'es/index.js', sourcemap: true});
 };
 
 build();
