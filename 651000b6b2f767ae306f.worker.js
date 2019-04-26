@@ -43127,22 +43127,25 @@ function _iterableToArrayLimit(arr, i) { var _arr = []; var _n = true; var _d = 
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
+ // This function mutates `linesOfCode` argument.
 
+var applyHunk = function applyHunk(linesOfCode, _ref) {
+  var newStart = _ref.newStart,
+      changes = _ref.changes;
 
-var applyDiff = function applyDiff(oldSource, hunks) {
-  var lines = oldSource.split('\n');
-  var changes = hunks.reduce(function (changes, hunk) {
-    return changes.concat(hunk.changes);
-  }, []); // We use a cursor based algorithm since `changes` are sequential here
+  // Within each hunk, changes are continous, so we can use a sequential algorithm here.
+  //
+  // When `linesOfCode` is received here, it has already patched by previous hunk,
+  // thus the starting line number has changed due to possible unbanlanced deletions and insertions,
+  // we should use `newStart` as the first line number of current reduce.
+  var _changes$reduce = changes.reduce(function (_ref2, _ref3) {
+    var _ref4 = _slicedToArray(_ref2, 2),
+        lines = _ref4[0],
+        cursor = _ref4[1];
 
-  var _changes$reduce = changes.reduce(function (_ref, _ref2) {
-    var _ref3 = _slicedToArray(_ref, 2),
-        lines = _ref3[0],
-        cursor = _ref3[1];
-
-    var content = _ref2.content,
-        isInsert = _ref2.isInsert,
-        isDelete = _ref2.isDelete;
+    var content = _ref3.content,
+        isInsert = _ref3.isInsert,
+        isDelete = _ref3.isDelete;
 
     if (isDelete) {
       lines.splice(cursor, 1);
@@ -43154,10 +43157,16 @@ var applyDiff = function applyDiff(oldSource, hunks) {
     }
 
     return [lines, cursor + 1];
-  }, [lines, 0]),
+  }, [linesOfCode, newStart - 1]),
       _changes$reduce2 = _slicedToArray(_changes$reduce, 1),
       patchedLines = _changes$reduce2[0];
 
+  return patchedLines;
+};
+
+var applyDiff = function applyDiff(oldSource, hunks) {
+  // `hunks` must be ordered here.
+  var patchedLines = hunks.reduce(applyHunk, oldSource.split('\n'));
   return patchedLines.join('\n');
 };
 
@@ -43183,10 +43192,10 @@ var groupChanges = function groupChanges(hunks) {
     return hunk.changes;
   });
 
-  return changes.reduce(function (_ref4, change) {
-    var _ref5 = _slicedToArray(_ref4, 2),
-        oldChanges = _ref5[0],
-        newChanges = _ref5[1];
+  return changes.reduce(function (_ref5, change) {
+    var _ref6 = _slicedToArray(_ref5, 2),
+        oldChanges = _ref6[0],
+        newChanges = _ref6[1];
 
     if (change.isNormal) {
       oldChanges.push(change);
@@ -43223,11 +43232,11 @@ var createRoot = function createRoot(children) {
   };
 };
 
-/* harmony default export */ __webpack_exports__["default"] = (function (hunks, _ref6) {
-  var highlight = _ref6.highlight,
-      refractor = _ref6.refractor,
-      oldSource = _ref6.oldSource,
-      language = _ref6.language;
+/* harmony default export */ __webpack_exports__["default"] = (function (hunks, _ref7) {
+  var highlight = _ref7.highlight,
+      refractor = _ref7.refractor,
+      oldSource = _ref7.oldSource,
+      language = _ref7.language;
 
   if (oldSource) {
     var newSource = applyDiff(oldSource, hunks);
@@ -44294,4 +44303,4 @@ self.addEventListener(
 /***/ })
 
 /******/ });
-//# sourceMappingURL=9e62de5b4c9c5dc5ea99.worker.js.map
+//# sourceMappingURL=651000b6b2f767ae306f.worker.js.map
