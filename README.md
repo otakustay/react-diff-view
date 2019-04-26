@@ -640,3 +640,7 @@ I don't really know how to test such a complicated and UI centric component, any
 
 - Fix unexpected dependency to `reskript`.
 - Upgrade all dependencies.
+
+### 2.1.2
+
+- Fix a bug in `applyDiff` function.
