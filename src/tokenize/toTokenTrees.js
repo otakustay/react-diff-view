@@ -1,14 +1,13 @@
 import {flatMap, last, keyBy} from 'lodash';
 import {computeOldLineNumber, computeNewLineNumber} from '../utils';
 
-const applyDiff = (oldSource, hunks) => {
-    const lines = oldSource.split('\n');
-    const changes = hunks.reduce(
-        (changes, hunk) => changes.concat(hunk.changes),
-        []
-    );
-
-    // We use a cursor based algorithm since `changes` are sequential here
+// This function mutates `linesOfCode` argument.
+const applyHunk = (linesOfCode, {newStart, changes}) => {
+    // Within each hunk, changes are continous, so we can use a sequential algorithm here.
+    //
+    // When `linesOfCode` is received here, it has already patched by previous hunk,
+    // thus the starting line number has changed due to possible unbanlanced deletions and insertions,
+    // we should use `newStart` as the first line number of current reduce.
     const [patchedLines] = changes.reduce(
         ([lines, cursor], {content, isInsert, isDelete}) => {
             if (isDelete) {
@@ -21,9 +20,15 @@ const applyDiff = (oldSource, hunks) => {
             }
             return [lines, cursor + 1];
         },
-        [lines, 0]
+        [linesOfCode, newStart - 1]
     );
 
+    return patchedLines;
+};
+
+const applyDiff = (oldSource, hunks) => {
+    // `hunks` must be ordered here.
+    const patchedLines = hunks.reduce(applyHunk, oldSource.split('\n'));
     return patchedLines.join('\n');
 };
 
@@ -90,5 +95,3 @@ export default (hunks, {highlight, refractor, oldSource, language}) => {
 
     return textPair.map(toTree);
 };
-
-
