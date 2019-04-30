@@ -2,7 +2,7 @@ import {computeLineNumberFactory, findChangeByLineNumberFactory, getCorrespondin
 
 export * from './insertHunk';
 export * from './expandCollapsedBlockBy';
-export * from './getChageKey';
+export * from './getChangeKey';
 
 export const computeOldLineNumber = computeLineNumberFactory('old');
 
