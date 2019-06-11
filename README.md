@@ -498,17 +498,26 @@ I don't really know how to test such a complicated and UI centric component, any
 
 ### 2.x
 
-- The main module is now `cjs/index.js`, with an ES version at `es/index.js`, style is placed at `style/index.css`.
-- `children` prop on `Diff` component is now of type function which receives `hunks` as its argument.
-- `diffType` prop on `Diff` component is now required.
-- `customClassNames` and `customEvents` props are removed from `Diff` component, instead of it `Hunk` and `Decoration` component receives `xxxClassName` and `xxxEvents`, see [Customize events](#customize-events) and [Customize styles](#customize-styles) sections.
-- `hideGutter` and `gutterAnchor` props are merged into `gutterType` prop with 3 values: `"default"`, `"anchor"` and `"none"`.
-- `markEdits` and `onRenderCode` props are removed, now the tokenizer system takes all enhancement on code view.
-- `parse` module is removed, use named exports from main module instead, tree shaking can be enabled on ES version.
-- `stubHunk` options of `parseDiff` function is removed, with the power of `Decoration` component, we no longer need the stub hunk.
-- `addStubHunk` function is also removed since `Decoration` component is provided.
-- All callbacks defined in `codeEvents` and `gutterEvents` now receivs an object with key `change` and `side`.
-- The line number is no longer rendered via a `::before` element and a `data-line-number` attribute, it is an actual child node of the gutter element, `user-select: none` is applied to disable selection.
+- Diff
+
+  - `children` prop on `Diff` component is now of type function which receives `hunks` as its argument.
+  - `diffType` prop on `Diff` component is now required.
+  - `customClassNames` and `customEvents` props are removed from `Diff` component, instead of it `Hunk` and `Decoration` component receives `xxxClassName` and `xxxEvents`, see [Customize events](#customize-events) and [Customize styles](#customize-styles) sections.
+  - `hideGutter` and `gutterAnchor` props are merged into `gutterType` prop with 3 values: `"default"`, `"anchor"` and `"none"`.
+  - `markEdits` and `onRenderCode` props are removed, now the tokenizer system takes all enhancement on code view.
+
+- Hunk
+
+  - `header` props is removed since `Decoration` component is provided.
+  - All callbacks defined in `codeEvents` and `gutterEvents` now receives an object with key `change` and `side`.
+
+- Others
+
+  - The main module is now `cjs/index.js`, with an ES version at `es/index.js`, style is placed at `style/index.css`.
+  - `parse` module is removed, use named exports from main module instead, tree shaking can be enabled on ES version.
+  - `stubHunk` options of `parseDiff` function is removed, with the power of `Decoration` component, we no longer need the stub hunk.
+  - `addStubHunk` function is also removed since `Decoration` component is provided.
+  - The line number is no longer rendered via a `::before` element and a `data-line-number` attribute, it is an actual child node of the gutter element, `user-select: none` is applied to disable selection.
 
 ## Change Log
 
