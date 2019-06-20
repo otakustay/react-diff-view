@@ -644,3 +644,7 @@ I don't really know how to test such a complicated and UI centric component, any
 ### 2.1.2
 
 - Fix a bug in `applyDiff` function.
+
+### 2.1.3
+
+- Fix a bug where incorrect `sideEffects` config in `package.json` can make webpack tree shaking css of `react-diff-view`.
