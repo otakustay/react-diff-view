@@ -7,7 +7,9 @@
   "publishConfig": {
     "registry": "https://registry.npmjs.com"
   },
-  "sideEffects": false,
+  "sideEffects": [
+    "*.css"
+  ],
   "scripts": {
     "test": "jest --config ./jest.config.js",
     "start": "webpack-dev-server --config=site/webpack.config.js",
