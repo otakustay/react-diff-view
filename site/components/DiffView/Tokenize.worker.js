@@ -8,9 +8,9 @@ self.addEventListener(
         const {hunks, oldSource, language, editsType} = payload;
 
         const enhancers = [
+            editsType === 'none' ? null : markEdits(hunks, {type: editsType}),
             markWord('\r', 'carriage-return', '␍'),
             markWord('\t', 'tab', '→'),
-            editsType === 'none' ? null : markEdits(hunks, {type: editsType}),
         ];
 
         const options = {
