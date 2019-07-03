@@ -400,13 +400,15 @@ It uses [diff-match-patch](https://www.npmjs.com/package/diff-match-patch) as it
 
 ### Special words
 
-The `markword(word, name, replacement)` exported function enables you to mark some special word with 2 arguments:
+The `markWord(word, name, replacement)` exported function enables you to mark some special word with 2 arguments:
 
 - `{string} word`: The word you want to mark, such as `"\r"` or `"Hello"`.
 - `{string} name`: The name of word, such as `"carriage-return"` or `"hello"`.
 - `{string} replacement`: The text to replace `word`, for example we can use `"␍"` to replace `"\r"` to make it visible on screen.
 
 Marked word will have a class name of `diff-code-${name}`.
+
+It is better `markEdits` before `markWord` since it will not break inline highlight.
 
 ### Pick ranges
 
