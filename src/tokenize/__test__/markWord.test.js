@@ -9,14 +9,7 @@ describe('markWord', () => {
         expect(markWord()([[{}], []])).toEqual([[[]], []]);
     });
 
-    test('value', () => {
-        expect(markWord('A')([
-            [[[{value: ''}]]], // oldLinesOfPaths
-            [[[{value: ''}]]], // newLinesOfPaths
-        ])).toEqual([[[[{value: ''}]]], [[[{value: ''}]]]]);
-    });
-
-    test('hit', () => {
+    test('hit value', () => {
         expect(markWord('A')([
             [[[{value: 'A'}]]], // oldLinesOfPaths
             [[[{value: 'A'}]]], // newLinesOfPaths
@@ -24,5 +17,39 @@ describe('markWord', () => {
             [[[{markType: undefined, type: 'mark', value: 'A'}]]],
             [[[{markType: undefined, type: 'mark', value: 'A'}]]],
         ]);
+    });
+
+    test('mark single word', () => {
+        expect(markWord('A', 'first', 'a')([
+            [[[{value: 'AAaabb'}]]], // oldLinesOfPaths
+            [[[{value: ''}]]], // newLinesOfPaths
+        ])).toEqual([[[[{
+            markType: 'first',
+            type: 'mark',
+            value: 'a',
+        }], [{
+            markType: 'first',
+            type: 'mark',
+            value: 'a',
+        }], [{
+            value: 'aabb',
+        }]]], [[[{value: ''}]]]]);
+    });
+
+    test('mark complex word', () => {
+        expect(markWord('\t', 'tab', '    ')([
+            [[[{value: '\t\t    bb'}]]], // oldLinesOfPaths
+            [[[{value: ''}]]], // newLinesOfPaths
+        ])).toEqual([[[[{
+            markType: 'tab',
+            type: 'mark',
+            value: '    ',
+        }], [{
+            markType: 'tab',
+            type: 'mark',
+            value: '    ',
+        }], [{
+            value: '    bb',
+        }]]], [[[{value: ''}]]]]);
     });
 });
