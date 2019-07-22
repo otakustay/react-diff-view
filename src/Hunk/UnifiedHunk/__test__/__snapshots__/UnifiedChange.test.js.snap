@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`UnifiedChange renders correctly 1`] = `
+<tr
+  className="diff-line"
+  id="text"
+>
+  <td
+    className="diff-gutter diff-gutter-undefined"
+  />
+  <td
+    className="diff-gutter diff-gutter-undefined"
+  />
+  <td
+    className="diff-code diff-code-undefined"
+  >
+    text
+  </td>
+</tr>
+`;
