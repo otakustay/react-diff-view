@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SplitChange renders correctly 1`] = `
+<tr
+  className="diff-line diff-line-normal"
+>
+  <td
+    className="diff-gutter diff-gutter-edit"
+    id="text"
+    onMouseEnter={[Function]}
+    onMouseLeave={[Function]}
+  >
+    1
+  </td>
+  <td
+    className="diff-code diff-code-edit"
+    onMouseEnter={[Function]}
+    onMouseLeave={[Function]}
+  >
+    text
+  </td>
+  <td
+    className="diff-gutter diff-gutter-edit"
+    onMouseEnter={[Function]}
+    onMouseLeave={[Function]}
+  >
+    1
+  </td>
+  <td
+    className="diff-code diff-code-edit"
+    onMouseEnter={[Function]}
+    onMouseLeave={[Function]}
+  >
+    text
+  </td>
+</tr>
+`;
