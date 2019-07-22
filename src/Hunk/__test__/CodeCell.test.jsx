@@ -1,5 +1,4 @@
 import renderer from 'react-test-renderer';
-import {basicHunk} from '../../__test__/cases';
 import CodeCell from '../CodeCell';
 
 const renderToken = (token, defaultRender, i) => {
