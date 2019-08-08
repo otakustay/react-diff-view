@@ -12,21 +12,15 @@ const useBoundCallbacks = (callbacks, arg) => useMemo(
     [callbacks, arg]
 );
 
-const GutterCell = ({hide, className, lineNumber, gutterAnchor, anchorID, ...props}) => {
-    if (hide) {
-        return null;
-    }
-
-    return (
-        <td className={className} {...props}>
-            {
-                gutterAnchor
-                    ? <a href={'#' + anchorID} data-line-number={lineNumber}>{lineNumber}</a>
-                    : lineNumber
-            }
-        </td>
-    );
-};
+const renderGutterCell = (className, lineNumber, gutterAnchor, anchorID, events) => (
+    <td className={className} {...events}>
+        {
+            gutterAnchor
+                ? <a href={'#' + anchorID} data-line-number={lineNumber}>{lineNumber}</a>
+                : lineNumber
+        }
+    </td>
+);
 
 const UnifiedChange = props => {
     const {
@@ -68,26 +62,25 @@ const UnifiedChange = props => {
     );
 
     return (
-        <tr
-            id={anchorID}
-            className={classNames('diff-line', className)}
-        >
-            <GutterCell
-                hide={hideGutter}
-                className={gutterClassNameValue}
-                lineNumber={oldLineNumber}
-                gutterAnchor={gutterAnchor}
-                anchorID={anchorID}
-                {...boundGutterEvents}
-            />
-            <GutterCell
-                hide={hideGutter}
-                className={gutterClassNameValue}
-                lineNumber={newLineNumber}
-                gutterAnchor={gutterAnchor}
-                anchorID={anchorID}
-                {...boundGutterEvents}
-            />
+        <tr id={anchorID} className={classNames('diff-line', className)}>
+            {
+                !hideGutter && renderGutterCell(
+                    gutterClassNameValue,
+                    oldLineNumber,
+                    gutterAnchor,
+                    anchorID,
+                    boundGutterEvents
+                )
+            }
+            {
+                !hideGutter && renderGutterCell(
+                    gutterClassNameValue,
+                    newLineNumber,
+                    gutterAnchor,
+                    anchorID,
+                    boundGutterEvents
+                )
+            }
             <CodeCell
                 className={codeClassNameValue}
                 text={content}
