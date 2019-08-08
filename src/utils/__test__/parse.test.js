@@ -1,5 +1,5 @@
-import {parseDiff} from '..';
 import {basic} from '../../__test__/cases';
+import {parseDiff} from '..';
 
 describe('parseDiff', () => {
     test('basic', () => {

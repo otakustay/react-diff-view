@@ -1,6 +1,6 @@
 import renderer from 'react-test-renderer';
-import {minCollapsedLines} from '..';
 import {basicHunk} from '../../__test__/cases';
+import {minCollapsedLines} from '..';
 
 const ComponentIn = () => <div />;
 

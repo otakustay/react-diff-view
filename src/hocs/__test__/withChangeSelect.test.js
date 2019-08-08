@@ -1,9 +1,9 @@
 import renderer from 'react-test-renderer';
 import {shallow} from 'enzyme';
-import {withChangeSelect} from '..';
 import {Diff, Hunk} from '../..';
 import {basicHunk} from '../../__test__/cases';
 import {normalChange} from '../../__test__/changes.case';
+import {withChangeSelect} from '..';
 
 describe('withChangeSelect', () => {
     const ComponentIn = () => <div />;

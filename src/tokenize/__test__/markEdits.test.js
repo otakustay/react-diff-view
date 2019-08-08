@@ -1,5 +1,5 @@
-import {markEdits} from '..';
 import {basicHunk, multipleHunk} from '../../__test__/cases';
+import {markEdits} from '..';
 
 describe('markEdits', () => {
     test('returns a function', () => {

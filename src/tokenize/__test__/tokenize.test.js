@@ -1,5 +1,5 @@
-import {tokenize} from '..';
 import {basicHunk, multipleHunk} from '../../__test__/cases';
+import {tokenize} from '..';
 
 describe('tokenize', () => {
     test('basic', () => {

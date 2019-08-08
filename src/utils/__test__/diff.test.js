@@ -1,3 +1,5 @@
+import {normalChange, insertChange, deleteChange} from '../../__test__/changes.case';
+import {basicHunk} from '../../__test__/cases';
 import {
     textLinesToHunk,
     insertHunk,
@@ -6,8 +8,6 @@ import {
     expandCollapsedBlockBy,
     getChangeKey,
 } from '..';
-import {normalChange, insertChange, deleteChange} from '../../__test__/changes.case';
-import {basicHunk} from '../../__test__/cases';
 
 
 describe('textLinesToHunk', () => {

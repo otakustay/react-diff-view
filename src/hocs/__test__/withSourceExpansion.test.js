@@ -1,7 +1,7 @@
 import renderer from 'react-test-renderer';
-import {withSourceExpansion} from '..';
 import {Diff, Hunk} from '../..';
 import {basic, basicHunk} from '../../__test__/cases';
+import {withSourceExpansion} from '..';
 
 const ComponentIn = () => <div />;
 
