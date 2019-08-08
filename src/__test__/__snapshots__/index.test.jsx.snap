@@ -285,14 +285,20 @@ exports[`App with viewType === unified multiple diff 1`] = `
       >
         <td
           className="diff-gutter diff-gutter-insert"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
         />
         <td
           className="diff-gutter diff-gutter-insert"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
         >
           1
         </td>
         <td
           className="diff-code diff-code-insert"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
         >
           1
         </td>
@@ -320,14 +326,20 @@ exports[`App with viewType === unified multiple diff 1`] = `
       >
         <td
           className="diff-gutter diff-gutter-delete"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
         >
           1
         </td>
         <td
           className="diff-gutter diff-gutter-delete"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
         />
         <td
           className="diff-code diff-code-delete"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
         >
           1
         </td>
@@ -337,14 +349,20 @@ exports[`App with viewType === unified multiple diff 1`] = `
       >
         <td
           className="diff-gutter diff-gutter-insert"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
         />
         <td
           className="diff-gutter diff-gutter-insert"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
         >
           1
         </td>
         <td
           className="diff-code diff-code-insert"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
         >
           2
         </td>
@@ -372,14 +390,20 @@ exports[`App with viewType === unified multiple diff 1`] = `
       >
         <td
           className="diff-gutter diff-gutter-delete"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
         >
           1
         </td>
         <td
           className="diff-gutter diff-gutter-delete"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
         />
         <td
           className="diff-code diff-code-delete"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
         >
           2
         </td>
@@ -412,16 +436,22 @@ exports[`App with viewType === unified renders correctly 1`] = `
       >
         <td
           className="diff-gutter diff-gutter-normal"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
         >
           21
         </td>
         <td
           className="diff-gutter diff-gutter-normal"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
         >
           21
         </td>
         <td
           className="diff-code diff-code-normal"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
         >
               test('App renders correctly', () =&gt; {
         </td>
@@ -431,14 +461,20 @@ exports[`App with viewType === unified renders correctly 1`] = `
       >
         <td
           className="diff-gutter diff-gutter-delete"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
         >
           22
         </td>
         <td
           className="diff-gutter diff-gutter-delete"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
         />
         <td
           className="diff-code diff-code-delete"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
         >
                   expect(renderer.create(&lt;App diffText={'deff'} /&gt;).toJSON()).toMatchSnapshot();
         </td>
@@ -448,14 +484,20 @@ exports[`App with viewType === unified renders correctly 1`] = `
       >
         <td
           className="diff-gutter diff-gutter-insert"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
         />
         <td
           className="diff-gutter diff-gutter-insert"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
         >
           22
         </td>
         <td
           className="diff-code diff-code-insert"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
         >
                   expect(renderer.create(&lt;App diffText={'diff'} /&gt;).toJSON()).toMatchSnapshot();
         </td>
@@ -465,16 +507,22 @@ exports[`App with viewType === unified renders correctly 1`] = `
       >
         <td
           className="diff-gutter diff-gutter-normal"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
         >
           23
         </td>
         <td
           className="diff-gutter diff-gutter-normal"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
         >
           23
         </td>
         <td
           className="diff-code diff-code-normal"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
         >
               });
         </td>

@@ -1,26 +1,44 @@
 /* eslint-disable no-empty-function */
-import {memo, useMemo} from 'react';
+import {memo, useState, useMemo, useCallback} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import {mapValues} from 'lodash';
-import {computeOldLineNumber, computeNewLineNumber} from '../../utils';
 import CodeCell from '../CodeCell';
+import {composeCallback, renderDefaultBy, wrapInAnchorBy} from '../utils';
 import '../Change.css';
 
-const useBoundCallbacks = (callbacks, arg) => useMemo(
-    () => mapValues(callbacks, fn => () => fn(arg)),
+const useBoundCallbacks = (callbacks, arg, hoverOn, hoverOff) => useMemo(
+    () => {
+        const output = mapValues(callbacks, fn => () => fn(arg));
+        output.onMouseEnter = composeCallback(hoverOn, output.onMouseEnter);
+        output.onMouseLeave = composeCallback(hoverOff, output.onMouseLeave);
+        return output;
+    },
     [callbacks, arg]
 );
 
-const renderGutterCell = (className, lineNumber, gutterAnchor, anchorID, events) => (
-    <td className={className} {...events}>
-        {
-            gutterAnchor
-                ? <a href={'#' + anchorID} data-line-number={lineNumber}>{lineNumber}</a>
-                : lineNumber
-        }
-    </td>
-);
+const useBoolean = () => {
+    const [value, setValue] = useState(false);
+    const on = useCallback(() => setValue(true), []);
+    const off = useCallback(() => setValue(false), []);
+    return [value, on, off];
+};
+
+const renderGutterCell = (className, change, side, gutterAnchor, anchorTarget, events, inHoverState, renderGutter) => {
+    const gutterOptions = {
+        change,
+        side,
+        inHoverState,
+        renderDefault: renderDefaultBy(change, side),
+        wrapInAnchor: wrapInAnchorBy(gutterAnchor, anchorTarget),
+    };
+
+    return (
+        <td className={className} {...events}>
+            {renderGutter(gutterOptions)}
+        </td>
+    );
+};
 
 const UnifiedChange = props => {
     const {
@@ -36,16 +54,14 @@ const UnifiedChange = props => {
         gutterAnchor,
         generateAnchorID,
         renderToken,
+        renderGutter,
     } = props;
     const {type, content} = change;
-    const oldLine = computeOldLineNumber(change);
-    const oldLineNumber = oldLine === -1 ? undefined : oldLine;
-    const newLine = computeNewLineNumber(change);
-    const newLineNumber = newLine === -1 ? undefined : newLine;
 
+    const [hover, hoverOn, hoverOff] = useBoolean();
     const eventArg = useMemo(() => ({change}), [change]);
-    const boundGutterEvents = useBoundCallbacks(gutterEvents, eventArg);
-    const boundCodeEvents = useBoundCallbacks(codeEvents, eventArg);
+    const boundGutterEvents = useBoundCallbacks(gutterEvents, eventArg, hoverOn, hoverOff);
+    const boundCodeEvents = useBoundCallbacks(codeEvents, eventArg, hoverOn, hoverOff);
 
     const anchorID = generateAnchorID(change);
     const gutterClassNameValue = classNames(
@@ -66,19 +82,25 @@ const UnifiedChange = props => {
             {
                 !hideGutter && renderGutterCell(
                     gutterClassNameValue,
-                    oldLineNumber,
+                    change,
+                    'old',
                     gutterAnchor,
                     anchorID,
-                    boundGutterEvents
+                    boundGutterEvents,
+                    hover,
+                    renderGutter
                 )
             }
             {
                 !hideGutter && renderGutterCell(
                     gutterClassNameValue,
-                    newLineNumber,
+                    change,
+                    'new',
                     gutterAnchor,
                     anchorID,
-                    boundGutterEvents
+                    boundGutterEvents,
+                    hover,
+                    renderGutter
                 )
             }
             <CodeCell
