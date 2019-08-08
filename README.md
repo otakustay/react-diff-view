@@ -158,6 +158,7 @@ Here is the full list of its props:
 - `{Function} generateAnchorID`: A function to generate a DOM `id` attribute for each change, this is required when `gutterType` is set to `"anchor"`. Provided function receives a `change` object as the only argument and should return either a string or `undefined`, if `undefined` is returned no `id` attribute will be placed on DOM. The `id` attribute will be placed on the gutter `<td>` element, for normal changes in split mode, only the left side gutter will have the `id` attribute.
 - `{boolean} optimizeSelection`: Whether to optimize selection to a single column, when this prop is set to `true` in split mode, user can only select code from either old or new side, this can help copy and paste lines of code. This feature can cause some performance dropdown when the diff is extremely large, so it is turned off by default.
 - `{Function} renderToken`: A function to render customized syntax tokens, see [Pick ranges](#pick-ranges) section for detail.
+- `{Function} renderGutter`: A function to render content in gutter cells, see [Customize gutter](#customize-gutter) section for detail.
 
 #### Key of change
 
@@ -461,6 +462,38 @@ const tokens = tokenize(hunks, options);
 ```
 
 The `tokenize` function can work inside a web worker so it does not block the user interface.
+
+### Customize gutter
+
+By default, the gutter cell contains the line number of current change, however in many cases developers want a more complicated content in a gutter cell, we provided a `renderGutter` prop on `Diff` component to provide flexibility.
+
+The `renderGutter` function prop will receive a single object argument with following properties:
+
+- `{Change} change`: current change.
+- `{string} side`: `"new"` or `"old"`.
+- `{Function} renderDefault`: A default render function which returns line number if possible.
+- `{Function} wrapInAnchor`: A function that receives an element and wrap it in an `<a>` element if `gutterAnchor` is enabled.
+- `{boolean} inHoverState`: Whether this change is hovered.
+
+```jsx
+const renderGutter = ({change, side, renderDefault, wrapInAnchor, inHoverState}) => {
+    if (inHoverState) {
+        return (
+            <>
+                {side === 'new' && <UnitTestCoverageBar change={change} />}
+                <CommentButton change={change} />
+            </>
+        );
+    }
+
+    return (
+        <>
+            <UnitTestCoverageBar change={change} />
+            {wrapInAnchor(renderDefault())}
+        </>
+    );
+};
+```
 
 ## Utilities
 

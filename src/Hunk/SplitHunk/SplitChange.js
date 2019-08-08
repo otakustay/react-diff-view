@@ -3,8 +3,8 @@ import {memo, useState, useMemo, useCallback} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import {mapValues} from 'lodash';
-import {computeOldLineNumber, computeNewLineNumber} from '../../utils';
 import CodeCell from '../CodeCell';
+import {composeCallback, renderDefaultBy, wrapInAnchorBy} from '../utils';
 import '../Change.css';
 
 const SIDE_OLD = 0;
@@ -14,16 +14,6 @@ const useCallbackOnSide = (side, setHover, change, customCallbacks) => {
     const markHover = useCallback(() => setHover(side), [side, setHover]);
     const unmarkHover = useCallback(() => setHover(''), [setHover]);
     const arg = {side, change};
-    const composeCallback = (own, custom) => {
-        if (custom) {
-            return e => {
-                own(e);
-                custom(); // `custom` is already bound with `arg`
-            };
-        }
-
-        return own;
-    };
     // Unlike selectors, hooks do not provide native functionality to customize comparator,
     // on realizing that this does not reduce amount of renders, only preventing duplicate merge computations,
     // we decide not to optimize this extremely, leave it recomputed on certain rerenders.
@@ -55,6 +45,7 @@ const renderCells = args => {
         hideGutter,
         hover,
         renderToken,
+        renderGutter,
     } = args;
 
     if (!change) {
@@ -68,7 +59,6 @@ const renderCells = args => {
     }
 
     const {type, content} = change;
-    const line = side === SIDE_OLD ? computeOldLineNumber(change) : computeNewLineNumber(change);
     const sideName = side === SIDE_OLD ? 'old' : 'new';
     const gutterClassNameValue = classNames(
         'diff-gutter',
@@ -79,10 +69,17 @@ const renderCells = args => {
         },
         gutterClassName
     );
+    const gutterOptions = {
+        change,
+        side: sideName,
+        inHoverState: hover,
+        renderDefault: renderDefaultBy(change, sideName),
+        wrapInAnchor: wrapInAnchorBy(gutterAnchor, gutterAnchorTarget),
+    };
     const gutterProps = {
-        'id': anchorID,
-        'className': gutterClassNameValue,
-        'children': gutterAnchor ? <a href={'#' + gutterAnchorTarget}>{line}</a> : line.toString(),
+        id: anchorID,
+        className: gutterClassNameValue,
+        children: renderGutter(gutterOptions),
         ...gutterEvents,
     };
     const codeClassNameValue = classNames(
@@ -126,6 +123,7 @@ const SplitChange = props => {
         generateAnchorID,
         gutterAnchor,
         renderToken,
+        renderGutter,
     } = props;
 
     const [hover, setHover] = useState('');
@@ -143,6 +141,7 @@ const SplitChange = props => {
         gutterEvents,
         codeEvents,
         renderToken,
+        renderGutter,
     };
     const oldArgs = {
         ...commons,

@@ -111,6 +111,7 @@ Diff.propTypes = {
     optimizeSelection: PropTypes.bool,
     className: PropTypes.string,
     renderToken: PropTypes.func,
+    renderGutter: PropTypes.func,
     children: PropTypes.func,
 };
 
@@ -121,6 +122,9 @@ Diff.defaultProps = {
     widgets: {},
     className: '',
     renderToken: undefined,
+    renderGutter({renderDefault, wrapInAnchor}) {
+        return wrapInAnchor(renderDefault());
+    },
     generateAnchorID() {
         return undefined;
     },
