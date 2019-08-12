@@ -692,3 +692,7 @@ I don't really know how to test such a complicated and UI centric component, any
 ### 2.1.4
 
 - Fix a bug where incorrect `sideEffects` config in `package.json` can make webpack tree shaking css of `react-diff-view`.
+
+### 2.2.0
+
+- Add `renderGutter` prop to customize content in gutter cells.
