@@ -377,6 +377,8 @@ class File extends PureComponent {
 
 Since the version `2.0.0` we introduce a powerful token system to provide enhancements such as code highlighting, special word marking, inline diff edits and more.
 
+To find a very simple tokenization example including inline edits highlight please check out [this sandbox](https://codesandbox.io/s/react-diff-view-mark-edits-demo-8ndcl). This example works in an synchronous way, however we'd like to recommend you utilize web workers to put tokenization process in background.
+
 The token system is quite complicated internally, so we recommend to use only the exported `tokenize` function to parse and tokenize diffs.
 
 The `tokenize` function accepts 2 arguments, the first is the `hunks` array, the second one is an `options` object containing many optional configurations:
