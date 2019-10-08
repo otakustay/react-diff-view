@@ -531,7 +531,7 @@ Any solutions for this issue are welcome.
 
 I don't really know how to test such a complicated and UI centric component, any help is welcome.
 
-### Related Libraries
+## Related Libraries
 
 - [react-native-diff-view](https://github.com/monolist/react-native-diff-view)
 
