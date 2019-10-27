@@ -9,11 +9,12 @@ import {
     withTokenizeWorker,
 } from 'react-diff-view';
 import {compose} from 'recompose';
-import 'prism-themes/themes/prism-vs.css';
 import HunkInfo from './HunkInfo';
 import UnfoldCollapsed from './UnfoldCollapsed';
 import TokenizeWorker from './Tokenize.worker'; // eslint-disable-line import/default
-import c from './index.css';
+import c from './index.less';
+import './diff.global.css';
+import './syntax.global.css';
 
 const tokenize = new TokenizeWorker();
 

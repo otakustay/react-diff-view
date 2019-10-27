@@ -60,6 +60,8 @@
     "html-webpack-plugin": "^3.0.6",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^24.8.0",
+    "less": "^3.10.3",
+    "less-loader": "^5.0.0",
     "lodash": "^4.17.15",
     "lodash-decorators": "^6.0.1",
     "prism-themes": "^1.0.1",

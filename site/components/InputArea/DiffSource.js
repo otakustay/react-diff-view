@@ -5,7 +5,7 @@ import {withTransientRegion} from 'react-kiss';
 import {formatLines, diffLines} from 'unidiff';
 import TextInput from './TextInput';
 import SubmitButton from './SubmitButton';
-import styles from './DiffSource.css';
+import styles from './DiffSource.less';
 
 class DiffSource extends PureComponent {
 

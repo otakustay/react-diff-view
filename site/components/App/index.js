@@ -8,7 +8,9 @@ import {parseDiff} from 'react-diff-view';
 import {establishConfiguration} from '../../regions';
 import {DiffView, Configuration} from '../../containers';
 import InputArea from '../InputArea';
-import styles from './index.css';
+import styles from './index.less';
+import './app.global.css';
+import './antd.global.css';
 
 const fakeIndex = () => sha(uniqueId()).slice(0, 9);
 

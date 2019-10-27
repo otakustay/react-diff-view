@@ -3,7 +3,7 @@ import {pick} from 'lodash';
 import {Select, Icon} from 'antd';
 import {withTransientRegion} from 'react-kiss';
 import OptionsModal from './OptionsModal';
-import styles from './index.css';
+import styles from './index.less';
 
 const {Option} = Select;
 

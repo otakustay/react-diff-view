@@ -1,0 +1,85 @@
+:root {
+    --antd-component-background: #fff;
+    --antd-background-color-base: #f5f5f5;
+    --antd-heading-color: rgba(0, 0, 0, .85);
+    --antd-text-color: rgba(0, 0, 0, .65);
+    --antd-text-color-secondary: rgba(0, 0, 0, .45);
+    --antd-text-color-inverse: #fff;
+    --antd-icon-color-hover: rgba(0, 0, 0, .75);
+    --antd-heading-color-dark: #fff;
+    --antd-text-color-dark: rgba(255, 255, 255, .85);
+    --antd-text-color-secondary-dark: rgba(255, 255, 255, .65);
+    --antd-item-active-bg: #40a9ff;
+    --antd-item-hover-bg: #40a9ff;
+    --antd-border-color-base: #d9d9d9;
+    --antd-border-color-split: #e8e8e8;
+    --antd-background-color-light: #fafafa;
+    --antd-disabled-color: rgba(0, 0, 0, .25);
+    --antd-disabled-bg: #d9d9d9;
+    --antd-disabled-color-dark: rgba(255, 255, 255, .35);
+    --antd-btn-default-bg: #fff;
+    --antd-checkbox-check-color: #fff;
+    --antd-input-bg: #fff;
+    --antd-input-number-handler-active-bg: #f4f4f4;
+    --antd-table-selected-row-bg: #fafafa;
+    --antd-table-expanded-row-bg: #fbfbfb;
+    --antd-tree-directory-selected-color: #fff;
+    --antd-table-row-hover-bg: #40a9ff;
+    --antd-popover-bg: #fff;
+    --antd-shadow-color: rgba(0, 35, 11, .2);
+    --antd-btn-shadow: 0 2px 0 rgba(0, 0, 0, 0.015);
+    --antd-btn-primary-shadow: 0 2px 0 rgba(0, 0, 0, 0.045);
+    --antd-btn-text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.12);
+    --antd-alert-success-border-color: #b7eb8f;
+    --antd-alert-success-bg-color: #f6ffed;
+    --antd-alert-info-border-color: #91d5ff;
+    --antd-alert-info-bg-color: #e6f7ff;
+    --antd-alert-warning-border-color: #ffe58f;
+    --antd-alert-warning-bg-color: #fffbe6;
+    --antd-alert-error-border-color: #ffa39e;
+    --antd-alert-error-bg-color: #fff1f0;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --antd-component-background: #333;
+        --antd-background-color-base: #313131;
+        --antd-heading-color: #ababab;
+        --antd-text-color: #bbb;
+        --antd-text-color-secondary: #aaa;
+        --antd-text-color-inverse: #333;
+        --antd-icon-color-hover: #fff;
+        --antd-heading-color-dark: #aaa;
+        --antd-text-color-dark: #aaa;
+        --antd-text-color-secondary-dark: #999;
+        --antd-item-active-bg: #555;
+        --antd-item-hover-bg: #000;
+        --antd-border-color-base: #666;
+        --antd-border-color-split: #565656;
+        --antd-background-color-light: #222;
+        --antd-disabled-color: #777;
+        --antd-disabled-bg: #555;
+        --antd-disabled-color-dark: #444;
+        --antd-btn-default-bg: #333;
+        --antd-checkbox-check-color: #333;
+        --antd-input-bg: #333;
+        --antd-input-number-handler-active-bg: #454545;
+        --antd-table-selected-row-bg: #343434;
+        --antd-table-expanded-row-bg: #353535;
+        --antd-tree-directory-selected-color: #111;
+        --antd-table-row-hover-bg: #111;
+        --antd-popover-bg: #222;
+        --antd-shadow-color: rgba(255 255 255 0.15);
+        --antd-btn-shadow: 0 2px 0 rgba(0, 0, 0, .015);
+        --antd-btn-primary-shadow: 0 2px 0 rgba(0, 0, 0, .045);
+        --antd-btn-text-shadow: 0 -1px 0 rgba(0, 0, 0, .12);
+        --antd-alert-success-border-color: #03300c;
+        --antd-alert-success-bg-color: #03300f;
+        --antd-alert-info-border-color: #061f70;
+        --antd-alert-info-bg-color: #061f72;
+        --antd-alert-warning-border-color: #706705;
+        --antd-alert-warning-bg-color: #706705;
+        --antd-alert-error-border-color: #702b06;
+        --antd-alert-error-bg-color: #702b05;
+    }
+}

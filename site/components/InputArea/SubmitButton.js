@@ -1,4 +1,4 @@
-import styles from './SubmitButton.css';
+import styles from './SubmitButton.less';
 
 const SubmitButton = ({onClick}) => (
     <button type="button" className={styles.root} onClick={onClick}>

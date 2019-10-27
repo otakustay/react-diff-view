@@ -1,4 +1,4 @@
-import styles from './TextInput.css';
+import styles from './TextInput.less';
 
 /* eslint-disable react/jsx-no-bind */
 

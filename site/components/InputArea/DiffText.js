@@ -4,7 +4,7 @@ import {bind} from 'lodash-decorators';
 import {Icon} from 'antd';
 import TextInput from './TextInput';
 import SubmitButton from './SubmitButton';
-import styles from './DiffText.css';
+import styles from './DiffText.less';
 
 export default class DiffText extends PureComponent {
 

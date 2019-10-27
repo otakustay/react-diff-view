@@ -2,7 +2,7 @@ import {PureComponent} from 'react';
 import {Icon} from 'antd';
 import {bind} from 'lodash-decorators';
 import {Decoration} from 'react-diff-view';
-import styles from './Unfold.css';
+import styles from './Unfold.less';
 
 const ICON_TYPE_MAPPING = {
     up: 'caret-up',

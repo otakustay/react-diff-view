@@ -1,5 +1,5 @@
 import {Modal, Radio, Switch} from 'antd';
-import styles from './OptionsModal.css';
+import styles from './OptionsModal.less';
 
 /* eslint-disable react/jsx-no-bind */
 
