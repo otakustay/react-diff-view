@@ -13,18 +13,17 @@ const SIDE_NEW = 1;
 const useCallbackOnSide = (side, setHover, change, customCallbacks) => {
     const markHover = useCallback(() => setHover(side), [side, setHover]);
     const unmarkHover = useCallback(() => setHover(''), [setHover]);
-    const arg = {side, change};
     // Unlike selectors, hooks do not provide native functionality to customize comparator,
     // on realizing that this does not reduce amount of renders, only preventing duplicate merge computations,
     // we decide not to optimize this extremely, leave it recomputed on certain rerenders.
     const callbacks = useMemo(
         () => {
-            const callbacks = mapValues(customCallbacks, fn => () => fn(arg));
+            const callbacks = mapValues(customCallbacks, fn => () => fn({side, change}));
             callbacks.onMouseEnter = composeCallback(markHover, callbacks.onMouseEnter);
             callbacks.onMouseLeave = composeCallback(unmarkHover, callbacks.onMouseLeave);
             return callbacks;
         },
-        [change, customCallbacks, markHover, unmarkHover]
+        [change, customCallbacks, markHover, side, unmarkHover]
     );
     return callbacks;
 };

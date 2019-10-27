@@ -73,7 +73,7 @@ export default (worker, payload, options = {}) => {
             };
             worker.postMessage(data);
         },
-        // eslint-disable-next-line: react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
         [payloadIdentifier, worker, shouldTokenize] // TODO: How about worker changes when payload keeps identical?
     );
 

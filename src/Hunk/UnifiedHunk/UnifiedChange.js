@@ -14,7 +14,7 @@ const useBoundCallbacks = (callbacks, arg, hoverOn, hoverOff) => useMemo(
         output.onMouseLeave = composeCallback(hoverOff, output.onMouseLeave);
         return output;
     },
-    [callbacks, arg]
+    [callbacks, hoverOn, hoverOff, arg]
 );
 
 const useBoolean = () => {

@@ -1,5 +1,3 @@
-import {Fragment} from 'react';
-import {Whether} from 'react-whether';
 import {getCollapsedLinesCountBetween} from 'react-diff-view';
 import Unfold from './Unfold';
 
@@ -13,12 +11,19 @@ const UnfoldCollapsed = ({previousHunk, currentHunk, linesCount, onExpand}) => {
         }
 
         return (
-            <Fragment>
-                <Whether matches={collapsedLines > 10}>
-                    <Unfold direction="down" start={nextStart} end={nextStart + 10} onExpand={onExpand} />
-                </Whether>
+            <>
+                {
+                    collapsedLines > 10 && (
+                        <Unfold
+                            direction="down"
+                            start={nextStart}
+                            end={nextStart + 10}
+                            onExpand={onExpand}
+                        />
+                    )
+                }
                 <Unfold direction="none" start={nextStart} end={linesCount + 1} onExpand={onExpand} />
-            </Fragment>
+            </>
         );
     }
 
@@ -32,12 +37,19 @@ const UnfoldCollapsed = ({previousHunk, currentHunk, linesCount, onExpand}) => {
         const start = Math.max(currentHunk.oldStart - 10, 1);
 
         return (
-            <Fragment>
+            <>
                 <Unfold direction="none" start={1} end={currentHunk.oldStart} onExpand={onExpand} />
-                <Whether matches={collapsedLines > 10}>
-                    <Unfold direction="up" start={start} end={currentHunk.oldStart} onExpand={onExpand} />
-                </Whether>
-            </Fragment>
+                {
+                    collapsedLines > 10 && (
+                        <Unfold
+                            direction="up"
+                            start={start}
+                            end={currentHunk.oldStart}
+                            onExpand={onExpand}
+                        />
+                    )
+                }
+            </>
         );
     }
 
@@ -51,11 +63,11 @@ const UnfoldCollapsed = ({previousHunk, currentHunk, linesCount, onExpand}) => {
     }
 
     return (
-        <Fragment>
+        <>
             <Unfold direction="down" start={collapsedStart} end={collapsedStart + 10} onExpand={onExpand} />
             <Unfold direction="none" start={collapsedStart} end={collapsedEnd} onExpand={onExpand} />
             <Unfold direction="up" start={collapsedEnd - 10} end={collapsedEnd} onExpand={onExpand} />
-        </Fragment>
+        </>
     );
 };
 
