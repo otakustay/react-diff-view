@@ -1,12 +1,10 @@
-import {PureComponent, Fragment} from 'react';
+import {useState, useMemo} from 'react';
 import {uniqueId} from 'lodash';
 import sha from 'sha1';
-import {bind} from 'lodash-decorators';
-import {Whether} from 'react-whether';
-import {createSelector} from 'reselect';
 import {parseDiff} from 'react-diff-view';
-import {establishConfiguration} from '../../regions';
-import {DiffView, Configuration} from '../../containers';
+import {Provider as ConfigurationProvider} from '../../context/configuration';
+import DiffView from '../DiffView';
+import Configuration from '../Configuration';
 import InputArea from '../InputArea';
 import styles from './index.less';
 import './app.global.css';
@@ -14,16 +12,10 @@ import './antd.global.css';
 
 const fakeIndex = () => sha(uniqueId()).slice(0, 9);
 
-class App extends PureComponent {
-
-    state = {
-        diff: null,
-        source: null,
-    };
-
-    parse = createSelector(
-        state => state.diff,
-        diff => {
+const App = () => {
+    const [{diff, source}, setData] = useState({diff: '', source: ''});
+    const file = useMemo(
+        () => {
             if (!diff) {
                 return null;
             }
@@ -33,43 +25,32 @@ class App extends PureComponent {
                 `index ${fakeIndex()}..${fakeIndex()} 100644`,
                 diff,
             ];
-
-            const files = parseDiff(segments.join('\n'), {nearbySequences: 'zip'});
-
-            return files[0];
-        }
+            const [file] = parseDiff(segments.join('\n'), {nearbySequences: 'zip'});
+            return file;
+        },
+        [diff]
     );
 
-    @bind()
-    receiveInput(data) {
-        this.setState(data);
-    }
-
-    render() {
-        const {diff, source} = this.state;
-        const file = this.parse(this.state);
-
-        return (
+    return (
+        <ConfigurationProvider>
             <div className={styles.root}>
-                <InputArea onSubmit={this.receiveInput} />
-                <Whether matches={!!file}>
-                    {
-                        () => (
-                            <Fragment>
-                                <Configuration />
-                                <DiffView
-                                    key={sha(diff) + (source ? sha(source) : '')}
-                                    type={file.type}
-                                    hunks={file.hunks}
-                                    oldSource={source}
-                                />
-                            </Fragment>
-                        )
-                    }
-                </Whether>
+                <InputArea onSubmit={setData} />
+                {
+                    file && (
+                        <>
+                            <Configuration />
+                            <DiffView
+                                key={sha(diff) + (source ? sha(source) : '')}
+                                type={file.type}
+                                hunks={file.hunks}
+                                oldSource={source}
+                            />
+                        </>
+                    )
+                }
             </div>
-        );
-    }
-}
+        </ConfigurationProvider>
+    );
+};
 
-export default establishConfiguration('Configuration')(App);
+export default App;

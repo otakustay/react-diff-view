@@ -1,71 +1,52 @@
-import {PureComponent} from 'react';
+import {useState, useCallback} from 'react';
 import classNames from 'classnames';
-import {bind} from 'lodash-decorators';
-import {withTransientRegion} from 'react-kiss';
 import {formatLines, diffLines} from 'unidiff';
 import TextInput from './TextInput';
 import SubmitButton from './SubmitButton';
 import styles from './DiffSource.less';
 
-class DiffSource extends PureComponent {
+const DiffSource = ({className, onSubmit, onSwitchInputType}) => {
+    const [oldSource, setOldSource] = useState('');
+    const [newSource, setNewSource] = useState('');
+    const submit = useCallback(
+        () => {
+            if (!oldSource || !newSource) {
+                return;
+            }
 
-    @bind()
-    submit() {
-        const {oldSource, newSource, onSubmit} = this.props;
+            const diffText = formatLines(diffLines(oldSource, newSource), {context: 3});
+            const data = {
+                diff: diffText,
+                source: oldSource,
+            };
 
-        if (!oldSource || !newSource) {
-            return;
-        }
+            onSubmit(data);
+        },
+        [oldSource, newSource, onSubmit]
+    );
 
-        const diffText = formatLines(diffLines(oldSource, newSource), {context: 3});
-        const data = {
-            diff: diffText,
-            source: oldSource,
-        };
-
-        onSubmit(data);
-    }
-
-    render() {
-        const {className, oldSource, newSource, onOldSourceChange, onNewSourceChange, onSwitchInputType} = this.props;
-
-        return (
-            <div className={classNames(styles.root, className)}>
-                <div className={styles.switch}>
-                    <a onClick={onSwitchInputType}>I want to beautify a diff</a>
-                </div>
-                <div className={styles.input}>
-                    <TextInput
-                        className={styles.inputText}
-                        title="ORIGINAL TEXT"
-                        value={oldSource}
-                        onChange={onOldSourceChange}
-                    />
-                    <TextInput
-                        className={styles.inputText}
-                        title="CHANGED TEXT"
-                        value={newSource}
-                        onChange={onNewSourceChange}
-                    />
-                </div>
-                <SubmitButton onClick={this.submit} />
+    return (
+        <div className={classNames(styles.root, className)}>
+            <div className={styles.switch}>
+                <a onClick={onSwitchInputType}>I want to beautify a diff</a>
             </div>
-        );
-    }
-}
-
-const initialState = {
-    oldSource: '',
-    newSource: '',
+            <div className={styles.input}>
+                <TextInput
+                    className={styles.inputText}
+                    title="ORIGINAL TEXT"
+                    value={oldSource}
+                    onChange={setOldSource}
+                />
+                <TextInput
+                    className={styles.inputText}
+                    title="CHANGED TEXT"
+                    value={newSource}
+                    onChange={setNewSource}
+                />
+            </div>
+            <SubmitButton onClick={submit} />
+        </div>
+    );
 };
 
-const workflows = {
-    onOldSourceChange(oldSource) {
-        return {oldSource};
-    },
-    onNewSourceChange(newSource) {
-        return {newSource};
-    },
-};
-
-export default withTransientRegion(initialState, workflows)(DiffSource);
+export default DiffSource;

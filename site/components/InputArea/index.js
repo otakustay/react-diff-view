@@ -1,27 +1,16 @@
-import {withTransientRegion} from 'react-kiss';
-import {Whether, Else} from 'react-whether';
+import {useReducer} from 'react';
 import DiffText from './DiffText';
 import DiffSource from './DiffSource';
 
-const InputArea = ({inputType, ...props}) => (
-    <Whether matches={inputType === 'diff'}>
-        <DiffText {...props} />
-        <Else>
-            <DiffSource {...props} />
-        </Else>
-    </Whether>
-);
+const InputArea = props => {
+    const [inputType, switchInputType] = useReducer(
+        value => (value === 'diff' ? 'source' : 'diff'),
+        'source'
+    );
 
-const initialState = {
-    inputType: 'source',
+    return inputType === 'diff'
+        ? <DiffText onSwitchInputType={switchInputType} {...props} />
+        : <DiffSource onSwitchInputType={switchInputType} {...props} />;
 };
 
-const workflows = {
-    onSwitchInputType(payload, {inputType}) {
-        const newInputType = inputType === 'diff' ? 'source' : 'diff';
-
-        return {inputType: newInputType};
-    },
-};
-
-export default withTransientRegion(initialState, workflows)(InputArea);
+export default InputArea;

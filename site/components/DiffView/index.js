@@ -3,12 +3,12 @@ import {Tooltip} from 'antd';
 import {
     Diff,
     Hunk,
-    withSourceExpansion,
-    minCollapsedLines,
-    withChangeSelect,
-    withTokenizeWorker,
+    useSourceExpansion,
+    useMinCollapsedLines,
+    useChangeSelect,
+    useTokenizeWorker,
 } from 'react-diff-view';
-import {compose} from 'recompose';
+import {useConfiguration} from '../../context/configuration';
 import HunkInfo from './HunkInfo';
 import UnfoldCollapsed from './UnfoldCollapsed';
 import TokenizeWorker from './Tokenize.worker'; // eslint-disable-line import/default
@@ -20,18 +20,37 @@ const tokenize = new TokenizeWorker();
 
 const stopPropagation = e => e.stopPropagation();
 
-const DiffView = props => {
-    const {
-        hunks,
+const useEnhance = (hunks, oldSource, {language, editsType}) => {
+    const [hunksWithSourceExpanded, expandRange] = useSourceExpansion(hunks, oldSource);
+    const hunksWithMinLinesCollapsed = useMinCollapsedLines(5, hunksWithSourceExpanded, oldSource);
+    const [selection, toggleSelection] = useChangeSelect(hunksWithMinLinesCollapsed, {multiple: true});
+    const tokenizePayload = {
         oldSource,
-        type,
-        showGutter,
-        viewType,
-        selectedChanges,
+        language,
+        editsType,
+        hunks: hunksWithMinLinesCollapsed,
+    };
+    const {tokens} = useTokenizeWorker(tokenize, tokenizePayload);
+    return {
+        expandRange,
+        selection,
+        toggleSelection,
         tokens,
-        onExpandRange,
-        onToggleChangeSelection,
-    } = props;
+        hunks: hunksWithMinLinesCollapsed,
+    };
+};
+
+const DiffView = props => {
+    const {oldSource, type} = props;
+    const configuration = useConfiguration();
+    const {
+        expandRange,
+        selection,
+        toggleSelection,
+        hunks,
+        tokens,
+    } = useEnhance(props.hunks, oldSource, configuration);
+    const {viewType, showGutter} = configuration;
     const renderGutter = useCallback(
         ({change, side, inHoverState, renderDefault, wrapInAnchor}) => {
             const canComment = inHoverState && (viewType === 'split' || side === 'new');
@@ -67,13 +86,13 @@ const DiffView = props => {
                     previousHunk={previousElement && previousElement.props.hunk}
                     currentHunk={hunk}
                     linesCount={linesCount}
-                    onExpand={onExpandRange}
+                    onExpand={expandRange}
                 />
             )
             : <HunkInfo key={'decoration-' + hunk.content} hunk={hunk} />;
         children.push(decorationElement);
         const events = {
-            onClick: onToggleChangeSelection,
+            onClick: toggleSelection,
         };
 
         const hunkElement = (
@@ -92,7 +111,7 @@ const DiffView = props => {
                     key="decoration-tail"
                     previousHunk={hunk}
                     linesCount={linesCount}
-                    onExpand={onExpandRange}
+                    onExpand={expandRange}
                 />
             );
             children.push(unfoldTailElement);
@@ -109,7 +128,7 @@ const DiffView = props => {
             hunks={hunks}
             oldSource={oldSource}
             gutterType={showGutter ? 'default' : 'none'}
-            selectedChanges={selectedChanges}
+            selectedChanges={selection}
             tokens={tokens}
             renderGutter={renderGutter}
         >
@@ -118,20 +137,4 @@ const DiffView = props => {
     );
 };
 
-const tokenizeOptions = {
-    mapPayload(data, {editsType}) {
-        return {
-            ...data,
-            editsType: editsType,
-        };
-    },
-};
-
-const enhance = compose(
-    withSourceExpansion(),
-    minCollapsedLines(5),
-    withChangeSelect({multiple: true}),
-    withTokenizeWorker(tokenize, tokenizeOptions)
-);
-
-export default enhance(DiffView);
+export default DiffView;
