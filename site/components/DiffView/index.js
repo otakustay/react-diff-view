@@ -13,8 +13,8 @@ import HunkInfo from './HunkInfo';
 import UnfoldCollapsed from './UnfoldCollapsed';
 import TokenizeWorker from './Tokenize.worker'; // eslint-disable-line import/default
 import c from './index.less';
-import './diff.global.css';
-import './syntax.global.css';
+import './diff.global.less';
+import './syntax.global.less';
 
 const tokenize = new TokenizeWorker();
 

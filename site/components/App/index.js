@@ -7,8 +7,8 @@ import DiffView from '../DiffView';
 import Configuration from '../Configuration';
 import InputArea from '../InputArea';
 import styles from './index.less';
-import './app.global.css';
-import './antd.global.css';
+import './app.global.less';
+import './antd.global.less';
 
 const fakeIndex = () => sha(uniqueId()).slice(0, 9);
 

@@ -7473,6 +7473,11 @@ pretty-format@^24.9.0:
     ansi-styles "^3.2.0"
     react-is "^16.8.4"
 
+prism-color-variables@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.npm.taobao.org/prism-color-variables/download/prism-color-variables-1.0.0.tgz#dc1d90f92d17344234d690ad07221a910440142d"
+  integrity sha1-3B2Q+S0XNEI01pCtByIakQRAFC0=
+
 prismjs@~1.17.0:
   version "1.17.1"
   resolved "https://registry.npm.taobao.org/prismjs/download/prismjs-1.17.1.tgz#e669fcbd4cdd873c35102881c33b14d0d68519be"

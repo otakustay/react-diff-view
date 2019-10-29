@@ -79,6 +79,7 @@ module.exports = {
                 test: /\.less$/,
                 exclude: [
                     /node_modules/,
+                    /\.global\.less$/,
                 ],
                 use: [
                     'style-loader',
@@ -89,6 +90,17 @@ module.exports = {
                             localsConvention: 'camelCase',
                         },
                     },
+                    'less-loader',
+                ],
+            },
+            {
+                test: /\.global\.less$/,
+                exclude: [
+                    /node_modules/,
+                ],
+                use: [
+                    'style-loader',
+                    'css-loader',
                     'less-loader',
                 ],
             },
