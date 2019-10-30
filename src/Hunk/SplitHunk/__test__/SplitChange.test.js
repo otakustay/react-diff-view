@@ -11,6 +11,8 @@ const defaultChange = {
 
 const pickId = partialRight(get, 'content');
 
+const renderNull = () => null;
+
 describe('SplitChange', () => {
     test('renders correctly', () => {
         expect(renderer.create(
@@ -20,6 +22,7 @@ describe('SplitChange', () => {
                 oldChange={defaultChange}
                 newChange={defaultChange}
                 generateAnchorID={pickId}
+                renderGutter={renderNull}
             />
         ).toJSON()).toMatchSnapshot();
     });
@@ -35,6 +38,7 @@ describe('SplitChange', () => {
                 newChange={defaultChange}
                 generateAnchorID={pickId}
                 gutterEvents={gutterEvents}
+                renderGutter={renderNull}
             />
         );
 

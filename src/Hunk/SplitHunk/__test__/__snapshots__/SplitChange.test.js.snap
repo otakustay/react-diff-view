@@ -9,9 +9,7 @@ exports[`SplitChange renders correctly 1`] = `
     id="text"
     onMouseEnter={[Function]}
     onMouseLeave={[Function]}
-  >
-    1
-  </td>
+  />
   <td
     className="diff-code diff-code-edit"
     onMouseEnter={[Function]}
@@ -23,9 +21,7 @@ exports[`SplitChange renders correctly 1`] = `
     className="diff-gutter diff-gutter-edit"
     onMouseEnter={[Function]}
     onMouseLeave={[Function]}
-  >
-    1
-  </td>
+  />
   <td
     className="diff-code diff-code-edit"
     onMouseEnter={[Function]}

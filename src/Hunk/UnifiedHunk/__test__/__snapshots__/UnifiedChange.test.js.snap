@@ -7,12 +7,18 @@ exports[`UnifiedChange renders correctly 1`] = `
 >
   <td
     className="diff-gutter diff-gutter-edit"
+    onMouseEnter={[Function]}
+    onMouseLeave={[Function]}
   />
   <td
     className="diff-gutter diff-gutter-edit"
+    onMouseEnter={[Function]}
+    onMouseLeave={[Function]}
   />
   <td
     className="diff-code diff-code-edit"
+    onMouseEnter={[Function]}
+    onMouseLeave={[Function]}
   >
     text
   </td>

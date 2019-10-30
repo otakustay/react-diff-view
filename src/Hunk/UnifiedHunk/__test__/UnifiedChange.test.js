@@ -10,6 +10,8 @@ const defaultChange = {
 
 const pickId = partialRight(get, 'content');
 
+const renderNull = () => null;
+
 describe('UnifiedChange', () => {
     test('renders correctly', () => {
         expect(renderer.create(
@@ -17,6 +19,7 @@ describe('UnifiedChange', () => {
                 selected={false}
                 change={defaultChange}
                 generateAnchorID={pickId}
+                renderGutter={renderNull}
             />
         ).toJSON()).toMatchSnapshot();
     });
@@ -30,6 +33,7 @@ describe('UnifiedChange', () => {
                 change={defaultChange}
                 generateAnchorID={pickId}
                 gutterEvents={gutterEvents}
+                renderGutter={renderNull}
             />
         );
         // TODO diff gutter should be called with {change: defaultChange, side: 'old' & 'new'}
