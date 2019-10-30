@@ -5,7 +5,6 @@ import classNames from 'classnames';
 import {mapValues} from 'lodash';
 import CodeCell from '../CodeCell';
 import {composeCallback, renderDefaultBy, wrapInAnchorBy} from '../utils';
-import '../Change.css';
 
 const SIDE_OLD = 0;
 const SIDE_NEW = 1;

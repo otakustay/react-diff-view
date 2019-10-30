@@ -10,10 +10,6 @@ module.exports = {
         }
     },
     rules: {
-        'import/no-unresolved': [
-            'error',
-            {ignore: ['react-diff-view']}
-        ],
         'react-hooks/rules-of-hooks': 'error',
         'react-hooks/exhaustive-deps': 'error'
     }

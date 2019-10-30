@@ -1,5 +1,3 @@
-import '../Widget.css';
-
 const SplitWidget = ({oldElement, newElement, monotonous, hideGutter}) => {
     if (monotonous) {
         return (

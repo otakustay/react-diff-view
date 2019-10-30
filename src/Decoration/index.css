@@ -1,9 +1,0 @@
-.diff-decoration {
-    line-height: 1.5;
-    user-select: none;
-}
-
-.diff-decoration-content {
-    font-family: SFMono-Regular, Consolas, "Liberation Mono", Menlo, Courier, monospace;
-    padding: 0;
-}

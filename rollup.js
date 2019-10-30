@@ -1,6 +1,5 @@
 /* eslint-disable import/unambiguous, import/no-commonjs */
 const {rollup} = require('rollup');
-const postcss = require('rollup-plugin-postcss');
 const resolve = require('rollup-plugin-node-resolve');
 const commonjs = require('rollup-plugin-commonjs');
 const autoExternal = require('rollup-plugin-auto-external');
@@ -13,7 +12,6 @@ const inputOptions = {
     input: 'src/index.js',
     plugins: [
         eslint({throwOnError: true, include: 'src/**/*.js'}),
-        postcss({extract: 'style/index.css', minimize: true}),
         resolve(),
         commonjs({include: 'node_modules/**'}),
         autoExternal({dependencies: false}),

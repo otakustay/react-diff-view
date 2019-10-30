@@ -8,10 +8,11 @@ import {
     useChangeSelect,
     useTokenizeWorker,
 } from 'react-diff-view';
+import 'react-diff-view/styles/index.css';
 import {useConfiguration} from '../../context/configuration';
 import HunkInfo from './HunkInfo';
 import UnfoldCollapsed from './UnfoldCollapsed';
-import TokenizeWorker from './Tokenize.worker'; // eslint-disable-line import/default
+import TokenizeWorker from './Tokenize.worker';
 import c from './index.less';
 import './diff.global.less';
 import './syntax.global.less';

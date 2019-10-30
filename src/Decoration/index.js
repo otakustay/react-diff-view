@@ -4,7 +4,6 @@ import warning from 'warning';
 import {useDiffSettings} from '../context';
 import SplitDecoration from './SplitDecoration';
 import UnifiedDecoration from './UnifiedDecoration';
-import './index.css';
 
 const Decoration = props => {
     const childrenCount = Children.count(props.children);

@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import {Provider} from '../context';
 import Hunk from '../Hunk';
-import './index.css';
 
 const noop = () => {}; // eslint-disable-line no-empty-function
 
