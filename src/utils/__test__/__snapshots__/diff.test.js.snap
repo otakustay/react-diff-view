@@ -41,6 +41,115 @@ Array [
 ]
 `;
 
+exports[`expandCollapsedBlockBy normal hunk 1`] = `
+Array [
+  Object {
+    "changes": Array [
+      Object {
+        "content": "iiiiiiiiiiiiiiiiiiiiii:WQiiiiiiiiiiiiejj",
+        "isNormal": true,
+        "newLineNumber": 1,
+        "oldLineNumber": 1,
+        "type": "normal",
+      },
+      Object {
+        "content": "dsds",
+        "isDelete": true,
+        "lineNumber": 2,
+        "type": "delete",
+      },
+      Object {
+        "content": "dsdsds",
+        "isInsert": true,
+        "lineNumber": 2,
+        "type": "insert",
+      },
+    ],
+    "content": "@@ -1,2 +1,2 @@",
+    "isPlain": false,
+    "newLines": 2,
+    "newStart": 1,
+    "oldLines": 2,
+    "oldStart": 1,
+  },
+]
+`;
+
+exports[`expandCollapsedBlockBy normal hunk 2`] = `
+Array [
+  Object {
+    "changes": Array [
+      Object {
+        "content": "iiiiiiiiiiiiiiiiiiiiii:WQiiiiiiiiiiiiejj",
+        "isNormal": true,
+        "newLineNumber": 1,
+        "oldLineNumber": 1,
+        "type": "normal",
+      },
+      Object {
+        "content": "dsds",
+        "isDelete": true,
+        "lineNumber": 2,
+        "type": "delete",
+      },
+      Object {
+        "content": "dsdsds",
+        "isInsert": true,
+        "lineNumber": 2,
+        "type": "insert",
+      },
+    ],
+    "content": "@@ -1,2 +1,2 @@",
+    "isPlain": false,
+    "newLines": 2,
+    "newStart": 1,
+    "oldLines": 2,
+    "oldStart": 1,
+  },
+]
+`;
+
+exports[`expandCollapsedBlockBy normal hunk 3`] = `
+Array [
+  Object {
+    "changes": Array [
+      Object {
+        "content": "iiiiiiiiiiiiiiiiiiiiii:WQiiiiiiiiiiiiejj",
+        "isNormal": true,
+        "newLineNumber": 0,
+        "oldLineNumber": 0,
+        "type": "normal",
+      },
+      Object {
+        "content": "iiiiiiiiiiiiiiiiiiiiii:WQiiiiiiiiiiiiejj",
+        "isNormal": true,
+        "newLineNumber": 1,
+        "oldLineNumber": 1,
+        "type": "normal",
+      },
+      Object {
+        "content": "dsds",
+        "isDelete": true,
+        "lineNumber": 2,
+        "type": "delete",
+      },
+      Object {
+        "content": "dsdsds",
+        "isInsert": true,
+        "lineNumber": 2,
+        "type": "insert",
+      },
+    ],
+    "content": "@@ -0,3 +0,3",
+    "isPlain": false,
+    "newLines": 3,
+    "newStart": 0,
+    "oldLines": 3,
+    "oldStart": 0,
+  },
+]
+`;
+
 exports[`expandFromRawCode basic 1`] = `
 Array [
   Object {

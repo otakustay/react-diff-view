@@ -9,6 +9,7 @@ import {
     getChangeKey,
 } from '..';
 
+const noop = () => {/* noop */};
 
 describe('textLinesToHunk', () => {
     test('basic', () => {
@@ -67,8 +68,39 @@ describe('getCollapsedLinesCountBetween', () => {
 describe('expandCollapsedBlockBy', () => {
     test('basic', () => {
         const hunks = [basicHunk];
-        const noop = () => {/* noop */};
         expect(expandCollapsedBlockBy(hunks, '', noop)).toMatchSnapshot();
+    });
+
+    test('normal hunk', () => {
+        const hunks = [{
+            content: '@@ -1,2 +1,2 @@',
+            oldStart: 1,
+            newStart: 1,
+            oldLines: 2,
+            newLines: 2,
+            changes: [{
+                content: 'iiiiiiiiiiiiiiiiiiiiii:WQiiiiiiiiiiiiejj',
+                type: 'normal',
+                isNormal: true,
+                oldLineNumber: 1,
+                newLineNumber: 1,
+            }, {
+                content: 'dsds',
+                type: 'delete',
+                isDelete: true,
+                lineNumber: 2,
+            }, {
+                content: 'dsdsds',
+                type: 'insert',
+                isInsert: true,
+                lineNumber: 2,
+            }],
+            isPlain: false,
+        }];
+        const rawCode = 'iiiiiiiiiiiiiiiiiiiiii:WQiiiiiiiiiiiiejj\ndsds';
+        expect(expandCollapsedBlockBy(hunks, rawCode, noop)).toMatchSnapshot();
+        expect(expandCollapsedBlockBy(hunks, rawCode.split('\n'), noop)).toMatchSnapshot();
+        expect(expandFromRawCode(hunks, rawCode, 0, 10)).toMatchSnapshot();
     });
 });
 

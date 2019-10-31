@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`parseDiff basic 1`] = `
+exports[`parseDiff ensure test case 1`] = `
 Array [
   Object {
     "hunks": Array [
@@ -54,7 +54,7 @@ Array [
 ]
 `;
 
-exports[`parseDiff trim 1`] = `
+exports[`parseDiff ensure test case 2`] = `
 Array [
   Object {
     "hunks": Array [],
@@ -115,6 +115,219 @@ Array [
     "oldMode": "100644",
     "oldPath": "src/__test__/index.test.jsx",
     "oldRevision": "643c2f0",
+    "type": "modify",
+  },
+]
+`;
+
+exports[`parseDiff insert 1`] = `
+Array [
+  Object {
+    "hunks": Array [
+      Object {
+        "changes": Array [
+          Object {
+            "content": "const genericExtension = new Set(['.tpl', '.tmp']);",
+            "isNormal": true,
+            "newLineNumber": 155,
+            "oldLineNumber": 155,
+            "type": "normal",
+          },
+          Object {
+            "content": "",
+            "isNormal": true,
+            "newLineNumber": 156,
+            "oldLineNumber": 156,
+            "type": "normal",
+          },
+          Object {
+            "content": "export const detectLanguage = filename => {",
+            "isNormal": true,
+            "newLineNumber": 157,
+            "oldLineNumber": 157,
+            "type": "normal",
+          },
+          Object {
+            "content": "    // 仅仅是为了处理特殊情况，特殊情况应该已经处理完毕",
+            "isInsert": true,
+            "lineNumber": 158,
+            "type": "insert",
+          },
+          Object {
+            "content": "    if (!filename) {",
+            "isNormal": true,
+            "newLineNumber": 159,
+            "oldLineNumber": 158,
+            "type": "normal",
+          },
+          Object {
+            "content": "        return 'text';",
+            "isNormal": true,
+            "newLineNumber": 160,
+            "oldLineNumber": 159,
+            "type": "normal",
+          },
+          Object {
+            "content": "    }",
+            "isNormal": true,
+            "newLineNumber": 161,
+            "oldLineNumber": 160,
+            "type": "normal",
+          },
+        ],
+        "content": "@@ -155,6 +155,7 @@",
+        "isPlain": false,
+        "newLines": 7,
+        "newStart": 155,
+        "oldLines": 6,
+        "oldStart": 155,
+      },
+    ],
+    "newEndingNewLine": true,
+    "newMode": "100644",
+    "newPath": "src/common/utils/languages.js",
+    "newRevision": "022bfd4",
+    "oldEndingNewLine": true,
+    "oldMode": "100644",
+    "oldPath": "src/common/utils/languages.js",
+    "oldRevision": "1eadcc9",
+    "type": "modify",
+  },
+]
+`;
+
+exports[`parseDiff no newline at end of file 1`] = `
+Array [
+  Object {
+    "hunks": Array [
+      Object {
+        "changes": Array [
+          Object {
+            "content": "iiiiiiiiiiiiiiiiiiiiii:WQiiiiiiiiiiiiejj",
+            "isNormal": true,
+            "newLineNumber": 1,
+            "oldLineNumber": 1,
+            "type": "normal",
+          },
+          Object {
+            "content": "dsds",
+            "isDelete": true,
+            "lineNumber": 2,
+            "type": "delete",
+          },
+          Object {
+            "content": "dsdsds",
+            "isInsert": true,
+            "lineNumber": 2,
+            "type": "insert",
+          },
+        ],
+        "content": "@@ -1,2 +1,2 @@",
+        "isPlain": false,
+        "newLines": 2,
+        "newStart": 1,
+        "oldLines": 2,
+        "oldStart": 1,
+      },
+    ],
+    "newEndingNewLine": false,
+    "newMode": "100644",
+    "newPath": "README.md",
+    "newRevision": "9acdf95",
+    "oldEndingNewLine": false,
+    "oldMode": "100644",
+    "oldPath": "README.md",
+    "oldRevision": "36f6985",
+    "type": "modify",
+  },
+]
+`;
+
+exports[`parseDiff rename 1`] = `
+Array [
+  Object {
+    "hunks": Array [],
+    "newEndingNewLine": true,
+    "newPath": "src/components/ErrorPages/ErrorBase.jsx",
+    "oldEndingNewLine": true,
+    "oldPath": "src/error/components/ErrorBase.jsx",
+    "similarity": 100,
+    "type": "rename",
+  },
+]
+`;
+
+exports[`parseDiff undiff 1`] = `
+Array [
+  Object {
+    "hunks": Array [
+      Object {
+        "changes": Array [
+          Object {
+            "content": "const genericExtension = new Set(['.tpl', '.tmp']);",
+            "isNormal": true,
+            "newLineNumber": 155,
+            "oldLineNumber": 155,
+            "type": "normal",
+          },
+          Object {
+            "content": "",
+            "isNormal": true,
+            "newLineNumber": 156,
+            "oldLineNumber": 156,
+            "type": "normal",
+          },
+          Object {
+            "content": "export const detectLanguage = filename => {",
+            "isNormal": true,
+            "newLineNumber": 157,
+            "oldLineNumber": 157,
+            "type": "normal",
+          },
+          Object {
+            "content": "    // 仅仅是为了处理特殊情况，特殊情况应该已经处理完毕",
+            "isInsert": true,
+            "lineNumber": 158,
+            "type": "insert",
+          },
+          Object {
+            "content": "    if (!filename) {",
+            "isNormal": true,
+            "newLineNumber": 159,
+            "oldLineNumber": 158,
+            "type": "normal",
+          },
+          Object {
+            "content": "        return 'text';",
+            "isNormal": true,
+            "newLineNumber": 160,
+            "oldLineNumber": 159,
+            "type": "normal",
+          },
+          Object {
+            "content": "    }",
+            "isNormal": true,
+            "newLineNumber": 161,
+            "oldLineNumber": 160,
+            "type": "normal",
+          },
+        ],
+        "content": "@@ -155,6 +155,7 @@",
+        "isPlain": false,
+        "newLines": 7,
+        "newStart": 155,
+        "oldLines": 6,
+        "oldStart": 155,
+      },
+    ],
+    "newEndingNewLine": true,
+    "newMode": "100644",
+    "newPath": "55,7",
+    "newRevision": "2222222",
+    "oldEndingNewLine": true,
+    "oldMode": "100644",
+    "oldPath": "5,6",
+    "oldRevision": "1111111",
     "type": "modify",
   },
 ]

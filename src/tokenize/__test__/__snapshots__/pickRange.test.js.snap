@@ -1,0 +1,213 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`pickRange for definition 1`] = `
+<table
+  className="diff diff-split"
+  onMouseDown={[Function]}
+>
+  <colgroup>
+    <col
+      className="diff-gutter-col"
+    />
+    <col />
+    <col
+      className="diff-gutter-col"
+    />
+    <col />
+  </colgroup>
+  <tbody
+    className="diff-hunk"
+  >
+    <tr
+      className="diff-line diff-line-normal"
+    >
+      <td
+        className="diff-gutter diff-gutter-normal"
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+      >
+        2
+      </td>
+      <td
+        className="diff-code diff-code-normal"
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+      >
+        
+      </td>
+      <td
+        className="diff-gutter diff-gutter-normal"
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+      >
+        2
+      </td>
+      <td
+        className="diff-code diff-code-normal"
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+      >
+        
+      </td>
+    </tr>
+    <tr
+      className="diff-line diff-line-normal"
+    >
+      <td
+        className="diff-gutter diff-gutter-normal"
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+      >
+        3
+      </td>
+      <td
+        className="diff-code diff-code-normal"
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+      >
+        package com.xxx;
+      </td>
+      <td
+        className="diff-gutter diff-gutter-normal"
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+      >
+        3
+      </td>
+      <td
+        className="diff-code diff-code-normal"
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+      >
+        package 
+        <span
+          className="def"
+        >
+          com.xxx
+        </span>
+        ;
+      </td>
+    </tr>
+    <tr
+      className="diff-line diff-line-normal"
+    >
+      <td
+        className="diff-gutter diff-gutter-normal"
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+      >
+        4
+      </td>
+      <td
+        className="diff-code diff-code-normal"
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+      >
+        
+      </td>
+      <td
+        className="diff-gutter diff-gutter-normal"
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+      >
+        4
+      </td>
+      <td
+        className="diff-code diff-code-normal"
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+      >
+        
+      </td>
+    </tr>
+    <tr
+      className="diff-line diff-line-new-only"
+    >
+      <td
+        className="diff-gutter diff-gutter-omit"
+      />
+      <td
+        className="diff-code diff-code-omit"
+      />
+      <td
+        className="diff-gutter diff-gutter-insert"
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+      >
+        5
+      </td>
+      <td
+        className="diff-code diff-code-insert"
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+      >
+        import java.util.Date;
+      </td>
+    </tr>
+    <tr
+      className="diff-line diff-line-normal"
+    >
+      <td
+        className="diff-gutter diff-gutter-normal"
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+      >
+        5
+      </td>
+      <td
+        className="diff-code diff-code-normal"
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+      >
+        import java.util.List;
+      </td>
+      <td
+        className="diff-gutter diff-gutter-normal"
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+      >
+        6
+      </td>
+      <td
+        className="diff-code diff-code-normal"
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+      >
+        import java.util.List;
+      </td>
+    </tr>
+    <tr
+      className="diff-line diff-line-normal"
+    >
+      <td
+        className="diff-gutter diff-gutter-normal"
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+      >
+        6
+      </td>
+      <td
+        className="diff-code diff-code-normal"
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+      >
+        import java.util.Set;
+      </td>
+      <td
+        className="diff-gutter diff-gutter-normal"
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+      >
+        7
+      </td>
+      <td
+        className="diff-code diff-code-normal"
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+      >
+        import java.util.Set;
+      </td>
+    </tr>
+  </tbody>
+</table>
+`;
