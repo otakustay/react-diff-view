@@ -1,6 +1,6 @@
 {
   "name": "react-diff-view",
-  "version": "2.4.0",
+  "version": "2.4.1",
   "description": "A git diff component to consume the git unified diff output.",
   "main": "cjs/index.js",
   "module": "es/index.js",
