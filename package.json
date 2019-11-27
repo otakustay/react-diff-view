@@ -14,7 +14,7 @@
     "test": "jest --config ./jest.config.js",
     "start": "webpack-dev-server --config=site/webpack.config.js",
     "clean": "rm -rf cjs es style",
-    "build": "npm run clean && NODE_ENV=production node rollup.js && postcss -o style/index.css src/styles/index.css",
+    "build": "sh scripts/build.sh",
     "build-pages": "rm -rf dist && webpack --config=site/webpack.config.js",
     "prepublishOnly": "npm run build",
     "lint": "eslint src site"
