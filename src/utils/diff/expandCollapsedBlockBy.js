@@ -167,7 +167,11 @@ export const expandCollapsedBlockBy = (hunks, rawCodeOrLines, predicate) => {
                 : linesOfCode.length - oldStart + 1;
             const shouldExpand = predicate(lines, oldStart, newStart);
 
-            return shouldExpand ? [...expandingBlocks, [oldStart, oldStart + lines]] : expandingBlocks;
+            if (shouldExpand) {
+                // initialExpandingBlocks is scoped, it is redundant to copy the array
+                expandingBlocks.push([oldStart, oldStart + lines]);
+            }
+            return expandingBlocks;
         },
         initialExpandingBlocks
     );

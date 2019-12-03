@@ -32,17 +32,22 @@ describe('withTokenizeWorker', () => {
         const ComponentOut = withTokenizeWorker(worker)(ComponentIn);
         const wrapper = renderer.create(<ComponentOut />);
         expect(wrapper.toJSON()).toMatchSnapshot();
-        // TODO: It seemd `react-test-renderer` does not trigger any `useEffect` current:
-        // https://github.com/facebook/react/issues/14050
-        // expect(journey).toEqual([
-        //     ['addEventListener', 'message', 'function'],
-        //     ['postMessage', 'object'],
-        // ]);
-        // wrapper.unmount();
-        // expect(journey).toEqual([
-        //     ['addEventListener', 'message', 'function'],
-        //     ['postMessage', 'object'],
-        //     ['removeEventListener', 'message', 'function'],
-        // ]);
+
+        renderer.act(() => {
+            /**
+             * do nothing but trigger effect
+             * @see https://github.com/facebook/react/issues/14050
+             */
+        });
+        expect(journey).toEqual([
+            ['addEventListener', 'message', 'function'],
+            ['postMessage', 'object'],
+        ]);
+        wrapper.unmount();
+        expect(journey).toEqual([
+            ['addEventListener', 'message', 'function'],
+            ['postMessage', 'object'],
+            ['removeEventListener', 'message', 'function'],
+        ]);
     });
 });

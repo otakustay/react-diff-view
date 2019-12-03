@@ -2,12 +2,13 @@ import {memo} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-const defaultRenderToken = ({type, value, markType, properties, children}, i) => {
+const defaultRenderToken = ({type, value, markType, properties, className, children}, i) => {
     const renderWithClassName = className => (
         <span key={i} className={className}>
             {value ? value : (children && children.map(defaultRenderToken))}
         </span>
     );
+
 
     switch (type) {
         case 'text':
@@ -16,8 +17,11 @@ const defaultRenderToken = ({type, value, markType, properties, children}, i) =>
             return renderWithClassName(`diff-code-mark diff-code-mark-${markType}`);
         case 'edit':
             return renderWithClassName('diff-code-edit');
-        default:
-            return renderWithClassName(classNames(properties.className));
+        default: {
+            // properties normally not exist since it is deconstructed in pickRange, remove in next major release
+            const legacyClassName = properties && properties.className;
+            return renderWithClassName(classNames(className || legacyClassName));
+        }
     }
 };
 

@@ -1,5 +1,17 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`renderToken ref token 1`] = `
+<td>
+  <span
+    className="ref-container"
+  >
+    <span
+      className="ref"
+    />
+  </span>
+</td>
+`;
+
 exports[`renderToken renders correctly 1`] = `
 <td>
   A

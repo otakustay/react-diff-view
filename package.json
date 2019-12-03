@@ -38,6 +38,7 @@
     "@babel/preset-env": "^7.6.3",
     "@babel/preset-react": "^7.6.3",
     "@ecomfe/eslint-config": "^2.1.1",
+    "@types/react-test-renderer": "^16.9.1",
     "antd": "^3.24.2",
     "autoprefixer": "^9.7.0",
     "babel-eslint": "^10.0.3",
