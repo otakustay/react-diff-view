@@ -6,18 +6,20 @@
 import {last, isEmpty, groupBy} from 'lodash';
 import {split} from './utils';
 
-const splitPathToEncloseRange = (paths, {type, start, length, properties}) => {
+const splitPathToEncloseRange = (paths, node) => {
+    const {start, length, properties} = node;
+    const rangeEnd = start + length;
     const [output] = paths.reduce(
         ([output, nodeStart], path) => {
             const leaf = last(path);
             const nodeEnd = nodeStart + leaf.value.length;
-            const rangeEnd = start + length;
 
             if (nodeStart > rangeEnd || nodeEnd < start) {
                 output.push(path);
             }
             else {
-                const wrapNode = {type, ...properties};
+                // it should be just node in next major release
+                const wrapNode = {...node, ...properties};
                 const segments = split(path, start - nodeStart, rangeEnd - nodeStart, wrapNode);
                 output.push(...segments);
             }
