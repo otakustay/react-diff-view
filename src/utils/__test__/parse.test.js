@@ -12,9 +12,8 @@ describe('parseDiff', () => {
 index 1eadcc9..022bfd4 100644
 --- a/src/common/utils/languages.js
 +++ b/src/common/utils/languages.js
-@@ -155,6 +155,7 @@
+@@ -155,5 +155,6 @@
  const genericExtension = new Set(['.tpl', '.tmp']);
- 
  export const detectLanguage = filename => {
 +    // 仅仅是为了处理特殊情况，特殊情况应该已经处理完毕
      if (!filename) {
@@ -23,10 +22,11 @@ index 1eadcc9..022bfd4 100644
         expect(parseDiff(diff, {nearbySequences: 'zip'})).toMatchSnapshot();
     });
 
-    test('undiff', () => {
-        const diff = `@@ -155,6 +155,7 @@
+    test('unidiff', () => {
+        const diff = `--- x.js 2002-02-21 23:30:39.942229878 -0800
++++ x.js 2002-02-21 23:30:50.442260588 -0800
+@@ -155,5 +155,6 @@
  const genericExtension = new Set(['.tpl', '.tmp']);
- 
  export const detectLanguage = filename => {
 +    // 仅仅是为了处理特殊情况，特殊情况应该已经处理完毕
      if (!filename) {
@@ -40,7 +40,6 @@ index 1eadcc9..022bfd4 100644
 similarity index 100%
 rename from src/error/components/ErrorBase.jsx
 rename to src/components/ErrorPages/ErrorBase.jsx`;
-
         expect(parseDiff(diff, {nearbySequences: 'zip'})).toMatchSnapshot();
     });
 
