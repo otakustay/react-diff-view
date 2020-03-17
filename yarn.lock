@@ -4120,10 +4120,10 @@ getpass@^0.1.1:
   dependencies:
     assert-plus "^1.0.0"
 
-gitdiff-parser@^0.1.2:
-  version "0.1.2"
-  resolved "https://registry.npm.taobao.org/gitdiff-parser/download/gitdiff-parser-0.1.2.tgz#26a256e05e9c2d5016b512a96c1dacb40862b92a"
-  integrity sha1-JqJW4F6cLVAWtRKpbB2stAhiuSo=
+gitdiff-parser@^0.2.1:
+  version "0.2.1"
+  resolved "https://registry.npm.taobao.org/gitdiff-parser/download/gitdiff-parser-0.2.1.tgz#6afb84a9340dedfc34836088f926ec9f389410c7"
+  integrity sha1-avuEqTQN7fw0g2CI+SbsnziUEMc=
 
 glob-parent@^3.1.0:
   version "3.1.0"
