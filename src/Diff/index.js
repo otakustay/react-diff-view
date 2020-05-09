@@ -25,7 +25,7 @@ const setUserSelectStyle = (element, selectable) => {
 const Diff = props => {
     const root = useRef(null);
     const enableColumnSelection = useCallback(
-        ({ target, button }) => {
+        ({target, button}) => {
             if (button !== 0) {
                 return;
             }
