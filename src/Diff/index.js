@@ -25,7 +25,11 @@ const setUserSelectStyle = (element, selectable) => {
 const Diff = props => {
     const root = useRef(null);
     const enableColumnSelection = useCallback(
-        ({target}) => {
+        ({target, button}) => {
+            if (button !== 0) {
+                return;
+            }
+
             const closestCell = findClosest(target, 'diff-code');
 
             if (!closestCell) {
