@@ -4,6 +4,7 @@ import {useCollection} from './helpers';
 
 export default (hunks, {multiple = false} = {}) => {
     const {collection, clear, toggle, only} = useCollection();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(clear, [hunks]);
 
     return [

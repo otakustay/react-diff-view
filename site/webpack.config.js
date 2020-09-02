@@ -85,8 +85,9 @@ module.exports = {
                     {
                         loader: 'css-loader',
                         options: {
-                            modules: true,
-                            localsConvention: 'camelCase',
+                            modules: {
+                                exportLocalsConvention: 'camelCase',
+                            },
                         },
                     },
                     'less-loader',
@@ -114,8 +115,10 @@ module.exports = {
                     {
                         loader: 'less-loader',
                         options: {
-                            modifyVars: antdTheme,
-                            javascriptEnabled: true,
+                            lessOptions: {
+                                modifyVars: antdTheme,
+                                javascriptEnabled: true,
+                            },
                         },
                     },
                 ],

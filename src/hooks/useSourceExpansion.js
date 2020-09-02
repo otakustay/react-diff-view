@@ -4,6 +4,7 @@ import {useCollection} from './helpers';
 
 export default (hunks, oldSource) => {
     const {collection: expandedRanges, clear, push} = useCollection();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(clear, [hunks, oldSource]);
     const linesOfOldSource = useMemo(() => (oldSource || '').split('\n'), [oldSource]);
     const renderingHunks = useMemo(

@@ -1,6 +1,9 @@
 module.exports = {
-    extends: '@ecomfe/eslint-config/strict',
-    plugins: ['jest', 'react-hooks'],
+    extends: [
+        '@ecomfe/eslint-config/strict',
+        '@ecomfe/eslint-config/react/strict',
+    ],
+    plugins: ['jest'],
     env: {
         'jest/globals': true
     },
@@ -10,7 +13,6 @@ module.exports = {
         }
     },
     rules: {
-        'react-hooks/rules-of-hooks': 'error',
         'react-hooks/exhaustive-deps': 'error'
     }
 };
