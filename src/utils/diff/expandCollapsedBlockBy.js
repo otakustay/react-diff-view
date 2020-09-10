@@ -42,6 +42,10 @@ const findCorrespondingValidHunkIndex = (hunks, oldLineNumber) => {
 const findNearestNormalChangeIndex = ({changes}, start) => {
     const index = changes.findIndex(change => computeOldLineNumber(change) === start);
 
+    if (index < 0) {
+        return -1;
+    }
+
     for (let i = index; i < changes.length; i++) {
         const change = changes[i];
 
