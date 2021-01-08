@@ -43,7 +43,7 @@ const CodeCell = props => {
 };
 
 CodeCell.propTypes = {
-    text: PropTypes.string.isRequired,
+    text: PropTypes.oneOfType([PropTypes.string, PropTypes.element]).isRequired,
     tokens: PropTypes.arrayOf(PropTypes.object),
 };
 
