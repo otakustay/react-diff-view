@@ -24,7 +24,7 @@ const Hunk = ({hunk, className, ...props}) => {
 Hunk.propTypes = (() => {
     const change = {
         type: PropTypes.oneOf(['delete', 'insert', 'normal']).isRequired,
-        content: PropTypes.string.isRequired,
+        content: PropTypes.oneOfType([PropTypes.string, PropTypes.element]).isRequired,
         isNormal: PropTypes.bool,
         isInsert: PropTypes.bool,
         isDelete: PropTypes.bool,
