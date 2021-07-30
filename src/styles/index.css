@@ -42,8 +42,7 @@
     display: block;
 }
 
-.diff-gutter,
-.diff-gutter > a {
+.diff-gutter {
     padding: 0 1ch;
     text-align: right;
     cursor: pointer;
