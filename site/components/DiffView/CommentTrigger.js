@@ -1,4 +1,8 @@
-.comment-trigger {
+import {useCallback} from 'react';
+import styled from 'styled-components';
+import {getChangeKey} from 'react-diff-view';
+
+const Trigger = styled.span`
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -19,4 +23,17 @@
         background-color: #fafafa;
         color: #333;
     }
+`;
+
+export default function CommentTrigger({change, onClick}) {
+    const click = useCallback(
+        () => onClick(getChangeKey(change)),
+        [change, onClick]
+    );
+
+    return (
+        <Trigger onClick={click}>
+            +
+        </Trigger>
+    );
 }
