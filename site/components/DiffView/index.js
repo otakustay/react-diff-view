@@ -22,7 +22,7 @@ const tokenize = new TokenizeWorker();
 
 const useEnhance = (hunks, oldSource, {language, editsType}) => {
     const [hunksWithSourceExpanded, expandRange] = useSourceExpansion(hunks, oldSource);
-    const hunksWithMinLinesCollapsed = useMinCollapsedLines(5, hunksWithSourceExpanded, oldSource);
+    const hunksWithMinLinesCollapsed = useMinCollapsedLines(0, hunksWithSourceExpanded, oldSource);
     const [selection, toggleSelection] = useChangeSelect(hunksWithMinLinesCollapsed, {multiple: true});
     const tokenizePayload = {
         oldSource,
