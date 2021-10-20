@@ -265,7 +265,7 @@ For a more complex case, you can reference the example in [demo/File.js](demo/Fi
 
 ## Customize styles
 
-The basic theme of `react-diff-view` is simply "picked" from github, with some additional colors for column diffs, the style is bundled with js using [style-loader](https://github.com/webpack-contrib/style-loader) by default, if you want to separate the style, you can build it from the `src` folder, [webpack's `resolve.aliases` configuration](https://webpack.js.org/configuration/resolve/#resolve-alias) can help to archive this.
+The basic theme of `react-diff-view` is simply "picked" from github, with some additional colors for column diffs, the style is located at [`react-diff-view/style/index.css`](https://unpkg.com/browse/react-diff-view/style/index.css), you can simply import this file in your project.
 
 ### CSS variables
 
@@ -411,6 +411,7 @@ The `tokenize` function accepts 2 arguments, the first is the `hunks` array, the
 
 - `{boolean} highlight`: Whether to highlight code syntax.
 - `{Object} refractor`: If `highlight` is set to `true`, we require the [refractor](https://github.com/wooorm/refractor) library to highlight code, you can simply pass the default export of `refractor` lib, or [create a custom build of it](https://github.com/wooorm/refractor#browser).
+  - Please note that it isn't compatible with refractor@4.x currently, use refractor@3.x instead
 - `{string} oldSource`: When highlight is enabled, it can generate more accurate syntax result when the entire source code is provided. Only the old source code is required, new code will be automatically generated from the diff patch. This is **not** required, however lack of it can result incorrect highlight in cases like multiline comments or template strings.
 - `{string} language`: When highlight is enabled, you **must** provide the language of your source code, your `refractor` object should also support the providing language, a list of language can be found [here](https://github.com/wooorm/refractor#syntaxes).
 - `{Function[]} enhancers`: A list of enhancers to enhance the result syntax tokens.
