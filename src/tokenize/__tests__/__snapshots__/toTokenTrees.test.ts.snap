@@ -1,0 +1,1328 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`toTokenTrees php will renders __PHP__ 1`] = `
+Array [
+  Object {
+    "children": Array [],
+    "type": "root",
+  },
+  Object {
+    "children": Array [
+      Object {
+        "children": Array [
+          Object {
+            "children": Array [
+              Object {
+                "children": Array [
+                  Object {
+                    "type": "text",
+                    "value": "<",
+                  },
+                ],
+                "properties": Object {
+                  "className": Array [
+                    "token",
+                    "punctuation",
+                  ],
+                },
+                "tagName": "span",
+                "type": "element",
+              },
+              Object {
+                "type": "text",
+                "value": "img",
+              },
+            ],
+            "properties": Object {
+              "className": Array [
+                "token",
+                "tag",
+              ],
+            },
+            "tagName": "span",
+            "type": "element",
+          },
+          Object {
+            "type": "text",
+            "value": " ",
+          },
+          Object {
+            "children": Array [
+              Object {
+                "children": Array [
+                  Object {
+                    "type": "text",
+                    "value": "style",
+                  },
+                ],
+                "properties": Object {
+                  "className": Array [
+                    "token",
+                    "attr-name",
+                  ],
+                },
+                "tagName": "span",
+                "type": "element",
+              },
+              Object {
+                "children": Array [
+                  Object {
+                    "children": Array [
+                      Object {
+                        "type": "text",
+                        "value": "=",
+                      },
+                    ],
+                    "properties": Object {
+                      "className": Array [
+                        "token",
+                        "punctuation",
+                        "attr-equals",
+                      ],
+                    },
+                    "tagName": "span",
+                    "type": "element",
+                  },
+                  Object {
+                    "children": Array [
+                      Object {
+                        "type": "text",
+                        "value": "\\"",
+                      },
+                    ],
+                    "properties": Object {
+                      "className": Array [
+                        "token",
+                        "punctuation",
+                      ],
+                    },
+                    "tagName": "span",
+                    "type": "element",
+                  },
+                  Object {
+                    "children": Array [
+                      Object {
+                        "children": Array [
+                          Object {
+                            "type": "text",
+                            "value": "width",
+                          },
+                        ],
+                        "properties": Object {
+                          "className": Array [
+                            "token",
+                            "property",
+                          ],
+                        },
+                        "tagName": "span",
+                        "type": "element",
+                      },
+                      Object {
+                        "children": Array [
+                          Object {
+                            "type": "text",
+                            "value": ":",
+                          },
+                        ],
+                        "properties": Object {
+                          "className": Array [
+                            "token",
+                            "punctuation",
+                          ],
+                        },
+                        "tagName": "span",
+                        "type": "element",
+                      },
+                      Object {
+                        "children": Array [
+                          Object {
+                            "children": Array [
+                              Object {
+                                "type": "text",
+                                "value": "<?php",
+                              },
+                            ],
+                            "properties": Object {
+                              "className": Array [
+                                "token",
+                                "delimiter",
+                                "important",
+                              ],
+                            },
+                            "tagName": "span",
+                            "type": "element",
+                          },
+                          Object {
+                            "type": "text",
+                            "value": " ",
+                          },
+                          Object {
+                            "children": Array [
+                              Object {
+                                "type": "text",
+                                "value": "echo",
+                              },
+                            ],
+                            "properties": Object {
+                              "className": Array [
+                                "token",
+                                "keyword",
+                              ],
+                            },
+                            "tagName": "span",
+                            "type": "element",
+                          },
+                          Object {
+                            "type": "text",
+                            "value": " ",
+                          },
+                          Object {
+                            "children": Array [
+                              Object {
+                                "type": "text",
+                                "value": "(",
+                              },
+                            ],
+                            "properties": Object {
+                              "className": Array [
+                                "token",
+                                "punctuation",
+                              ],
+                            },
+                            "tagName": "span",
+                            "type": "element",
+                          },
+                          Object {
+                            "children": Array [
+                              Object {
+                                "type": "text",
+                                "value": "80",
+                              },
+                            ],
+                            "properties": Object {
+                              "className": Array [
+                                "token",
+                                "number",
+                              ],
+                            },
+                            "tagName": "span",
+                            "type": "element",
+                          },
+                          Object {
+                            "type": "text",
+                            "value": " ",
+                          },
+                          Object {
+                            "children": Array [
+                              Object {
+                                "type": "text",
+                                "value": "/",
+                              },
+                            ],
+                            "properties": Object {
+                              "className": Array [
+                                "token",
+                                "operator",
+                              ],
+                            },
+                            "tagName": "span",
+                            "type": "element",
+                          },
+                          Object {
+                            "type": "text",
+                            "value": " ",
+                          },
+                          Object {
+                            "children": Array [
+                              Object {
+                                "type": "text",
+                                "value": "count",
+                              },
+                            ],
+                            "properties": Object {
+                              "className": Array [
+                                "token",
+                                "function",
+                              ],
+                            },
+                            "tagName": "span",
+                            "type": "element",
+                          },
+                          Object {
+                            "children": Array [
+                              Object {
+                                "type": "text",
+                                "value": "(",
+                              },
+                            ],
+                            "properties": Object {
+                              "className": Array [
+                                "token",
+                                "punctuation",
+                              ],
+                            },
+                            "tagName": "span",
+                            "type": "element",
+                          },
+                          Object {
+                            "children": Array [
+                              Object {
+                                "type": "text",
+                                "value": "$images",
+                              },
+                            ],
+                            "properties": Object {
+                              "className": Array [
+                                "token",
+                                "variable",
+                              ],
+                            },
+                            "tagName": "span",
+                            "type": "element",
+                          },
+                          Object {
+                            "children": Array [
+                              Object {
+                                "type": "text",
+                                "value": ")",
+                              },
+                            ],
+                            "properties": Object {
+                              "className": Array [
+                                "token",
+                                "punctuation",
+                              ],
+                            },
+                            "tagName": "span",
+                            "type": "element",
+                          },
+                          Object {
+                            "children": Array [
+                              Object {
+                                "type": "text",
+                                "value": ")",
+                              },
+                            ],
+                            "properties": Object {
+                              "className": Array [
+                                "token",
+                                "punctuation",
+                              ],
+                            },
+                            "tagName": "span",
+                            "type": "element",
+                          },
+                          Object {
+                            "type": "text",
+                            "value": " ",
+                          },
+                          Object {
+                            "children": Array [
+                              Object {
+                                "type": "text",
+                                "value": "?>",
+                              },
+                            ],
+                            "properties": Object {
+                              "className": Array [
+                                "token",
+                                "delimiter",
+                                "important",
+                              ],
+                            },
+                            "tagName": "span",
+                            "type": "element",
+                          },
+                        ],
+                        "properties": Object {
+                          "className": Array [
+                            "token",
+                            "php",
+                            "language-php",
+                          ],
+                        },
+                        "tagName": "span",
+                        "type": "element",
+                      },
+                      Object {
+                        "type": "text",
+                        "value": "%",
+                      },
+                    ],
+                    "properties": Object {
+                      "className": Array [
+                        "token",
+                        "value",
+                        "css",
+                        "language-css",
+                      ],
+                    },
+                    "tagName": "span",
+                    "type": "element",
+                  },
+                  Object {
+                    "children": Array [
+                      Object {
+                        "type": "text",
+                        "value": "\\"",
+                      },
+                    ],
+                    "properties": Object {
+                      "className": Array [
+                        "token",
+                        "punctuation",
+                      ],
+                    },
+                    "tagName": "span",
+                    "type": "element",
+                  },
+                ],
+                "properties": Object {
+                  "className": Array [
+                    "token",
+                    "attr-value",
+                  ],
+                },
+                "tagName": "span",
+                "type": "element",
+              },
+            ],
+            "properties": Object {
+              "className": Array [
+                "token",
+                "special-attr",
+              ],
+            },
+            "tagName": "span",
+            "type": "element",
+          },
+          Object {
+            "type": "text",
+            "value": " ",
+          },
+          Object {
+            "children": Array [
+              Object {
+                "type": "text",
+                "value": "src",
+              },
+            ],
+            "properties": Object {
+              "className": Array [
+                "token",
+                "attr-name",
+              ],
+            },
+            "tagName": "span",
+            "type": "element",
+          },
+          Object {
+            "children": Array [
+              Object {
+                "children": Array [
+                  Object {
+                    "type": "text",
+                    "value": "=",
+                  },
+                ],
+                "properties": Object {
+                  "className": Array [
+                    "token",
+                    "punctuation",
+                    "attr-equals",
+                  ],
+                },
+                "tagName": "span",
+                "type": "element",
+              },
+              Object {
+                "children": Array [
+                  Object {
+                    "type": "text",
+                    "value": "'",
+                  },
+                ],
+                "properties": Object {
+                  "className": Array [
+                    "token",
+                    "punctuation",
+                  ],
+                },
+                "tagName": "span",
+                "type": "element",
+              },
+              Object {
+                "children": Array [
+                  Object {
+                    "children": Array [
+                      Object {
+                        "type": "text",
+                        "value": "<?php",
+                      },
+                    ],
+                    "properties": Object {
+                      "className": Array [
+                        "token",
+                        "delimiter",
+                        "important",
+                      ],
+                    },
+                    "tagName": "span",
+                    "type": "element",
+                  },
+                  Object {
+                    "type": "text",
+                    "value": " ",
+                  },
+                  Object {
+                    "children": Array [
+                      Object {
+                        "type": "text",
+                        "value": "echo",
+                      },
+                    ],
+                    "properties": Object {
+                      "className": Array [
+                        "token",
+                        "keyword",
+                      ],
+                    },
+                    "tagName": "span",
+                    "type": "element",
+                  },
+                  Object {
+                    "type": "text",
+                    "value": " ",
+                  },
+                  Object {
+                    "children": Array [
+                      Object {
+                        "type": "text",
+                        "value": "Component_Union_FinanceInfoModel",
+                      },
+                      Object {
+                        "children": Array [
+                          Object {
+                            "type": "text",
+                            "value": "::",
+                          },
+                        ],
+                        "properties": Object {
+                          "className": Array [
+                            "token",
+                            "punctuation",
+                          ],
+                        },
+                        "tagName": "span",
+                        "type": "element",
+                      },
+                    ],
+                    "properties": Object {
+                      "className": Array [
+                        "token",
+                        "scope",
+                      ],
+                    },
+                    "tagName": "span",
+                    "type": "element",
+                  },
+                  Object {
+                    "children": Array [
+                      Object {
+                        "type": "text",
+                        "value": "UNION_LICEPIC_URL_PREFIX",
+                      },
+                    ],
+                    "properties": Object {
+                      "className": Array [
+                        "token",
+                        "constant",
+                      ],
+                    },
+                    "tagName": "span",
+                    "type": "element",
+                  },
+                  Object {
+                    "type": "text",
+                    "value": " ",
+                  },
+                  Object {
+                    "children": Array [
+                      Object {
+                        "type": "text",
+                        "value": ".",
+                      },
+                    ],
+                    "properties": Object {
+                      "className": Array [
+                        "token",
+                        "operator",
+                      ],
+                    },
+                    "tagName": "span",
+                    "type": "element",
+                  },
+                  Object {
+                    "type": "text",
+                    "value": " ",
+                  },
+                  Object {
+                    "children": Array [
+                      Object {
+                        "type": "text",
+                        "value": "$image",
+                      },
+                    ],
+                    "properties": Object {
+                      "className": Array [
+                        "token",
+                        "variable",
+                      ],
+                    },
+                    "tagName": "span",
+                    "type": "element",
+                  },
+                  Object {
+                    "children": Array [
+                      Object {
+                        "type": "text",
+                        "value": "?>",
+                      },
+                    ],
+                    "properties": Object {
+                      "className": Array [
+                        "token",
+                        "delimiter",
+                        "important",
+                      ],
+                    },
+                    "tagName": "span",
+                    "type": "element",
+                  },
+                ],
+                "properties": Object {
+                  "className": Array [
+                    "token",
+                    "php",
+                    "language-php",
+                  ],
+                },
+                "tagName": "span",
+                "type": "element",
+              },
+              Object {
+                "children": Array [
+                  Object {
+                    "type": "text",
+                    "value": "'",
+                  },
+                ],
+                "properties": Object {
+                  "className": Array [
+                    "token",
+                    "punctuation",
+                  ],
+                },
+                "tagName": "span",
+                "type": "element",
+              },
+            ],
+            "properties": Object {
+              "className": Array [
+                "token",
+                "attr-value",
+              ],
+            },
+            "tagName": "span",
+            "type": "element",
+          },
+          Object {
+            "children": Array [
+              Object {
+                "type": "text",
+                "value": "/>",
+              },
+            ],
+            "properties": Object {
+              "className": Array [
+                "token",
+                "punctuation",
+              ],
+            },
+            "tagName": "span",
+            "type": "element",
+          },
+        ],
+        "properties": Object {
+          "className": Array [
+            "token",
+            "tag",
+          ],
+        },
+        "tagName": "span",
+        "type": "element",
+      },
+    ],
+    "type": "root",
+  },
+]
+`;
+
+exports[`toTokenTrees refractor highlight 1`] = `
+Array [
+  Object {
+    "children": Array [
+      Object {
+        "children": Array [
+          Object {
+            "children": Array [
+              Object {
+                "type": "text",
+                "value": "<",
+              },
+            ],
+            "properties": Object {
+              "className": Array [
+                "token",
+                "punctuation",
+              ],
+            },
+            "tagName": "span",
+            "type": "element",
+          },
+          Object {
+            "type": "text",
+            "value": "img",
+          },
+        ],
+        "properties": Object {
+          "className": Array [
+            "token",
+            "tag",
+          ],
+        },
+        "tagName": "span",
+        "type": "element",
+      },
+      Object {
+        "type": "text",
+        "value": " ",
+      },
+      Object {
+        "children": Array [
+          Object {
+            "children": Array [
+              Object {
+                "type": "text",
+                "value": "style",
+              },
+            ],
+            "properties": Object {
+              "className": Array [
+                "token",
+                "attr-name",
+              ],
+            },
+            "tagName": "span",
+            "type": "element",
+          },
+          Object {
+            "children": Array [
+              Object {
+                "children": Array [
+                  Object {
+                    "type": "text",
+                    "value": "=",
+                  },
+                ],
+                "properties": Object {
+                  "className": Array [
+                    "token",
+                    "punctuation",
+                    "attr-equals",
+                  ],
+                },
+                "tagName": "span",
+                "type": "element",
+              },
+              Object {
+                "children": Array [
+                  Object {
+                    "type": "text",
+                    "value": "\\"",
+                  },
+                ],
+                "properties": Object {
+                  "className": Array [
+                    "token",
+                    "punctuation",
+                  ],
+                },
+                "tagName": "span",
+                "type": "element",
+              },
+              Object {
+                "children": Array [
+                  Object {
+                    "children": Array [
+                      Object {
+                        "type": "text",
+                        "value": "width",
+                      },
+                    ],
+                    "properties": Object {
+                      "className": Array [
+                        "token",
+                        "property",
+                      ],
+                    },
+                    "tagName": "span",
+                    "type": "element",
+                  },
+                  Object {
+                    "children": Array [
+                      Object {
+                        "type": "text",
+                        "value": ":",
+                      },
+                    ],
+                    "properties": Object {
+                      "className": Array [
+                        "token",
+                        "punctuation",
+                      ],
+                    },
+                    "tagName": "span",
+                    "type": "element",
+                  },
+                  Object {
+                    "children": Array [
+                      Object {
+                        "children": Array [
+                          Object {
+                            "type": "text",
+                            "value": "<?php",
+                          },
+                        ],
+                        "properties": Object {
+                          "className": Array [
+                            "token",
+                            "delimiter",
+                            "important",
+                          ],
+                        },
+                        "tagName": "span",
+                        "type": "element",
+                      },
+                      Object {
+                        "type": "text",
+                        "value": " ",
+                      },
+                      Object {
+                        "children": Array [
+                          Object {
+                            "type": "text",
+                            "value": "echo",
+                          },
+                        ],
+                        "properties": Object {
+                          "className": Array [
+                            "token",
+                            "keyword",
+                          ],
+                        },
+                        "tagName": "span",
+                        "type": "element",
+                      },
+                      Object {
+                        "type": "text",
+                        "value": " ",
+                      },
+                      Object {
+                        "children": Array [
+                          Object {
+                            "type": "text",
+                            "value": "(",
+                          },
+                        ],
+                        "properties": Object {
+                          "className": Array [
+                            "token",
+                            "punctuation",
+                          ],
+                        },
+                        "tagName": "span",
+                        "type": "element",
+                      },
+                      Object {
+                        "children": Array [
+                          Object {
+                            "type": "text",
+                            "value": "80",
+                          },
+                        ],
+                        "properties": Object {
+                          "className": Array [
+                            "token",
+                            "number",
+                          ],
+                        },
+                        "tagName": "span",
+                        "type": "element",
+                      },
+                      Object {
+                        "type": "text",
+                        "value": " ",
+                      },
+                      Object {
+                        "children": Array [
+                          Object {
+                            "type": "text",
+                            "value": "/",
+                          },
+                        ],
+                        "properties": Object {
+                          "className": Array [
+                            "token",
+                            "operator",
+                          ],
+                        },
+                        "tagName": "span",
+                        "type": "element",
+                      },
+                      Object {
+                        "type": "text",
+                        "value": " ",
+                      },
+                      Object {
+                        "children": Array [
+                          Object {
+                            "type": "text",
+                            "value": "count",
+                          },
+                        ],
+                        "properties": Object {
+                          "className": Array [
+                            "token",
+                            "function",
+                          ],
+                        },
+                        "tagName": "span",
+                        "type": "element",
+                      },
+                      Object {
+                        "children": Array [
+                          Object {
+                            "type": "text",
+                            "value": "(",
+                          },
+                        ],
+                        "properties": Object {
+                          "className": Array [
+                            "token",
+                            "punctuation",
+                          ],
+                        },
+                        "tagName": "span",
+                        "type": "element",
+                      },
+                      Object {
+                        "children": Array [
+                          Object {
+                            "type": "text",
+                            "value": "$images",
+                          },
+                        ],
+                        "properties": Object {
+                          "className": Array [
+                            "token",
+                            "variable",
+                          ],
+                        },
+                        "tagName": "span",
+                        "type": "element",
+                      },
+                      Object {
+                        "children": Array [
+                          Object {
+                            "type": "text",
+                            "value": ")",
+                          },
+                        ],
+                        "properties": Object {
+                          "className": Array [
+                            "token",
+                            "punctuation",
+                          ],
+                        },
+                        "tagName": "span",
+                        "type": "element",
+                      },
+                      Object {
+                        "children": Array [
+                          Object {
+                            "type": "text",
+                            "value": ")",
+                          },
+                        ],
+                        "properties": Object {
+                          "className": Array [
+                            "token",
+                            "punctuation",
+                          ],
+                        },
+                        "tagName": "span",
+                        "type": "element",
+                      },
+                      Object {
+                        "type": "text",
+                        "value": " ",
+                      },
+                      Object {
+                        "children": Array [
+                          Object {
+                            "type": "text",
+                            "value": "?>",
+                          },
+                        ],
+                        "properties": Object {
+                          "className": Array [
+                            "token",
+                            "delimiter",
+                            "important",
+                          ],
+                        },
+                        "tagName": "span",
+                        "type": "element",
+                      },
+                    ],
+                    "properties": Object {
+                      "className": Array [
+                        "token",
+                        "php",
+                        "language-php",
+                      ],
+                    },
+                    "tagName": "span",
+                    "type": "element",
+                  },
+                  Object {
+                    "type": "text",
+                    "value": "%",
+                  },
+                ],
+                "properties": Object {
+                  "className": Array [
+                    "token",
+                    "value",
+                    "css",
+                    "language-css",
+                  ],
+                },
+                "tagName": "span",
+                "type": "element",
+              },
+              Object {
+                "children": Array [
+                  Object {
+                    "type": "text",
+                    "value": "\\"",
+                  },
+                ],
+                "properties": Object {
+                  "className": Array [
+                    "token",
+                    "punctuation",
+                  ],
+                },
+                "tagName": "span",
+                "type": "element",
+              },
+            ],
+            "properties": Object {
+              "className": Array [
+                "token",
+                "attr-value",
+              ],
+            },
+            "tagName": "span",
+            "type": "element",
+          },
+        ],
+        "properties": Object {
+          "className": Array [
+            "token",
+            "special-attr",
+          ],
+        },
+        "tagName": "span",
+        "type": "element",
+      },
+      Object {
+        "type": "text",
+        "value": " ",
+      },
+      Object {
+        "children": Array [
+          Object {
+            "type": "text",
+            "value": "src",
+          },
+        ],
+        "properties": Object {
+          "className": Array [
+            "token",
+            "attr-name",
+          ],
+        },
+        "tagName": "span",
+        "type": "element",
+      },
+      Object {
+        "children": Array [
+          Object {
+            "children": Array [
+              Object {
+                "type": "text",
+                "value": "=",
+              },
+            ],
+            "properties": Object {
+              "className": Array [
+                "token",
+                "punctuation",
+                "attr-equals",
+              ],
+            },
+            "tagName": "span",
+            "type": "element",
+          },
+          Object {
+            "children": Array [
+              Object {
+                "type": "text",
+                "value": "'",
+              },
+            ],
+            "properties": Object {
+              "className": Array [
+                "token",
+                "punctuation",
+              ],
+            },
+            "tagName": "span",
+            "type": "element",
+          },
+          Object {
+            "children": Array [
+              Object {
+                "children": Array [
+                  Object {
+                    "type": "text",
+                    "value": "<?php",
+                  },
+                ],
+                "properties": Object {
+                  "className": Array [
+                    "token",
+                    "delimiter",
+                    "important",
+                  ],
+                },
+                "tagName": "span",
+                "type": "element",
+              },
+              Object {
+                "type": "text",
+                "value": " ",
+              },
+              Object {
+                "children": Array [
+                  Object {
+                    "type": "text",
+                    "value": "echo",
+                  },
+                ],
+                "properties": Object {
+                  "className": Array [
+                    "token",
+                    "keyword",
+                  ],
+                },
+                "tagName": "span",
+                "type": "element",
+              },
+              Object {
+                "type": "text",
+                "value": " ",
+              },
+              Object {
+                "children": Array [
+                  Object {
+                    "type": "text",
+                    "value": "Component_Union_FinanceInfoModel",
+                  },
+                  Object {
+                    "children": Array [
+                      Object {
+                        "type": "text",
+                        "value": "::",
+                      },
+                    ],
+                    "properties": Object {
+                      "className": Array [
+                        "token",
+                        "punctuation",
+                      ],
+                    },
+                    "tagName": "span",
+                    "type": "element",
+                  },
+                ],
+                "properties": Object {
+                  "className": Array [
+                    "token",
+                    "scope",
+                  ],
+                },
+                "tagName": "span",
+                "type": "element",
+              },
+              Object {
+                "children": Array [
+                  Object {
+                    "type": "text",
+                    "value": "UNION_LICEPIC_URL_PREFIX",
+                  },
+                ],
+                "properties": Object {
+                  "className": Array [
+                    "token",
+                    "constant",
+                  ],
+                },
+                "tagName": "span",
+                "type": "element",
+              },
+              Object {
+                "type": "text",
+                "value": " ",
+              },
+              Object {
+                "children": Array [
+                  Object {
+                    "type": "text",
+                    "value": ".",
+                  },
+                ],
+                "properties": Object {
+                  "className": Array [
+                    "token",
+                    "operator",
+                  ],
+                },
+                "tagName": "span",
+                "type": "element",
+              },
+              Object {
+                "type": "text",
+                "value": " ",
+              },
+              Object {
+                "children": Array [
+                  Object {
+                    "type": "text",
+                    "value": "$image",
+                  },
+                ],
+                "properties": Object {
+                  "className": Array [
+                    "token",
+                    "variable",
+                  ],
+                },
+                "tagName": "span",
+                "type": "element",
+              },
+              Object {
+                "children": Array [
+                  Object {
+                    "type": "text",
+                    "value": "?>",
+                  },
+                ],
+                "properties": Object {
+                  "className": Array [
+                    "token",
+                    "delimiter",
+                    "important",
+                  ],
+                },
+                "tagName": "span",
+                "type": "element",
+              },
+            ],
+            "properties": Object {
+              "className": Array [
+                "token",
+                "php",
+                "language-php",
+              ],
+            },
+            "tagName": "span",
+            "type": "element",
+          },
+          Object {
+            "children": Array [
+              Object {
+                "type": "text",
+                "value": "'",
+              },
+            ],
+            "properties": Object {
+              "className": Array [
+                "token",
+                "punctuation",
+              ],
+            },
+            "tagName": "span",
+            "type": "element",
+          },
+        ],
+        "properties": Object {
+          "className": Array [
+            "token",
+            "attr-value",
+          ],
+        },
+        "tagName": "span",
+        "type": "element",
+      },
+      Object {
+        "children": Array [
+          Object {
+            "type": "text",
+            "value": "/>",
+          },
+        ],
+        "properties": Object {
+          "className": Array [
+            "token",
+            "punctuation",
+          ],
+        },
+        "tagName": "span",
+        "type": "element",
+      },
+    ],
+    "properties": Object {
+      "className": Array [
+        "token",
+        "tag",
+      ],
+    },
+    "tagName": "span",
+    "type": "element",
+  },
+]
+`;

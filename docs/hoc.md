@@ -172,7 +172,7 @@ The most important thing is that you must assign the `id` property to the value 
 This is a very simple worker implement:
 
 ```javascript
-import {tokenize, markEdits, markWord} from 'react-diff-view/tokenize';
+import {tokenize, markEdits, markWord} from 'react-diff-view';
 import {compact} from 'lodash';
 import refractor from 'refractor';
 

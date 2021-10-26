@@ -1,4 +1,4 @@
-/* eslint-disable import/unambiguous, import/no-commonjs, global-require */
+/* eslint-disable global-require */
 module.exports = {
     plugins: [
         require('autoprefixer'),

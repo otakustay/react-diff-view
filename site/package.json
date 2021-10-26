@@ -1,0 +1,31 @@
+{
+  "name": "site",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "skr build --clean",
+    "start": "skr dev"
+  },
+  "dependencies": {
+    "antd": "^4.16.13",
+    "diff-match-patch": "^1.0.5",
+    "gitdiff-parser": "^0.2.2",
+    "prism-color-variables": "^1.0.0",
+    "react": "^17.0.2",
+    "react-diff-view": "^2.4.8",
+    "react-dom": "^17.0.2",
+    "refractor": "^3.5.0",
+    "sha1": "^1.1.1",
+    "styled-components": "^5.3.3",
+    "unidiff": "^1.0.2"
+  },
+  "devDependencies": {
+    "@reskript/cli": "^2.2.2",
+    "@reskript/cli-build": "^2.2.2",
+    "@reskript/cli-dev": "^2.2.2",
+    "core-js": "^3.19.0"
+  },
+  "author": "",
+  "license": "ISC"
+}

@@ -1,0 +1,15 @@
+{
+    "compilerOptions": {
+        "outDir": "./cjs",
+        "strict": true,
+        "declaration": true,
+        "jsx": "react-jsx",
+        "target": "es5",
+        "moduleResolution": "node",
+        "lib": ["esnext", "dom"],
+        "skipLibCheck": true
+    },
+    "include": [
+        "./src/**/*/"
+    ]
+}

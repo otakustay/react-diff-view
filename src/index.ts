@@ -1,0 +1,11 @@
+export {default as Diff} from './Diff';
+export {default as Hunk} from './Hunk';
+export {default as Decoration} from './Decoration';
+export * from './utils';
+export * from './tokenize';
+export {default as pickRanges} from './tokenize/pickRanges';
+export {default as markEdits} from './tokenize/markEdits';
+export {default as markWord} from './tokenize/markWord';
+export * from './hocs';
+export * from './hooks';
+export * from './interface';

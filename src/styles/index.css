@@ -57,10 +57,6 @@
     background-color: var(--diff-gutter-delete-background-color);
 }
 
-.diff-gutter-omit {
-    cursor: default;
-}
-
 .diff-gutter-selected {
     background-color: var(--diff-gutter-selected-background-color);
 }
@@ -69,7 +65,7 @@
     white-space: pre-wrap;
     word-wrap: break-word;
     word-break: break-all;
-    padding: 0 0 0 0.5em;
+    padding: 0 0 0 .5em;
 }
 
 .diff-code-edit {
@@ -106,10 +102,11 @@
 }
 
 .diff-gutter-omit {
+    cursor: default;
     height: 0;
 }
 
-.diff-gutter-omit:before {
+.diff-gutter-omit::before {
     content: ' ';
     display: block;
     white-space: pre;
@@ -129,4 +126,3 @@
     font-family: var(--diff-font-family);
     padding: 0;
 }
-
