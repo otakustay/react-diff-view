@@ -1,4 +1,4 @@
-import {wrapDisplayName} from 'recompose';
+import {wrapDisplayName} from './wrapDisplayName';
 import {useTokenizeWorker} from '../hooks';
 
 const defaultMapPayload = data => {

@@ -1,4 +1,4 @@
-import {wrapDisplayName} from 'recompose';
+import {wrapDisplayName} from './wrapDisplayName';
 import {useChangeSelect} from '../hooks';
 
 export default options => ComponentIn => {
