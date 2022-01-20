@@ -65,7 +65,7 @@
     "less-loader": "^7.0.0",
     "lodash": "^4.17.20",
     "nanoid": "^3.1.25",
-    "postcss": "^7.0.32",
+    "postcss": "^8.2.13",
     "postcss-cli": "^7.1.2",
     "postcss-custom-properties": "^9.1.1",
     "prism-color-variables": "^1.0.0",
