@@ -24,7 +24,6 @@
   "dependencies": {
     "classnames": "^2.2.6",
     "diff-match-patch": "^1.0.5",
-    "recompose": "^0.30.0",
     "shallow-equal": "^1.2.1",
     "warning": "^4.0.2"
   },

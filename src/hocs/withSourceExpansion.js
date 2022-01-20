@@ -1,4 +1,4 @@
-import {wrapDisplayName} from 'recompose';
+import {wrapDisplayName} from './wrapDisplayName';
 import {useSourceExpansion} from '../hooks';
 
 export default () => ComponentIn => {

@@ -1,4 +1,4 @@
-import {wrapDisplayName} from 'recompose';
+import {wrapDisplayName} from './wrapDisplayName';
 import {useMinCollapsedLines} from '../hooks';
 
 export default minLinesExclusive => ComponentIn => {
