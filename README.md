@@ -55,7 +55,7 @@ The `{File[] parseDiff({string} text, {Object} [options])` named export is a wra
 
 - `{string} nearbySequences`: The action to take when meet nearby sequences, only the `"zip"` value has its own behavior.
 
-The `nearbySequence` can have a value of `"zip"` to "zip" a sequences of deletion and additions, as an example, here is a diff generated from react:
+The `nearbySequences` can have a value of `"zip"` to "zip" a sequences of deletion and additions, as an example, here is a diff generated from react:
 
 ```diff
 -    // if someone has already defined a value bail and don't track value
