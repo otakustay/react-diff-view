@@ -17,6 +17,7 @@
     "build": "sh scripts/build.sh",
     "build-pages": "rm -rf dist && webpack --config=site/webpack.config.js",
     "prepublishOnly": "npm run build",
+    "prepare": "npm run build",
     "lint": "eslint src site"
   },
   "author": "otakustay",
