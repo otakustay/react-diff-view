@@ -5,13 +5,11 @@ const commonjs = require('rollup-plugin-commonjs');
 const autoExternal = require('rollup-plugin-auto-external');
 const sourcemaps = require('rollup-plugin-sourcemaps');
 const babel = require('rollup-plugin-babel');
-const {eslint} = require('rollup-plugin-eslint');
 const {terser} = require('rollup-plugin-terser');
 
 const inputOptions = {
     input: 'src/index.js',
     plugins: [
-        eslint({throwOnError: true, include: 'src/**/*.js'}),
         resolve(),
         commonjs({include: 'node_modules/**'}),
         autoExternal({dependencies: false}),

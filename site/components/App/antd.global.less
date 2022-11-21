@@ -25,11 +25,12 @@
     --antd-table-expanded-row-bg: #fbfbfb;
     --antd-tree-directory-selected-color: #fff;
     --antd-table-row-hover-bg: #40a9ff;
+    --antd-table-selected-row-hover-bg: #1a85dd;
     --antd-popover-bg: #fff;
     --antd-shadow-color: rgba(0, 35, 11, .2);
-    --antd-btn-shadow: 0 2px 0 rgba(0, 0, 0, 0.015);
-    --antd-btn-primary-shadow: 0 2px 0 rgba(0, 0, 0, 0.045);
-    --antd-btn-text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.12);
+    --antd-btn-shadow: 0 2px 0 rgba(0, 0, 0, .015);
+    --antd-btn-primary-shadow: 0 2px 0 rgba(0, 0, 0, .045);
+    --antd-btn-text-shadow: 0 -1px 0 rgba(0, 0, 0, .12);
     --antd-alert-success-border-color: #b7eb8f;
     --antd-alert-success-bg-color: #f6ffed;
     --antd-alert-info-border-color: #91d5ff;
@@ -40,46 +41,47 @@
     --antd-alert-error-bg-color: #fff1f0;
 }
 
-@media (prefers-color-scheme: dark) {
-    :root {
-        --antd-component-background: #333;
-        --antd-background-color-base: #313131;
-        --antd-heading-color: #ababab;
-        --antd-text-color: #bbb;
-        --antd-text-color-secondary: #aaa;
-        --antd-text-color-inverse: #333;
-        --antd-icon-color-hover: #fff;
-        --antd-heading-color-dark: #aaa;
-        --antd-text-color-dark: #aaa;
-        --antd-text-color-secondary-dark: #999;
-        --antd-item-active-bg: #555;
-        --antd-item-hover-bg: #000;
-        --antd-border-color-base: #666;
-        --antd-border-color-split: #565656;
-        --antd-background-color-light: #222;
-        --antd-disabled-color: #777;
-        --antd-disabled-bg: #555;
-        --antd-disabled-color-dark: #444;
-        --antd-btn-default-bg: #333;
-        --antd-checkbox-check-color: #333;
-        --antd-input-bg: #333;
-        --antd-input-number-handler-active-bg: #454545;
-        --antd-table-selected-row-bg: #343434;
-        --antd-table-expanded-row-bg: #353535;
-        --antd-tree-directory-selected-color: #111;
-        --antd-table-row-hover-bg: #111;
-        --antd-popover-bg: #222;
-        --antd-shadow-color: rgba(255 255 255 0.15);
-        --antd-btn-shadow: 0 2px 0 rgba(0, 0, 0, .015);
-        --antd-btn-primary-shadow: 0 2px 0 rgba(0, 0, 0, .045);
-        --antd-btn-text-shadow: 0 -1px 0 rgba(0, 0, 0, .12);
-        --antd-alert-success-border-color: #03300c;
-        --antd-alert-success-bg-color: #03300f;
-        --antd-alert-info-border-color: #061f70;
-        --antd-alert-info-bg-color: #061f72;
-        --antd-alert-warning-border-color: #706705;
-        --antd-alert-warning-bg-color: #706705;
-        --antd-alert-error-border-color: #702b06;
-        --antd-alert-error-bg-color: #702b05;
-    }
-}
+// @media (prefers-color-scheme: dark) {
+//     :root {
+//         --antd-component-background: #333;
+//         --antd-background-color-base: #313131;
+//         --antd-heading-color: #ababab;
+//         --antd-text-color: #bbb;
+//         --antd-text-color-secondary: #aaa;
+//         --antd-text-color-inverse: #333;
+//         --antd-icon-color-hover: #fff;
+//         --antd-heading-color-dark: #aaa;
+//         --antd-text-color-dark: #aaa;
+//         --antd-text-color-secondary-dark: #999;
+//         --antd-item-active-bg: #555;
+//         --antd-item-hover-bg: #000;
+//         --antd-border-color-base: #666;
+//         --antd-border-color-split: #565656;
+//         --antd-background-color-light: #222;
+//         --antd-disabled-color: #777;
+//         --antd-disabled-bg: #555;
+//         --antd-disabled-color-dark: #444;
+//         --antd-btn-default-bg: #333;
+//         --antd-checkbox-check-color: #333;
+//         --antd-input-bg: #333;
+//         --antd-input-number-handler-active-bg: #454545;
+//         --antd-table-selected-row-bg: #343434;
+//         --antd-table-expanded-row-bg: #353535;
+//         --antd-tree-directory-selected-color: #111;
+//         --antd-table-row-hover-bg: #111;
+//         --antd-table-selected-row-hover-bg: #454545;
+//         --antd-popover-bg: #222;
+//         --antd-shadow-color: rgba(255 255 255 0.15);
+//         --antd-btn-shadow: 0 2px 0 rgba(0, 0, 0, .015);
+//         --antd-btn-primary-shadow: 0 2px 0 rgba(0, 0, 0, .045);
+//         --antd-btn-text-shadow: 0 -1px 0 rgba(0, 0, 0, .12);
+//         --antd-alert-success-border-color: #03300c;
+//         --antd-alert-success-bg-color: #03300f;
+//         --antd-alert-info-border-color: #061f70;
+//         --antd-alert-info-bg-color: #061f72;
+//         --antd-alert-warning-border-color: #706705;
+//         --antd-alert-warning-bg-color: #706705;
+//         --antd-alert-error-border-color: #702b06;
+//         --antd-alert-error-bg-color: #702b05;
+//     }
+// }

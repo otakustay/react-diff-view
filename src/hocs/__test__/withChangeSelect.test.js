@@ -35,7 +35,7 @@ describe('withChangeSelect usage in document', () => {
         );
 
         return (
-            <Diff hunks={hunks} selectedChanges={selectedChanges} diffType="modify" viewType="split" >
+            <Diff hunks={hunks} selectedChanges={selectedChanges} diffType="modify" viewType="split">
                 {hunks => hunks.map(renderHunk)}
             </Diff>
         );

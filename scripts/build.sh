@@ -1,4 +1,4 @@
-yarn
+yarn --immutable
 yarn clean
 export NODE_ENV=production
 node rollup.js

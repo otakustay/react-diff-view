@@ -58,6 +58,15 @@ typings/
 # dotenv environment variables file
 .env
 
+# yarn
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
+
 .DS_Store
 /es
 /cjs

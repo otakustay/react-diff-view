@@ -14,7 +14,7 @@ import HunkInfo from './HunkInfo';
 import UnfoldCollapsed from './UnfoldCollapsed';
 import CommentTrigger from './CommentTrigger';
 import Comment from './Comment';
-import TokenizeWorker from './Tokenize.worker';
+import TokenizeWorker from './Tokenize?worker';
 import './diff.global.less';
 import './syntax.global.less';
 

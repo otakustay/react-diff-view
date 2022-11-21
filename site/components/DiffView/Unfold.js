@@ -1,12 +1,12 @@
-import {useCallback} from 'react';
-import {Icon} from 'antd';
+import {createElement, useCallback} from 'react';
+import {CaretUpOutlined, CaretDownOutlined, PlusCircleOutlined} from '@ant-design/icons';
 import {Decoration} from 'react-diff-view';
 import styles from './Unfold.less';
 
 const ICON_TYPE_MAPPING = {
-    up: 'caret-up',
-    down: 'caret-down',
-    none: 'plus-circle',
+    up: CaretUpOutlined,
+    down: CaretDownOutlined,
+    none: PlusCircleOutlined,
 };
 
 const Unfold = ({start, end, direction, onExpand, ...props}) => {
@@ -21,7 +21,7 @@ const Unfold = ({start, end, direction, onExpand, ...props}) => {
     return (
         <Decoration {...props}>
             <div className={styles.root} onClick={expand}>
-                <Icon type={iconType} />
+                {createElement(iconType)}
                 &nbsp;Expand hidden {lines} lines
             </div>
         </Decoration>

@@ -1,5 +1,6 @@
 import {useCallback, useState} from 'react';
-import {Select, Icon} from 'antd';
+import {Select} from 'antd';
+import {SettingOutlined} from '@ant-design/icons';
 import {
     useConfiguration,
     useSwitchViewType,
@@ -29,7 +30,7 @@ const Configuration = () => {
 
     return (
         <div className={styles.root}>
-            <Icon className={styles.setting} type="setting" onClick={openModal} />
+            <SettingOutlined className={styles.setting} onClick={openModal} />
             <Select className={styles.language} value={configuration.language} onChange={changeLanguage}>
                 <Option value="text">Plain Text</Option>
                 <Option value="jsx">JavaScript(JSX)</Option>

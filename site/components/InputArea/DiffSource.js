@@ -27,7 +27,7 @@ const DiffSource = ({className, onSubmit, onSwitchInputType}) => {
 
     return (
         <div className={classNames(styles.root, className)}>
-            <div className={styles.switch}>
+            <div className={styles.action}>
                 <a onClick={onSwitchInputType}>I want to beautify a diff</a>
             </div>
             <div className={styles.input}>

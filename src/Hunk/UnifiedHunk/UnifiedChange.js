@@ -1,4 +1,3 @@
-/* eslint-disable no-empty-function */
 import {memo, useState, useMemo, useCallback} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';

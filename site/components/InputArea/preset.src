@@ -1,0 +1,85 @@
+{
+    "name": "venue-proxy",
+    "version": "1.0.0",
+    "description": "proxy for appspace front-end apps",
+    "scripts": {
+        "prepare": "husky install",
+        "lint": "eslint --fix --max-warnings=0 src",
+        "dev": "LOG_LEVEL_CONSOLE=debug LOG_LEVEL_ACCESS=debug TS_NODE_FILES=true nodemon --esm src/index.ts | pino-pretty",
+        "inspect": "LOG_LEVEL_CONSOLE=debug LOG_LEVEL_ACCESS=debug TS_NODE_FILES=true nodemon --exec node --loader ts-node/esm --inspect ./src/index.ts | pino-pretty",
+        "build": "tsc -p tsconfig.build.json",
+        "type-check": "tsc --noEmit",
+        "lint-staged": "lint-staged",
+        "test": "vitest run",
+        "test-coverage": "vitest run --coverage",
+        "ci": "yarn install --immutable && npm run lint && npm run type-check && npm run build && npm run test-coverage"
+    },
+    "engines": {
+        "node": ">= 18"
+    },
+    "type": "module",
+    "lint-staged": {
+        "*.{ts,js}": [
+            "prettier --write",
+            "eslint --fix --max-warnings=0"
+        ],
+        "*.json": [
+            "prettier --write"
+        ]
+    },
+    "repository": {
+        "type": "git",
+        "url": "ssh://fuqiang05@icode.baidu.com:8235/baidu/ee-fe/venue-proxy"
+    },
+    "keywords": [
+        "proxy",
+        "fcnap"
+    ],
+    "author": "fuqiang05",
+    "contibutors": [
+        "zhanglili01",
+        "wudengke"
+    ],
+    "license": "ISC",
+    "dependencies": {
+        "@baidu/venue-libs": "^1.3.0",
+        "add-stream": "^1.0.0",
+        "cookie": "^0.5.0",
+        "execa": "^6.1.0",
+        "http-proxy": "^1.18.1",
+        "ioredis": "^5.2.3",
+        "path-to-regexp": "^6.2.1",
+        "pino": "^8.6.0",
+        "prom-client": "14.1.0",
+        "request-ip": "^3.3.0",
+        "string-hash": "^1.1.3",
+        "trumpet": "^1.7.2"
+    },
+    "devDependencies": {
+        "@babel/core": "^7.19.1",
+        "@babel/eslint-parser": "^7.19.1",
+        "@babel/eslint-plugin": "^7.19.1",
+        "@ecomfe/eslint-config": "^7.4.0",
+        "@types/cookie": "^0.5.1",
+        "@types/http-proxy": "^1.17.9",
+        "@types/node": "^18.7.21",
+        "@types/string-hash": "^1",
+        "@types/ws": "^8.5.3",
+        "@typescript-eslint/eslint-plugin": "^5.38.0",
+        "@typescript-eslint/parser": "^5.38.0",
+        "@vitest/coverage-c8": "^0.23.4",
+        "c8": "^7.12.0",
+        "eslint": "^8.24.0",
+        "fastify": "^4.6.0",
+        "husky": "^8.0.1",
+        "lint-staged": "^13.0.3",
+        "nodemon": "^2.0.20",
+        "p-event": "^5.0.1",
+        "pino-pretty": "^9.1.0",
+        "prettier": "^2.7.1",
+        "ts-node": "^10.9.1",
+        "typescript": "^4.8.3",
+        "vitest": "^0.23.4",
+        "ws": "^8.9.0"
+    }
+}
