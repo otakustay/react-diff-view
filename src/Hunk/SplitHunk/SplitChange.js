@@ -16,7 +16,7 @@ const useCallbackOnSide = (side, setHover, change, customCallbacks) => {
     // we decide not to optimize this extremely, leave it recomputed on certain rerenders.
     const callbacks = useMemo(
         () => {
-            const callbacks = mapValues(customCallbacks, fn => () => fn({side, change}));
+            const callbacks = mapValues(customCallbacks, fn => e => fn({side, change}, e));
             callbacks.onMouseEnter = composeCallback(markHover, callbacks.onMouseEnter);
             callbacks.onMouseLeave = composeCallback(unmarkHover, callbacks.onMouseLeave);
             return callbacks;

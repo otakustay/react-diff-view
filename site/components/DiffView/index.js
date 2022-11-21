@@ -5,7 +5,6 @@ import {
     Hunk,
     useSourceExpansion,
     useMinCollapsedLines,
-    useChangeSelect,
     useTokenizeWorker,
 } from 'react-diff-view';
 import 'react-diff-view/styles/index.css';
@@ -17,13 +16,14 @@ import Comment from './Comment';
 import TokenizeWorker from './Tokenize?worker';
 import './diff.global.less';
 import './syntax.global.less';
+import {useSelection} from '../../hooks/selection';
 
 const tokenize = new TokenizeWorker();
 
 const useEnhance = (hunks, oldSource, {language, editsType}) => {
     const [hunksWithSourceExpanded, expandRange] = useSourceExpansion(hunks, oldSource);
     const hunksWithMinLinesCollapsed = useMinCollapsedLines(0, hunksWithSourceExpanded, oldSource);
-    const [selection, toggleSelection] = useChangeSelect(hunksWithMinLinesCollapsed, {multiple: true});
+    const [selection, toggleSelection] = useSelection(hunksWithMinLinesCollapsed);
     const tokenizePayload = {
         oldSource,
         language,

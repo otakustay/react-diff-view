@@ -27,7 +27,7 @@ describe('SplitChange', () => {
         ).toJSON()).toMatchSnapshot();
     });
 
-    test('gutterEvents should be called with side', () => {
+    test.only('gutterEvents should be called with side', () => {
         const onClick = jest.fn();
         const gutterEvents = {onClick};
         const wrapper = shallow(
@@ -43,9 +43,9 @@ describe('SplitChange', () => {
         );
 
         wrapper.find('.diff-gutter').at(0).simulate('click');
-        expect(onClick).toBeCalledWith({change: defaultChange, side: 'old'});
+        expect(onClick.mock.calls[0][0]).toEqual({change: defaultChange, side: 'old'});
 
         wrapper.find('.diff-gutter').at(1).simulate('click');
-        expect(onClick).toBeCalledWith({change: defaultChange, side: 'new'});
+        expect(onClick.mock.calls[1][0]).toEqual({change: defaultChange, side: 'new'});
     });
 });

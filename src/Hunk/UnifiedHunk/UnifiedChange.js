@@ -7,7 +7,7 @@ import {composeCallback, renderDefaultBy, wrapInAnchorBy} from '../utils';
 
 const useBoundCallbacks = (callbacks, arg, hoverOn, hoverOff) => useMemo(
     () => {
-        const output = mapValues(callbacks, fn => () => fn(arg));
+        const output = mapValues(callbacks, fn => e => fn(arg, e));
         output.onMouseEnter = composeCallback(hoverOn, output.onMouseEnter);
         output.onMouseLeave = composeCallback(hoverOff, output.onMouseLeave);
         return output;

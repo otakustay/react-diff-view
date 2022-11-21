@@ -38,9 +38,9 @@ describe('UnifiedChange', () => {
         );
         // TODO diff gutter should be called with {change: defaultChange, side: 'old' & 'new'}
         wrapper.find('.diff-gutter').at(0).simulate('click');
-        expect(onClick).toBeCalledWith({change: defaultChange, side: undefined});
+        expect(onClick.mock.calls[0][0]).toEqual({change: defaultChange, side: undefined});
 
         wrapper.find('.diff-gutter').at(1).simulate('click');
-        expect(onClick).toBeCalledWith({change: defaultChange, side: undefined});
+        expect(onClick.mock.calls[1][0]).toEqual({change: defaultChange, side: undefined});
     });
 });
