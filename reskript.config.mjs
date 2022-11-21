@@ -5,6 +5,7 @@ export default configure(
     {
         build: {
             appTitle: 'Online Diff',
+            publicPath: '/react-diff-view/assets/',
             style: {
                 modules: resource => resource.endsWith('.less') && !resource.includes('node_modules'),
             },
