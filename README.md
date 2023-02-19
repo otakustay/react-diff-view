@@ -746,3 +746,7 @@ I don't really know how to test such a complicated and UI centric component, any
 ### 2.4.0
 
 - Add CSS variables to customize diff components.
+
+### 2.6.0
+
+- Add more CSS variable to customize text color inside insert, delete changes.
