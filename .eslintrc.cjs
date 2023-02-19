@@ -5,14 +5,14 @@ module.exports = {
     ],
     plugins: ['jest'],
     env: {
-        'jest/globals': true
+        'jest/globals': true,
     },
     settings: {
         react: {
-            version: 'detect'
-        }
+            version: 'detect',
+        },
     },
     rules: {
-        'react-hooks/exhaustive-deps': 'error'
-    }
+        'react-hooks/exhaustive-deps': 'error',
+    },
 };

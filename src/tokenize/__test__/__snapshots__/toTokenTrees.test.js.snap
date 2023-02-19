@@ -1,26 +1,26 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`toTokenTrees php will renders __PHP__ 1`] = `
-Array [
-  Object {
-    "children": Array [],
+[
+  {
+    "children": [],
     "type": "root",
   },
-  Object {
-    "children": Array [
-      Object {
-        "children": Array [
-          Object {
-            "children": Array [
-              Object {
-                "children": Array [
-                  Object {
+  {
+    "children": [
+      {
+        "children": [
+          {
+            "children": [
+              {
+                "children": [
+                  {
                     "type": "text",
                     "value": "<",
                   },
                 ],
-                "properties": Object {
-                  "className": Array [
+                "properties": {
+                  "className": [
                     "token",
                     "punctuation",
                   ],
@@ -28,13 +28,13 @@ Array [
                 "tagName": "span",
                 "type": "element",
               },
-              Object {
+              {
                 "type": "text",
                 "value": "img",
               },
             ],
-            "properties": Object {
-              "className": Array [
+            "properties": {
+              "className": [
                 "token",
                 "tag",
               ],
@@ -42,23 +42,23 @@ Array [
             "tagName": "span",
             "type": "element",
           },
-          Object {
-            "children": Array [
-              Object {
-                "children": Array [
-                  Object {
+          {
+            "children": [
+              {
+                "children": [
+                  {
                     "type": "text",
                     "value": " ",
                   },
-                  Object {
-                    "children": Array [
-                      Object {
+                  {
+                    "children": [
+                      {
                         "type": "text",
                         "value": "style",
                       },
                     ],
-                    "properties": Object {
-                      "className": Array [
+                    "properties": {
+                      "className": [
                         "token",
                         "attr-name",
                       ],
@@ -67,8 +67,8 @@ Array [
                     "type": "element",
                   },
                 ],
-                "properties": Object {
-                  "className": Array [
+                "properties": {
+                  "className": [
                     "token",
                     "attr-name",
                   ],
@@ -76,15 +76,15 @@ Array [
                 "tagName": "span",
                 "type": "element",
               },
-              Object {
-                "children": Array [
-                  Object {
+              {
+                "children": [
+                  {
                     "type": "text",
-                    "value": "=\\"",
+                    "value": "="",
                   },
                 ],
-                "properties": Object {
-                  "className": Array [
+                "properties": {
+                  "className": [
                     "token",
                     "punctuation",
                   ],
@@ -92,17 +92,17 @@ Array [
                 "tagName": "span",
                 "type": "element",
               },
-              Object {
-                "children": Array [
-                  Object {
-                    "children": Array [
-                      Object {
+              {
+                "children": [
+                  {
+                    "children": [
+                      {
                         "type": "text",
                         "value": "width",
                       },
                     ],
-                    "properties": Object {
-                      "className": Array [
+                    "properties": {
+                      "className": [
                         "token",
                         "property",
                       ],
@@ -110,15 +110,15 @@ Array [
                     "tagName": "span",
                     "type": "element",
                   },
-                  Object {
-                    "children": Array [
-                      Object {
+                  {
+                    "children": [
+                      {
                         "type": "text",
                         "value": ":",
                       },
                     ],
-                    "properties": Object {
-                      "className": Array [
+                    "properties": {
+                      "className": [
                         "token",
                         "punctuation",
                       ],
@@ -126,19 +126,19 @@ Array [
                     "tagName": "span",
                     "type": "element",
                   },
-                  Object {
+                  {
                     "type": "text",
                     "value": "___PHP",
                   },
-                  Object {
-                    "children": Array [
-                      Object {
+                  {
+                    "children": [
+                      {
                         "type": "text",
                         "value": "0",
                       },
                     ],
-                    "properties": Object {
-                      "className": Array [
+                    "properties": {
+                      "className": [
                         "token",
                         "number",
                       ],
@@ -146,13 +146,13 @@ Array [
                     "tagName": "span",
                     "type": "element",
                   },
-                  Object {
+                  {
                     "type": "text",
                     "value": "___%",
                   },
                 ],
-                "properties": Object {
-                  "className": Array [
+                "properties": {
+                  "className": [
                     "token",
                     "attr-value",
                   ],
@@ -160,15 +160,15 @@ Array [
                 "tagName": "span",
                 "type": "element",
               },
-              Object {
-                "children": Array [
-                  Object {
+              {
+                "children": [
+                  {
                     "type": "text",
-                    "value": "\\"",
+                    "value": """,
                   },
                 ],
-                "properties": Object {
-                  "className": Array [
+                "properties": {
+                  "className": [
                     "token",
                     "punctuation",
                   ],
@@ -177,8 +177,8 @@ Array [
                 "type": "element",
               },
             ],
-            "properties": Object {
-              "className": Array [
+            "properties": {
+              "className": [
                 "token",
                 "style-attr",
                 "language-css",
@@ -187,19 +187,19 @@ Array [
             "tagName": "span",
             "type": "element",
           },
-          Object {
+          {
             "type": "text",
             "value": " ",
           },
-          Object {
-            "children": Array [
-              Object {
+          {
+            "children": [
+              {
                 "type": "text",
                 "value": "src",
               },
             ],
-            "properties": Object {
-              "className": Array [
+            "properties": {
+              "className": [
                 "token",
                 "attr-name",
               ],
@@ -207,17 +207,17 @@ Array [
             "tagName": "span",
             "type": "element",
           },
-          Object {
-            "children": Array [
-              Object {
-                "children": Array [
-                  Object {
+          {
+            "children": [
+              {
+                "children": [
+                  {
                     "type": "text",
                     "value": "=",
                   },
                 ],
-                "properties": Object {
-                  "className": Array [
+                "properties": {
+                  "className": [
                     "token",
                     "punctuation",
                   ],
@@ -225,15 +225,15 @@ Array [
                 "tagName": "span",
                 "type": "element",
               },
-              Object {
-                "children": Array [
-                  Object {
+              {
+                "children": [
+                  {
                     "type": "text",
                     "value": "'",
                   },
                 ],
-                "properties": Object {
-                  "className": Array [
+                "properties": {
+                  "className": [
                     "token",
                     "punctuation",
                   ],
@@ -241,19 +241,19 @@ Array [
                 "tagName": "span",
                 "type": "element",
               },
-              Object {
+              {
                 "type": "text",
                 "value": "___PHP1___",
               },
-              Object {
-                "children": Array [
-                  Object {
+              {
+                "children": [
+                  {
                     "type": "text",
                     "value": "'",
                   },
                 ],
-                "properties": Object {
-                  "className": Array [
+                "properties": {
+                  "className": [
                     "token",
                     "punctuation",
                   ],
@@ -262,8 +262,8 @@ Array [
                 "type": "element",
               },
             ],
-            "properties": Object {
-              "className": Array [
+            "properties": {
+              "className": [
                 "token",
                 "attr-value",
               ],
@@ -271,15 +271,15 @@ Array [
             "tagName": "span",
             "type": "element",
           },
-          Object {
-            "children": Array [
-              Object {
+          {
+            "children": [
+              {
                 "type": "text",
                 "value": "/>",
               },
             ],
-            "properties": Object {
-              "className": Array [
+            "properties": {
+              "className": [
                 "token",
                 "punctuation",
               ],
@@ -288,8 +288,8 @@ Array [
             "type": "element",
           },
         ],
-        "properties": Object {
-          "className": Array [
+        "properties": {
+          "className": [
             "token",
             "tag",
           ],
@@ -304,20 +304,20 @@ Array [
 `;
 
 exports[`toTokenTrees refractor highlight 1`] = `
-Array [
-  Object {
-    "children": Array [
-      Object {
-        "children": Array [
-          Object {
-            "children": Array [
-              Object {
+[
+  {
+    "children": [
+      {
+        "children": [
+          {
+            "children": [
+              {
                 "type": "text",
                 "value": "<",
               },
             ],
-            "properties": Object {
-              "className": Array [
+            "properties": {
+              "className": [
                 "token",
                 "punctuation",
               ],
@@ -325,13 +325,13 @@ Array [
             "tagName": "span",
             "type": "element",
           },
-          Object {
+          {
             "type": "text",
             "value": "img",
           },
         ],
-        "properties": Object {
-          "className": Array [
+        "properties": {
+          "className": [
             "token",
             "tag",
           ],
@@ -339,23 +339,23 @@ Array [
         "tagName": "span",
         "type": "element",
       },
-      Object {
-        "children": Array [
-          Object {
-            "children": Array [
-              Object {
+      {
+        "children": [
+          {
+            "children": [
+              {
                 "type": "text",
                 "value": " ",
               },
-              Object {
-                "children": Array [
-                  Object {
+              {
+                "children": [
+                  {
                     "type": "text",
                     "value": "style",
                   },
                 ],
-                "properties": Object {
-                  "className": Array [
+                "properties": {
+                  "className": [
                     "token",
                     "attr-name",
                   ],
@@ -364,8 +364,8 @@ Array [
                 "type": "element",
               },
             ],
-            "properties": Object {
-              "className": Array [
+            "properties": {
+              "className": [
                 "token",
                 "attr-name",
               ],
@@ -373,15 +373,15 @@ Array [
             "tagName": "span",
             "type": "element",
           },
-          Object {
-            "children": Array [
-              Object {
+          {
+            "children": [
+              {
                 "type": "text",
-                "value": "=\\"",
+                "value": "="",
               },
             ],
-            "properties": Object {
-              "className": Array [
+            "properties": {
+              "className": [
                 "token",
                 "punctuation",
               ],
@@ -389,17 +389,17 @@ Array [
             "tagName": "span",
             "type": "element",
           },
-          Object {
-            "children": Array [
-              Object {
-                "children": Array [
-                  Object {
+          {
+            "children": [
+              {
+                "children": [
+                  {
                     "type": "text",
                     "value": "width",
                   },
                 ],
-                "properties": Object {
-                  "className": Array [
+                "properties": {
+                  "className": [
                     "token",
                     "property",
                   ],
@@ -407,15 +407,15 @@ Array [
                 "tagName": "span",
                 "type": "element",
               },
-              Object {
-                "children": Array [
-                  Object {
+              {
+                "children": [
+                  {
                     "type": "text",
                     "value": ":",
                   },
                 ],
-                "properties": Object {
-                  "className": Array [
+                "properties": {
+                  "className": [
                     "token",
                     "punctuation",
                   ],
@@ -423,19 +423,19 @@ Array [
                 "tagName": "span",
                 "type": "element",
               },
-              Object {
+              {
                 "type": "text",
                 "value": "___PHP",
               },
-              Object {
-                "children": Array [
-                  Object {
+              {
+                "children": [
+                  {
                     "type": "text",
                     "value": "0",
                   },
                 ],
-                "properties": Object {
-                  "className": Array [
+                "properties": {
+                  "className": [
                     "token",
                     "number",
                   ],
@@ -443,13 +443,13 @@ Array [
                 "tagName": "span",
                 "type": "element",
               },
-              Object {
+              {
                 "type": "text",
                 "value": "___%",
               },
             ],
-            "properties": Object {
-              "className": Array [
+            "properties": {
+              "className": [
                 "token",
                 "attr-value",
               ],
@@ -457,15 +457,15 @@ Array [
             "tagName": "span",
             "type": "element",
           },
-          Object {
-            "children": Array [
-              Object {
+          {
+            "children": [
+              {
                 "type": "text",
-                "value": "\\"",
+                "value": """,
               },
             ],
-            "properties": Object {
-              "className": Array [
+            "properties": {
+              "className": [
                 "token",
                 "punctuation",
               ],
@@ -474,8 +474,8 @@ Array [
             "type": "element",
           },
         ],
-        "properties": Object {
-          "className": Array [
+        "properties": {
+          "className": [
             "token",
             "style-attr",
             "language-css",
@@ -484,19 +484,19 @@ Array [
         "tagName": "span",
         "type": "element",
       },
-      Object {
+      {
         "type": "text",
         "value": " ",
       },
-      Object {
-        "children": Array [
-          Object {
+      {
+        "children": [
+          {
             "type": "text",
             "value": "src",
           },
         ],
-        "properties": Object {
-          "className": Array [
+        "properties": {
+          "className": [
             "token",
             "attr-name",
           ],
@@ -504,17 +504,17 @@ Array [
         "tagName": "span",
         "type": "element",
       },
-      Object {
-        "children": Array [
-          Object {
-            "children": Array [
-              Object {
+      {
+        "children": [
+          {
+            "children": [
+              {
                 "type": "text",
                 "value": "=",
               },
             ],
-            "properties": Object {
-              "className": Array [
+            "properties": {
+              "className": [
                 "token",
                 "punctuation",
               ],
@@ -522,15 +522,15 @@ Array [
             "tagName": "span",
             "type": "element",
           },
-          Object {
-            "children": Array [
-              Object {
+          {
+            "children": [
+              {
                 "type": "text",
                 "value": "'",
               },
             ],
-            "properties": Object {
-              "className": Array [
+            "properties": {
+              "className": [
                 "token",
                 "punctuation",
               ],
@@ -538,19 +538,19 @@ Array [
             "tagName": "span",
             "type": "element",
           },
-          Object {
+          {
             "type": "text",
             "value": "___PHP1___",
           },
-          Object {
-            "children": Array [
-              Object {
+          {
+            "children": [
+              {
                 "type": "text",
                 "value": "'",
               },
             ],
-            "properties": Object {
-              "className": Array [
+            "properties": {
+              "className": [
                 "token",
                 "punctuation",
               ],
@@ -559,8 +559,8 @@ Array [
             "type": "element",
           },
         ],
-        "properties": Object {
-          "className": Array [
+        "properties": {
+          "className": [
             "token",
             "attr-value",
           ],
@@ -568,15 +568,15 @@ Array [
         "tagName": "span",
         "type": "element",
       },
-      Object {
-        "children": Array [
-          Object {
+      {
+        "children": [
+          {
             "type": "text",
             "value": "/>",
           },
         ],
-        "properties": Object {
-          "className": Array [
+        "properties": {
+          "className": [
             "token",
             "punctuation",
           ],
@@ -585,8 +585,8 @@ Array [
         "type": "element",
       },
     ],
-    "properties": Object {
-      "className": Array [
+    "properties": {
+      "className": [
         "token",
         "tag",
       ],

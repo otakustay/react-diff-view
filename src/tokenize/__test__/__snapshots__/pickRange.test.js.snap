@@ -32,9 +32,7 @@ exports[`pickRange for definition 1`] = `
         className="diff-code diff-code-normal"
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}
-      >
-        
-      </td>
+      />
       <td
         className="diff-gutter diff-gutter-normal"
         onMouseEnter={[Function]}
@@ -46,9 +44,7 @@ exports[`pickRange for definition 1`] = `
         className="diff-code diff-code-normal"
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}
-      >
-        
-      </td>
+      />
     </tr>
     <tr
       className="diff-line diff-line-normal"
@@ -102,9 +98,7 @@ exports[`pickRange for definition 1`] = `
         className="diff-code diff-code-normal"
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}
-      >
-        
-      </td>
+      />
       <td
         className="diff-gutter diff-gutter-normal"
         onMouseEnter={[Function]}
@@ -116,9 +110,7 @@ exports[`pickRange for definition 1`] = `
         className="diff-code diff-code-normal"
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}
-      >
-        
-      </td>
+      />
     </tr>
     <tr
       className="diff-line diff-line-new-only"

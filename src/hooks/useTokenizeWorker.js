@@ -1,6 +1,5 @@
 import {useState, useRef, useEffect} from 'react';
-import shallowEquals from 'shallow-equal/objects';
-import arrayShallowEquals from 'shallow-equal/arrays';
+import {shallowEqualArrays, shallowEqualObjects} from 'shallow-equal';
 import {flatMap} from 'lodash';
 import {useCustomEqualIdentifier} from './helpers';
 
@@ -19,7 +18,7 @@ const areHunksEqual = (xHunks, yHunks) => {
     const xChanges = findAbnormalChanges(xHunks);
     const yChanges = findAbnormalChanges(yHunks);
 
-    return arrayShallowEquals(xChanges, yChanges);
+    return shallowEqualArrays(xChanges, yChanges);
 };
 
 const defaultShouldTokenize = ({hunks: currentHunks, ...currentPayload}, {hunks: prevHunks, ...prevPayload}) => {
@@ -30,10 +29,10 @@ const defaultShouldTokenize = ({hunks: currentHunks, ...currentPayload}, {hunks:
     // When `oldSource` is provided, we can get the new source by applying diff,
     // so when hunks keep identical, the tokenize result will always remain the same.
     if (currentPayload.oldSource) {
-        return !shallowEquals(currentPayload, prevPayload) || !areHunksEqual(currentHunks, prevHunks);
+        return !shallowEqualObjects(currentPayload, prevPayload) || !areHunksEqual(currentHunks, prevHunks);
     }
 
-    return currentHunks !== prevHunks || !shallowEquals(currentPayload, prevPayload);
+    return currentHunks !== prevHunks || !shallowEqualObjects(currentPayload, prevPayload);
 };
 
 export default (worker, payload, options = {}) => {

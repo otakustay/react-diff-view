@@ -1,31 +1,31 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`parseDiff ensure test case 1`] = `
-Array [
-  Object {
-    "hunks": Array [
-      Object {
-        "changes": Array [
-          Object {
+[
+  {
+    "hunks": [
+      {
+        "changes": [
+          {
             "content": "    test('App renders correctly', () => {",
             "isNormal": true,
             "newLineNumber": 21,
             "oldLineNumber": 21,
             "type": "normal",
           },
-          Object {
+          {
             "content": "        expect(renderer.create(<App diffText={'deff'} />).toJSON()).toMatchSnapshot();",
             "isDelete": true,
             "lineNumber": 22,
             "type": "delete",
           },
-          Object {
+          {
             "content": "        expect(renderer.create(<App diffText={'diff'} />).toJSON()).toMatchSnapshot();",
             "isInsert": true,
             "lineNumber": 22,
             "type": "insert",
           },
-          Object {
+          {
             "content": "    });",
             "isNormal": true,
             "newLineNumber": 23,
@@ -55,31 +55,31 @@ Array [
 `;
 
 exports[`parseDiff ensure test case 2`] = `
-Array [
-  Object {
-    "hunks": Array [
-      Object {
-        "changes": Array [
-          Object {
+[
+  {
+    "hunks": [
+      {
+        "changes": [
+          {
             "content": "    test('App renders correctly', () => {",
             "isNormal": true,
             "newLineNumber": 21,
             "oldLineNumber": 21,
             "type": "normal",
           },
-          Object {
+          {
             "content": "        expect(renderer.create(<App diffText={'deff'} />).toJSON()).toMatchSnapshot();",
             "isDelete": true,
             "lineNumber": 22,
             "type": "delete",
           },
-          Object {
+          {
             "content": "        expect(renderer.create(<App diffText={'diff'} />).toJSON()).toMatchSnapshot();",
             "isInsert": true,
             "lineNumber": 22,
             "type": "insert",
           },
-          Object {
+          {
             "content": "    });",
             "isNormal": true,
             "newLineNumber": 23,
@@ -109,46 +109,46 @@ Array [
 `;
 
 exports[`parseDiff insert 1`] = `
-Array [
-  Object {
-    "hunks": Array [
-      Object {
-        "changes": Array [
-          Object {
+[
+  {
+    "hunks": [
+      {
+        "changes": [
+          {
             "content": "const genericExtension = new Set(['.tpl', '.tmp']);",
             "isNormal": true,
             "newLineNumber": 155,
             "oldLineNumber": 155,
             "type": "normal",
           },
-          Object {
+          {
             "content": "export const detectLanguage = filename => {",
             "isNormal": true,
             "newLineNumber": 156,
             "oldLineNumber": 156,
             "type": "normal",
           },
-          Object {
+          {
             "content": "    // 仅仅是为了处理特殊情况，特殊情况应该已经处理完毕",
             "isInsert": true,
             "lineNumber": 157,
             "type": "insert",
           },
-          Object {
+          {
             "content": "    if (!filename) {",
             "isNormal": true,
             "newLineNumber": 158,
             "oldLineNumber": 157,
             "type": "normal",
           },
-          Object {
+          {
             "content": "        return 'text';",
             "isNormal": true,
             "newLineNumber": 159,
             "oldLineNumber": 158,
             "type": "normal",
           },
-          Object {
+          {
             "content": "    }",
             "isNormal": true,
             "newLineNumber": 160,
@@ -178,25 +178,25 @@ Array [
 `;
 
 exports[`parseDiff no newline at end of file 1`] = `
-Array [
-  Object {
-    "hunks": Array [
-      Object {
-        "changes": Array [
-          Object {
+[
+  {
+    "hunks": [
+      {
+        "changes": [
+          {
             "content": "iiiiiiiiiiiiiiiiiiiiii:WQiiiiiiiiiiiiejj",
             "isNormal": true,
             "newLineNumber": 1,
             "oldLineNumber": 1,
             "type": "normal",
           },
-          Object {
+          {
             "content": "dsds",
             "isDelete": true,
             "lineNumber": 2,
             "type": "delete",
           },
-          Object {
+          {
             "content": "dsdsds",
             "isInsert": true,
             "lineNumber": 2,
@@ -225,9 +225,9 @@ Array [
 `;
 
 exports[`parseDiff rename 1`] = `
-Array [
-  Object {
-    "hunks": Array [],
+[
+  {
+    "hunks": [],
     "newEndingNewLine": true,
     "newPath": "src/components/ErrorPages/ErrorBase.jsx",
     "oldEndingNewLine": true,
@@ -239,46 +239,46 @@ Array [
 `;
 
 exports[`parseDiff unidiff 1`] = `
-Array [
-  Object {
-    "hunks": Array [
-      Object {
-        "changes": Array [
-          Object {
+[
+  {
+    "hunks": [
+      {
+        "changes": [
+          {
             "content": "const genericExtension = new Set(['.tpl', '.tmp']);",
             "isNormal": true,
             "newLineNumber": 155,
             "oldLineNumber": 155,
             "type": "normal",
           },
-          Object {
+          {
             "content": "export const detectLanguage = filename => {",
             "isNormal": true,
             "newLineNumber": 156,
             "oldLineNumber": 156,
             "type": "normal",
           },
-          Object {
+          {
             "content": "    // 仅仅是为了处理特殊情况，特殊情况应该已经处理完毕",
             "isInsert": true,
             "lineNumber": 157,
             "type": "insert",
           },
-          Object {
+          {
             "content": "    if (!filename) {",
             "isNormal": true,
             "newLineNumber": 158,
             "oldLineNumber": 157,
             "type": "normal",
           },
-          Object {
+          {
             "content": "        return 'text';",
             "isNormal": true,
             "newLineNumber": 159,
             "oldLineNumber": 158,
             "type": "normal",
           },
-          Object {
+          {
             "content": "    }",
             "isNormal": true,
             "newLineNumber": 160,

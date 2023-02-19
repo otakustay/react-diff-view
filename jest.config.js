@@ -1,9 +1,11 @@
 module.exports = {
     verbose: true,
-    testURL: 'http://localhost/',
+    testEnvironmentOptions: {
+        url: 'http://localhost/',
+    },
     setupFilesAfterEnv: ['<rootDir>src/__test__/setup.js'],
     moduleNameMapper: {
-        '\\.(css|less)$': 'identity-obj-proxy'
+        '\\.(css|less)$': 'identity-obj-proxy',
     },
     collectCoverage: true,
     coverageDirectory: 'coverage',

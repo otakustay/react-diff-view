@@ -28,22 +28,20 @@ describe('withTokenizeWorker', () => {
         expect(typeof withTokenizeWorker(worker)(ComponentIn)).toBe('function');
     });
 
-    test('render component', () => {
+    test('render component', async () => {
         const ComponentOut = withTokenizeWorker(worker)(ComponentIn);
         const wrapper = renderer.create(<ComponentOut />);
         expect(wrapper.toJSON()).toMatchSnapshot();
 
-        renderer.act(() => {
-            /**
-             * do nothing but trigger effect
-             * @see https://github.com/facebook/react/issues/14050
-             */
-        });
+        // wait for effect trigger: https://github.com/facebook/react/issues/14050
+        await renderer.act(() => Promise.resolve());
         expect(journey).toEqual([
             ['addEventListener', 'message', 'function'],
             ['postMessage', 'object'],
         ]);
         wrapper.unmount();
+        // wait for effect trigger: https://github.com/facebook/react/issues/14050
+        await renderer.act(() => Promise.resolve());
         expect(journey).toEqual([
             ['addEventListener', 'message', 'function'],
             ['postMessage', 'object'],

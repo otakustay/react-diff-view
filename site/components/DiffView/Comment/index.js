@@ -4,7 +4,7 @@ import Display from './Display';
 
 const Layout = styled.div`
     padding: 12px 8px;
-    background-color: var(--antd-background-color-light);
+    background-color: var(--background-color-secondary);
 `;
 
 export default function Comment({id, content, state, time, onSave, onEdit, onCancel, onDelete}) {
