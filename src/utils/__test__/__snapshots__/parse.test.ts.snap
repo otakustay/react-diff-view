@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1
 
-exports[`parseDiff ensure test case 1`] = `
+exports[`parseDiff > ensure test case 1`] = `
 [
   {
     "hunks": [
@@ -54,7 +54,7 @@ exports[`parseDiff ensure test case 1`] = `
 ]
 `;
 
-exports[`parseDiff ensure test case 2`] = `
+exports[`parseDiff > ensure test case 2`] = `
 [
   {
     "hunks": [
@@ -108,7 +108,7 @@ exports[`parseDiff ensure test case 2`] = `
 ]
 `;
 
-exports[`parseDiff insert 1`] = `
+exports[`parseDiff > insert 1`] = `
 [
   {
     "hunks": [
@@ -177,7 +177,7 @@ exports[`parseDiff insert 1`] = `
 ]
 `;
 
-exports[`parseDiff no newline at end of file 1`] = `
+exports[`parseDiff > no newline at end of file 1`] = `
 [
   {
     "hunks": [
@@ -224,7 +224,7 @@ exports[`parseDiff no newline at end of file 1`] = `
 ]
 `;
 
-exports[`parseDiff rename 1`] = `
+exports[`parseDiff > rename 1`] = `
 [
   {
     "hunks": [],
@@ -238,7 +238,7 @@ exports[`parseDiff rename 1`] = `
 ]
 `;
 
-exports[`parseDiff unidiff 1`] = `
+exports[`parseDiff > unidiff 1`] = `
 [
   {
     "hunks": [

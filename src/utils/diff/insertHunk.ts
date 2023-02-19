@@ -1,4 +1,5 @@
 import {findLastIndex} from 'lodash';
+import {Change, Hunk} from '../parse';
 import {computeLineNumberFactory} from './factory';
 import {last} from './util';
 
@@ -6,9 +7,15 @@ const computeOldLineNumber = computeLineNumberFactory('old');
 
 const computeNewLineNumber = computeLineNumberFactory('new');
 
-const getOldRangeFromHunk = ({oldStart, oldLines}) => [oldStart, oldStart + oldLines - 1];
+function getOldRangeFromHunk({oldStart, oldLines}: Hunk) {
+    return [oldStart, oldStart + oldLines - 1];
+}
 
-const createHunkFromChanges = changes => {
+interface HunkMayBePlain extends Hunk {
+    isPlain?: boolean;
+}
+
+function createHunkFromChanges(changes: Change[]): HunkMayBePlain | null {
     if (!changes.length) {
         return null;
     }
@@ -56,10 +63,10 @@ const createHunkFromChanges = changes => {
         content: `@@ -${oldStart},${oldLines} +${newStart},${newLines}`,
         changes: changes,
     };
-};
+}
 
-export const textLinesToHunk = (lines, oldStartLineNumber, newStartLineNumber) => {
-    const lineToChange = (line, i) => {
+export function textLinesToHunk(lines: string[], oldStartLineNumber: number, newStartLineNumber: number): Hunk | null {
+    const lineToChange = (line: string, i: number): Change => {
         return {
             type: 'normal',
             isNormal: true,
@@ -71,9 +78,9 @@ export const textLinesToHunk = (lines, oldStartLineNumber, newStartLineNumber) =
     const changes = lines.map(lineToChange);
 
     return createHunkFromChanges(changes);
-};
+}
 
-const sliceHunk = ({changes}, startOldLineNumber, endOldLineNumber) => {
+function sliceHunk({changes}: Hunk, startOldLineNumber: number, endOldLineNumber?: number): HunkMayBePlain | null {
     const changeIndex = changes.findIndex(change => computeOldLineNumber(change) >= startOldLineNumber);
 
     if (changeIndex === -1) {
@@ -101,9 +108,9 @@ const sliceHunk = ({changes}, startOldLineNumber, endOldLineNumber) => {
     const slicedChanges = changes.slice(startIndex, endIndex === -1 ? undefined : endIndex);
 
     return createHunkFromChanges(slicedChanges);
-};
+}
 
-const mergeHunk = (previousHunk, nextHunk) => {
+function mergeHunk(previousHunk: HunkMayBePlain | null, nextHunk: HunkMayBePlain | null): Hunk | null {
     if (!previousHunk) {
         return nextHunk;
     }
@@ -140,9 +147,9 @@ const mergeHunk = (previousHunk, nextHunk) => {
 
     const tail = sliceHunk(nextHunk, previousEnd + 1);
     return mergeHunk(previousHunk, tail);
-};
+}
 
-const appendOrMergeHunk = (hunks, nextHunk) => {
+function appendOrMergeHunk(hunks: Hunk[], nextHunk: Hunk): Hunk[] {
     const lastHunk = last(hunks);
 
     if (!lastHunk) {
@@ -158,12 +165,12 @@ const appendOrMergeHunk = (hunks, nextHunk) => {
 
     const mergedHunk = mergeHunk(lastHunk, nextHunk);
 
-    return [...hunks.slice(0, -1), mergedHunk];
-};
+    return mergedHunk ? [...hunks.slice(0, -1), mergedHunk] : hunks;
+}
 
-export const insertHunk = (hunks, insertion) => {
+export function insertHunk(hunks: Hunk[], insertion: Hunk): Hunk[] {
     const insertionOldLineNumber = computeOldLineNumber(insertion.changes[0]);
-    const isLaterThanInsertion = ({changes}) => {
+    const isLaterThanInsertion = ({changes}: Hunk) => {
         if (!changes.length) {
             return false;
         }
@@ -180,4 +187,4 @@ export const insertHunk = (hunks, insertion) => {
         ];
 
     return hunksWithInsertion.reduce(appendOrMergeHunk, []);
-};
+}

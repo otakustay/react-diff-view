@@ -1,7 +1,13 @@
-import parser from 'gitdiff-parser';
+import parser, {Change, File, Hunk} from 'gitdiff-parser';
 
-const zipChanges = changes => {
-    const [result] = changes.reduce(
+export type {File, Hunk, Change};
+
+export interface ParseOptions {
+    nearbySequences?: 'zip';
+}
+
+function zipChanges(changes: Change[]) {
+    const [result] = changes.reduce<[Change[], Change | null, number]>(
         ([result, last, lastDeletionIndex], current, i) => {
             if (!last) {
                 result.push(current);
@@ -27,7 +33,7 @@ const zipChanges = changes => {
     return result;
 };
 
-const mapHunk = (hunk, options) => {
+function mapHunk(hunk: Hunk, options: ParseOptions) {
     const changes = options.nearbySequences === 'zip' ? zipChanges(hunk.changes) : hunk.changes;
 
     return {
@@ -37,13 +43,13 @@ const mapHunk = (hunk, options) => {
     };
 };
 
-const mapFile = (file, options) => {
+function mapFile(file: File, options: ParseOptions) {
     const hunks = file.hunks.map(hunk => mapHunk(hunk, options));
 
     return {...file, hunks};
 };
 
-const normalizeDiffText = text => {
+function normalizeDiffText(text: string) {
     // Git diff header:
     //
     // diff --git a/test/fixture/test/ci.go b/test/fixture/test/ci.go
@@ -75,7 +81,7 @@ const normalizeDiffText = text => {
     return segments.join('\n');
 };
 
-export const parseDiff = (text, options = {}) => {
+export function parseDiff(text: string, options: ParseOptions = {}) {
     const diffText = normalizeDiffText(text.trim());
     const files = parser.parse(diffText);
 

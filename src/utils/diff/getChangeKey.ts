@@ -1,4 +1,6 @@
-export const getChangeKey = change => {
+import {Change} from '../parse';
+
+export function getChangeKey(change: Change) {
     if (!change) {
         throw new Error('change is not provided');
     }

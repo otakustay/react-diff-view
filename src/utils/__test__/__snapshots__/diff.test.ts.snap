@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1
 
-exports[`expandCollapsedBlockBy basic 1`] = `
+exports[`expandCollapsedBlockBy > basic 1`] = `
 [
   {
     "changes": [
@@ -41,7 +41,7 @@ exports[`expandCollapsedBlockBy basic 1`] = `
 ]
 `;
 
-exports[`expandCollapsedBlockBy normal hunk 1`] = `
+exports[`expandCollapsedBlockBy > normal hunk 1`] = `
 [
   {
     "changes": [
@@ -66,7 +66,6 @@ exports[`expandCollapsedBlockBy normal hunk 1`] = `
       },
     ],
     "content": "@@ -1,2 +1,2 @@",
-    "isPlain": false,
     "newLines": 2,
     "newStart": 1,
     "oldLines": 2,
@@ -75,7 +74,7 @@ exports[`expandCollapsedBlockBy normal hunk 1`] = `
 ]
 `;
 
-exports[`expandCollapsedBlockBy normal hunk 2`] = `
+exports[`expandCollapsedBlockBy > normal hunk 2`] = `
 [
   {
     "changes": [
@@ -100,7 +99,6 @@ exports[`expandCollapsedBlockBy normal hunk 2`] = `
       },
     ],
     "content": "@@ -1,2 +1,2 @@",
-    "isPlain": false,
     "newLines": 2,
     "newStart": 1,
     "oldLines": 2,
@@ -109,7 +107,7 @@ exports[`expandCollapsedBlockBy normal hunk 2`] = `
 ]
 `;
 
-exports[`expandCollapsedBlockBy normal hunk 3`] = `
+exports[`expandCollapsedBlockBy > normal hunk 3`] = `
 [
   {
     "changes": [
@@ -150,7 +148,7 @@ exports[`expandCollapsedBlockBy normal hunk 3`] = `
 ]
 `;
 
-exports[`expandFromRawCode basic 1`] = `
+exports[`expandFromRawCode > basic 1`] = `
 [
   {
     "changes": [
@@ -191,7 +189,7 @@ exports[`expandFromRawCode basic 1`] = `
 ]
 `;
 
-exports[`textLinesToHunk basic 1`] = `
+exports[`textLinesToHunk > basic 1`] = `
 {
   "changes": [
     {

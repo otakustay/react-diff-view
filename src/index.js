@@ -1,6 +1,6 @@
-export Diff from './Diff';
-export Hunk from './Hunk';
-export Decoration from './Decoration';
+export {default as Diff} from './Diff';
+export {default as Hunk} from './Hunk';
+export {default as Decoration} from './Decoration';
 export * from './utils';
 export * from './tokenize';
 export * from './hocs';

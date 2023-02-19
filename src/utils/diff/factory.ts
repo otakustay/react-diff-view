@@ -1,7 +1,11 @@
+import {Change, Hunk} from '../parse';
 import {first, last, sideToProperty} from './util';
 
-export const computeLineNumberFactory = side => {
+type ComputeLine = (change: Change) => number;
+
+export function computeLineNumberFactory(side: 'old' | 'new'): ComputeLine {
     if (side === 'old') {
+        // @ts-expect-error
         return ({isNormal, isInsert, lineNumber, oldLineNumber}) => {
             if (isInsert) {
                 return -1;
@@ -10,6 +14,8 @@ export const computeLineNumberFactory = side => {
             return isNormal ? oldLineNumber : lineNumber;
         };
     }
+
+    // @ts-expect-error
     return ({isNormal, isDelete, lineNumber, newLineNumber}) => {
         if (isDelete) {
             return -1;
@@ -17,31 +23,46 @@ export const computeLineNumberFactory = side => {
 
         return isNormal ? newLineNumber : lineNumber;
     };
-};
+}
 
-export const isInHunkFactory = (startProperty, linesProperty) => (hunk, lineNumber) => {
-    const start = hunk[startProperty];
-    const end = start + hunk[linesProperty];
+type IsInHunk = (hunk: Hunk, lineNumber: number) => boolean;
 
-    return lineNumber >= start && lineNumber < end;
-};
+type StartProperty = 'oldStart' | 'newStart';
 
-export const isBetweenHunksFactory = (startProperty, linesProperty) => (previousHunk, nextHunk, lineNumber) => {
-    const start = previousHunk[startProperty] + previousHunk[linesProperty];
-    const end = nextHunk[startProperty];
+type LinesProperty = 'oldLines' | 'newLines';
 
-    return lineNumber >= start && lineNumber < end;
-};
+export function isInHunkFactory(startProperty: StartProperty, linesProperty: LinesProperty): IsInHunk {
+    return (hunk, lineNumber) => {
+        const start = hunk[startProperty];
+        const end = start + hunk[linesProperty];
 
-const findContainerHunkFactory = side => {
+        return lineNumber >= start && lineNumber < end;
+    }
+}
+
+type IsBetweenHunks = (previousHunk: Hunk, nextHunk: Hunk, lineNumber: number) => boolean;
+
+export function isBetweenHunksFactory(startProperty: StartProperty, linesProperty: LinesProperty): IsBetweenHunks {
+    return (previousHunk, nextHunk, lineNumber) => {
+        const start = previousHunk[startProperty] + previousHunk[linesProperty];
+        const end = nextHunk[startProperty];
+
+        return lineNumber >= start && lineNumber < end;
+    };
+}
+
+type FindContainerHunk = (hunks: Hunk[], lineNumber: number) => Hunk | undefined;
+
+function findContainerHunkFactory(side: 'old' | 'new'): FindContainerHunk {
     const [startProperty, linesProperty] = sideToProperty(side);
     const isInHunk = isInHunkFactory(startProperty, linesProperty);
 
     return (hunks, lineNumber) => hunks.find(hunk => isInHunk(hunk, lineNumber));
-};
+}
 
-/* eslint-disable consistent-return */
-export const findChangeByLineNumberFactory = side => {
+type FindChangeByLineNumber = (hunks: Hunk[], lineNumber: number) => Change | undefined;
+
+export function findChangeByLineNumberFactory(side: 'old' | 'new'): FindChangeByLineNumber {
     const computeLineNumber = computeLineNumberFactory(side);
     const findContainerHunk = findContainerHunkFactory(side);
 
@@ -54,10 +75,11 @@ export const findChangeByLineNumberFactory = side => {
 
         return containerHunk.changes.find(change => computeLineNumber(change) === lineNumber);
     };
-};
-/* eslint-enable consistent-return */
+}
 
-export const getCorrespondingLineNumberFactory = baseSide => {
+type GetCorrespondingLineNumber = (hunks: Hunk[], lineNumber: number) => number;
+
+export function getCorrespondingLineNumberFactory(baseSide: 'old' | 'new'): GetCorrespondingLineNumber {
     const anotherSide = baseSide === 'old' ? 'new' : 'old';
     const [baseStart, baseLines] = sideToProperty(baseSide);
     const [correspondingStart, correspondingLines] = sideToProperty(anotherSide);
@@ -127,4 +149,4 @@ export const getCorrespondingLineNumberFactory = baseSide => {
         throw new Error(`Unexpected line position ${lineNumber}`);
     };
     /* eslint-enable complexity */
-};
+}

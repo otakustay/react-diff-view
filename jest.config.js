@@ -1,9 +1,17 @@
 module.exports = {
+    // preset: 'ts-jest/presets/js-with-ts-esm',
+    // globals: {
+    //     'ts-jest': {
+    //         tsConfig: 'tsconfig.test.json',
+    //     },
+    // },
     verbose: true,
+    transform: {
+        '\\.(js|ts|tsx)$': ['ts-jest', {tsconfig: 'tsconfig.test.json'}],
+    },
     testEnvironmentOptions: {
         url: 'http://localhost/',
     },
-    setupFilesAfterEnv: ['<rootDir>src/__test__/setup.js'],
     moduleNameMapper: {
         '\\.(css|less)$': 'identity-obj-proxy',
     },
