@@ -8215,6 +8215,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"husky@npm:^8.0.3":
+  version: 8.0.3
+  resolution: "husky@npm:8.0.3"
+  bin:
+    husky: lib/bin.js
+  checksum: 837bc7e4413e58c1f2946d38fb050f5d7324c6f16b0fd66411ffce5703b294bd21429e8ba58711cd331951ee86ed529c5be4f76805959ff668a337dbfa82a1b0
+  languageName: node
+  linkType: hard
+
 "iconv-lite@npm:0.4.24":
   version: 0.4.24
   resolution: "iconv-lite@npm:0.4.24"
@@ -13128,6 +13137,7 @@ __metadata:
     eslint-plugin-react-hooks: ^4.6.0
     gitdiff-parser: ^0.2.2
     html-webpack-plugin: ^5.5.0
+    husky: ^8.0.3
     identity-obj-proxy: ^3.0.0
     jest: ^29.4.3
     less: ^4.1.3

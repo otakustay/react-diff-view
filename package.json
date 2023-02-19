@@ -12,6 +12,7 @@
     "*.less"
   ],
   "scripts": {
+    "prepare": "husky install",
     "test": "jest --config ./jest.config.js",
     "start": "skr dev --src-dir=site",
     "clean": "rm -rf cjs es style",
@@ -66,6 +67,7 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "gitdiff-parser": "^0.2.2",
     "html-webpack-plugin": "^5.5.0",
+    "husky": "^8.0.3",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^29.4.3",
     "less": "^4.1.3",
