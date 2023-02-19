@@ -277,14 +277,23 @@ The basic theme of `react-diff-view` is simply "picked" from github, with some a
     --diff-text-color: initial;
     --diff-font-family: Consolas, Courier, monospace;
     --diff-selection-background-color: #b3d7ff;
+    --diff-selection-text-color: var(--diff-text-color);;
     --diff-gutter-insert-background-color: #d6fedb;
+    --diff-gutter-insert-text-color: var(--diff-text-color);
     --diff-gutter-delete-background-color: #fadde0;
+    --diff-gutter-delete-text-color: var(--diff-text-color);
     --diff-gutter-selected-background-color: #fffce0;
+    --diff-gutter-selected-text-color: var(--diff-text-color);
     --diff-code-insert-background-color: #eaffee;
+    --diff-code-insert-text-color: var(--diff-text-color);
     --diff-code-delete-background-color: #fdeff0;
+    --diff-code-delete-text-color: var(--diff-text-color);
     --diff-code-insert-edit-background-color: #c0dc91;
+    --diff-code-insert-edit-text-color: var(--diff-text-color);
     --diff-code-delete-edit-background-color: #f39ea2;
+    --diff-code-delete-edit-text-color: var(--diff-text-color);
     --diff-code-selected-background-color: #fffce0;
+    --diff-code-selected-text-color: var(--diff-text-color);
     --diff-omit-gutter-line-color: #cb2a1d;
 }
 ```
