@@ -1,4 +1,13 @@
-const SplitWidget = ({oldElement, newElement, monotonous, hideGutter}) => {
+import {ReactElement} from 'react';
+
+export interface SplitWidgetProps {
+    hideGutter: boolean;
+    oldElement: ReactElement | null;
+    newElement: ReactElement | null;
+    monotonous: boolean;
+}
+
+export default function SplitWidget({hideGutter, oldElement, newElement, monotonous}: SplitWidgetProps) {
     if (monotonous) {
         return (
             <tr className="diff-widget">
@@ -29,6 +38,4 @@ const SplitWidget = ({oldElement, newElement, monotonous, hideGutter}) => {
             </td>
         </tr>
     );
-};
-
-export default SplitWidget;
+}

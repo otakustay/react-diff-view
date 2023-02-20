@@ -1,29 +1,49 @@
 import {memo, useState, useMemo, useCallback} from 'react';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import {mapValues} from 'lodash';
+import {ChangeData} from '../../utils';
+import {TokenNode} from '../../tokenize';
+import {ChangeEventArgs, ChangeSharedProps, EventMap, GutterOptions, NativeEventMap, RenderGutter} from '../interface';
 import CodeCell from '../CodeCell';
 import {composeCallback, renderDefaultBy, wrapInAnchorBy} from '../utils';
 
-const useBoundCallbacks = (callbacks, arg, hoverOn, hoverOff) => useMemo(
-    () => {
-        const output = mapValues(callbacks, fn => e => fn(arg, e));
-        output.onMouseEnter = composeCallback(hoverOn, output.onMouseEnter);
-        output.onMouseLeave = composeCallback(hoverOff, output.onMouseLeave);
-        return output;
-    },
-    [callbacks, hoverOn, hoverOff, arg]
-);
+interface UnifiedChangeProps extends ChangeSharedProps {
+    change: ChangeData;
+    tokens: TokenNode[] | null;
+    className: string;
+    selected: boolean;
+}
 
-const useBoolean = () => {
+function useBoundCallbacks(callbacks: EventMap, arg: ChangeEventArgs, hoverOn: () => void, hoverOff: () => void) {
+    return useMemo(
+        () => {
+            const output: NativeEventMap = mapValues(callbacks, fn => (e: any) => fn(arg, e));
+            output.onMouseEnter = composeCallback(hoverOn, output.onMouseEnter);
+            output.onMouseLeave = composeCallback(hoverOff, output.onMouseLeave);
+            return output;
+        },
+        [callbacks, hoverOn, hoverOff, arg]
+    );
+}
+
+function useBoolean() {
     const [value, setValue] = useState(false);
     const on = useCallback(() => setValue(true), []);
     const off = useCallback(() => setValue(false), []);
-    return [value, on, off];
-};
+    return [value, on, off] as const;
+}
 
-const renderGutterCell = (className, change, side, gutterAnchor, anchorTarget, events, inHoverState, renderGutter) => {
-    const gutterOptions = {
+function renderGutterCell(
+    className: string,
+    change: ChangeData,
+    side: 'old' | 'new',
+    gutterAnchor: boolean,
+    anchorTarget: string,
+    events: NativeEventMap,
+    inHoverState: boolean,
+    renderGutter: RenderGutter
+) {
+    const gutterOptions: GutterOptions = {
         change,
         side,
         inHoverState,
@@ -38,7 +58,7 @@ const renderGutterCell = (className, change, side, gutterAnchor, anchorTarget, e
     );
 };
 
-const UnifiedChange = props => {
+function UnifiedChange(props: UnifiedChangeProps) {
     const {
         change,
         selected,
@@ -110,16 +130,6 @@ const UnifiedChange = props => {
             />
         </tr>
     );
-};
-
-
-UnifiedChange.propTypes = {
-    selected: PropTypes.bool.isRequired,
-    tokens: PropTypes.arrayOf(PropTypes.object),
-};
-
-UnifiedChange.defaultProps = {
-    tokens: null,
-};
+}
 
 export default memo(UnifiedChange);

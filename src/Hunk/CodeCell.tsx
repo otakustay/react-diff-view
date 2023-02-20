@@ -1,9 +1,10 @@
-import {memo} from 'react';
-import PropTypes from 'prop-types';
+import {HTMLAttributes, memo} from 'react';
 import classNames from 'classnames';
+import {TokenNode} from 'react-diff-view/tokenize';
+import {DefaultRenderToken, RenderToken} from './interface';
 
-const defaultRenderToken = ({type, value, markType, properties, className, children}, i) => {
-    const renderWithClassName = className => (
+const defaultRenderToken: DefaultRenderToken = ({type, value, markType, properties, className, children}, i) => {
+    const renderWithClassName = (className: string) => (
         <span key={i} className={className}>
             {value ? value : (children && children.map(defaultRenderToken))}
         </span>
@@ -25,9 +26,15 @@ const defaultRenderToken = ({type, value, markType, properties, className, child
     }
 };
 
-const CodeCell = props => {
+export interface CodeCellProps extends HTMLAttributes<HTMLTableCellElement> {
+    text: string;
+    tokens: TokenNode[] | null;
+    renderToken: RenderToken;
+}
+
+function CodeCell(props: CodeCellProps) {
     const {text, tokens, renderToken, ...attributes} = props;
-    const actualRenderToken = renderToken
+    const actualRenderToken: DefaultRenderToken = renderToken
         ? (token, i) => renderToken(token, defaultRenderToken, i)
         : defaultRenderToken;
 
@@ -40,15 +47,6 @@ const CodeCell = props => {
             }
         </td>
     );
-};
-
-CodeCell.propTypes = {
-    text: PropTypes.oneOfType([PropTypes.string, PropTypes.element]).isRequired,
-    tokens: PropTypes.arrayOf(PropTypes.object),
-};
-
-CodeCell.defaultProps = {
-    tokens: null,
-};
+}
 
 export default memo(CodeCell);

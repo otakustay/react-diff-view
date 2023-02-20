@@ -1,16 +1,24 @@
 import classNames from 'classnames';
-import {getChangeKey, computeOldLineNumber, computeNewLineNumber} from '../../utils';
+import {ReactElement} from 'react';
+import {getChangeKey, computeOldLineNumber, computeNewLineNumber, ChangeData} from '../../utils';
+import {HunkProps} from '../interface';
 import SplitChange from './SplitChange';
 import SplitWidget from './SplitWidget';
 
-const keyForPair = (x, y) => {
+type ChangeContext = ['change', string, ChangeData | null, ChangeData | null];
+
+type WidgetContext = ['widget', string,  ReactElement | null, ReactElement | null];
+
+type ElementContext = ChangeContext | WidgetContext;
+
+function keyForPair(x: ChangeData | null, y: ChangeData | null) {
     const keyForX = x ? getChangeKey(x) : '00';
     const keyForY = y ? getChangeKey(y) : '00';
     return keyForX + keyForY;
-};
+}
 
-const groupElements = (changes, widgets) => {
-    const findWidget = change => {
+function groupElements(changes: ChangeData[], widgets: Record<string, ReactElement>) {
+    const findWidget = (change: ChangeData | null) => {
         if (!change) {
             return null;
         }
@@ -18,7 +26,7 @@ const groupElements = (changes, widgets) => {
         const key = getChangeKey(change);
         return widgets[key] || null;
     };
-    const elements = [];
+    const elements: ElementContext[] = [];
 
     // This could be a very complex reduce call, use `for` loop seems to make it a little more readable
     for (let i = 0; i < changes.length; i++) {
@@ -43,8 +51,9 @@ const groupElements = (changes, widgets) => {
             elements.push(['change', keyForPair(null, current), null, current]);
         }
 
-        const rowChanges = elements[elements.length - 1];
-        const [oldWidget, newWidget] = rowChanges.slice(2).map(findWidget);
+        const rowChanges = elements[elements.length - 1] as ChangeContext;
+        const oldWidget = findWidget(rowChanges[2]);
+        const newWidget = findWidget(rowChanges[3]);
         if (oldWidget || newWidget) {
             const key = rowChanges[1];
             elements.push(['widget', key, oldWidget, newWidget]);
@@ -54,7 +63,10 @@ const groupElements = (changes, widgets) => {
     return elements;
 };
 
-const renderRow = ([type, key, oldValue, newValue], props) => {
+
+type RenderRowProps = Omit<HunkProps, 'hunk' | 'widgets' | 'className'>;
+
+function renderRow([type, key, oldValue, newValue]: ElementContext, props: RenderRowProps) {
     const {
         selectedChanges,
         monotonous,
@@ -101,13 +113,8 @@ const renderRow = ([type, key, oldValue, newValue], props) => {
     return null;
 };
 
-const SplitHunk = props => {
-    const {
-        hunk,
-        widgets,
-        className,
-        ...childrenProps
-    } = props;
+export default function SplitHunk(props: HunkProps) {
+    const {hunk, widgets, className, ...childrenProps} = props;
     const elements = groupElements(hunk.changes, widgets);
 
     return (
@@ -115,6 +122,4 @@ const SplitHunk = props => {
             {elements.map(item => renderRow(item, childrenProps))}
         </tbody>
     );
-};
-
-export default SplitHunk;
+}

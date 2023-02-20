@@ -39,6 +39,7 @@ const inputOptions = {
         babel({exclude: 'node_modules/**'}),
         terser({mangle: false}),
     ],
+    external: ['react/jsx-runtime'],
 };
 
 const build = async () => {

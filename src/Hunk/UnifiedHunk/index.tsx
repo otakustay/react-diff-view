@@ -1,26 +1,34 @@
 import classNames from 'classnames';
-import {getChangeKey, computeOldLineNumber, computeNewLineNumber} from '../../utils';
+import {ReactElement} from 'react';
+import {getChangeKey, computeOldLineNumber, computeNewLineNumber, ChangeData} from '../../utils';
+import {HunkProps} from '../interface';
 import UnifiedChange from './UnifiedChange';
 import UnifiedWidget from './UnifiedWidget';
 
-const groupElements = (changes, widgets) => changes.reduce(
-    (elements, change) => {
-        const key = getChangeKey(change);
+type ElementContext = ['change', string, ChangeData] | ['widget', string,  ReactElement];
 
-        elements.push(['change', key, change]);
+function groupElements(changes: ChangeData[], widgets: Record<string, ReactElement>) {
+    return changes.reduce<ElementContext[]>(
+        (elements, change) => {
+            const key = getChangeKey(change);
 
-        const widget = widgets[key];
+            elements.push(['change', key, change]);
 
-        if (widget) {
-            elements.push(['widget', key, widget]);
-        }
+            const widget = widgets[key];
 
-        return elements;
-    },
-    []
-);
+            if (widget) {
+                elements.push(['widget', key, widget]);
+            }
 
-const renderRow = ([type, key, value], props) => {
+            return elements;
+        },
+        []
+    );
+}
+
+type RenderRowProps = Omit<HunkProps, 'hunk' | 'widgets' | 'className'>;
+
+function renderRow([type, key, value]: ElementContext, props: RenderRowProps) {
     const {hideGutter, selectedChanges, tokens, lineClassName, ...changeProps} = props;
 
     if (type === 'change') {
@@ -47,13 +55,8 @@ const renderRow = ([type, key, value], props) => {
     return null;
 };
 
-const UnifiedHunk = props => {
-    const {
-        hunk,
-        widgets,
-        className,
-        ...childrenProps
-    } = props;
+export default function UnifiedHunk(props: HunkProps) {
+    const {hunk, widgets, className, ...childrenProps} = props;
     const elements = groupElements(hunk.changes, widgets);
 
     return (
@@ -61,6 +64,4 @@ const UnifiedHunk = props => {
             {elements.map(element => renderRow(element, childrenProps))}
         </tbody>
     );
-};
-
-export default UnifiedHunk;
+}

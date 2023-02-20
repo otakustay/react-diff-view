@@ -1,14 +1,20 @@
 import {memo, useState, useMemo, useCallback} from 'react';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import {mapValues} from 'lodash';
+import {ChangeData} from '../../utils';
+import {TokenNode} from '../../tokenize';
+import {ChangeSharedProps, EventMap, GutterOptions, NativeEventMap, RenderGutter, RenderToken} from '../interface';
 import CodeCell from '../CodeCell';
 import {composeCallback, renderDefaultBy, wrapInAnchorBy} from '../utils';
 
 const SIDE_OLD = 0;
 const SIDE_NEW = 1;
 
-const useCallbackOnSide = (side, setHover, change, customCallbacks) => {
+type Side = 'old' | 'new';
+
+type SetHover = (side: Side | '') => void;
+
+function useCallbackOnSide(side: Side, setHover: SetHover, change: ChangeData | null, customCallbacks: EventMap) {
     const markHover = useCallback(() => setHover(side), [side, setHover]);
     const unmarkHover = useCallback(() => setHover(''), [setHover]);
     // Unlike selectors, hooks do not provide native functionality to customize comparator,
@@ -16,7 +22,7 @@ const useCallbackOnSide = (side, setHover, change, customCallbacks) => {
     // we decide not to optimize this extremely, leave it recomputed on certain rerenders.
     const callbacks = useMemo(
         () => {
-            const callbacks = mapValues(customCallbacks, fn => e => fn({side, change}, e));
+            const callbacks: NativeEventMap = mapValues(customCallbacks, fn => (e: any) => fn({side, change}, e));
             callbacks.onMouseEnter = composeCallback(markHover, callbacks.onMouseEnter);
             callbacks.onMouseLeave = composeCallback(unmarkHover, callbacks.onMouseLeave);
             return callbacks;
@@ -26,7 +32,25 @@ const useCallbackOnSide = (side, setHover, change, customCallbacks) => {
     return callbacks;
 };
 
-const renderCells = args => {
+interface RenderCellArgs {
+    change: ChangeData | null;
+    side: typeof SIDE_OLD | typeof SIDE_NEW;
+    selected: boolean;
+    tokens: TokenNode[] | null;
+    gutterClassName: string;
+    codeClassName: string;
+    gutterEvents: NativeEventMap;
+    codeEvents: NativeEventMap;
+    anchorID: string | null;
+    gutterAnchor: boolean;
+    gutterAnchorTarget: string | null;
+    hideGutter: boolean;
+    hover: boolean;
+    renderToken: RenderToken;
+    renderGutter: RenderGutter;
+}
+
+function renderCells(args: RenderCellArgs) {
     const {
         change,
         side,
@@ -66,7 +90,7 @@ const renderCells = args => {
         },
         gutterClassName
     );
-    const gutterOptions = {
+    const gutterOptions: GutterOptions = {
         change,
         side: sideName,
         inHoverState: hover,
@@ -74,7 +98,7 @@ const renderCells = args => {
         wrapInAnchor: wrapInAnchorBy(gutterAnchor, gutterAnchorTarget),
     };
     const gutterProps = {
-        id: anchorID,
+        id: anchorID || undefined,
         className: gutterClassNameValue,
         children: renderGutter(gutterOptions),
         ...gutterEvents,
@@ -102,13 +126,20 @@ const renderCells = args => {
     ];
 };
 
-const SplitChange = props => {
+interface SplitChangeProps extends ChangeSharedProps {
+    className: string;
+    oldChange: ChangeData | null;
+    newChange: ChangeData | null;
+    oldSelected: boolean;
+    newSelected: boolean;
+    oldTokens: TokenNode[] | null;
+    newTokens: TokenNode[] | null;
+    monotonous: boolean;
+}
+
+function SplitChange(props: SplitChangeProps) {
     const {
         className,
-        gutterClassName,
-        codeClassName,
-        gutterEvents,
-        codeEvents,
         oldChange,
         newChange,
         oldSelected,
@@ -116,6 +147,10 @@ const SplitChange = props => {
         oldTokens,
         newTokens,
         monotonous,
+        gutterClassName,
+        codeClassName,
+        gutterEvents,
+        codeEvents,
         hideGutter,
         generateAnchorID,
         gutterAnchor,
@@ -140,7 +175,7 @@ const SplitChange = props => {
         renderToken,
         renderGutter,
     };
-    const oldArgs = {
+    const oldArgs: RenderCellArgs = {
         ...commons,
         change: oldChange,
         side: SIDE_OLD,
@@ -153,7 +188,7 @@ const SplitChange = props => {
         gutterAnchorTarget: oldAnchorID,
         hover: hover === 'old',
     };
-    const newArgs = {
+    const newArgs: RenderCellArgs = {
         ...commons,
         change: newChange,
         side: SIDE_NEW,
@@ -161,7 +196,7 @@ const SplitChange = props => {
         tokens: newTokens,
         gutterEvents: newGutterEvents,
         codeEvents: newCodeEvents,
-        anchorID: oldChange === newChange ? undefined : newAnchorID,
+        anchorID: oldChange === newChange ? null : newAnchorID,
         gutterAnchor: gutterAnchor,
         gutterAnchorTarget: oldChange === newChange ? oldAnchorID : newAnchorID,
         hover: hover === 'new',
@@ -197,19 +232,6 @@ const SplitChange = props => {
             {renderCells(newArgs)}
         </tr>
     );
-};
-
-
-SplitChange.propTypes = {
-    oldSelected: PropTypes.bool.isRequired,
-    newSelected: PropTypes.bool.isRequired,
-    oldTokens: PropTypes.arrayOf(PropTypes.object),
-    newTokens: PropTypes.arrayOf(PropTypes.object),
-};
-
-SplitChange.defaultProps = {
-    oldTokens: null,
-    newTokens: null,
 };
 
 export default memo(SplitChange);
