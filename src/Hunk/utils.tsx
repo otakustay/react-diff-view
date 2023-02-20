@@ -1,15 +1,15 @@
-import {ReactElement} from 'react';
+import {ReactNode} from 'react';
 import {computeOldLineNumber, computeNewLineNumber, ChangeData} from '../utils';
 
-export function renderDefaultBy(change: ChangeData, side: 'old' | 'new') {
-    return () => {
+export function renderDefaultBy(change: ChangeData, side: 'old' | 'new')  {
+    return (): ReactNode => {
         const lineNumber = side === 'old' ? computeOldLineNumber(change) : computeNewLineNumber(change);
         return lineNumber === -1 ? undefined : lineNumber;
     };
 }
 
-export function wrapInAnchorBy(gutterAnchor: boolean, anchorTarget: string | null) {
-    return (element: ReactElement) => {
+export function wrapInAnchorBy(gutterAnchor: boolean, anchorTarget: string | null | undefined) {
+    return (element: ReactNode): ReactNode => {
         if (!gutterAnchor || !element) {
             return element;
         }

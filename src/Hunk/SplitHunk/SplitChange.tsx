@@ -3,7 +3,8 @@ import classNames from 'classnames';
 import {mapValues} from 'lodash';
 import {ChangeData} from '../../utils';
 import {TokenNode} from '../../tokenize';
-import {ChangeSharedProps, EventMap, GutterOptions, NativeEventMap, RenderGutter, RenderToken} from '../interface';
+import {RenderToken, RenderGutter, GutterOptions} from '../../context';
+import {ChangeSharedProps, EventMap, NativeEventMap} from '../interface';
 import CodeCell from '../CodeCell';
 import {composeCallback, renderDefaultBy, wrapInAnchorBy} from '../utils';
 
@@ -41,12 +42,12 @@ interface RenderCellArgs {
     codeClassName: string;
     gutterEvents: NativeEventMap;
     codeEvents: NativeEventMap;
-    anchorID: string | null;
+    anchorID: string | null | undefined;
     gutterAnchor: boolean;
-    gutterAnchorTarget: string | null;
+    gutterAnchorTarget: string | null | undefined;
     hideGutter: boolean;
     hover: boolean;
-    renderToken: RenderToken;
+    renderToken: RenderToken | undefined;
     renderGutter: RenderGutter;
 }
 

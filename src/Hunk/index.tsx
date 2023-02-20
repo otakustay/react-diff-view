@@ -1,13 +1,14 @@
 import {useDiffSettings} from '../context';
 import UnifiedHunk from './UnifiedHunk';
 import SplitHunk from './SplitHunk';
-import {SharedProps, EventMap, HunkTokens} from './interface';
+import {EventMap} from './interface';
 import {HunkData} from '../utils';
-import {ReactElement} from 'react';
+
+export type {EventMap} from './interface';
 
 const EMPTY_EVENT_MAP: EventMap = {};
 
-export interface HunkProps extends SharedProps {
+export interface HunkProps {
     className?: string;
     lineClassName?: string;
     gutterClassName?: string;
@@ -15,10 +16,6 @@ export interface HunkProps extends SharedProps {
     gutterEvents?: EventMap;
     codeEvents?: EventMap;
     hunk: HunkData;
-    widgets: Record<string, ReactElement>;
-    hideGutter: boolean;
-    selectedChanges: string[];
-    tokens?: HunkTokens;
 }
 
 function Hunk(props: HunkProps) {

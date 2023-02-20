@@ -1,7 +1,7 @@
 import {HTMLAttributes, memo} from 'react';
 import classNames from 'classnames';
 import {TokenNode} from 'react-diff-view/tokenize';
-import {DefaultRenderToken, RenderToken} from './interface';
+import {DefaultRenderToken, RenderToken} from '../context';
 
 const defaultRenderToken: DefaultRenderToken = ({type, value, markType, properties, className, children}, i) => {
     const renderWithClassName = (className: string) => (
@@ -29,7 +29,7 @@ const defaultRenderToken: DefaultRenderToken = ({type, value, markType, properti
 export interface CodeCellProps extends HTMLAttributes<HTMLTableCellElement> {
     text: string;
     tokens: TokenNode[] | null;
-    renderToken: RenderToken;
+    renderToken: RenderToken | undefined;
 }
 
 function CodeCell(props: CodeCellProps) {

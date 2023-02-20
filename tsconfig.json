@@ -4,7 +4,8 @@
         "target": "ESNext",
         "lib": [
           "ESNext",
-          "DOM"
+          "DOM",
+          "DOM.Iterable"
         ],
         "moduleResolution": "node",
         "sourceMap": true,

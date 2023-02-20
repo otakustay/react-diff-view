@@ -1,10 +1,6 @@
-import {DOMAttributes, ReactElement, ReactNode} from 'react';
+import {DOMAttributes, ReactElement} from 'react';
 import {ChangeData, HunkData} from '../utils';
-import {TokenNode} from '../tokenize';
-
-export type DefaultRenderToken = (token: TokenNode, index: number) => ReactNode;
-
-export type RenderToken = (token: TokenNode, renderDefault: DefaultRenderToken, index: number) => ReactNode;
+import {HunkTokens, RenderGutter, RenderToken} from '../context';
 
 type IsEvent<T> = T extends `on${string}` ? T : never;
 
@@ -26,22 +22,12 @@ type BindEvent<E extends EventKeys> = (args: ChangeEventArgs, event: ExtractEven
 
 export type EventMap = Partial<{[K in EventKeys]: BindEvent<K>}>;
 
-export interface GutterOptions {
-    change: ChangeData;
-    side: 'old' | 'new';
-    inHoverState: boolean;
-    renderDefault: DefaultRenderToken;
-    wrapInAnchor: (element: ReactElement) => ReactElement;
-}
-
-export type RenderGutter = (options: GutterOptions) => ReactElement;
-
 export interface SharedProps {
     hideGutter: boolean;
     gutterAnchor: boolean;
     monotonous: boolean;
-    generateAnchorID: (change: ChangeData) => string;
-    renderToken: RenderToken;
+    generateAnchorID: (change: ChangeData) => string | undefined;
+    renderToken?: RenderToken;
     renderGutter: RenderGutter;
 }
 
@@ -50,11 +36,6 @@ export interface ChangeSharedProps extends SharedProps {
     codeClassName: string;
     gutterEvents: EventMap;
     codeEvents: EventMap;
-}
-
-export interface HunkTokens {
-    old: TokenNode[][];
-    new: TokenNode[][];
 }
 
 export interface ActualHunkProps extends ChangeSharedProps {
