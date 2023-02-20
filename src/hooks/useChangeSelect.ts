@@ -1,6 +1,6 @@
 import {Hunk} from 'gitdiff-parser';
 import {useEffect} from 'react';
-import {ChangeEventArgs} from '../Hunk';
+import {ChangeEventArgs} from '../context';
 import {getChangeKey} from '../utils';
 import {useCollection} from './helpers';
 
@@ -9,7 +9,7 @@ export interface UseChangeSelectOptions {
 }
 
 export default function useChangeSelect(hunks: Hunk[], {multiple = false}: UseChangeSelectOptions = {}) {
-    const {collection, clear, toggle, only} = useCollection();
+    const {collection, clear, toggle, only} = useCollection<string>();
     // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(clear, [hunks]);
 
@@ -28,5 +28,5 @@ export default function useChangeSelect(hunks: Hunk[], {multiple = false}: UseCh
                 only(changeKey);
             }
         },
-    ];
+    ] as const;
 }

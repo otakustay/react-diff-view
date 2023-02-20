@@ -1,4 +1,4 @@
-import {createContext, ReactElement, ReactNode, useContext} from 'react';
+import {createContext, DOMAttributes, ReactElement, ReactNode, useContext} from 'react';
 import {ChangeData} from '../utils/parse';
 import {TokenNode} from '../tokenize';
 
@@ -25,7 +25,31 @@ export type ViewType = 'unified' | 'split';
 
 export type GutterType = 'default' | 'none' | 'anchor';
 
+type IsEvent<T> = T extends `on${string}` ? T : never;
+
+export type EventKeys = IsEvent<keyof DOMAttributes<HTMLElement>>;
+
+export type NativeEventMap = Partial<{[K in EventKeys]: DOMAttributes<HTMLElement>[K]}>;
+
+type ExtractEventHandler<E extends EventKeys> = Exclude<NativeEventMap[E], undefined>;
+
+type ExtractEventType<E extends EventKeys> = Parameters<ExtractEventHandler<E>>[0];
+
+export interface ChangeEventArgs {
+    // TODO: use union type on next major version
+    side?: 'old' | 'new';
+    change: ChangeData | null;
+}
+
+type BindEvent<E extends EventKeys> = (args: ChangeEventArgs, event: ExtractEventType<E>) => void;
+
+export type EventMap = Partial<{[K in EventKeys]: BindEvent<K>}>;
+
 export interface ContextProps {
+    hunkClassName: string;
+    lineClassName: string;
+    gutterClassName: string;
+    codeClassName: string;
     monotonous: boolean;
     gutterType: GutterType;
     viewType: ViewType;
@@ -36,9 +60,15 @@ export interface ContextProps {
     generateAnchorID: (change: ChangeData) => string | undefined;
     renderToken?: RenderToken;
     renderGutter: RenderGutter;
+    gutterEvents: EventMap;
+    codeEvents: EventMap;
 }
 
 const DEFAULT_VALUE: ContextProps = {
+    hunkClassName: '',
+    lineClassName: '',
+    gutterClassName: '',
+    codeClassName: '',
     monotonous: false,
     gutterType: 'default',
     viewType: 'split',
@@ -47,6 +77,8 @@ const DEFAULT_VALUE: ContextProps = {
     selectedChanges: [],
     generateAnchorID: () => undefined,
     renderGutter: ({renderDefault, wrapInAnchor}) => wrapInAnchor(renderDefault()),
+    codeEvents: {},
+    gutterEvents: {},
 };
 
 const ContextType = createContext(DEFAULT_VALUE);

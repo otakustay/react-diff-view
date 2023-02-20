@@ -3,8 +3,8 @@ import classNames from 'classnames';
 import {mapValues} from 'lodash';
 import {ChangeData} from '../../utils';
 import {TokenNode} from '../../tokenize';
-import {GutterOptions, RenderGutter} from '../../context';
-import {ChangeEventArgs, ChangeSharedProps, EventMap, NativeEventMap} from '../interface';
+import {ChangeEventArgs, EventMap, GutterOptions, NativeEventMap, RenderGutter} from '../../context';
+import {ChangeSharedProps} from '../interface';
 import CodeCell from '../CodeCell';
 import {composeCallback, renderDefaultBy, wrapInAnchorBy} from '../utils';
 

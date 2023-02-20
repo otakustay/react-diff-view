@@ -25,7 +25,7 @@ function areHunksEqual(xHunks: HunkData[], yHunks: HunkData[]) {
     return shallowEqualArrays(xChanges, yChanges);
 }
 
-interface TokenizePayload {
+export interface TokenizePayload {
     hunks: HunkData[];
     oldSource: string;
 }
@@ -72,7 +72,7 @@ interface WorkerMessageData {
     payload: WorkerResultSuccess | WorkerResultFail;
 }
 
-interface TokenState {
+export interface TokenizeResult {
     tokens: TokenNode[] | null;
     tokenizationFailReason: string | null;
 }
@@ -87,7 +87,7 @@ export default function useTokenizeWorker<P extends TokenizePayload>(
         payload,
         (current, previous) => !shouldTokenize(current, previous)
     );
-    const [tokenizeResult, setTokenizeResult] = useState<TokenState>({tokens: null, tokenizationFailReason: null});
+    const [tokenizeResult, setTokenizeResult] = useState<TokenizeResult>({tokens: null, tokenizationFailReason: null});
     const job = useRef<number | null>(null);
     useEffect(
         () => {

@@ -1,26 +1,6 @@
-import {DOMAttributes, ReactElement} from 'react';
+import {ReactElement} from 'react';
 import {ChangeData, HunkData} from '../utils';
-import {HunkTokens, RenderGutter, RenderToken} from '../context';
-
-type IsEvent<T> = T extends `on${string}` ? T : never;
-
-export type EventKeys = IsEvent<keyof DOMAttributes<HTMLElement>>;
-
-export type NativeEventMap = Partial<{[K in EventKeys]: DOMAttributes<HTMLElement>[K]}>;
-
-type ExtractEventHandler<E extends EventKeys> = Exclude<NativeEventMap[E], undefined>;
-
-type ExtractEventType<E extends EventKeys> = Parameters<ExtractEventHandler<E>>[0];
-
-export interface ChangeEventArgs {
-    // TODO: use union type on next major version
-    side?: 'old' | 'new';
-    change: ChangeData | null;
-}
-
-type BindEvent<E extends EventKeys> = (args: ChangeEventArgs, event: ExtractEventType<E>) => void;
-
-export type EventMap = Partial<{[K in EventKeys]: BindEvent<K>}>;
+import {EventMap, HunkTokens, RenderGutter, RenderToken} from '../context';
 
 export interface SharedProps {
     hideGutter: boolean;

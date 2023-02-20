@@ -1,9 +1,11 @@
 import {memo, useRef, useCallback, ReactElement, MouseEvent, useMemo} from 'react';
 import classNames from 'classnames';
-import {ContextProps, GutterType, HunkTokens, Provider, ViewType} from '../context';
+import {ContextProps, EventMap, GutterType, HunkTokens, Provider, ViewType} from '../context';
 import Hunk from '../Hunk';
 import {ChangeData, HunkData} from '../utils';
 import {RenderToken, RenderGutter} from '../context';
+
+const emptyEventMap: EventMap = {};
 
 export type DiffType = 'add' | 'delete' | 'modify' | 'rename' | 'copy';
 
@@ -17,9 +19,15 @@ export interface DiffProps {
     widgets: Record<string, ReactElement>;
     optimizeSelection?: boolean;
     className?: string;
+    hunkClassName?: string;
+    lineClassName?: string;
+    gutterClassName?: string;
+    codeClassName?: string;
     tokens: HunkTokens;
     renderToken?: RenderToken;
     renderGutter: RenderGutter;
+    gutterEvents?: EventMap;
+    codeEvents?: EventMap;
     children?: (hunks: HunkData[]) => ReactElement[];
 }
 
@@ -53,10 +61,16 @@ function Diff(props: DiffProps) {
         hunks,
         optimizeSelection,
         className,
-        tokens,
-        renderToken,
+        hunkClassName = '',
+        lineClassName = '',
+        gutterClassName = '',
+        codeClassName = '',
+        gutterType = 'default',
+        viewType = 'split',
+        gutterEvents = emptyEventMap,
+        codeEvents = emptyEventMap,
         children = defaultRenderChildren,
-        ...remainings
+        ...settings
     } = props;
     const root = useRef<HTMLTableElement>(null);
     const enableColumnSelection = useCallback(
@@ -91,7 +105,6 @@ function Diff(props: DiffProps) {
         },
         []
     );
-    const {gutterType = 'default', viewType = 'split', ...settings} = remainings;
     const hideGutter = gutterType === 'none';
     const monotonous = diffType === 'add' || diffType === 'delete';
     const onTableMouseDown = (viewType === 'split' && !monotonous && optimizeSelection) ? enableColumnSelection : noop;
@@ -128,7 +141,21 @@ function Diff(props: DiffProps) {
         [props.viewType, monotonous]
     );
     const settingsContextValue = useMemo(
-        (): ContextProps => ({...settings, monotonous, hideGutter, viewType, gutterType}),
+        (): ContextProps => {
+            return {
+                ...settings,
+                hunkClassName,
+                lineClassName,
+                gutterClassName,
+                codeClassName,
+                monotonous,
+                hideGutter,
+                viewType,
+                gutterType,
+                codeEvents,
+                gutterEvents,
+            };
+        },
         []
     );
 
