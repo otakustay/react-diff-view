@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import {ReactElement} from 'react';
 import {getChangeKey, computeOldLineNumber, computeNewLineNumber, ChangeData} from '../../utils';
-import {HunkProps} from '../interface';
+import {ActualHunkProps} from '../interface';
 import UnifiedChange from './UnifiedChange';
 import UnifiedWidget from './UnifiedWidget';
 
@@ -26,7 +26,7 @@ function groupElements(changes: ChangeData[], widgets: Record<string, ReactEleme
     );
 }
 
-type RenderRowProps = Omit<HunkProps, 'hunk' | 'widgets' | 'className'>;
+type RenderRowProps = Omit<ActualHunkProps, 'hunk' | 'widgets' | 'className'>;
 
 function renderRow([type, key, value]: ElementContext, props: RenderRowProps) {
     const {hideGutter, selectedChanges, tokens, lineClassName, ...changeProps} = props;
@@ -55,7 +55,7 @@ function renderRow([type, key, value]: ElementContext, props: RenderRowProps) {
     return null;
 };
 
-export default function UnifiedHunk(props: HunkProps) {
+export default function UnifiedHunk(props: ActualHunkProps) {
     const {hunk, widgets, className, ...childrenProps} = props;
     const elements = groupElements(hunk.changes, widgets);
 

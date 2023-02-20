@@ -10,7 +10,7 @@ type IsEvent<T> = T extends `on${string}` ? T : never;
 
 export type EventKeys = IsEvent<keyof DOMAttributes<HTMLElement>>;
 
-export type NativeEventMap = {[K in EventKeys]: DOMAttributes<HTMLElement>[K]};
+export type NativeEventMap = Partial<{[K in EventKeys]: DOMAttributes<HTMLElement>[K]}>;
 
 type ExtractEventHandler<E extends EventKeys> = Exclude<NativeEventMap[E], undefined>;
 
@@ -24,7 +24,7 @@ export interface ChangeEventArgs {
 
 type BindEvent<E extends EventKeys> = (args: ChangeEventArgs, event: ExtractEventType<E>) => void;
 
-export type EventMap = {[K in EventKeys]: BindEvent<K>};
+export type EventMap = Partial<{[K in EventKeys]: BindEvent<K>}>;
 
 export interface GutterOptions {
     change: ChangeData;
@@ -36,11 +36,7 @@ export interface GutterOptions {
 
 export type RenderGutter = (options: GutterOptions) => ReactElement;
 
-export interface ChangeSharedProps {
-    gutterClassName: string;
-    codeClassName: string;
-    gutterEvents: EventMap;
-    codeEvents: EventMap;
+export interface SharedProps {
     hideGutter: boolean;
     gutterAnchor: boolean;
     monotonous: boolean;
@@ -49,12 +45,19 @@ export interface ChangeSharedProps {
     renderGutter: RenderGutter;
 }
 
+export interface ChangeSharedProps extends SharedProps {
+    gutterClassName: string;
+    codeClassName: string;
+    gutterEvents: EventMap;
+    codeEvents: EventMap;
+}
+
 export interface HunkTokens {
     old: TokenNode[][];
     new: TokenNode[][];
 }
 
-export interface HunkProps extends ChangeSharedProps {
+export interface ActualHunkProps extends ChangeSharedProps {
     className: string;
     lineClassName: string;
     hunk: HunkData;

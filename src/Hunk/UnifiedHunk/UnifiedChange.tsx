@@ -17,7 +17,7 @@ interface UnifiedChangeProps extends ChangeSharedProps {
 function useBoundCallbacks(callbacks: EventMap, arg: ChangeEventArgs, hoverOn: () => void, hoverOff: () => void) {
     return useMemo(
         () => {
-            const output: NativeEventMap = mapValues(callbacks, fn => (e: any) => fn(arg, e));
+            const output: NativeEventMap = mapValues(callbacks, fn => (e: any) => fn && fn(arg, e));
             output.onMouseEnter = composeCallback(hoverOn, output.onMouseEnter);
             output.onMouseLeave = composeCallback(hoverOff, output.onMouseLeave);
             return output;

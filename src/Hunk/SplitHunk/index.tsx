@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import {ReactElement} from 'react';
 import {getChangeKey, computeOldLineNumber, computeNewLineNumber, ChangeData} from '../../utils';
-import {HunkProps} from '../interface';
+import {ActualHunkProps} from '../interface';
 import SplitChange from './SplitChange';
 import SplitWidget from './SplitWidget';
 
@@ -64,7 +64,7 @@ function groupElements(changes: ChangeData[], widgets: Record<string, ReactEleme
 };
 
 
-type RenderRowProps = Omit<HunkProps, 'hunk' | 'widgets' | 'className'>;
+type RenderRowProps = Omit<ActualHunkProps, 'hunk' | 'widgets' | 'className'>;
 
 function renderRow([type, key, oldValue, newValue]: ElementContext, props: RenderRowProps) {
     const {
@@ -113,7 +113,7 @@ function renderRow([type, key, oldValue, newValue]: ElementContext, props: Rende
     return null;
 };
 
-export default function SplitHunk(props: HunkProps) {
+export default function SplitHunk(props: ActualHunkProps) {
     const {hunk, widgets, className, ...childrenProps} = props;
     const elements = groupElements(hunk.changes, widgets);
 
