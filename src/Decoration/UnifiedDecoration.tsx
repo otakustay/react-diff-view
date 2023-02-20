@@ -1,7 +1,9 @@
-import {Children} from 'react';
+import {Children, ReactNode} from 'react';
 import classNames from 'classnames';
+import {ActualDecorationProps} from './interface';
 
-const UnifiedDecoration = ({hideGutter, className, gutterClassName, contentClassName, children}) => {
+export default function UnifiedDecoration(props: ActualDecorationProps) {
+    const {hideGutter, className, gutterClassName, contentClassName, children} = props;
     const computedClassName = classNames('diff-decoration', className);
     const computedGutterClassName = classNames('diff-decoration-gutter', gutterClassName);
     const computedContentClassName = classNames('diff-decoration-content', contentClassName);
@@ -19,7 +21,7 @@ const UnifiedDecoration = ({hideGutter, className, gutterClassName, contentClass
         );
     }
 
-    const [gutter, content] = children;
+    const [gutter, content] = children as [ReactNode, ReactNode];
 
     return (
         <tbody className={computedClassName}>
@@ -29,6 +31,4 @@ const UnifiedDecoration = ({hideGutter, className, gutterClassName, contentClass
             </tr>
         </tbody>
     );
-};
-
-export default UnifiedDecoration;
+}

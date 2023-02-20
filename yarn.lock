@@ -3382,6 +3382,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/warning@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "@types/warning@npm:3.0.0"
+  checksum: 120dcf90600d583c68a60872200061eab9318ae15ea898581f8e9a6dc71b7941095dd81d8324e36d2a6006e5e12b6fc1cf8eda00cc514ee12bb39a912cc4e040
+  languageName: node
+  linkType: hard
+
 "@types/ws@npm:^8.5.1":
   version: 8.5.4
   resolution: "@types/ws@npm:8.5.4"
@@ -12219,6 +12226,7 @@ __metadata:
     "@types/lodash": ^4.14.191
     "@types/react-test-renderer": ^18.0.0
     "@types/refractor": ^2.8.0
+    "@types/warning": ^3.0.0
     antd: ^5.2.1
     autoprefixer: ^10.4.13
     babel-loader: ^9.1.2

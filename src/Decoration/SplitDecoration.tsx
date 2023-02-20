@@ -1,7 +1,9 @@
-import {Children} from 'react';
+import {Children, ReactNode} from 'react';
 import classNames from 'classnames';
+import {ActualDecorationProps} from './interface';
 
-const SplitDecoration = ({hideGutter, monotonous, className, gutterClassName, contentClassName, children}) => {
+export default function SplitDecoration(props: ActualDecorationProps) {
+    const {hideGutter, monotonous, className, gutterClassName, contentClassName, children} = props;
     const computedClassName = classNames('diff-decoration', className);
     const computedGutterClassName = classNames('diff-decoration-gutter', gutterClassName);
     const computedContentClassName = classNames('diff-decoration-content', contentClassName);
@@ -21,7 +23,7 @@ const SplitDecoration = ({hideGutter, monotonous, className, gutterClassName, co
         );
     }
 
-    const [gutter, content] = children;
+    const [gutter, content] = children as [ReactNode, ReactNode];
 
     return (
         <tbody className={computedClassName}>
@@ -31,6 +33,4 @@ const SplitDecoration = ({hideGutter, monotonous, className, gutterClassName, co
             </tr>
         </tbody>
     );
-};
-
-export default SplitDecoration;
+}
