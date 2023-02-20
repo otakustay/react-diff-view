@@ -4,7 +4,7 @@ import SplitHunk from './SplitHunk';
 import {EventMap} from './interface';
 import {HunkData} from '../utils';
 
-export type {EventMap} from './interface';
+export type {EventMap, ChangeEventArgs} from './interface';
 
 const EMPTY_EVENT_MAP: EventMap = {};
 

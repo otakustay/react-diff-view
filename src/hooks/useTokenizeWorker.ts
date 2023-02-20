@@ -2,6 +2,8 @@ import {useState, useRef, useEffect} from 'react';
 import {shallowEqualArrays, shallowEqualObjects} from 'shallow-equal';
 import {flatMap} from 'lodash';
 import {useCustomEqualIdentifier} from './helpers';
+import {HunkData} from 'react-diff-view/utils';
+import {TokenNode} from '../tokenize';
 
 const uid = (() => {
     let current = 0;
@@ -12,16 +14,31 @@ const uid = (() => {
     };
 })();
 
-const findAbnormalChanges = hunks => flatMap(hunks, hunk => hunk.changes.filter(change => !change.isNormal));
+function findAbnormalChanges(hunks: HunkData[]) {
+    return flatMap(hunks, hunk => hunk.changes.filter(change => !change.isNormal));
+}
 
-const areHunksEqual = (xHunks, yHunks) => {
+function areHunksEqual(xHunks: HunkData[], yHunks: HunkData[]) {
     const xChanges = findAbnormalChanges(xHunks);
     const yChanges = findAbnormalChanges(yHunks);
 
     return shallowEqualArrays(xChanges, yChanges);
-};
+}
 
-const defaultShouldTokenize = ({hunks: currentHunks, ...currentPayload}, {hunks: prevHunks, ...prevPayload}) => {
+interface TokenizePayload {
+    hunks: HunkData[];
+    oldSource: string;
+}
+
+export type ShouldTokenize<P extends TokenizePayload> = (current: P, prev: P | undefined) => boolean;
+
+function defaultShouldTokenize<P extends TokenizePayload>(current: P, prev: P | undefined) {
+    if (!prev) {
+        return true;
+    }
+
+    const {hunks: currentHunks, ...currentPayload} = current;
+    const {hunks: prevHunks, ...prevPayload} = prev;
     if (currentPayload.oldSource !== prevPayload.oldSource) {
         return true;
     }
@@ -33,19 +50,48 @@ const defaultShouldTokenize = ({hunks: currentHunks, ...currentPayload}, {hunks:
     }
 
     return currentHunks !== prevHunks || !shallowEqualObjects(currentPayload, prevPayload);
-};
+}
 
-export default (worker, payload, options = {}) => {
+export interface TokenizeWorkerOptions<P extends TokenizePayload> {
+    shouldTokenize?: ShouldTokenize<P>;
+}
+
+interface WorkerResultSuccess {
+    success: true;
+    id: string;
+    tokens: TokenNode[];
+}
+
+interface WorkerResultFail {
+    success: false;
+    reason: string;
+}
+
+interface WorkerMessageData {
+    id: number;
+    payload: WorkerResultSuccess | WorkerResultFail;
+}
+
+interface TokenState {
+    tokens: TokenNode[] | null;
+    tokenizationFailReason: string | null;
+}
+
+export default function useTokenizeWorker<P extends TokenizePayload>(
+    worker: Worker,
+    payload: P,
+    options: TokenizeWorkerOptions<P> = {}
+) {
     const {shouldTokenize = defaultShouldTokenize} = options;
     const payloadIdentifier = useCustomEqualIdentifier(
         payload,
         (current, previous) => !shouldTokenize(current, previous)
     );
-    const [tokenizeResult, setTokenizeResult] = useState({tokens: null, tokenizationFailReason: null});
-    const job = useRef(null);
+    const [tokenizeResult, setTokenizeResult] = useState<TokenState>({tokens: null, tokenizationFailReason: null});
+    const job = useRef<number | null>(null);
     useEffect(
         () => {
-            const receiveTokens = ({data: {payload, id}}) => {
+            const receiveTokens = ({data: {payload, id}}: MessageEvent<WorkerMessageData>) => {
                 if (id !== job.current) {
                     return;
                 }
