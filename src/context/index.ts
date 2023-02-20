@@ -64,7 +64,7 @@ export interface ContextProps {
     codeEvents: EventMap;
 }
 
-const DEFAULT_VALUE: ContextProps = {
+export const DEFAULT_CONTEXT_VALUE: ContextProps = {
     hunkClassName: '',
     lineClassName: '',
     gutterClassName: '',
@@ -81,7 +81,7 @@ const DEFAULT_VALUE: ContextProps = {
     gutterEvents: {},
 };
 
-const ContextType = createContext(DEFAULT_VALUE);
+const ContextType = createContext(DEFAULT_CONTEXT_VALUE);
 
 export const Provider = ContextType.Provider;
 

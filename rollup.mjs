@@ -28,7 +28,7 @@ const namedExports = {
 };
 
 const inputOptions = {
-    input: 'src/index.js',
+    input: 'src/index.ts',
     plugins: [
         typescript(),
         resolve(),

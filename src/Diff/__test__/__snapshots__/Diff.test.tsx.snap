@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1
 
-exports[`Diff renders correctly 1`] = `
+exports[`Diff > renders correctly 1`] = `
 <table
   className="diff diff-split"
   onMouseDown={[Function]}
@@ -21,7 +21,7 @@ exports[`Diff renders correctly 1`] = `
 </table>
 `;
 
-exports[`Diff unified Diff 1`] = `
+exports[`Diff > unified Diff 1`] = `
 <table
   className="diff diff-unified"
   onMouseDown={[Function]}
@@ -41,7 +41,7 @@ exports[`Diff unified Diff 1`] = `
 </table>
 `;
 
-exports[`Diff with Decoration renders correctly 1`] = `
+exports[`Diff with Decoration > renders correctly 1`] = `
 <table
   className="diff diff-split"
   onMouseDown={[Function]}
@@ -73,7 +73,7 @@ exports[`Diff with Decoration renders correctly 1`] = `
 </table>
 `;
 
-exports[`Diff with Decoration unified Diff with Decoration 1`] = `
+exports[`Diff with Decoration > unified Diff with Decoration 1`] = `
 <table
   className="diff diff-unified"
   onMouseDown={[Function]}
@@ -104,7 +104,7 @@ exports[`Diff with Decoration unified Diff with Decoration 1`] = `
 </table>
 `;
 
-exports[`Diff with Widget split widget 1`] = `
+exports[`Diff with Widget > split widget 1`] = `
 <table
   className="diff diff-split"
   onMouseDown={[Function]}
@@ -260,7 +260,7 @@ exports[`Diff with Widget split widget 1`] = `
 </table>
 `;
 
-exports[`Diff with Widget unified widget 1`] = `
+exports[`Diff with Widget > unified widget 1`] = `
 <table
   className="diff diff-unified"
   onMouseDown={[Function]}

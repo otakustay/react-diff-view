@@ -13,14 +13,14 @@
   ],
   "scripts": {
     "prepare": "husky install",
-    "test": "vitest run --coverage",
+    "test": "vitest run",
     "start": "skr dev --src-dir=site",
     "clean": "rm -rf cjs es style types",
     "build": "sh scripts/build.sh",
     "build-pages": "skr build --clean --src-dir=site --build-target=stable",
     "prepublishOnly": "npm run build",
     "lint": "eslint src site",
-    "ci": "yarn install --immutable && npm run lint && npm run build && npm run build-pages && npm run test"
+    "ci": "yarn install --immutable && npm run lint && npm run build-pages && npm run build && npm run test"
   },
   "author": "otakustay",
   "license": "MIT",

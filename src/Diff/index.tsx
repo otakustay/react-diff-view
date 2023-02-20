@@ -3,32 +3,30 @@ import classNames from 'classnames';
 import {ContextProps, EventMap, GutterType, HunkTokens, Provider, ViewType} from '../context';
 import Hunk from '../Hunk';
 import {ChangeData, HunkData} from '../utils';
-import {RenderToken, RenderGutter} from '../context';
-
-const emptyEventMap: EventMap = {};
+import {RenderToken, RenderGutter, DEFAULT_CONTEXT_VALUE} from '../context';
 
 export type DiffType = 'add' | 'delete' | 'modify' | 'rename' | 'copy';
 
 export interface DiffProps {
     diffType: DiffType;
-    viewType?: ViewType;
     hunks: HunkData[];
+    viewType?: ViewType;
     gutterType?: GutterType;
-    generateAnchorID: (change: ChangeData) => string | undefined;
-    selectedChanges: string[];
-    widgets: Record<string, ReactElement>;
+    generateAnchorID?: (change: ChangeData) => string | undefined;
+    selectedChanges?: string[];
+    widgets?: Record<string, ReactElement>;
     optimizeSelection?: boolean;
     className?: string;
     hunkClassName?: string;
     lineClassName?: string;
     gutterClassName?: string;
     codeClassName?: string;
-    tokens: HunkTokens;
+    tokens?: HunkTokens;
     renderToken?: RenderToken;
-    renderGutter: RenderGutter;
+    renderGutter?: RenderGutter;
     gutterEvents?: EventMap;
     codeEvents?: EventMap;
-    children?: (hunks: HunkData[]) => ReactElement[];
+    children?: (hunks: HunkData[]) => ReactElement | ReactElement[];
 }
 
 function noop() {}; // eslint-disable-line no-empty-function
@@ -61,16 +59,21 @@ function Diff(props: DiffProps) {
         hunks,
         optimizeSelection,
         className,
-        hunkClassName = '',
-        lineClassName = '',
-        gutterClassName = '',
-        codeClassName = '',
-        gutterType = 'default',
-        viewType = 'split',
-        gutterEvents = emptyEventMap,
-        codeEvents = emptyEventMap,
+        hunkClassName = DEFAULT_CONTEXT_VALUE.hunkClassName,
+        lineClassName = DEFAULT_CONTEXT_VALUE.lineClassName,
+        gutterClassName = DEFAULT_CONTEXT_VALUE.gutterClassName,
+        codeClassName = DEFAULT_CONTEXT_VALUE.codeClassName,
+        gutterType = DEFAULT_CONTEXT_VALUE.gutterType,
+        viewType = DEFAULT_CONTEXT_VALUE.viewType,
+        gutterEvents = DEFAULT_CONTEXT_VALUE.gutterEvents,
+        codeEvents = DEFAULT_CONTEXT_VALUE.codeEvents,
+        generateAnchorID = DEFAULT_CONTEXT_VALUE.generateAnchorID,
+        selectedChanges = DEFAULT_CONTEXT_VALUE.selectedChanges,
+        widgets = DEFAULT_CONTEXT_VALUE.widgets,
+        renderGutter = DEFAULT_CONTEXT_VALUE.renderGutter,
+        tokens,
+        renderToken,
         children = defaultRenderChildren,
-        ...settings
     } = props;
     const root = useRef<HTMLTableElement>(null);
     const enableColumnSelection = useCallback(
@@ -143,7 +146,6 @@ function Diff(props: DiffProps) {
     const settingsContextValue = useMemo(
         (): ContextProps => {
             return {
-                ...settings,
                 hunkClassName,
                 lineClassName,
                 gutterClassName,
@@ -154,6 +156,12 @@ function Diff(props: DiffProps) {
                 gutterType,
                 codeEvents,
                 gutterEvents,
+                generateAnchorID,
+                selectedChanges,
+                widgets,
+                renderGutter,
+                tokens,
+                renderToken,
             };
         },
         []

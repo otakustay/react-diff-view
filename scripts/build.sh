@@ -1,4 +1,4 @@
-yarn clean
+npm run clean
 export NODE_ENV=production
 node rollup.mjs
 node node_modules/.bin/postcss -o style/index.css src/styles/index.css
