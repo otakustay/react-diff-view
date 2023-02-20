@@ -7,13 +7,33 @@ import sourcemaps from 'rollup-plugin-sourcemaps';
 import babel from 'rollup-plugin-babel';
 import {terser} from 'rollup-plugin-terser';
 
+const namedExports = {
+    'node_modules/lodash/lodash.js': [
+        'findLastIndex',
+        'keyBy',
+        'flatMap',
+        'compact',
+        'uniqueId',
+        'mapValues',
+        'partialRight',
+        'get',
+        'isEqual',
+        'isEqualWith',
+        'flatten',
+        'isEmpty',
+        'groupBy',
+        'last',
+        'findIndex',
+    ],
+};
+
 const inputOptions = {
     input: 'src/index.js',
     plugins: [
         typescript(),
         resolve(),
-        // TODO: Will we one day get rid of all lodash functions？
-        commonjs({include: 'node_modules/**', namedExports: {'node_modules/lodash/lodash.js': ['findLastIndex']}}),
+        // TODO: will we one day get rid of all lodash functions？
+        commonjs({namedExports, include: 'node_modules/**'}),
         autoExternal({dependencies: false}),
         sourcemaps(),
         babel({exclude: 'node_modules/**'}),

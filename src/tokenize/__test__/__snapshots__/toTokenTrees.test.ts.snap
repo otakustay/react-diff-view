@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1
 
-exports[`toTokenTrees php will renders __PHP__ 1`] = `
+exports[`toTokenTrees > php will renders __PHP__ 1`] = `
 [
   {
     "children": [],
@@ -80,7 +80,7 @@ exports[`toTokenTrees php will renders __PHP__ 1`] = `
                 "children": [
                   {
                     "type": "text",
-                    "value": "="",
+                    "value": "=\\"",
                   },
                 ],
                 "properties": {
@@ -164,7 +164,7 @@ exports[`toTokenTrees php will renders __PHP__ 1`] = `
                 "children": [
                   {
                     "type": "text",
-                    "value": """,
+                    "value": "\\"",
                   },
                 ],
                 "properties": {
@@ -303,7 +303,7 @@ exports[`toTokenTrees php will renders __PHP__ 1`] = `
 ]
 `;
 
-exports[`toTokenTrees refractor highlight 1`] = `
+exports[`toTokenTrees > refractor highlight 1`] = `
 [
   {
     "children": [
@@ -377,7 +377,7 @@ exports[`toTokenTrees refractor highlight 1`] = `
             "children": [
               {
                 "type": "text",
-                "value": "="",
+                "value": "=\\"",
               },
             ],
             "properties": {
@@ -461,7 +461,7 @@ exports[`toTokenTrees refractor highlight 1`] = `
             "children": [
               {
                 "type": "text",
-                "value": """,
+                "value": "\\"",
               },
             ],
             "properties": {

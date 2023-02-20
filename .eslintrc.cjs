@@ -3,10 +3,6 @@ module.exports = {
         '@ecomfe/eslint-config/strict',
         '@ecomfe/eslint-config/react/strict',
     ],
-    plugins: ['jest'],
-    env: {
-        'jest/globals': true,
-    },
     settings: {
         react: {
             version: 'detect',

@@ -1,4 +1,4 @@
-import {Hunk} from '../parse';
+import {HunkData} from '../parse';
 import {insertHunk, textLinesToHunk} from './insertHunk';
 import {
     computeLineNumberFactory,
@@ -16,7 +16,7 @@ const isOldLineNumberInHunk = isInHunkFactory('oldStart', 'oldLines');
 
 const isOldLineNumberBetweenHunks = isBetweenHunksFactory('oldStart', 'oldLines');
 
-function findCorrespondingValidHunkIndex(hunks: Hunk[], oldLineNumber: number): number {
+function findCorrespondingValidHunkIndex(hunks: HunkData[], oldLineNumber: number): number {
     if (!hunks.length) {
         return -1;
     }
@@ -43,7 +43,7 @@ function findCorrespondingValidHunkIndex(hunks: Hunk[], oldLineNumber: number): 
     return -1;
 }
 
-function findNearestNormalChangeIndex({changes}: Hunk, start: number): number {
+function findNearestNormalChangeIndex({changes}: HunkData, start: number): number {
     const index = changes.findIndex(change => computeOldLineNumber(change) === start);
 
     if (index < 0) {
@@ -63,7 +63,7 @@ function findNearestNormalChangeIndex({changes}: Hunk, start: number): number {
 
 type Range = [start: number, end: number];
 
-function splitRangeToValidOnes(hunks: Hunk[], start: number, end: number): Range[] {
+function splitRangeToValidOnes(hunks: HunkData[], start: number, end: number): Range[] {
     const correspondingHunkIndex = findCorrespondingValidHunkIndex(hunks, start);
 
     // `start` is after all hunks, we believe all left lines are normal.
@@ -114,9 +114,9 @@ function splitRangeToValidOnes(hunks: Hunk[], start: number, end: number): Range
     ];
 }
 
-export type SourceReference = string | string[];
+export type Source = string | string[];
 
-function expandCodeByValidRange(hunks: Hunk[], source: SourceReference, [start, end]: Range): Hunk[] {
+function expandCodeByValidRange(hunks: HunkData[], source: Source, [start, end]: Range): HunkData[] {
     // Note `end` is not inclusive, this is the same as `Array.prototype.slice` method
     const linesOfCode = typeof source === 'string' ? source.split('\n') : source;
     const slicedLines = linesOfCode.slice(Math.max(start, 1) - 1, end - 1);
@@ -129,7 +129,7 @@ function expandCodeByValidRange(hunks: Hunk[], source: SourceReference, [start, 
     return slicedHunk ? insertHunk(hunks, slicedHunk) : hunks;
 }
 
-export function expandFromRawCode(hunks: Hunk[], source: SourceReference, start: number, end: number): Hunk[] {
+export function expandFromRawCode(hunks: HunkData[], source: Source, start: number, end: number): HunkData[] {
     // It is possible to have some insert or delete changes between `start` and `end`,
     // in order to be 100% safe, we need to split the range to one or more ranges which contains only normal changes.
     //
@@ -149,7 +149,7 @@ export function expandFromRawCode(hunks: Hunk[], source: SourceReference, start:
     return validRanges.reduce((hunks, range) => expandCodeByValidRange(hunks, source, range), hunks);
 }
 
-export function getCollapsedLinesCountBetween(previousHunk: Hunk | null, nextHunk: Hunk): number {
+export function getCollapsedLinesCountBetween(previousHunk: HunkData | null, nextHunk: HunkData): number {
     if (!previousHunk) {
         return nextHunk.oldStart - 1;
     }
@@ -162,7 +162,7 @@ export function getCollapsedLinesCountBetween(previousHunk: Hunk | null, nextHun
 
 type HunkPredicate = (lines: number, oldStart: number, newStart: number) => boolean;
 
-export function expandCollapsedBlockBy(hunks: Hunk[], source: SourceReference, predicate: HunkPredicate): Hunk[] {
+export function expandCollapsedBlockBy(hunks: HunkData[], source: Source, predicate: HunkPredicate): HunkData[] {
     const linesOfCode = typeof source === 'string' ? source.split('\n') : source;
     const firstHunk = first(hunks);
     const initialExpandingBlocks = predicate(firstHunk.oldStart - 1, 1, 1) ? [[1, firstHunk.oldStart]] : [];

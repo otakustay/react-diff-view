@@ -1,6 +1,6 @@
 import parser, {Change, File, Hunk} from 'gitdiff-parser';
 
-export type {File, Hunk, Change};
+export type {File as FileData, Hunk as HunkData, Change as ChangeData};
 
 export interface ParseOptions {
     nearbySequences?: 'zip';
@@ -81,7 +81,7 @@ function normalizeDiffText(text: string) {
     return segments.join('\n');
 };
 
-export function parseDiff(text: string, options: ParseOptions = {}) {
+export function parseDiff(text: string, options: ParseOptions = {}): File[] {
     const diffText = normalizeDiffText(text.trim());
     const files = parser.parse(diffText);
 

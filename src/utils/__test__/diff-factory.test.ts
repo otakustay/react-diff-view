@@ -6,15 +6,15 @@ import {
     findChangeByLineNumberFactory,
     getCorrespondingLineNumberFactory,
 } from '../diff/factory';
-import {Change, Hunk} from '../parse';
+import {ChangeData, HunkData} from '../parse';
 
-const normalChange: Change = {type: 'normal', isNormal: true, oldLineNumber: 1, newLineNumber: 1, content: ''};
+const normalChange: ChangeData = {type: 'normal', isNormal: true, oldLineNumber: 1, newLineNumber: 1, content: ''};
 
-const insertChange: Change = {type: 'insert', isInsert: true, lineNumber: 2, content: ''};
+const insertChange: ChangeData = {type: 'insert', isInsert: true, lineNumber: 2, content: ''};
 
-const deleteChange: Change = {type: 'delete', isDelete: true, lineNumber: 2, content: ''};
+const deleteChange: ChangeData = {type: 'delete', isDelete: true, lineNumber: 2, content: ''};
 
-const sampleHunk: Hunk = {
+const sampleHunk: HunkData = {
     content: '',
     oldStart: 1,
     oldLines: 2,
@@ -23,7 +23,7 @@ const sampleHunk: Hunk = {
     changes: [],
 };
 
-const nextHunk: Hunk = {
+const nextHunk: HunkData = {
     content: '',
     oldStart: 4,
     oldLines: 2,
@@ -79,16 +79,16 @@ describe('isBetweenHunks', () => {
 describe('findChangeByLineNumber', () => {
     test('old', () => {
         const findChangeByLineNumber = findChangeByLineNumberFactory('old');
-        const change: Change = {type: 'normal', isNormal: true, oldLineNumber: 1, newLineNumber: 1, content: ''};
-        const hunk: Hunk = {oldStart: 1, oldLines: 1, newStart: 1, newLines: 1, changes: [change], content: ''};
+        const change: ChangeData = {type: 'normal', isNormal: true, oldLineNumber: 1, newLineNumber: 1, content: ''};
+        const hunk: HunkData = {oldStart: 1, oldLines: 1, newStart: 1, newLines: 1, changes: [change], content: ''};
         expect(findChangeByLineNumber([hunk], 1)).toBe(change);
         expect(findChangeByLineNumber([hunk], 3)).toBe(undefined);
     });
 
     test('new', () => {
         const findChangeByLineNumber = findChangeByLineNumberFactory('new');
-        const change: Change = {type: 'normal', isNormal: true, oldLineNumber: 1, newLineNumber: 1, content: ''};
-        const hunk: Hunk = {oldStart: 1, oldLines: 1, newStart: 1, newLines: 1, changes: [change], content: ''};
+        const change: ChangeData = {type: 'normal', isNormal: true, oldLineNumber: 1, newLineNumber: 1, content: ''};
+        const hunk: HunkData = {oldStart: 1, oldLines: 1, newStart: 1, newLines: 1, changes: [change], content: ''};
         expect(findChangeByLineNumber([hunk], 1)).toBe(change);
         expect(findChangeByLineNumber([hunk], 3)).toBe(undefined);
     });
@@ -98,7 +98,7 @@ describe('getCorrespondingLineNumber', () => {
     test('old', () => {
         // getNewCorrespondingLineNumber is the same
         const getOldCorrespondingLineNumber = getCorrespondingLineNumberFactory('old');
-        const hunk: Hunk = {oldStart: 10, oldLines: 5, newStart: 20, newLines: 5, changes: [], content: ''};
+        const hunk: HunkData = {oldStart: 10, oldLines: 5, newStart: 20, newLines: 5, changes: [], content: ''};
         expect(() => getOldCorrespondingLineNumber([], 0)).toThrow();
         expect(getOldCorrespondingLineNumber([hunk], 0)).toBe(10);
         expect(getOldCorrespondingLineNumber([hunk], 20)).toBe(30);

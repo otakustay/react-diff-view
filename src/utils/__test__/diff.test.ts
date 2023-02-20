@@ -8,8 +8,8 @@ import {
     getCollapsedLinesCountBetween,
     expandCollapsedBlockBy,
     getChangeKey,
-    Change,
-    Hunk,
+    ChangeData,
+    HunkData,
 } from '../index';
 
 const sample = dedent`
@@ -26,11 +26,11 @@ const sample = dedent`
 
 export const sampleHunk = parseDiff(sample)[0].hunks[0];
 
-const normalChange: Change = {type: 'normal', isNormal: true, oldLineNumber: 1, newLineNumber: 1, content: ''};
+const normalChange: ChangeData = {type: 'normal', isNormal: true, oldLineNumber: 1, newLineNumber: 1, content: ''};
 
-const insertChange: Change = {type: 'insert', isInsert: true, lineNumber: 2, content: ''};
+const insertChange: ChangeData = {type: 'insert', isInsert: true, lineNumber: 2, content: ''};
 
-const deleteChange: Change = {type: 'delete', isDelete: true, lineNumber: 2, content: ''};
+const deleteChange: ChangeData = {type: 'delete', isDelete: true, lineNumber: 2, content: ''};
 
 describe('textLinesToHunk', () => {
     test('basic', () => {
@@ -59,19 +59,19 @@ describe('expandFromRawCode', () => {
 
 describe('getCollapsedLinesCountBetween', () => {
     test('basic', () => {
-        const previousHunk: Hunk = {content: '', oldStart: 1, oldLines: 2, newStart: 1, newLines: 2, changes: []};
-        const nextHunk: Hunk = {content: '', oldStart: 10, oldLines: 2, newStart: 10, newLines: 2, changes: []};
+        const previousHunk: HunkData = {content: '', oldStart: 1, oldLines: 2, newStart: 1, newLines: 2, changes: []};
+        const nextHunk: HunkData = {content: '', oldStart: 10, oldLines: 2, newStart: 10, newLines: 2, changes: []};
         expect(getCollapsedLinesCountBetween(previousHunk, nextHunk)).toBe(7);
     });
 
     test('minus number', () => {
-        const previousHunk: Hunk = {content: '', oldStart: 1, oldLines: 10, newStart: 1, newLines: 2, changes: []};
-        const nextHunk: Hunk = {content: '', oldStart: 2, oldLines: 2, newStart: 10, newLines: 2, changes: []};
+        const previousHunk: HunkData = {content: '', oldStart: 1, oldLines: 10, newStart: 1, newLines: 2, changes: []};
+        const nextHunk: HunkData = {content: '', oldStart: 2, oldLines: 2, newStart: 10, newLines: 2, changes: []};
         expect(getCollapsedLinesCountBetween(previousHunk, nextHunk)).toBe(-9);
     });
 
     test('no previousHunk', () => {
-        const nextHunk: Hunk = {content: '', oldStart: 2, oldLines: 2, newStart: 10, newLines: 2, changes: []};
+        const nextHunk: HunkData = {content: '', oldStart: 2, oldLines: 2, newStart: 10, newLines: 2, changes: []};
         expect(getCollapsedLinesCountBetween(null, nextHunk)).toBe(1);
     });
 });
@@ -83,7 +83,7 @@ describe('expandCollapsedBlockBy', () => {
     });
 
     test('normal hunk', () => {
-        const hunks: Hunk[] = [
+        const hunks: HunkData[] = [
             {
                 content: '@@ -1,2 +1,2 @@',
                 oldStart: 1,

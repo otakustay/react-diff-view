@@ -1,20 +1,20 @@
+import {describe, test, expect} from 'vitest';
 import refractor from 'refractor';
-import toTokenTrees from '../toTokenTrees';
+import {HunkData} from '../../utils';
+import toTokenTrees, {ToTokenTreeOptions} from '../toTokenTrees';
 
 // eslint-disable-next-line max-len
 const content = '<img style="width:<?php echo (80 / count($images)) ?>%" src=\'<?php echo Component_Union_FinanceInfoModel::UNION_LICEPIC_URL_PREFIX . $image?>\'/>';
 
 describe('toTokenTrees', () => {
     test('php will renders __PHP__', () => {
-        const options = {
+        const options: ToTokenTreeOptions = {
             highlight: true,
             refractor: refractor,
             language: 'php',
-            oldSource: null,
-            enhancers: [],
         };
 
-        const hunks = [{
+        const hunks: HunkData[] = [{
             changes: [
                 {
                     content,
@@ -24,7 +24,6 @@ describe('toTokenTrees', () => {
                 },
             ],
             content: '@@ -1,10 +1,17 @@',
-            isPlain: false,
             newLines: 17,
             newStart: 1,
             oldLines: 10,

@@ -1,0 +1,1371 @@
+// Vitest Snapshot v1
+
+exports[`tokenize > enhance 1`] = `
+{
+  "new": [
+    [
+      {
+        "type": "text",
+        "value": "// Copyright",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "package ",
+      },
+      {
+        "binding": "package",
+        "children": [
+          {
+            "type": "text",
+            "value": "com.xxx",
+          },
+        ],
+        "col": 9,
+        "id": "yz5k9m0BvISpUQ2asedw",
+        "length": 7,
+        "lineNumber": 2,
+        "row": 2,
+        "start": 8,
+        "token": "com.xxx",
+        "type": "def",
+      },
+      {
+        "type": "text",
+        "value": ";",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "import java.util.List;",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "import java.util.Set;",
+      },
+    ],
+  ],
+  "old": [
+    [
+      {
+        "type": "text",
+        "value": "// Copyright",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "package com.xxx;",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "import java.util.List;",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "import java.util.Set;",
+      },
+    ],
+  ],
+}
+`;
+
+exports[`tokenize > highlight 1`] = `
+{
+  "new": [
+    [],
+  ],
+  "old": [
+    [],
+  ],
+}
+`;
+
+exports[`tokenize > withHunk 1`] = `
+{
+  "new": [
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "    ],",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "    \\"scripts\\": {",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "    \\"prepare\\": \\"husky install\\",",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "    \\"test\\": \\"vitest run --coverage\\",",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "    \\"start\\": \\"skr dev --src-dir=site\\",",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "    \\"clean\\": \\"rm -rf cjs es style types\\",",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "    \\"build\\": \\"sh scripts/build.sh\\",",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "    \\"@reskript/settings\\": \\"5.7.4\\",",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "    \\"@rollup/plugin-typescript\\": \\"^11.0.0\\",",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "    \\"@types/dedent\\": \\"^0.7.0\\",",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "    \\"@types/diff-match-patch\\": \\"^1.0.32\\",",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "    \\"@types/lodash\\": \\"^4.14.191\\",",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "    \\"@types/react-test-renderer\\": \\"^18.0.0\\",",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "    \\"@types/refractor\\": \\"^2.8.0\\",",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "    \\"antd\\": \\"^5.2.1\\",",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "    \\"autoprefixer\\": \\"^10.4.13\\",",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "    \\"babel-loader\\": \\"^9.1.2\\",",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "    \\"babel-plugin-add-react-displayname\\": \\"0.0.5\\",",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "    \\"babel-plugin-import\\": \\"^1.13.6\\",",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "    \\"enzyme\\": \\"^3.11.0\\",",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "    \\"enzyme-adapter-react-16\\": \\"^1.15.7\\",",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "    \\"eslint\\": \\"^8.34.0\\",",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "    \\"eslint-plugin-react\\": \\"^7.32.2\\",",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "    \\"eslint-plugin-react-hooks\\": \\"^4.6.0\\",",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "    \\"gitdiff-parser\\": \\"^0.2.2\\",",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "    \\"html-webpack-plugin\\": \\"^5.5.0\\",",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "    \\"husky\\": \\"^8.0.3\\",",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "    \\"identity-obj-proxy\\": \\"^3.0.0\\",",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "    \\"less\\": \\"^4.1.3\\",",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "    \\"less-loader\\": \\"^11.1.0\\",",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "    \\"lodash\\": \\"^4.17.21\\",",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "    \\"sha1\\": \\"^1.1.1\\",",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "    \\"style-loader\\": \\"^3.3.1\\",",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "    \\"styled-components\\": \\"^5.3.6\\",",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "    \\"typescript\\": \\"^4.9.5\\",",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "    \\"unidiff\\": \\"^1.0.2\\",",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "    \\"vitest\\": \\"^0.28.5\\",",
+      },
+    ],
+  ],
+  "old": [
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "    ],",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "    \\"scripts\\": {",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "    \\"prepare\\": \\"husky install\\",",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "    \\"test\\": \\"jest --config ./jest.config.js\\",",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "    \\"start\\": \\"skr dev --src-dir=site\\",",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "    \\"clean\\": \\"rm -rf cjs es style types\\",",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "    \\"build\\": \\"sh scripts/build.sh\\",",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "    \\"@reskript/settings\\": \\"5.7.4\\",",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "    \\"@rollup/plugin-typescript\\": \\"^11.0.0\\",",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "    \\"@types/dedent\\": \\"^0.7.0\\",",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "    \\"@types/lodash\\": \\"^4.14.191\\",",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "    \\"@types/react-test-renderer\\": \\"^18.0.0\\",",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "    \\"antd\\": \\"^5.2.1\\",",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "    \\"autoprefixer\\": \\"^10.4.13\\",",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "    \\"babel-jest\\": \\"^29.4.3\\",",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "    \\"babel-loader\\": \\"^9.1.2\\",",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "    \\"babel-plugin-add-react-displayname\\": \\"0.0.5\\",",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "    \\"babel-plugin-import\\": \\"^1.13.6\\",",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "    \\"enzyme\\": \\"^3.11.0\\",",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "    \\"enzyme-adapter-react-16\\": \\"^1.15.7\\",",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "    \\"eslint\\": \\"^8.34.0\\",",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "    \\"eslint-plugin-jest\\": \\"^27.2.1\\",",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "    \\"eslint-plugin-react\\": \\"^7.32.2\\",",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "    \\"eslint-plugin-react-hooks\\": \\"^4.6.0\\",",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "    \\"gitdiff-parser\\": \\"^0.2.2\\",",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "    \\"html-webpack-plugin\\": \\"^5.5.0\\",",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "    \\"husky\\": \\"^8.0.3\\",",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "    \\"identity-obj-proxy\\": \\"^3.0.0\\",",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "    \\"jest\\": \\"^29.4.3\\",",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "    \\"less\\": \\"^4.1.3\\",",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "    \\"less-loader\\": \\"^11.1.0\\",",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "    \\"lodash\\": \\"^4.17.21\\",",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "    \\"sha1\\": \\"^1.1.1\\",",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "    \\"style-loader\\": \\"^3.3.1\\",",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "    \\"styled-components\\": \\"^5.3.6\\",",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "    \\"ts-jest\\": \\"^29.0.5\\",",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "    \\"typescript\\": \\"^4.9.5\\",",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "    \\"unidiff\\": \\"^1.0.2\\",",
+      },
+    ],
+    [
+      {
+        "type": "text",
+        "value": "    \\"vitest\\": \\"^0.28.5\\",",
+      },
+    ],
+  ],
+}
+`;

@@ -1,7 +1,7 @@
-import {Change, Hunk} from '../parse';
+import {ChangeData, HunkData} from '../parse';
 import {first, last, sideToProperty} from './util';
 
-type ComputeLine = (change: Change) => number;
+type ComputeLine = (change: ChangeData) => number;
 
 export function computeLineNumberFactory(side: 'old' | 'new'): ComputeLine {
     if (side === 'old') {
@@ -25,7 +25,7 @@ export function computeLineNumberFactory(side: 'old' | 'new'): ComputeLine {
     };
 }
 
-type IsInHunk = (hunk: Hunk, lineNumber: number) => boolean;
+type IsInHunk = (hunk: HunkData, lineNumber: number) => boolean;
 
 type StartProperty = 'oldStart' | 'newStart';
 
@@ -40,7 +40,7 @@ export function isInHunkFactory(startProperty: StartProperty, linesProperty: Lin
     }
 }
 
-type IsBetweenHunks = (previousHunk: Hunk, nextHunk: Hunk, lineNumber: number) => boolean;
+type IsBetweenHunks = (previousHunk: HunkData, nextHunk: HunkData, lineNumber: number) => boolean;
 
 export function isBetweenHunksFactory(startProperty: StartProperty, linesProperty: LinesProperty): IsBetweenHunks {
     return (previousHunk, nextHunk, lineNumber) => {
@@ -51,7 +51,7 @@ export function isBetweenHunksFactory(startProperty: StartProperty, linesPropert
     };
 }
 
-type FindContainerHunk = (hunks: Hunk[], lineNumber: number) => Hunk | undefined;
+type FindContainerHunk = (hunks: HunkData[], lineNumber: number) => HunkData | undefined;
 
 function findContainerHunkFactory(side: 'old' | 'new'): FindContainerHunk {
     const [startProperty, linesProperty] = sideToProperty(side);
@@ -60,7 +60,7 @@ function findContainerHunkFactory(side: 'old' | 'new'): FindContainerHunk {
     return (hunks, lineNumber) => hunks.find(hunk => isInHunk(hunk, lineNumber));
 }
 
-type FindChangeByLineNumber = (hunks: Hunk[], lineNumber: number) => Change | undefined;
+type FindChangeByLineNumber = (hunks: HunkData[], lineNumber: number) => ChangeData | undefined;
 
 export function findChangeByLineNumberFactory(side: 'old' | 'new'): FindChangeByLineNumber {
     const computeLineNumber = computeLineNumberFactory(side);
@@ -77,7 +77,7 @@ export function findChangeByLineNumberFactory(side: 'old' | 'new'): FindChangeBy
     };
 }
 
-type GetCorrespondingLineNumber = (hunks: Hunk[], lineNumber: number) => number;
+type GetCorrespondingLineNumber = (hunks: HunkData[], lineNumber: number) => number;
 
 export function getCorrespondingLineNumberFactory(baseSide: 'old' | 'new'): GetCorrespondingLineNumber {
     const anotherSide = baseSide === 'old' ? 'new' : 'old';

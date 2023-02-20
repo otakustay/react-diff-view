@@ -1,5 +1,5 @@
 import {findLastIndex} from 'lodash';
-import {Change, Hunk} from '../parse';
+import {ChangeData, HunkData} from '../parse';
 import {computeLineNumberFactory} from './factory';
 import {last} from './util';
 
@@ -7,15 +7,15 @@ const computeOldLineNumber = computeLineNumberFactory('old');
 
 const computeNewLineNumber = computeLineNumberFactory('new');
 
-function getOldRangeFromHunk({oldStart, oldLines}: Hunk) {
+function getOldRangeFromHunk({oldStart, oldLines}: HunkData) {
     return [oldStart, oldStart + oldLines - 1];
 }
 
-interface HunkMayBePlain extends Hunk {
+interface HunkMayBePlain extends HunkData {
     isPlain?: boolean;
 }
 
-function createHunkFromChanges(changes: Change[]): HunkMayBePlain | null {
+function createHunkFromChanges(changes: ChangeData[]): HunkMayBePlain | null {
     if (!changes.length) {
         return null;
     }
@@ -65,13 +65,13 @@ function createHunkFromChanges(changes: Change[]): HunkMayBePlain | null {
     };
 }
 
-export function textLinesToHunk(lines: string[], oldStartLineNumber: number, newStartLineNumber: number): Hunk | null {
-    const lineToChange = (line: string, i: number): Change => {
+export function textLinesToHunk(lines: string[], oldStartLine: number, newStartLine: number): HunkData | null {
+    const lineToChange = (line: string, i: number): ChangeData => {
         return {
             type: 'normal',
             isNormal: true,
-            oldLineNumber: oldStartLineNumber + i,
-            newLineNumber: newStartLineNumber + i,
+            oldLineNumber: oldStartLine + i,
+            newLineNumber: newStartLine + i,
             content: '' + line,
         };
     };
@@ -80,8 +80,8 @@ export function textLinesToHunk(lines: string[], oldStartLineNumber: number, new
     return createHunkFromChanges(changes);
 }
 
-function sliceHunk({changes}: Hunk, startOldLineNumber: number, endOldLineNumber?: number): HunkMayBePlain | null {
-    const changeIndex = changes.findIndex(change => computeOldLineNumber(change) >= startOldLineNumber);
+function sliceHunk({changes}: HunkData, oldStartLine: number, oldEndLine?: number): HunkMayBePlain | null {
+    const changeIndex = changes.findIndex(change => computeOldLineNumber(change) >= oldStartLine);
 
     if (changeIndex === -1) {
         return null;
@@ -98,19 +98,19 @@ function sliceHunk({changes}: Hunk, startOldLineNumber: number, endOldLineNumber
         return nearestHeadingNocmalChangeIndex === -1 ? changeIndex : nearestHeadingNocmalChangeIndex + 1;
     })();
 
-    if (endOldLineNumber === undefined) {
+    if (oldEndLine === undefined) {
         const slicedChanges = changes.slice(startIndex);
 
         return createHunkFromChanges(slicedChanges);
     }
 
-    const endIndex = findLastIndex(changes, change => computeOldLineNumber(change) <= endOldLineNumber);
+    const endIndex = findLastIndex(changes, change => computeOldLineNumber(change) <= oldEndLine);
     const slicedChanges = changes.slice(startIndex, endIndex === -1 ? undefined : endIndex);
 
     return createHunkFromChanges(slicedChanges);
 }
 
-function mergeHunk(previousHunk: HunkMayBePlain | null, nextHunk: HunkMayBePlain | null): Hunk | null {
+function mergeHunk(previousHunk: HunkMayBePlain | null, nextHunk: HunkMayBePlain | null): HunkData | null {
     if (!previousHunk) {
         return nextHunk;
     }
@@ -149,7 +149,7 @@ function mergeHunk(previousHunk: HunkMayBePlain | null, nextHunk: HunkMayBePlain
     return mergeHunk(previousHunk, tail);
 }
 
-function appendOrMergeHunk(hunks: Hunk[], nextHunk: Hunk): Hunk[] {
+function appendOrMergeHunk(hunks: HunkData[], nextHunk: HunkData): HunkData[] {
     const lastHunk = last(hunks);
 
     if (!lastHunk) {
@@ -168,9 +168,9 @@ function appendOrMergeHunk(hunks: Hunk[], nextHunk: Hunk): Hunk[] {
     return mergedHunk ? [...hunks.slice(0, -1), mergedHunk] : hunks;
 }
 
-export function insertHunk(hunks: Hunk[], insertion: Hunk): Hunk[] {
+export function insertHunk(hunks: HunkData[], insertion: HunkData): HunkData[] {
     const insertionOldLineNumber = computeOldLineNumber(insertion.changes[0]);
-    const isLaterThanInsertion = ({changes}: Hunk) => {
+    const isLaterThanInsertion = ({changes}: HunkData) => {
         if (!changes.length) {
             return false;
         }

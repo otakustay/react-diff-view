@@ -1,6 +1,6 @@
-import {Change} from '../parse';
+import {ChangeData} from '../parse';
 
-export function getChangeKey(change: Change) {
+export function getChangeKey(change: ChangeData) {
     if (!change) {
         throw new Error('change is not provided');
     }
