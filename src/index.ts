@@ -15,6 +15,9 @@ export {
     insertHunk,
     parseDiff,
     textLinesToHunk,
+    isInsert,
+    isDelete,
+    isNormal,
 } from './utils';
 export {markEdits, markWord, pickRanges, tokenize} from './tokenize';
 export {minCollapsedLines, withChangeSelect, withSourceExpansion, withTokenizeWorker} from './hocs';
