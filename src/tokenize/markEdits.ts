@@ -94,7 +94,7 @@ function convertToLinesOfEdits(linesOfDiffs: Diff[][], startLineNumber: number) 
 }
 
 function diffText(x: string, y: string): [Diff[], Diff[]] {
-    // @ts-expect-error 官方类型有问题
+    // @ts-expect-error official types incorrect
     const dmp = new DiffMatchPatch();
     const diffs = dmp.diff_main(x, y);
     dmp.diff_cleanupSemantic(diffs);

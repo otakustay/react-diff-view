@@ -6,23 +6,21 @@ type ComputeLine = (change: ChangeData) => number;
 
 export function computeLineNumberFactory(side: Side): ComputeLine {
     if (side === 'old') {
-        // @ts-expect-error 待上游类型修复
-        return ({isNormal, isInsert, lineNumber, oldLineNumber}) => {
-            if (isInsert) {
+        return change => {
+            if (isInsert(change)) {
                 return -1;
             }
 
-            return isNormal ? oldLineNumber : lineNumber;
+            return isNormal(change) ? change.oldLineNumber : change.lineNumber;
         };
     }
 
-    // @ts-expect-error 待上游类型修复
-    return ({isNormal, isDelete, lineNumber, newLineNumber}) => {
-        if (isDelete) {
+    return change => {
+        if (isDelete(change)) {
             return -1;
         }
 
-        return isNormal ? newLineNumber : lineNumber;
+        return isNormal(change) ? change.newLineNumber : change.lineNumber;
     };
 }
 
