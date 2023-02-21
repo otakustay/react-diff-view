@@ -28,4 +28,4 @@ export default function useSourceExpansion(hunks: HunkData[], oldSource: Source)
         renderingHunks,
         (start: number, end: number) => push([start, end]),
     ] as const;
-};
+}

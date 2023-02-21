@@ -1,7 +1,33 @@
-export {default as Diff, DiffProps, DiffType} from './Diff';
-export {default as Hunk, HunkProps} from './Hunk';
-export {default as Decoration, DecorationProps} from './Decoration';
-export * from './utils';
-export * from './tokenize';
-export * from './hocs';
-export * from './hooks';
+export {default as Diff} from './Diff';
+export {default as Hunk} from './Hunk';
+export {default as Decoration} from './Decoration';
+export {
+    computeNewLineNumber,
+    computeOldLineNumber,
+    expandCollapsedBlockBy,
+    expandFromRawCode,
+    findChangeByNewLineNumber,
+    findChangeByOldLineNumber,
+    getChangeKey,
+    getCollapsedLinesCountBetween,
+    getCorrespondingNewLineNumber,
+    getCorrespondingOldLineNumber,
+    insertHunk,
+    parseDiff,
+    textLinesToHunk,
+} from './utils';
+export {markEdits, markWord, pickRanges, tokenize} from './tokenize';
+export {minCollapsedLines, withChangeSelect, withSourceExpansion, withTokenizeWorker} from './hocs';
+export {useChangeSelect, useMinCollapsedLines, useSourceExpansion, useTokenizeWorker} from './hooks';
+export type {DiffProps, DiffType} from './Diff';
+export type {HunkProps} from './Hunk';
+export type {DecorationProps} from './Decoration';
+export type {ChangeData, FileData, HunkData, ParseOptions, Source} from './utils';
+export type {Pair, RangeTokenNode, TextNode, TokenNode, TokenPath, TokenizeEnhancer, TokenizeOptions} from './tokenize';
+export type {
+    ShouldTokenize,
+    TokenizePayload,
+    TokenizeResult,
+    TokenizeWorkerOptions,
+    UseChangeSelectOptions,
+} from './hooks';

@@ -1,8 +1,10 @@
 import {computeLineNumberFactory, findChangeByLineNumberFactory, getCorrespondingLineNumberFactory} from './factory';
 
-export * from './insertHunk';
-export * from './expandCollapsedBlockBy';
-export * from './getChangeKey';
+export {insertHunk, textLinesToHunk} from './insertHunk';
+export {getChangeKey} from './getChangeKey';
+export {expandCollapsedBlockBy, getCollapsedLinesCountBetween, expandFromRawCode} from './expandCollapsedBlockBy';
+
+export type {Source} from './expandCollapsedBlockBy';
 
 export const computeOldLineNumber = computeLineNumberFactory('old');
 

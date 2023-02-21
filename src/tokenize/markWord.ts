@@ -39,4 +39,4 @@ export default function markWord(word: string, name: string, replacement = word)
         oldLinesOfPaths.map(mark),
         newLinesOfPaths.map(mark),
     ];
-};
+}

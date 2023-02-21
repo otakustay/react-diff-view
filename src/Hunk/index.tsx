@@ -22,6 +22,6 @@ function Hunk({hunk}: HunkProps) {
             className={hunkClassName}
         />
     );
-};
+}
 
 export default Hunk;

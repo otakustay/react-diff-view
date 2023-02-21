@@ -27,7 +27,7 @@ export default function withTokenizeWorkerwithTokenizeWorker<T extends TokenizeP
         const {hunks, oldSource, language} = props;
         const input = {language, oldSource, hunks};
         return mapPayload(input, props);
-    };
+    }
 
     return function wrap<P extends RequiredProps>(ComponentIn: ComponentType<P>) {
         function ComponentOut(props: P & TokenizeResult) {

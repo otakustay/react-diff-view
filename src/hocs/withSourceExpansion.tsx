@@ -15,7 +15,7 @@ export default function withSourceExpansion() {
                     onExpandRange={expandRange}
                 />
             );
-        };
+        }
 
         ComponentOut.displayName = wrapDisplayName(ComponentIn, 'withSourceExpansion');
 

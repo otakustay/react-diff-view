@@ -120,7 +120,7 @@ describe('tokenize', () => {
                 binding: 'package',
                 length: 7,
                 token: 'com.xxx',
-            }
+            },
         ];
 
         const [file] = parseDiff(diffText, {nearbySequences: 'zip'});

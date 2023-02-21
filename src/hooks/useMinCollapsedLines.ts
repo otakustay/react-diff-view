@@ -14,4 +14,4 @@ export default function useMinCollapsedLines(minLinesExclusive: number, hunks: H
         [minLinesExclusive, hunks, oldSource]
     );
     return renderingHunks;
-};
+}

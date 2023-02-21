@@ -123,4 +123,4 @@ export default function useTokenizeWorker<P extends TokenizePayload>(
     );
 
     return tokenizeResult;
-};
+}

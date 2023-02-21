@@ -2,8 +2,9 @@
   "name": "react-diff-view",
   "version": "2.6.0",
   "description": "A git diff component to consume the git unified diff output.",
-  "main": "cjs/index.js",
-  "module": "es/index.js",
+  "main": "./cjs/index.js",
+  "module": "./es/index.js",
+  "types": "./types/index.d.ts",
   "publishConfig": {
     "registry": "https://registry.npmjs.com"
   },
@@ -54,6 +55,8 @@
     "@types/react-test-renderer": "^18.0.0",
     "@types/refractor": "^2.8.0",
     "@types/warning": "^3.0.0",
+    "@typescript-eslint/eslint-plugin": "^5.53.0",
+    "@typescript-eslint/parser": "^5.53.0",
     "antd": "^5.2.1",
     "autoprefixer": "^10.4.13",
     "babel-loader": "^9.1.2",
@@ -132,7 +135,8 @@
   "files": [
     "es",
     "cjs",
-    "style"
+    "style",
+    "types"
   ],
   "packageManager": "yarn@3.4.1"
 }

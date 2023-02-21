@@ -107,7 +107,7 @@ describe('expandCollapsedBlockBy', () => {
                     isInsert: true,
                     lineNumber: 2,
                 }],
-            }
+            },
         ];
         const rawCode = 'iiiiiiiiiiiiiiiiiiiiii:WQiiiiiiiiiiiiejj\ndsds';
         expect(expandCollapsedBlockBy(hunks, rawCode, () => false)).toMatchSnapshot();

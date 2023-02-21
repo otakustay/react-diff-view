@@ -72,7 +72,7 @@ const getWidgets = (hunks: HunkData[]) => {
 
             return {
                 ...widgets,
-                [changeKey]: <span className="error">Line too long</span>
+                [changeKey]: <span className="error">Line too long</span>,
             };
         },
         {}

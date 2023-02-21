@@ -21,10 +21,10 @@ describe('markWord', () => {
         const mark = markWord('A', 'first', 'a');
         const input: Pair<TokenPath[][]> = [
             [
-                [[{type: 'text', value: 'AAaabb'}]]
+                [[{type: 'text', value: 'AAaabb'}]],
             ],
             [
-                [[{type: 'text', value: ''}]]
+                [[{type: 'text', value: ''}]],
             ],
         ];
         const result = mark(input);
@@ -37,7 +37,7 @@ describe('markWord', () => {
                 ],
             ],
             [
-                [[{type: 'text', value: ''}]]
+                [[{type: 'text', value: ''}]],
             ],
         ];
         expect(result).toEqual(expected);
@@ -47,10 +47,10 @@ describe('markWord', () => {
         const mark = markWord('\t', 'tab', '    ');
         const input: Pair<TokenPath[][]> = [
             [
-                [[{type: 'text', value: '\t\t    bb'}]]
+                [[{type: 'text', value: '\t\t    bb'}]],
             ],
             [
-                [[{type: 'text', value: ''}]]
+                [[{type: 'text', value: ''}]],
             ],
         ];
         const result = mark(input);
@@ -59,8 +59,8 @@ describe('markWord', () => {
                 [
                     [{markType: 'tab', type: 'mark', value: '    '}],
                     [{markType: 'tab', type: 'mark', value: '    '}],
-                    [{type: 'text', value: '    bb'}]
-                ]
+                    [{type: 'text', value: '    bb'}],
+                ],
             ],
             [
                 [[{type: 'text', value: ''}]],

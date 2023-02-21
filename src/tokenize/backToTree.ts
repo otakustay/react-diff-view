@@ -22,7 +22,7 @@ function mergeNode(x: ProcessingNode, y: ProcessingNode) {
     if ('value' in x && 'value' in y) {
         return {
             ...x,
-            value: x.value + y.value,
+            value: `${x.value}${y.value}`,
         };
     }
 
@@ -63,4 +63,4 @@ export default function backToTree(pathList: TokenPath[]): TokenNode {
     }
 
     return root;
-};
+}

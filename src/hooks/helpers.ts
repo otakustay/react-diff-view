@@ -26,7 +26,7 @@ function updateCollection<T>(collection: T[], command: UpdateCommand<T>) {
         default:
             return collection;
     }
-};
+}
 
 export function useCollection<T>() {
     const [collection, dispatch] = useReducer<Reducer<T[], UpdateCommand<T>>>(updateCollection, []);

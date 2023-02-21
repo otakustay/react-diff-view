@@ -1,6 +1,7 @@
 import {createContext, DOMAttributes, ReactElement, ReactNode, useContext} from 'react';
 import {ChangeData} from '../utils/parse';
 import {TokenNode} from '../tokenize';
+import {Side} from '../interface';
 
 export type DefaultRenderToken = (token: TokenNode, index: number) => ReactNode;
 
@@ -8,7 +9,7 @@ export type RenderToken = (token: TokenNode, renderDefault: DefaultRenderToken, 
 
 export interface GutterOptions {
     change: ChangeData;
-    side: 'old' | 'new';
+    side: Side;
     inHoverState: boolean;
     renderDefault: () => ReactNode;
     wrapInAnchor: (element: ReactNode) => ReactNode;
@@ -37,7 +38,7 @@ type ExtractEventType<E extends EventKeys> = Parameters<ExtractEventHandler<E>>[
 
 export interface ChangeEventArgs {
     // TODO: use union type on next major version
-    side?: 'old' | 'new';
+    side?: Side;
     change: ChangeData | null;
 }
 

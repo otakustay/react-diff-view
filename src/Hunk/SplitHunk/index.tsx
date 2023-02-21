@@ -7,7 +7,7 @@ import SplitWidget from './SplitWidget';
 
 type ChangeContext = ['change', string, ChangeData | null, ChangeData | null];
 
-type WidgetContext = ['widget', string,  ReactElement | null, ReactElement | null];
+type WidgetContext = ['widget', string, ReactElement | null, ReactElement | null];
 
 type ElementContext = ChangeContext | WidgetContext;
 
@@ -61,7 +61,7 @@ function groupElements(changes: ChangeData[], widgets: Record<string, ReactEleme
     }
 
     return elements;
-};
+}
 
 
 type RenderRowProps = Omit<ActualHunkProps, 'hunk' | 'widgets' | 'className'>;
@@ -111,7 +111,7 @@ function renderRow([type, key, oldValue, newValue]: ElementContext, props: Rende
     }
 
     return null;
-};
+}
 
 export default function SplitHunk(props: ActualHunkProps) {
     const {hunk, widgets, className, ...childrenProps} = props;

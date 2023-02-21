@@ -44,7 +44,7 @@ function pickRangesFromPath(paths: TokenPath[], ranges: RangeTokenNode[]) {
     }
 
     return ranges.reduce(splitPathToEncloseRange, paths);
-};
+}
 
 function process(linesOfPaths: TokenPath[][], ranges: RangeTokenNode[]) {
     const rangesByLine = groupBy(ranges, 'lineNumber');

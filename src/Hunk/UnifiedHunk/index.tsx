@@ -5,7 +5,7 @@ import {ActualHunkProps} from '../interface';
 import UnifiedChange from './UnifiedChange';
 import UnifiedWidget from './UnifiedWidget';
 
-type ElementContext = ['change', string, ChangeData] | ['widget', string,  ReactElement];
+type ElementContext = ['change', string, ChangeData] | ['widget', string, ReactElement];
 
 function groupElements(changes: ChangeData[], widgets: Record<string, ReactElement>) {
     return changes.reduce<ElementContext[]>(
@@ -53,7 +53,7 @@ function renderRow([type, key, value]: ElementContext, props: RenderRowProps) {
     }
 
     return null;
-};
+}
 
 export default function UnifiedHunk(props: ActualHunkProps) {
     const {hunk, widgets, className, ...childrenProps} = props;

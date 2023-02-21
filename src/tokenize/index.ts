@@ -4,10 +4,11 @@ import backToTree from './backToTree';
 import {HunkData} from '../utils';
 import {TokenizeEnhancer, TokenPath} from './interface';
 
-export {Pair, TextNode, TokenNode, TokenPath, TokenizeEnhancer} from './interface';
-export {default as pickRanges, RangeTokenNode} from './pickRanges';
+export {default as pickRanges} from './pickRanges';
 export {default as markEdits} from './markEdits';
 export {default as markWord} from './markWord';
+export type {Pair, TextNode, TokenNode, TokenPath, TokenizeEnhancer} from './interface';
+export type {RangeTokenNode} from './pickRanges';
 
 export type TokenizeOptions = ToTokenTreeOptions & {enhancers?: TokenizeEnhancer[]};
 

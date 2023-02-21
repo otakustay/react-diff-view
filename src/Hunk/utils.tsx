@@ -1,7 +1,8 @@
 import {ReactNode} from 'react';
+import {Side} from '../interface';
 import {computeOldLineNumber, computeNewLineNumber, ChangeData} from '../utils';
 
-export function renderDefaultBy(change: ChangeData, side: 'old' | 'new')  {
+export function renderDefaultBy(change: ChangeData, side: Side) {
     return (): ReactNode => {
         const lineNumber = side === 'old' ? computeOldLineNumber(change) : computeNewLineNumber(change);
         return lineNumber === -1 ? undefined : lineNumber;
@@ -27,4 +28,4 @@ export function composeCallback<E>(own: () => void, custom: ((e: E) => void) | u
     }
 
     return own;
-};
+}

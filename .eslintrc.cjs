@@ -2,6 +2,7 @@ module.exports = {
     extends: [
         '@ecomfe/eslint-config/strict',
         '@ecomfe/eslint-config/react/strict',
+        '@ecomfe/eslint-config/typescript/strict',
     ],
     settings: {
         react: {
@@ -9,6 +10,6 @@ module.exports = {
         },
     },
     rules: {
-        'react-hooks/exhaustive-deps': 'error',
+        'consistent-return': 'off',
     },
 };

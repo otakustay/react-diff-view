@@ -15,7 +15,7 @@ export default function withChangeSelect(options: UseChangeSelectOptions) {
                     onToggleChangeSelection={toggleChangeSelection}
                 />
             );
-        };
+        }
 
         ComponentOut.displayName = wrapDisplayName(ComponentIn, 'withChangeSelect');
 

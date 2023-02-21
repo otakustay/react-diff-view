@@ -3,6 +3,7 @@ import classNames from 'classnames';
 import {mapValues} from 'lodash';
 import {ChangeData} from '../../utils';
 import {TokenNode} from '../../tokenize';
+import {Side} from '../../interface';
 import {ChangeEventArgs, EventMap, GutterOptions, NativeEventMap, RenderGutter} from '../../context';
 import {ChangeSharedProps} from '../interface';
 import CodeCell from '../CodeCell';
@@ -37,7 +38,7 @@ function useBoolean() {
 function renderGutterCell(
     className: string,
     change: ChangeData,
-    side: 'old' | 'new',
+    side: Side,
     gutterAnchor: boolean,
     anchorTarget: string | undefined,
     events: NativeEventMap,
@@ -57,7 +58,7 @@ function renderGutterCell(
             {renderGutter(gutterOptions)}
         </td>
     );
-};
+}
 
 function UnifiedChange(props: UnifiedChangeProps) {
     const {

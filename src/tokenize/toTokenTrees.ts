@@ -1,5 +1,6 @@
 import {flatMap, keyBy} from 'lodash';
 import type {AST, RefractorNode, highlight} from 'refractor';
+import {Side} from '../interface';
 import {computeOldLineNumber, computeNewLineNumber, ChangeData, HunkData} from '../utils';
 import {Pair, TokenNode} from './interface';
 
@@ -43,7 +44,7 @@ function applyDiff(oldSource: string, hunks: HunkData[]): string {
     return patchedLines.join('\n');
 }
 
-function mapChanges<T>(changes: ChangeData[], side: 'old' | 'new', toValue: (change: ChangeData | undefined) => T): T[] {
+function mapChanges<T>(changes: ChangeData[], side: Side, toValue: (change: ChangeData | undefined) => T): T[] {
     if (!changes.length) {
         return [];
     }
@@ -74,7 +75,7 @@ function groupChanges(hunks: HunkData[]): Pair<ChangeData[]> {
         },
         [[], []]
     );
-};
+}
 
 function toTextPair(hunks: HunkData[]): Pair<string> {
     const [oldChanges, newChanges] = groupChanges(hunks);

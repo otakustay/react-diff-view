@@ -3,6 +3,7 @@ import classNames from 'classnames';
 import {mapValues} from 'lodash';
 import {ChangeData} from '../../utils';
 import {TokenNode} from '../../tokenize';
+import {Side} from '../../interface';
 import {RenderToken, RenderGutter, GutterOptions, EventMap, NativeEventMap} from '../../context';
 import {ChangeSharedProps} from '../interface';
 import CodeCell from '../CodeCell';
@@ -10,8 +11,6 @@ import {composeCallback, renderDefaultBy, wrapInAnchorBy} from '../utils';
 
 const SIDE_OLD = 0;
 const SIDE_NEW = 1;
-
-type Side = 'old' | 'new';
 
 type SetHover = (side: Side | '') => void;
 
@@ -31,7 +30,7 @@ function useCallbackOnSide(side: Side, setHover: SetHover, change: ChangeData | 
         [change, customCallbacks, markHover, side, unmarkHover]
     );
     return callbacks;
-};
+}
 
 interface RenderCellArgs {
     change: ChangeData | null;
@@ -125,7 +124,7 @@ function renderCells(args: RenderCellArgs) {
             {...codeEvents}
         />,
     ];
-};
+}
 
 interface SplitChangeProps extends ChangeSharedProps {
     className: string;
@@ -233,6 +232,6 @@ function SplitChange(props: SplitChangeProps) {
             {renderCells(newArgs)}
         </tr>
     );
-};
+}
 
 export default memo(SplitChange);

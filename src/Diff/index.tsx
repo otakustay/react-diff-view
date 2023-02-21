@@ -1,9 +1,18 @@
 import {memo, useRef, useCallback, ReactElement, MouseEvent, useMemo} from 'react';
 import classNames from 'classnames';
-import {ContextProps, EventMap, GutterType, HunkTokens, Provider, ViewType} from '../context';
+import {
+    ContextProps,
+    EventMap,
+    GutterType,
+    HunkTokens,
+    Provider,
+    ViewType,
+    RenderToken,
+    RenderGutter,
+    DEFAULT_CONTEXT_VALUE,
+} from '../context';
 import Hunk from '../Hunk';
 import {ChangeData, HunkData} from '../utils';
-import {RenderToken, RenderGutter, DEFAULT_CONTEXT_VALUE} from '../context';
 
 export type DiffType = 'add' | 'delete' | 'modify' | 'rename' | 'copy';
 
@@ -29,12 +38,12 @@ export interface DiffProps {
     children?: (hunks: HunkData[]) => ReactElement | ReactElement[];
 }
 
-function noop() {}; // eslint-disable-line no-empty-function
+function noop() {}
 
 function findClosest(target: HTMLElement, className: string) {
     let current: HTMLElement | null = target;
     while (current && current !== document.documentElement && !current.classList.contains(className)) {
-        current = current.parentElement; // eslint-disable-line no-param-reassign
+        current = current.parentElement;
     }
 
     return current === document.documentElement ? null : current;
@@ -141,8 +150,9 @@ function Diff(props: DiffProps) {
                 </colgroup>
             );
         },
-        [props.viewType, monotonous]
+        [viewType, monotonous, hideGutter]
     );
+    // TODO: in later versions, we can split context into multiple to reduce component render
     const settingsContextValue = useMemo(
         (): ContextProps => {
             return {
@@ -164,7 +174,24 @@ function Diff(props: DiffProps) {
                 renderToken,
             };
         },
-        []
+        [
+            codeClassName,
+            codeEvents,
+            generateAnchorID,
+            gutterClassName,
+            gutterEvents,
+            gutterType,
+            hideGutter,
+            hunkClassName,
+            lineClassName,
+            monotonous,
+            renderGutter,
+            renderToken,
+            selectedChanges,
+            tokens,
+            viewType,
+            widgets,
+        ]
     );
 
     return (

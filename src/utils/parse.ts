@@ -31,7 +31,7 @@ function zipChanges(changes: Change[]) {
         [[], null, -1]
     );
     return result;
-};
+}
 
 function mapHunk(hunk: Hunk, options: ParseOptions) {
     const changes = options.nearbySequences === 'zip' ? zipChanges(hunk.changes) : hunk.changes;
@@ -41,13 +41,13 @@ function mapHunk(hunk: Hunk, options: ParseOptions) {
         isPlain: false,
         changes: changes,
     };
-};
+}
 
 function mapFile(file: File, options: ParseOptions) {
     const hunks = file.hunks.map(hunk => mapHunk(hunk, options));
 
     return {...file, hunks};
-};
+}
 
 function normalizeDiffText(text: string) {
     // Git diff header:
@@ -56,7 +56,7 @@ function normalizeDiffText(text: string) {
     // index 6829b8a2..4c565f1b 100644
     // --- a/test/fixture/test/ci.go
     // +++ b/test/fixture/test/ci.go
-    if (text.indexOf('diff --git') === 0) {
+    if (text.startsWith('diff --git')) {
         return text;
     }
 
@@ -79,11 +79,11 @@ function normalizeDiffText(text: string) {
     ];
 
     return segments.join('\n');
-};
+}
 
 export function parseDiff(text: string, options: ParseOptions = {}): File[] {
     const diffText = normalizeDiffText(text.trim());
     const files = parser.parse(diffText);
 
     return files.map(file => mapFile(file, options));
-};
+}

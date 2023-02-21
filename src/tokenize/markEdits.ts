@@ -23,7 +23,7 @@ function findChangeBlocks(changes: ChangeData[]): ChangeData[][] {
         changes.slice(start, end),
         ...findChangeBlocks(changes.slice(end)),
     ];
-};
+}
 
 function groupDiffs(diffs: Diff[]): [Diff[], Diff[]] {
     return diffs.reduce<[Diff[], Diff[]]>(
@@ -94,7 +94,7 @@ function convertToLinesOfEdits(linesOfDiffs: Diff[][], startLineNumber: number) 
 }
 
 function diffText(x: string, y: string): [Diff[], Diff[]] {
-    // @ts-expect-error
+    // @ts-expect-error 官方类型有问题
     const dmp = new DiffMatchPatch();
     const diffs = dmp.diff_main(x, y);
     dmp.diff_cleanupSemantic(diffs);
@@ -135,7 +135,7 @@ function diffChangeBlock(changes: ChangeData[]): [RangeTokenNode[], RangeTokenNo
     const newEdits = convertToLinesOfEdits(splitDiffToLines(newDiffs), newStartLineNumber);
 
     return [oldEdits, newEdits];
-};
+}
 
 function diffByLine(changes: ChangeData[]): [RangeTokenNode[], RangeTokenNode[]] {
     const [oldEdits, newEdits] = changes.reduce<[RangeTokenNode[], RangeTokenNode[], ChangeData | null]>(
@@ -146,9 +146,9 @@ function diffByLine(changes: ChangeData[]): [RangeTokenNode[], RangeTokenNode[]]
 
             const [oldDiffs, newDiffs] = diffText(previousChange.content, currentChange.content);
             return [
-                // @ts-expect-error
+                // @ts-expect-error 待上游类型修复
                 oldEdits.concat(diffsToEdits(oldDiffs, previousChange.lineNumber)),
-                // @ts-expect-error
+                // @ts-expect-error 待上游类型修复
                 newEdits.concat(diffsToEdits(newDiffs, currentChange.lineNumber)),
                 currentChange,
             ];
@@ -177,4 +177,4 @@ export default function markEdits(hunks: HunkData[], {type = 'block'}: MarkEdits
     );
 
     return pickRanges(flatten(oldEdits), flatten(newEdits));
-};
+}
