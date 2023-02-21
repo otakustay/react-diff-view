@@ -21,7 +21,9 @@
     "build-pages": "skr build --clean --src-dir=site --build-target=stable",
     "prepublishOnly": "npm run build",
     "lint": "eslint src site",
-    "ci": "yarn install --immutable && npm run lint && npm run build-pages && npm run build && npm run test"
+    "ci": "yarn install --immutable && npm run lint && npm run build-pages && npm run build && npm run test",
+    "prerelease": "npm run ci",
+    "release": "standard-version"
   },
   "author": "otakustay",
   "license": "MIT",
@@ -102,6 +104,7 @@
     "rollup-plugin-sourcemaps": "^0.6.3",
     "rollup-plugin-terser": "^7.0.2",
     "sha1": "^1.1.1",
+    "standard-version": "^9.5.0",
     "style-loader": "^3.3.1",
     "styled-components": "^5.3.6",
     "typescript": "^4.9.5",
