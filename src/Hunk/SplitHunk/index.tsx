@@ -1,6 +1,14 @@
 import classNames from 'classnames';
 import {ReactElement} from 'react';
-import {getChangeKey, computeOldLineNumber, computeNewLineNumber, ChangeData} from '../../utils';
+import {
+    getChangeKey,
+    computeOldLineNumber,
+    computeNewLineNumber,
+    ChangeData,
+    isInsert,
+    isDelete,
+    isNormal,
+} from '../../utils';
 import {ActualHunkProps} from '../interface';
 import SplitChange from './SplitChange';
 import SplitWidget from './SplitWidget';
@@ -33,13 +41,13 @@ function groupElements(changes: ChangeData[], widgets: Record<string, ReactEleme
         const current = changes[i];
 
         // A normal change is displayed on both side
-        if (current.isNormal) {
+        if (isNormal(current)) {
             elements.push(['change', keyForPair(current, current), current, current]);
         }
-        else if (current.isDelete) {
+        else if (isDelete(current)) {
             const next = changes[i + 1];
             // If an insert change is following a elete change, they should be displayed side by side
-            if (next && next.isInsert) {
+            if (next && isInsert(next)) {
                 i = i + 1;
                 elements.push(['change', keyForPair(current, next), current, next]);
             }

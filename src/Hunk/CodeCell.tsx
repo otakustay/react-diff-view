@@ -1,6 +1,6 @@
 import {HTMLAttributes, memo} from 'react';
 import classNames from 'classnames';
-import {TokenNode} from 'react-diff-view/tokenize';
+import {TokenNode} from '../tokenize';
 import {DefaultRenderToken, RenderToken} from '../context';
 
 const defaultRenderToken: DefaultRenderToken = ({type, value, markType, properties, className, children}, i) => {

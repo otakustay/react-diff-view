@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import {ReactElement} from 'react';
-import {getChangeKey, computeOldLineNumber, computeNewLineNumber, ChangeData} from '../../utils';
+import {getChangeKey, computeOldLineNumber, computeNewLineNumber, ChangeData, isDelete} from '../../utils';
 import {ActualHunkProps} from '../interface';
 import UnifiedChange from './UnifiedChange';
 import UnifiedWidget from './UnifiedWidget';
@@ -32,8 +32,8 @@ function renderRow([type, key, value]: ElementContext, props: RenderRowProps) {
     const {hideGutter, selectedChanges, tokens, lineClassName, ...changeProps} = props;
 
     if (type === 'change') {
-        const side = value.isDelete ? 'old' : 'new';
-        const lineNumber = value.isDelete ? computeOldLineNumber(value) : computeNewLineNumber(value);
+        const side = isDelete(value) ? 'old' : 'new';
+        const lineNumber = isDelete(value) ? computeOldLineNumber(value) : computeNewLineNumber(value);
         const tokensOfLine = tokens ? tokens[side][lineNumber - 1] : null;
 
         return (

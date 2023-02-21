@@ -2,7 +2,7 @@ import {useState, useRef, useEffect} from 'react';
 import {shallowEqualArrays, shallowEqualObjects} from 'shallow-equal';
 import {flatMap} from 'lodash';
 import {useCustomEqualIdentifier} from './helpers';
-import {HunkData} from 'react-diff-view/utils';
+import {HunkData, isNormal} from '../utils';
 import {TokenNode} from '../tokenize';
 
 const uid = (() => {
@@ -15,7 +15,7 @@ const uid = (() => {
 })();
 
 function findAbnormalChanges(hunks: HunkData[]) {
-    return flatMap(hunks, hunk => hunk.changes.filter(change => !change.isNormal));
+    return flatMap(hunks, hunk => hunk.changes.filter(change => !isNormal(change)));
 }
 
 function areHunksEqual(xHunks: HunkData[], yHunks: HunkData[]) {

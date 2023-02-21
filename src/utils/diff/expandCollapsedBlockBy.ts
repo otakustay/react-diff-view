@@ -1,4 +1,4 @@
-import {HunkData} from '../parse';
+import {HunkData, isNormal} from '../parse';
 import {insertHunk, textLinesToHunk} from './insertHunk';
 import {
     computeLineNumberFactory,
@@ -53,7 +53,7 @@ function findNearestNormalChangeIndex({changes}: HunkData, start: number): numbe
     for (let i = index; i < changes.length; i++) {
         const change = changes[i];
 
-        if (change.isNormal) {
+        if (isNormal(change)) {
             return i;
         }
     }
@@ -75,7 +75,7 @@ function splitRangeToValidOnes(hunks: HunkData[], start: number, end: number): R
 
     // If `start` points to a line before this hunk, we collect all heading normal changes
     if (start < correspondingHunk.oldStart) {
-        const headingChangesCount = correspondingHunk.changes.findIndex(change => !change.isNormal);
+        const headingChangesCount = correspondingHunk.changes.findIndex(change => !isNormal(change));
         const validEnd = correspondingHunk.oldStart + Math.max(headingChangesCount, 0);
 
         if (validEnd >= end) {
@@ -101,7 +101,7 @@ function splitRangeToValidOnes(hunks: HunkData[], start: number, end: number): R
     const validStartChange = changes[nearestNormalChangeIndex];
     const validStart = computeOldLineNumber(validStartChange);
     // Iterate to `end`, if `end` falls out of hunk, we can split it to 2 ranges
-    const adjacentChangesCount = changes.slice(nearestNormalChangeIndex + 1).findIndex(change => !change.isNormal);
+    const adjacentChangesCount = changes.slice(nearestNormalChangeIndex + 1).findIndex(change => !isNormal(change));
     const validEnd = computeOldLineNumber(validStartChange) + Math.max(adjacentChangesCount, 0);
 
     if (validEnd >= end) {

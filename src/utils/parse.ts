@@ -1,4 +1,16 @@
-import parser, {Change, File, Hunk} from 'gitdiff-parser';
+import parser, {Change, DeleteChange, File, Hunk, InsertChange, NormalChange} from 'gitdiff-parser';
+
+export function isInsert(change: Change): change is InsertChange {
+    return change.type === 'insert';
+}
+
+export function isDelete(change: Change): change is DeleteChange {
+    return change.type === 'delete';
+}
+
+export function isNormal(change: Change): change is NormalChange {
+    return change.type === 'normal';
+}
 
 export type {File as FileData, Hunk as HunkData, Change as ChangeData};
 
@@ -11,10 +23,10 @@ function zipChanges(changes: Change[]) {
         ([result, last, lastDeletionIndex], current, i) => {
             if (!last) {
                 result.push(current);
-                return [result, current, current.isDelete ? i : -1];
+                return [result, current, isDelete(current) ? i : -1];
             }
 
-            if (current.isInsert && lastDeletionIndex >= 0) {
+            if (isInsert(current) && lastDeletionIndex >= 0) {
                 result.splice(lastDeletionIndex + 1, 0, current);
                 // The new `lastDeletionIndex` may be out of range, but `splice` will fix it
                 return [result, current, lastDeletionIndex + 2];
@@ -24,7 +36,7 @@ function zipChanges(changes: Change[]) {
 
             // Keep the `lastDeletionIndex` if there are lines of deletions,
             // otherwise update it to the new deletion line
-            const newLastDeletionIndex = current.isDelete ? (last.isDelete ? lastDeletionIndex : i) : i;
+            const newLastDeletionIndex = isDelete(current) ? (isDelete(last) ? lastDeletionIndex : i) : i;
 
             return [result, current, newLastDeletionIndex];
         },

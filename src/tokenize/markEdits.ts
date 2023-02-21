@@ -1,19 +1,19 @@
 import {findIndex, flatMap, flatten} from 'lodash';
 import DiffMatchPatch, {Diff} from 'diff-match-patch';
-import {ChangeData, HunkData} from '../utils';
+import {ChangeData, HunkData, isDelete, isInsert, isNormal} from '../utils';
 import pickRanges, {RangeTokenNode} from './pickRanges';
 import {TokenizeEnhancer} from './interface';
 
 const {DIFF_EQUAL, DIFF_DELETE, DIFF_INSERT} = DiffMatchPatch;
 
 function findChangeBlocks(changes: ChangeData[]): ChangeData[][] {
-    const start = findIndex(changes, change => !change.isNormal);
+    const start = findIndex(changes, change => !isNormal(change));
 
     if (start === -1) {
         return [];
     }
 
-    const end = findIndex(changes, change => !!change.isNormal, start);
+    const end = findIndex(changes, change => !!isNormal(change), start);
 
     if (end === -1) {
         return [changes.slice(start)];
@@ -109,10 +109,10 @@ function diffText(x: string, y: string): [Diff[], Diff[]] {
 
 function diffChangeBlock(changes: ChangeData[]): [RangeTokenNode[], RangeTokenNode[]] {
     const [oldSource, newSource] = changes.reduce(
-        ([oldSource, newSource], {isDelete, content}) => (
-            isDelete
-                ? [oldSource + (oldSource ? '\n' : '') + content, newSource]
-                : [oldSource, newSource + (newSource ? '\n' : '') + content]
+        ([oldSource, newSource], change) => (
+            isDelete(change)
+                ? [oldSource + (oldSource ? '\n' : '') + change.content, newSource]
+                : [oldSource, newSource + (newSource ? '\n' : '') + change.content]
         ),
         ['', '']
     );
@@ -123,9 +123,15 @@ function diffChangeBlock(changes: ChangeData[]): [RangeTokenNode[], RangeTokenNo
         return [[], []];
     }
 
-    const getLineNumber = (change: ChangeData | undefined) => change && change.lineNumber;
-    const oldStartLineNumber = getLineNumber(changes.find(change => change.isDelete));
-    const newStartLineNumber = getLineNumber(changes.find(change => change.isInsert));
+    const getLineNumber = (change: ChangeData | undefined) => {
+        if (!change || isNormal(change)) {
+            return undefined;
+        }
+
+        return change.lineNumber;
+    };
+    const oldStartLineNumber = getLineNumber(changes.find(isDelete));
+    const newStartLineNumber = getLineNumber(changes.find(isInsert));
 
     if (oldStartLineNumber === undefined || newStartLineNumber === undefined) {
         throw new Error('Could not find start line number for edit');
@@ -140,15 +146,13 @@ function diffChangeBlock(changes: ChangeData[]): [RangeTokenNode[], RangeTokenNo
 function diffByLine(changes: ChangeData[]): [RangeTokenNode[], RangeTokenNode[]] {
     const [oldEdits, newEdits] = changes.reduce<[RangeTokenNode[], RangeTokenNode[], ChangeData | null]>(
         ([oldEdits, newEdits, previousChange], currentChange) => {
-            if (!previousChange || !previousChange.isDelete || !currentChange.isInsert) {
+            if (!previousChange || !isDelete(previousChange) || !isInsert(currentChange)) {
                 return [oldEdits, newEdits, currentChange];
             }
 
             const [oldDiffs, newDiffs] = diffText(previousChange.content, currentChange.content);
             return [
-                // @ts-expect-error 待上游类型修复
                 oldEdits.concat(diffsToEdits(oldDiffs, previousChange.lineNumber)),
-                // @ts-expect-error 待上游类型修复
                 newEdits.concat(diffsToEdits(newDiffs, currentChange.lineNumber)),
                 currentChange,
             ];

@@ -1,16 +1,14 @@
-import {ChangeData} from '../parse';
+import {ChangeData, isNormal, isInsert} from '../parse';
 
 export function getChangeKey(change: ChangeData) {
     if (!change) {
         throw new Error('change is not provided');
     }
 
-    const {isNormal, isInsert, lineNumber, oldLineNumber} = change;
-
-    if (isNormal) {
-        return `N${oldLineNumber}`;
+    if (isNormal(change)) {
+        return `N${change.oldLineNumber}`;
     }
 
-    const prefix = isInsert ? 'I' : 'D';
-    return `${prefix}${lineNumber}`;
+    const prefix = isInsert(change) ? 'I' : 'D';
+    return `${prefix}${change.lineNumber}`;
 }

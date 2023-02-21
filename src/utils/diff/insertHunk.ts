@@ -1,5 +1,5 @@
 import {findLastIndex} from 'lodash';
-import {ChangeData, HunkData} from '../parse';
+import {ChangeData, HunkData, isDelete, isInsert, isNormal} from '../parse';
 import {computeLineNumberFactory} from './factory';
 import {last} from './util';
 
@@ -31,11 +31,11 @@ function createHunkFromChanges(changes: ChangeData[]): HunkMayBePlain | null {
     /* eslint-disable no-param-reassign */
     const hunk = changes.reduce(
         (hunk, change) => {
-            if (!change.isNormal) {
+            if (!isNormal(change)) {
                 hunk.isPlain = false;
             }
 
-            if (!change.isInsert) {
+            if (!isInsert(change)) {
                 hunk.oldLines = hunk.oldLines + 1;
 
                 if (hunk.oldStart === -1) {
@@ -43,7 +43,7 @@ function createHunkFromChanges(changes: ChangeData[]): HunkMayBePlain | null {
                 }
             }
 
-            if (!change.isDelete) {
+            if (!isDelete(change)) {
                 hunk.newLines = hunk.newLines + 1;
 
                 if (hunk.newStart === -1) {
@@ -94,7 +94,7 @@ function sliceHunk({changes}: HunkData, oldStartLine: number, oldEndLine?: numbe
             return changeIndex;
         }
 
-        const nearestHeadingNocmalChangeIndex = findLastIndex(changes, change => !change.isInsert, changeIndex - 1);
+        const nearestHeadingNocmalChangeIndex = findLastIndex(changes, change => !isInsert(change), changeIndex - 1);
         return nearestHeadingNocmalChangeIndex === -1 ? changeIndex : nearestHeadingNocmalChangeIndex + 1;
     })();
 

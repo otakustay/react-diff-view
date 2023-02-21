@@ -1,5 +1,5 @@
 import {Side} from '../../interface';
-import {ChangeData, HunkData} from '../parse';
+import {ChangeData, HunkData, isDelete, isInsert, isNormal} from '../parse';
 import {first, last, sideToProperty} from './util';
 
 type ComputeLine = (change: ChangeData) => number;
@@ -115,7 +115,7 @@ export function getCorrespondingLineNumberFactory(baseSide: Side): GetCorrespond
                 const changeIndex = currentHunk.changes.findIndex(change => baseLineNumber(change) === lineNumber);
                 const change = currentHunk.changes[changeIndex];
 
-                if (change.isNormal) {
+                if (isNormal(change)) {
                     return correspondingLineNumber(change);
                 }
 
@@ -125,14 +125,14 @@ export function getCorrespondingLineNumberFactory(baseSide: Side): GetCorrespond
                 // Git diff always put delete change before insert change
                 //
                 // Note that `nearbySequences: "zip"` option can affect this function
-                const possibleCorrespondingChangeIndex = change.isDelete ? changeIndex + 1 : changeIndex - 1;
+                const possibleCorrespondingChangeIndex = isDelete(change) ? changeIndex + 1 : changeIndex - 1;
                 const possibleCorrespondingChange = currentHunk.changes[possibleCorrespondingChangeIndex];
 
                 if (!possibleCorrespondingChange) {
                     return -1;
                 }
 
-                const negativeChangeType = change.isInsert ? 'delete' : 'insert';
+                const negativeChangeType = isInsert(change) ? 'delete' : 'insert';
 
                 return possibleCorrespondingChange.type === negativeChangeType
                     ? correspondingLineNumber(possibleCorrespondingChange)

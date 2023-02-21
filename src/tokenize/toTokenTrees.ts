@@ -1,7 +1,7 @@
 import {flatMap, keyBy} from 'lodash';
 import type {AST, RefractorNode, highlight} from 'refractor';
 import {Side} from '../interface';
-import {computeOldLineNumber, computeNewLineNumber, ChangeData, HunkData} from '../utils';
+import {computeOldLineNumber, computeNewLineNumber, ChangeData, HunkData, isDelete, isInsert, isNormal} from '../utils';
 import {Pair, TokenNode} from './interface';
 
 interface Refactor {
@@ -21,14 +21,14 @@ function applyHunk(linesOfCode: string[], {newStart, changes}: HunkApplyState) {
     // thus the starting line number has changed due to possible unbanlanced deletions and insertions,
     // we should use `newStart` as the first line number of current reduce.
     const [patchedLines] = changes.reduce<[string[], number]>(
-        ([lines, cursor], {content, isInsert, isDelete}) => {
-            if (isDelete) {
+        ([lines, cursor], change) => {
+            if (isDelete(change)) {
                 lines.splice(cursor, 1);
                 return [lines, cursor];
             }
 
-            if (isInsert) {
-                lines.splice(cursor, 0, content);
+            if (isInsert(change)) {
+                lines.splice(cursor, 0, change.content);
             }
             return [lines, cursor + 1];
         },
@@ -60,11 +60,11 @@ function groupChanges(hunks: HunkData[]): Pair<ChangeData[]> {
     const changes = flatMap(hunks, hunk => hunk.changes);
     return changes.reduce<[ChangeData[], ChangeData[]]>(
         ([oldChanges, newChanges], change) => {
-            if (change.isNormal) {
+            if (isNormal(change)) {
                 oldChanges.push(change);
                 newChanges.push(change);
             }
-            else if (change.isDelete) {
+            else if (isDelete(change)) {
                 oldChanges.push(change);
             }
             else {
