@@ -1,0 +1,598 @@
+// Vitest Snapshot v1
+
+exports[`toTokenTrees > php will renders __PHP__ 1`] = `
+[
+  {
+    "children": [],
+    "type": "root",
+  },
+  {
+    "children": [
+      {
+        "children": [
+          {
+            "children": [
+              {
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "<",
+                  },
+                ],
+                "properties": {
+                  "className": [
+                    "token",
+                    "punctuation",
+                  ],
+                },
+                "tagName": "span",
+                "type": "element",
+              },
+              {
+                "type": "text",
+                "value": "img",
+              },
+            ],
+            "properties": {
+              "className": [
+                "token",
+                "tag",
+              ],
+            },
+            "tagName": "span",
+            "type": "element",
+          },
+          {
+            "children": [
+              {
+                "children": [
+                  {
+                    "type": "text",
+                    "value": " ",
+                  },
+                  {
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "style",
+                      },
+                    ],
+                    "properties": {
+                      "className": [
+                        "token",
+                        "attr-name",
+                      ],
+                    },
+                    "tagName": "span",
+                    "type": "element",
+                  },
+                ],
+                "properties": {
+                  "className": [
+                    "token",
+                    "attr-name",
+                  ],
+                },
+                "tagName": "span",
+                "type": "element",
+              },
+              {
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "=\\"",
+                  },
+                ],
+                "properties": {
+                  "className": [
+                    "token",
+                    "punctuation",
+                  ],
+                },
+                "tagName": "span",
+                "type": "element",
+              },
+              {
+                "children": [
+                  {
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "width",
+                      },
+                    ],
+                    "properties": {
+                      "className": [
+                        "token",
+                        "property",
+                      ],
+                    },
+                    "tagName": "span",
+                    "type": "element",
+                  },
+                  {
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": ":",
+                      },
+                    ],
+                    "properties": {
+                      "className": [
+                        "token",
+                        "punctuation",
+                      ],
+                    },
+                    "tagName": "span",
+                    "type": "element",
+                  },
+                  {
+                    "type": "text",
+                    "value": "___PHP",
+                  },
+                  {
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "0",
+                      },
+                    ],
+                    "properties": {
+                      "className": [
+                        "token",
+                        "number",
+                      ],
+                    },
+                    "tagName": "span",
+                    "type": "element",
+                  },
+                  {
+                    "type": "text",
+                    "value": "___%",
+                  },
+                ],
+                "properties": {
+                  "className": [
+                    "token",
+                    "attr-value",
+                  ],
+                },
+                "tagName": "span",
+                "type": "element",
+              },
+              {
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "\\"",
+                  },
+                ],
+                "properties": {
+                  "className": [
+                    "token",
+                    "punctuation",
+                  ],
+                },
+                "tagName": "span",
+                "type": "element",
+              },
+            ],
+            "properties": {
+              "className": [
+                "token",
+                "style-attr",
+                "language-css",
+              ],
+            },
+            "tagName": "span",
+            "type": "element",
+          },
+          {
+            "type": "text",
+            "value": " ",
+          },
+          {
+            "children": [
+              {
+                "type": "text",
+                "value": "src",
+              },
+            ],
+            "properties": {
+              "className": [
+                "token",
+                "attr-name",
+              ],
+            },
+            "tagName": "span",
+            "type": "element",
+          },
+          {
+            "children": [
+              {
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "=",
+                  },
+                ],
+                "properties": {
+                  "className": [
+                    "token",
+                    "punctuation",
+                  ],
+                },
+                "tagName": "span",
+                "type": "element",
+              },
+              {
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "'",
+                  },
+                ],
+                "properties": {
+                  "className": [
+                    "token",
+                    "punctuation",
+                  ],
+                },
+                "tagName": "span",
+                "type": "element",
+              },
+              {
+                "type": "text",
+                "value": "___PHP1___",
+              },
+              {
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "'",
+                  },
+                ],
+                "properties": {
+                  "className": [
+                    "token",
+                    "punctuation",
+                  ],
+                },
+                "tagName": "span",
+                "type": "element",
+              },
+            ],
+            "properties": {
+              "className": [
+                "token",
+                "attr-value",
+              ],
+            },
+            "tagName": "span",
+            "type": "element",
+          },
+          {
+            "children": [
+              {
+                "type": "text",
+                "value": "/>",
+              },
+            ],
+            "properties": {
+              "className": [
+                "token",
+                "punctuation",
+              ],
+            },
+            "tagName": "span",
+            "type": "element",
+          },
+        ],
+        "properties": {
+          "className": [
+            "token",
+            "tag",
+          ],
+        },
+        "tagName": "span",
+        "type": "element",
+      },
+    ],
+    "type": "root",
+  },
+]
+`;
+
+exports[`toTokenTrees > refractor highlight 1`] = `
+[
+  {
+    "children": [
+      {
+        "children": [
+          {
+            "children": [
+              {
+                "type": "text",
+                "value": "<",
+              },
+            ],
+            "properties": {
+              "className": [
+                "token",
+                "punctuation",
+              ],
+            },
+            "tagName": "span",
+            "type": "element",
+          },
+          {
+            "type": "text",
+            "value": "img",
+          },
+        ],
+        "properties": {
+          "className": [
+            "token",
+            "tag",
+          ],
+        },
+        "tagName": "span",
+        "type": "element",
+      },
+      {
+        "children": [
+          {
+            "children": [
+              {
+                "type": "text",
+                "value": " ",
+              },
+              {
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "style",
+                  },
+                ],
+                "properties": {
+                  "className": [
+                    "token",
+                    "attr-name",
+                  ],
+                },
+                "tagName": "span",
+                "type": "element",
+              },
+            ],
+            "properties": {
+              "className": [
+                "token",
+                "attr-name",
+              ],
+            },
+            "tagName": "span",
+            "type": "element",
+          },
+          {
+            "children": [
+              {
+                "type": "text",
+                "value": "=\\"",
+              },
+            ],
+            "properties": {
+              "className": [
+                "token",
+                "punctuation",
+              ],
+            },
+            "tagName": "span",
+            "type": "element",
+          },
+          {
+            "children": [
+              {
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "width",
+                  },
+                ],
+                "properties": {
+                  "className": [
+                    "token",
+                    "property",
+                  ],
+                },
+                "tagName": "span",
+                "type": "element",
+              },
+              {
+                "children": [
+                  {
+                    "type": "text",
+                    "value": ":",
+                  },
+                ],
+                "properties": {
+                  "className": [
+                    "token",
+                    "punctuation",
+                  ],
+                },
+                "tagName": "span",
+                "type": "element",
+              },
+              {
+                "type": "text",
+                "value": "___PHP",
+              },
+              {
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "0",
+                  },
+                ],
+                "properties": {
+                  "className": [
+                    "token",
+                    "number",
+                  ],
+                },
+                "tagName": "span",
+                "type": "element",
+              },
+              {
+                "type": "text",
+                "value": "___%",
+              },
+            ],
+            "properties": {
+              "className": [
+                "token",
+                "attr-value",
+              ],
+            },
+            "tagName": "span",
+            "type": "element",
+          },
+          {
+            "children": [
+              {
+                "type": "text",
+                "value": "\\"",
+              },
+            ],
+            "properties": {
+              "className": [
+                "token",
+                "punctuation",
+              ],
+            },
+            "tagName": "span",
+            "type": "element",
+          },
+        ],
+        "properties": {
+          "className": [
+            "token",
+            "style-attr",
+            "language-css",
+          ],
+        },
+        "tagName": "span",
+        "type": "element",
+      },
+      {
+        "type": "text",
+        "value": " ",
+      },
+      {
+        "children": [
+          {
+            "type": "text",
+            "value": "src",
+          },
+        ],
+        "properties": {
+          "className": [
+            "token",
+            "attr-name",
+          ],
+        },
+        "tagName": "span",
+        "type": "element",
+      },
+      {
+        "children": [
+          {
+            "children": [
+              {
+                "type": "text",
+                "value": "=",
+              },
+            ],
+            "properties": {
+              "className": [
+                "token",
+                "punctuation",
+              ],
+            },
+            "tagName": "span",
+            "type": "element",
+          },
+          {
+            "children": [
+              {
+                "type": "text",
+                "value": "'",
+              },
+            ],
+            "properties": {
+              "className": [
+                "token",
+                "punctuation",
+              ],
+            },
+            "tagName": "span",
+            "type": "element",
+          },
+          {
+            "type": "text",
+            "value": "___PHP1___",
+          },
+          {
+            "children": [
+              {
+                "type": "text",
+                "value": "'",
+              },
+            ],
+            "properties": {
+              "className": [
+                "token",
+                "punctuation",
+              ],
+            },
+            "tagName": "span",
+            "type": "element",
+          },
+        ],
+        "properties": {
+          "className": [
+            "token",
+            "attr-value",
+          ],
+        },
+        "tagName": "span",
+        "type": "element",
+      },
+      {
+        "children": [
+          {
+            "type": "text",
+            "value": "/>",
+          },
+        ],
+        "properties": {
+          "className": [
+            "token",
+            "punctuation",
+          ],
+        },
+        "tagName": "span",
+        "type": "element",
+      },
+    ],
+    "properties": {
+      "className": [
+        "token",
+        "tag",
+      ],
+    },
+    "tagName": "span",
+    "type": "element",
+  },
+]
+`;

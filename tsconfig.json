@@ -1,0 +1,27 @@
+{
+    "compilerOptions": {
+        "module": "ESNext",
+        "target": "ESNext",
+        "lib": [
+          "ESNext",
+          "DOM",
+          "DOM.Iterable"
+        ],
+        "moduleResolution": "node",
+        "sourceMap": true,
+        "declaration": false,
+        "allowJs": false,
+        "skipLibCheck": true,
+        "jsx": "react-jsx",
+        "esModuleInterop": true,
+        "strict": true,
+        "noFallthroughCasesInSwitch": true,
+        "noUnusedLocals": true,
+        "noEmit": true,
+        "baseUrl": ".",
+        "paths": {
+            "react-diff-view/*": ["./src/*"]
+        },
+    },
+    "include": ["src", "site", "*.ts"]
+}
