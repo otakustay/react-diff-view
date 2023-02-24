@@ -3,7 +3,7 @@ import {shallowEqualArrays, shallowEqualObjects} from 'shallow-equal';
 import {flatMap} from 'lodash';
 import {useCustomEqualIdentifier} from './helpers';
 import {HunkData, isNormal} from '../utils';
-import {TokenNode} from '../tokenize';
+import {HunkTokens} from '../tokenize';
 
 const uid = (() => {
     let current = 0;
@@ -27,7 +27,7 @@ function areHunksEqual(xHunks: HunkData[], yHunks: HunkData[]) {
 
 export interface TokenizePayload {
     hunks: HunkData[];
-    oldSource: string;
+    oldSource: string | null;
 }
 
 export type ShouldTokenize<P extends TokenizePayload> = (current: P, prev: P | undefined) => boolean;
@@ -59,7 +59,7 @@ export interface TokenizeWorkerOptions<P extends TokenizePayload> {
 interface WorkerResultSuccess {
     success: true;
     id: string;
-    tokens: TokenNode[];
+    tokens: HunkTokens;
 }
 
 interface WorkerResultFail {
@@ -73,7 +73,7 @@ interface WorkerMessageData {
 }
 
 export interface TokenizeResult {
-    tokens: TokenNode[] | null;
+    tokens: HunkTokens | null;
     tokenizationFailReason: string | null;
 }
 

@@ -1,13 +1,13 @@
 import classNames from 'classnames';
-import {ReactElement} from 'react';
+import {ReactNode} from 'react';
 import {getChangeKey, computeOldLineNumber, computeNewLineNumber, ChangeData, isDelete} from '../../utils';
 import {ActualHunkProps} from '../interface';
 import UnifiedChange from './UnifiedChange';
 import UnifiedWidget from './UnifiedWidget';
 
-type ElementContext = ['change', string, ChangeData] | ['widget', string, ReactElement];
+type ElementContext = ['change', string, ChangeData] | ['widget', string, ReactNode];
 
-function groupElements(changes: ChangeData[], widgets: Record<string, ReactElement>) {
+function groupElements(changes: ChangeData[], widgets: Record<string, ReactNode>) {
     return changes.reduce<ElementContext[]>(
         (elements, change) => {
             const key = getChangeKey(change);

@@ -25,9 +25,28 @@ export {useChangeSelect, useMinCollapsedLines, useSourceExpansion, useTokenizeWo
 export type {DiffProps, DiffType} from './Diff';
 export type {HunkProps} from './Hunk';
 export type {DecorationProps} from './Decoration';
-export type {EventMap, HunkTokens, GutterType, ViewType, RenderToken, RenderGutter} from './context';
+export type {
+    EventMap,
+    GutterType,
+    ViewType,
+    RenderToken,
+    RenderGutter,
+    ChangeEventArgs,
+    GutterOptions,
+} from './context';
 export type {ChangeData, FileData, HunkData, ParseOptions, Source} from './utils';
-export type {Pair, RangeTokenNode, TextNode, TokenNode, TokenPath, TokenizeEnhancer, TokenizeOptions} from './tokenize';
+export type {
+    Pair,
+    RangeTokenNode,
+    TextNode,
+    TokenNode,
+    TokenPath,
+    TokenizeEnhancer,
+    TokenizeOptions,
+    MarkEditsOptions,
+    MarkEditsType,
+    HunkTokens,
+} from './tokenize';
 export type {
     ShouldTokenize,
     TokenizePayload,

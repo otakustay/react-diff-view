@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import {ReactElement} from 'react';
+import {ReactNode} from 'react';
 import {
     getChangeKey,
     computeOldLineNumber,
@@ -15,7 +15,7 @@ import SplitWidget from './SplitWidget';
 
 type ChangeContext = ['change', string, ChangeData | null, ChangeData | null];
 
-type WidgetContext = ['widget', string, ReactElement | null, ReactElement | null];
+type WidgetContext = ['widget', string, ReactNode | null, ReactNode | null];
 
 type ElementContext = ChangeContext | WidgetContext;
 
@@ -25,7 +25,7 @@ function keyForPair(x: ChangeData | null, y: ChangeData | null) {
     return keyForX + keyForY;
 }
 
-function groupElements(changes: ChangeData[], widgets: Record<string, ReactElement>) {
+function groupElements(changes: ChangeData[], widgets: Record<string, ReactNode>) {
     const findWidget = (change: ChangeData | null) => {
         if (!change) {
             return null;

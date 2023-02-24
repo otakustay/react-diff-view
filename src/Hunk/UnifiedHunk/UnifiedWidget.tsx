@@ -1,8 +1,8 @@
-import {ReactElement} from 'react';
+import {ReactNode} from 'react';
 
 export interface UnifiedWidgetProps {
     hideGutter: boolean;
-    element: ReactElement;
+    element: ReactNode;
 }
 
 export default function UnifiedWidget({hideGutter, element}: UnifiedWidgetProps) {

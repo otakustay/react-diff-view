@@ -1,6 +1,7 @@
-import {ReactElement} from 'react';
+import {ReactNode} from 'react';
 import {ChangeData, HunkData} from '../utils';
-import {EventMap, HunkTokens, RenderGutter, RenderToken} from '../context';
+import {EventMap, RenderGutter, RenderToken} from '../context';
+import {HunkTokens} from '../tokenize';
 
 export interface SharedProps {
     hideGutter: boolean;
@@ -22,8 +23,8 @@ export interface ActualHunkProps extends ChangeSharedProps {
     className: string;
     lineClassName: string;
     hunk: HunkData;
-    widgets: Record<string, ReactElement>;
+    widgets: Record<string, ReactNode>;
     hideGutter: boolean;
     selectedChanges: string[];
-    tokens?: HunkTokens;
+    tokens?: HunkTokens | null;
 }

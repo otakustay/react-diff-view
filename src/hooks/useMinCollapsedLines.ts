@@ -1,7 +1,7 @@
 import {useMemo} from 'react';
 import {expandCollapsedBlockBy, HunkData, Source} from '../utils';
 
-export default function useMinCollapsedLines(minLinesExclusive: number, hunks: HunkData[], oldSource: Source) {
+export default function useMinCollapsedLines(minLinesExclusive: number, hunks: HunkData[], oldSource: Source | null) {
     const renderingHunks = useMemo(
         () => {
             if (!oldSource) {

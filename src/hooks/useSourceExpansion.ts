@@ -2,12 +2,12 @@ import {useEffect, useMemo} from 'react';
 import {expandFromRawCode, HunkData, Source} from '../utils';
 import {useCollection} from './helpers';
 
-export default function useSourceExpansion(hunks: HunkData[], oldSource: Source) {
+export default function useSourceExpansion(hunks: HunkData[], oldSource: Source | null) {
     const {collection: expandedRanges, clear, push} = useCollection<[number, number]>();
     // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(clear, [hunks, oldSource]);
     const linesOfOldSource = useMemo(
-        () => (typeof oldSource === 'string' ? oldSource.split('\n') : oldSource),
+        () => (Array.isArray(oldSource) ? oldSource : (oldSource || '').split('\n')),
         [oldSource]
     );
     const renderingHunks = useMemo(

@@ -1,9 +1,9 @@
-import {ReactElement} from 'react';
+import {ReactNode} from 'react';
 
 export interface SplitWidgetProps {
     hideGutter: boolean;
-    oldElement: ReactElement | null;
-    newElement: ReactElement | null;
+    oldElement: ReactNode | null;
+    newElement: ReactNode | null;
     monotonous: boolean;
 }
 

@@ -1,10 +1,9 @@
-import {memo, useRef, useCallback, ReactElement, MouseEvent, useMemo} from 'react';
+import {memo, useRef, useCallback, ReactElement, MouseEvent, useMemo, ReactNode} from 'react';
 import classNames from 'classnames';
 import {
     ContextProps,
     EventMap,
     GutterType,
-    HunkTokens,
     Provider,
     ViewType,
     RenderToken,
@@ -13,6 +12,7 @@ import {
 } from '../context';
 import Hunk from '../Hunk';
 import {ChangeData, HunkData} from '../utils';
+import {HunkTokens} from '../tokenize';
 
 export type DiffType = 'add' | 'delete' | 'modify' | 'rename' | 'copy';
 
@@ -23,14 +23,14 @@ export interface DiffProps {
     gutterType?: GutterType;
     generateAnchorID?: (change: ChangeData) => string | undefined;
     selectedChanges?: string[];
-    widgets?: Record<string, ReactElement>;
+    widgets?: Record<string, ReactNode>;
     optimizeSelection?: boolean;
     className?: string;
     hunkClassName?: string;
     lineClassName?: string;
     gutterClassName?: string;
     codeClassName?: string;
-    tokens?: HunkTokens;
+    tokens?: HunkTokens | null;
     renderToken?: RenderToken;
     renderGutter?: RenderGutter;
     gutterEvents?: EventMap;

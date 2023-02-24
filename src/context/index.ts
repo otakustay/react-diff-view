@@ -1,6 +1,6 @@
-import {createContext, DOMAttributes, ReactElement, ReactNode, useContext} from 'react';
+import {createContext, DOMAttributes, ReactNode, useContext} from 'react';
 import {ChangeData} from '../utils/parse';
-import {TokenNode} from '../tokenize';
+import {HunkTokens, TokenNode} from '../tokenize';
 import {Side} from '../interface';
 
 export type DefaultRenderToken = (token: TokenNode, index: number) => ReactNode;
@@ -16,11 +16,6 @@ export interface GutterOptions {
 }
 
 export type RenderGutter = (options: GutterOptions) => ReactNode;
-
-export interface HunkTokens {
-    old: TokenNode[][];
-    new: TokenNode[][];
-}
 
 export type ViewType = 'unified' | 'split';
 
@@ -54,10 +49,10 @@ export interface ContextProps {
     monotonous: boolean;
     gutterType: GutterType;
     viewType: ViewType;
-    widgets: Record<string, ReactElement>;
+    widgets: Record<string, ReactNode>;
     hideGutter: boolean;
     selectedChanges: string[];
-    tokens?: HunkTokens;
+    tokens?: HunkTokens | null;
     generateAnchorID: (change: ChangeData) => string | undefined;
     renderToken?: RenderToken;
     renderGutter: RenderGutter;
