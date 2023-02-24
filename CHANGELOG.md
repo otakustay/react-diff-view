@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.0.2](https://github.com/otakustay/react-diff-view/compare/v3.0.1...v3.0.2) (2023-02-24)
+
+
+### Bug Fixes
+
+* export more usefule types ([3685f87](https://github.com/otakustay/react-diff-view/commit/3685f877762de0f7a78112970f0c580aef92aefb))
+
 ### [3.0.1](https://github.com/otakustay/react-diff-view/compare/v3.0.0...v3.0.1) (2023-02-24)
 
 
