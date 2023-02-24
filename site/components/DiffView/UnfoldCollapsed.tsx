@@ -1,8 +1,16 @@
-import {getCollapsedLinesCountBetween} from 'react-diff-view';
+import {getCollapsedLinesCountBetween, HunkData} from 'react-diff-view';
 import Unfold from './Unfold';
 
-const UnfoldCollapsed = ({previousHunk, currentHunk, linesCount, onExpand}) => {
+interface Props {
+    previousHunk: HunkData;
+    currentHunk?: HunkData;
+    linesCount: number;
+    onExpand: (start: number, end: number) => void;
+}
+
+export default function UnfoldCollapsed({previousHunk, currentHunk, linesCount, onExpand}: Props) {
     if (!currentHunk) {
+        // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
         const nextStart = previousHunk.oldStart + previousHunk.oldLines;
         const collapsedLines = linesCount - nextStart + 1;
 
@@ -17,6 +25,7 @@ const UnfoldCollapsed = ({previousHunk, currentHunk, linesCount, onExpand}) => {
                         <Unfold
                             direction="down"
                             start={nextStart}
+                            // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
                             end={nextStart + 10}
                             onExpand={onExpand}
                         />
@@ -53,6 +62,7 @@ const UnfoldCollapsed = ({previousHunk, currentHunk, linesCount, onExpand}) => {
         );
     }
 
+    // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
     const collapsedStart = previousHunk.oldStart + previousHunk.oldLines;
     const collapsedEnd = currentHunk.oldStart;
 
@@ -64,11 +74,10 @@ const UnfoldCollapsed = ({previousHunk, currentHunk, linesCount, onExpand}) => {
 
     return (
         <>
+            {/* eslint-disable-next-line @typescript-eslint/restrict-plus-operands */}
             <Unfold direction="down" start={collapsedStart} end={collapsedStart + 10} onExpand={onExpand} />
             <Unfold direction="none" start={collapsedStart} end={collapsedEnd} onExpand={onExpand} />
             <Unfold direction="up" start={collapsedEnd - 10} end={collapsedEnd} onExpand={onExpand} />
         </>
     );
-};
-
-export default UnfoldCollapsed;
+}

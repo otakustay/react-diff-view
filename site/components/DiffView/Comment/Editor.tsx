@@ -1,5 +1,5 @@
-import {useCallback, useState} from 'react';
-import styled from 'styled-components';
+import {ChangeEvent, useCallback, useState} from 'react';
+import styled from '@emotion/styled';
 import {Button, Input} from 'antd';
 
 const Layout = styled.div`
@@ -15,10 +15,19 @@ const Footer = styled.footer`
     justify-content: flex-end;
 `;
 
-export default function CommentEditor({commentId, type, defaultContent, onSave, onCancel, onDelete}) {
+interface Props {
+    commentId: string;
+    type: 'edit' | 'create';
+    defaultContent: string;
+    onSave: (id: string, value: string) => void;
+    onCancel: (id: string) => void;
+    onDelete: (id: string) => void;
+}
+
+export default function CommentEditor({commentId, type, defaultContent, onSave, onCancel, onDelete}: Props) {
     const [value, setValue] = useState(defaultContent);
     const updateValue = useCallback(
-        e => setValue(e.target.value),
+        (e: ChangeEvent<HTMLTextAreaElement>) => setValue(e.target.value),
         []
     );
     const save = useCallback(

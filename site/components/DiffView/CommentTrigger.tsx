@@ -1,6 +1,6 @@
 import {useCallback} from 'react';
-import styled from 'styled-components';
-import {getChangeKey} from 'react-diff-view';
+import styled from '@emotion/styled';
+import {ChangeData, getChangeKey} from 'react-diff-view';
 
 const Trigger = styled.span`
     display: flex;
@@ -14,18 +14,23 @@ const Trigger = styled.span`
     height: 22px;
     font-size: 16px;
     font-weight: bold;
-    background-color: #fff;
+    background-color: var(--background-color-pure);
     box-shadow: 0 1px 4px rgba(27, 31, 35, .15);
-    color: #999;
+    color: var(--diff-decoration-content-color);
 
     :hover {
         transition: all .2s linear;
-        background-color: #fafafa;
+        background-color: var(--background-color-secondary);
         color: #333;
     }
 `;
 
-export default function CommentTrigger({change, onClick}) {
+interface Props {
+    change: ChangeData;
+    onClick: (value: string) => void;
+}
+
+export default function CommentTrigger({change, onClick}: Props) {
     const click = useCallback(
         () => onClick(getChangeKey(change)),
         [change, onClick]

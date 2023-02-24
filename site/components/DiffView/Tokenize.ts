@@ -32,7 +32,7 @@ self.addEventListener(
         catch (ex) {
             const payload = {
                 success: false,
-                reason: ex.message,
+                reason: ex instanceof Error ? ex.message : `${ex}`,
             };
             self.postMessage({id, payload});
         }

@@ -1,25 +1,46 @@
+import {ReactNode} from 'react';
 import {Modal, Radio, Switch} from 'antd';
 import styles from './OptionsModal.less';
+import {MarkEditsType, ViewType} from 'react-diff-view';
 
 /* eslint-disable react/jsx-no-bind */
 
 const {Group: RadioGroup, Button: RadioButton} = Radio;
 
-const Row = ({title, tooltip, children}) => (
-    <div className={styles.row}>
-        <div className={styles.field}>
-            <span className={styles.rowTitle}>
-                {title}
-            </span>
-            {children}
-        </div>
-        <div className={styles.tooltip}>
-            {tooltip}
-        </div>
-    </div>
-);
+interface RowProps {
+    title: string;
+    tooltip: string;
+    children: ReactNode;
+}
 
-const OptionsModal = props => {
+function Row({title, tooltip, children}: RowProps) {
+    return (
+        <div className={styles.row}>
+            <div className={styles.field}>
+                <span className={styles.rowTitle}>
+                    {title}
+                </span>
+                {children}
+            </div>
+            <div className={styles.tooltip}>
+                {tooltip}
+            </div>
+        </div>
+    );
+}
+
+interface Props {
+    visible: boolean;
+    viewType: ViewType;
+    editsType: MarkEditsType;
+    showGutter: boolean;
+    onSwitchViewType: (value: ViewType) => void;
+    onSwitchEditsType: (value: MarkEditsType) => void;
+    onSwitchGutterVisibility: (value: boolean) => void;
+    onClose: () => void;
+}
+
+export default function OptionsModal(props: Props) {
     const {
         visible,
         viewType,
@@ -51,6 +72,4 @@ const OptionsModal = props => {
             </Row>
         </Modal>
     );
-};
-
-export default OptionsModal;
+}

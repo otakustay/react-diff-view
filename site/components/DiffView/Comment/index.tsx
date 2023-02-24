@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 import Editor from './Editor';
 import Display from './Display';
 
@@ -7,7 +7,18 @@ const Layout = styled.div`
     background-color: var(--background-color-secondary);
 `;
 
-export default function Comment({id, content, state, time, onSave, onEdit, onCancel, onDelete}) {
+interface Props {
+    id: string;
+    content: string;
+    state: 'create' | 'edit' | 'display';
+    time: Date;
+    onSave: (id: string, content: string) => void;
+    onEdit: (id: string) => void;
+    onCancel: (id: string) => void;
+    onDelete: (id: string) => void;
+}
+
+export default function Comment({id, content, state, time, onSave, onEdit, onCancel, onDelete}: Props) {
     return (
         <Layout>
             {

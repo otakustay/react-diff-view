@@ -1,5 +1,6 @@
 import {useCallback} from 'react';
-import styled from 'styled-components';
+import styled from '@emotion/styled';
+import InteractiveLabel from '../../InteractiveLabel';
 
 const Text = styled.div`
     white-space: pre;
@@ -14,7 +15,15 @@ const Footer = styled.footer`
     margin-top: 12px;
 `;
 
-export default function CommentDisplay({commentId, content, time, onEdit, onDelete}) {
+interface Props {
+    commentId: string;
+    content: string;
+    time: Date;
+    onEdit: (id: string) => void;
+    onDelete: (id: string) => void;
+}
+
+export default function CommentDisplay({commentId, content, time, onEdit, onDelete}: Props) {
     const edit = useCallback(
         () => onEdit(commentId),
         [commentId, onEdit]
@@ -31,8 +40,8 @@ export default function CommentDisplay({commentId, content, time, onEdit, onDele
             </Text>
             <Footer>
                 <time>{time.toLocaleDateString()} {time.toLocaleTimeString()}</time>
-                <a onClick={edit}>edit</a>
-                <a onClick={remove}>delete</a>
+                <InteractiveLabel onClick={edit}>edit</InteractiveLabel>
+                <InteractiveLabel onClick={remove}>delete</InteractiveLabel>
             </Footer>
         </>
     );

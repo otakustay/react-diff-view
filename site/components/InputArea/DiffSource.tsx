@@ -1,11 +1,23 @@
 import {useState, useCallback} from 'react';
 import classNames from 'classnames';
 import {formatLines, diffLines} from 'unidiff';
+import InteractiveLabel from '../InteractiveLabel';
 import TextInput from './TextInput';
 import SubmitButton from './SubmitButton';
 import styles from './DiffSource.less';
 
-const DiffSource = ({className, onSubmit, onSwitchInputType}) => {
+interface DiffData {
+    diff: string;
+    source: string | null;
+}
+
+export interface Props {
+    className?: string;
+    onSubmit: (data: DiffData) => void;
+    onSwitchInputType: () => void;
+}
+
+export default function DiffSource({className, onSubmit, onSwitchInputType}: Props) {
     const [oldSource, setOldSource] = useState('');
     const [newSource, setNewSource] = useState('');
     const submit = useCallback(
@@ -28,7 +40,7 @@ const DiffSource = ({className, onSubmit, onSwitchInputType}) => {
     return (
         <div className={classNames(styles.root, className)}>
             <div className={styles.action}>
-                <a onClick={onSwitchInputType}>I want to beautify a diff</a>
+                <InteractiveLabel onClick={onSwitchInputType}>I want to beautify a diff</InteractiveLabel>
             </div>
             <div className={styles.input}>
                 <TextInput
@@ -47,6 +59,4 @@ const DiffSource = ({className, onSubmit, onSwitchInputType}) => {
             <SubmitButton onClick={submit} />
         </div>
     );
-};
-
-export default DiffSource;
+}

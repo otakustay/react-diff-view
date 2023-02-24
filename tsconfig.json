@@ -20,6 +20,7 @@
         "noEmit": true,
         "baseUrl": ".",
         "paths": {
+            "react-diff-view": ["./src/index.ts"],
             "react-diff-view/*": ["./src/*"]
         },
     },

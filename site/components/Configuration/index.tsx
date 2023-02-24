@@ -13,14 +13,14 @@ import styles from './index.less';
 
 const {Option} = Select;
 
-const useBoolean = initialValue => {
+function useBoolean(initialValue: boolean) {
     const [value, setValue] = useState(initialValue);
     const on = useCallback(() => setValue(true), []);
     const off = useCallback(() => setValue(false), []);
-    return [value, on, off];
-};
+    return [value, on, off] as const;
+}
 
-const Configuration = () => {
+export default function Configuration() {
     const [isModalVisible, openModal, closeModal] = useBoolean(false);
     const configuration = useConfiguration();
     const switchViewType = useSwitchViewType();
@@ -54,6 +54,4 @@ const Configuration = () => {
             />
         </div>
     );
-};
-
-export default Configuration;
+}

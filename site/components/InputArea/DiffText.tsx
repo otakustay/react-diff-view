@@ -1,15 +1,30 @@
 import {useState, useReducer, useCallback} from 'react';
 import classNames from 'classnames';
 import {UpOutlined, DownOutlined} from '@ant-design/icons';
+import InteractiveLabel from '../InteractiveLabel';
 import TextInput from './TextInput';
 import SubmitButton from './SubmitButton';
 import styles from './DiffText.less';
 import preset from './preset.diff?raw';
 import presetSource from './preset.src?raw';
 
-const useToggle = initialValue => useReducer(v => !v, initialValue);
+function useToggle(initialValue: boolean) {
+    return useReducer(v => !v, initialValue);
+}
 
-const DiffText = ({className, onSwitchInputType, onSubmit}) => {
+interface DiffData {
+    diff: string;
+    source: string | null;
+}
+
+interface Props {
+    className?: string;
+    onSwitchInputType: () => void;
+    onSubmit: (data: DiffData) => void;
+}
+
+
+export default function DiffText({className, onSwitchInputType, onSubmit}: Props) {
     const [diff, setDiff] = useState('');
     const [source, setSource] = useState('');
     const [isSourceVisible, toggleSourceVisible] = useToggle(false);
@@ -36,17 +51,17 @@ const DiffText = ({className, onSwitchInputType, onSubmit}) => {
     return (
         <div className={classNames(styles.root, className)}>
             <div className={styles.action}>
-                <a onClick={onSwitchInputType}>I want to compare text</a>
-                <a onClick={loadPreset}>Use preset example</a>
+                <InteractiveLabel onClick={onSwitchInputType}>I want to compare text</InteractiveLabel>
+                <InteractiveLabel onClick={loadPreset}>Use preset example</InteractiveLabel>
             </div>
             <TextInput title="DIFF TEXT" value={diff} onChange={setDiff} />
             <div className={styles.source}>
-                <a className={styles.toggle} onClick={toggleSourceVisible}>
+                <InteractiveLabel className={styles.toggle} onClick={toggleSourceVisible}>
                     {isSourceVisible ? <UpOutlined /> : <DownOutlined />}
                     {isSourceVisible ? 'Don\'t have any source code' : 'I have the old source code'}
-                </a>
+                </InteractiveLabel>
                 <TextInput
-                    className={isSourceVisible ? null : styles.hidden}
+                    className={isSourceVisible ? '' : styles.hidden}
                     title="ORIGINAL SOURCE CODE"
                     value={source}
                     onChange={setSource}
@@ -55,6 +70,4 @@ const DiffText = ({className, onSwitchInputType, onSubmit}) => {
             <SubmitButton onClick={submit} />
         </div>
     );
-};
-
-export default DiffText;
+}

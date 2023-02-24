@@ -1,4 +1,4 @@
-import {useCallback, useMemo, useState} from 'react';
+import {ReactElement, useCallback, useMemo, useState} from 'react';
 import {nanoid} from 'nanoid';
 import {
     Diff,
@@ -6,6 +6,11 @@ import {
     useSourceExpansion,
     useMinCollapsedLines,
     useTokenizeWorker,
+    HunkData,
+    MarkEditsType,
+    DiffType,
+    GutterOptions,
+    EventMap,
 } from 'react-diff-view';
 import 'react-diff-view/styles/index.css';
 import {useConfiguration} from '../../context/configuration';
@@ -20,7 +25,12 @@ import {useSelection} from '../../hooks/selection';
 
 const tokenize = new TokenizeWorker();
 
-const useEnhance = (hunks, oldSource, {language, editsType}) => {
+interface EnhanceOptions {
+    language: string;
+    editsType: MarkEditsType;
+}
+
+function useEnhance(hunks: HunkData[], oldSource: string | null, {language, editsType}: EnhanceOptions) {
     const [hunksWithSourceExpanded, expandRange] = useSourceExpansion(hunks, oldSource);
     const hunksWithMinLinesCollapsed = useMinCollapsedLines(0, hunksWithSourceExpanded, oldSource);
     const [selection, toggleSelection] = useSelection(hunksWithMinLinesCollapsed);
@@ -38,20 +48,21 @@ const useEnhance = (hunks, oldSource, {language, editsType}) => {
         tokens,
         hunks: hunksWithMinLinesCollapsed,
     };
-};
+}
 
-const useComments = () => {
-    // inteface Comment {
-    //     id: string;
-    //     changeKey: string;
-    //     state: 'create' | 'edit' | 'display';
-    //     content: string;
-    //     time: Date;
-    // }
-    const [comments, setComments] = useState([]);
+interface CommentData {
+    id: string;
+    changeKey: string;
+    state: 'create' | 'edit' | 'display';
+    content: string;
+    time: Date;
+}
+
+function useComments() {
+    const [comments, setComments] = useState<CommentData[]>([]);
     const addComment = useCallback(
-        changeKey => {
-            const addNew = state => [
+        (changeKey: string) => {
+            const addNew = (state: CommentData[]): CommentData[] => [
                 ...state,
                 {changeKey, id: nanoid(), state: 'create', content: '', time: new Date()},
             ];
@@ -60,8 +71,8 @@ const useComments = () => {
         []
     );
     const editComment = useCallback(
-        commentId => {
-            const mayUpdate = comment => {
+        (commentId: string) => {
+            const mayUpdate = (comment: CommentData): CommentData => {
                 if (comment.id !== commentId) {
                     return comment;
                 }
@@ -73,8 +84,8 @@ const useComments = () => {
         []
     );
     const saveEdit = useCallback(
-        (commentId, content) => {
-            const mayUpdate = comment => {
+        (commentId: string, content: string) => {
+            const mayUpdate = (comment: CommentData): CommentData => {
                 if (comment.id !== commentId) {
                     return comment;
                 }
@@ -86,29 +97,33 @@ const useComments = () => {
         []
     );
     const cancelEdit = useCallback(
-        (commentId, content) => {
-            if (content) {
-                const mayUpdate = comment => {
-                    if (comment.id !== commentId) {
-                        return comment;
-                    }
+        (commentId: string) => {
+            const mayUpdate = (comment: CommentData): CommentData => {
+                if (comment.id !== commentId) {
+                    return comment;
+                }
 
-                    return {...comment, state: 'display'};
-                };
-                setComments(s => s.map(mayUpdate));
-            }
+                return {...comment, state: 'display'};
+            };
+            setComments(s => s.map(mayUpdate));
         },
         []
     );
     const deleteComment = useCallback(
-        commentId => setComments(s => s.filter(v => v.id !== commentId)),
+        (commentId: string) => setComments(s => s.filter(v => v.id !== commentId)),
         []
     );
 
-    return [comments, {addComment, editComment, saveEdit, cancelEdit, deleteComment}];
-};
+    return [comments, {addComment, editComment, saveEdit, cancelEdit, deleteComment}] as const;
+}
 
-const DiffView = props => {
+interface Props {
+    oldSource: string | null;
+    type: DiffType;
+    hunks: HunkData[];
+}
+
+export default function DiffView(props: Props) {
     const {oldSource, type} = props;
     const configuration = useConfiguration();
     const {
@@ -120,7 +135,7 @@ const DiffView = props => {
     } = useEnhance(props.hunks, oldSource, configuration);
     const [comments, {addComment, editComment, saveEdit, cancelEdit, deleteComment}] = useComments();
     const widgets = useMemo(
-        () => comments.reduce(
+        () => comments.reduce<Record<string, ReactElement[]>>(
             (widgets, comment) => {
                 if (!widgets[comment.changeKey]) {
                     // eslint-disable-next-line no-param-reassign
@@ -147,7 +162,7 @@ const DiffView = props => {
     );
     const {viewType, showGutter} = configuration;
     const renderGutter = useCallback(
-        ({change, side, inHoverState, renderDefault, wrapInAnchor}) => {
+        ({change, side, inHoverState, renderDefault, wrapInAnchor}: GutterOptions) => {
             const canComment = inHoverState && (viewType === 'split' || side === 'new');
             if (canComment) {
                 return <CommentTrigger change={change} onClick={addComment} />;
@@ -157,31 +172,29 @@ const DiffView = props => {
         },
         [addComment, viewType]
     );
+    const events: EventMap = {
+        onClick: toggleSelection,
+    };
     const linesCount = oldSource ? oldSource.split('\n').length : 0;
-    const renderHunk = (children, hunk, i, hunks) => {
+    const renderHunk = (children: ReactElement[], hunk: HunkData, i: number, hunks: HunkData[]) => {
         const previousElement = children[children.length - 1];
         const decorationElement = oldSource
             ? (
                 <UnfoldCollapsed
-                    key={'decoration-' + hunk.content}
+                    key={`decoration-${hunk.content}`}
                     previousHunk={previousElement && previousElement.props.hunk}
                     currentHunk={hunk}
                     linesCount={linesCount}
                     onExpand={expandRange}
                 />
             )
-            : <HunkInfo key={'decoration-' + hunk.content} hunk={hunk} />;
+            : <HunkInfo key={`decoration-${hunk.content}`} hunk={hunk} />;
         children.push(decorationElement);
-        const events = {
-            onClick: toggleSelection,
-        };
 
         const hunkElement = (
             <Hunk
-                key={'hunk-' + hunk.content}
+                key={`hunk-${hunk.content}`}
                 hunk={hunk}
-                codeEvents={events}
-                gutterEvents={events}
             />
         );
         children.push(hunkElement);
@@ -207,16 +220,15 @@ const DiffView = props => {
             viewType={viewType}
             diffType={type}
             hunks={hunks}
-            oldSource={oldSource}
             gutterType={showGutter ? 'default' : 'none'}
             selectedChanges={selection}
             tokens={tokens}
             widgets={widgets}
+            codeEvents={events}
+            gutterEvents={events}
             renderGutter={renderGutter}
         >
             {hunks => hunks.reduce(renderHunk, [])}
         </Diff>
     );
-};
-
-export default DiffView;
+}

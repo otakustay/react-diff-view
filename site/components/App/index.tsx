@@ -11,8 +11,13 @@ import './app.global.less';
 
 const fakeIndex = () => sha(uniqueId()).slice(0, 9);
 
-const App = () => {
-    const [{diff, source}, setData] = useState({diff: '', source: ''});
+interface DiffData {
+    diff: string;
+    source: string | null;
+}
+
+export default function App() {
+    const [{diff, source}, setData] = useState<DiffData>({diff: '', source: ''});
     const file = useMemo(
         () => {
             if (!diff) {
@@ -39,7 +44,7 @@ const App = () => {
                         <>
                             <Configuration />
                             <DiffView
-                                key={sha(diff) + (source ? sha(source) : '')}
+                                key={`${sha(diff)}${source ? sha(source) : ''}`}
                                 type={file.type}
                                 hunks={file.hunks}
                                 oldSource={source}
@@ -50,6 +55,4 @@ const App = () => {
             </div>
         </ConfigurationProvider>
     );
-};
-
-export default App;
+}

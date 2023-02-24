@@ -1,11 +1,25 @@
-import {useCallback, useMemo, useState} from 'react';
-import {getChangeKey} from 'react-diff-view';
+import {MouseEvent, useCallback, useMemo, useState} from 'react';
+import {ChangeEventArgs, getChangeKey, HunkData} from 'react-diff-view';
 
-export const useSelection = hunks => {
-    const [{start, end}, setSelection] = useState({start: null, end: null});
+interface Selection {
+    start: string | null;
+    end: string | null;
+}
+
+interface InlineState {
+    inSelection: boolean;
+    keys: string[];
+}
+
+export const useSelection = (hunks: HunkData[]) => {
+    const [{start, end}, setSelection] = useState<Selection>({start: null, end: null});
     const [currentHunks, setCurrentHunks] = useState(hunks);
     const select = useCallback(
-        ({change}, e) => {
+        ({change}: ChangeEventArgs, e: MouseEvent<HTMLElement>) => {
+            if (!change) {
+                return;
+            }
+
             const key = getChangeKey(change);
             if (e.shiftKey && start) {
                 setSelection(v => ({start: v.start, end: key}));
@@ -27,7 +41,7 @@ export const useSelection = hunks => {
             }
 
             // Find all changes from start to end in all hunks
-            const state = {
+            const state: InlineState = {
                 inSelection: false,
                 keys: [],
             };
@@ -53,5 +67,5 @@ export const useSelection = hunks => {
         setCurrentHunks(hunks);
     }
 
-    return [selected, select];
+    return [selected, select] as const;
 };

@@ -1,6 +1,6 @@
 import {createElement, useCallback} from 'react';
 import {CaretUpOutlined, CaretDownOutlined, PlusCircleOutlined} from '@ant-design/icons';
-import {Decoration} from 'react-diff-view';
+import {Decoration, DecorationProps} from 'react-diff-view';
 import styles from './Unfold.less';
 
 const ICON_TYPE_MAPPING = {
@@ -9,7 +9,14 @@ const ICON_TYPE_MAPPING = {
     none: PlusCircleOutlined,
 };
 
-const Unfold = ({start, end, direction, onExpand, ...props}) => {
+interface Props extends Omit<DecorationProps, 'children'> {
+    start: number;
+    end: number;
+    direction: 'up' | 'down' | 'none';
+    onExpand: (start: number, end: number) => void;
+}
+
+export default function Unfold({start, end, direction, onExpand, ...props}: Props) {
     const expand = useCallback(
         () => onExpand(start, end),
         [onExpand, start, end]
@@ -26,6 +33,4 @@ const Unfold = ({start, end, direction, onExpand, ...props}) => {
             </div>
         </Decoration>
     );
-};
-
-export default Unfold;
+}
