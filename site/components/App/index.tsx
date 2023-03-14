@@ -9,7 +9,22 @@ import InputArea from '../InputArea';
 import styles from './index.less';
 import './app.global.less';
 
-const fakeIndex = () => sha(uniqueId()).slice(0, 9);
+function fakeIndex() {
+    return sha(uniqueId()).slice(0, 9);
+}
+
+function appendGitDiffHeaderIfNeeded(diffText: string) {
+    if (diffText.startsWith('diff --git')) {
+        return diffText;
+    }
+
+    const segments = [
+        'diff --git a/a b/b',
+        `index ${fakeIndex()}..${fakeIndex()} 100644`,
+        diffText,
+    ];
+    return segments.join('\n');
+}
 
 interface DiffData {
     diff: string;
@@ -24,12 +39,7 @@ export default function App() {
                 return null;
             }
 
-            const segments = [
-                'diff --git a/a b/b',
-                `index ${fakeIndex()}..${fakeIndex()} 100644`,
-                diff,
-            ];
-            const [file] = parseDiff(segments.join('\n'), {nearbySequences: 'zip'});
+            const [file] = parseDiff(appendGitDiffHeaderIfNeeded(diff), {nearbySequences: 'zip'});
             return file;
         },
         [diff]
