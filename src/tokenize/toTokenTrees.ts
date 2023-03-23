@@ -4,7 +4,7 @@ import {Side} from '../interface';
 import {computeOldLineNumber, computeNewLineNumber, ChangeData, HunkData, isDelete, isInsert, isNormal} from '../utils';
 import {Pair, TokenNode} from './interface';
 
-interface Refactor {
+interface Refractor {
     highlight: typeof highlight;
 }
 
@@ -96,7 +96,7 @@ export interface ToTokenTreeOptionsNoHighlight {
 
 export interface ToTokenTreeOptionsHighlight {
     highlight: true;
-    refractor: Refactor;
+    refractor: Refractor;
     oldSource?: string;
     language: string;
 }
