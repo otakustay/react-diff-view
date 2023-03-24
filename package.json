@@ -30,6 +30,7 @@
   "dependencies": {
     "classnames": "^2.3.2",
     "diff-match-patch": "^1.0.5",
+    "gitdiff-parser": "^0.3.1",
     "shallow-equal": "^3.1.0",
     "warning": "^4.0.3"
   },
@@ -78,7 +79,6 @@
     "eslint": "^8.36.0",
     "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-react-hooks": "^4.6.0",
-    "gitdiff-parser": "^0.3.1",
     "html-webpack-plugin": "^5.5.0",
     "husky": "^8.0.3",
     "identity-obj-proxy": "^3.0.0",
