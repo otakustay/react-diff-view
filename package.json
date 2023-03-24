@@ -104,7 +104,7 @@
     "webpack": "^5.76.1"
   },
   "peerDependencies": {
-    "react": ">=16.8"
+    "react": ">=16.14.0"
   },
   "repository": {
     "type": "git",

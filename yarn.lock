@@ -12785,7 +12785,7 @@ __metadata:
     warning: ^4.0.3
     webpack: ^5.76.1
   peerDependencies:
-    react: ">=16.8"
+    react: ">=16.14.0"
   languageName: unknown
   linkType: soft
 
