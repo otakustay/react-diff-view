@@ -1,12 +1,7 @@
 {
-    "extends": "./tsconfig.json",
+    "extends": "./tsconfig.types.json",
     "compilerOptions": {
-        "rootDir": "src",
-        "outDir": "types",
-        "noEmit": false,
-        "declaration": true,
-        "emitDeclarationOnly": true
-    },
-    "include": ["src"],
-    "exclude": ["**/__tests__"]
+        "outDir": "esm",
+        "emitDeclarationOnly": false
+    }
 }

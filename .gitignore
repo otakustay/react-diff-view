@@ -70,6 +70,7 @@ typings/
 .DS_Store
 /es
 /cjs
+/esm
 /style
 /dist
 /types

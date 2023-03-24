@@ -45,6 +45,8 @@ paint: 6199.848876953125ms
 npm install --save react-diff-view
 ```
 
+Starting from `3.1.0`, you can `import {Diff} from 'react-diff-view/esm` to reference an unminified ESM module.
+
 ## Basic usage
 
 ### Parse diff text
