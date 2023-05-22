@@ -153,6 +153,7 @@ function SplitChange(props: SplitChangeProps) {
         codeEvents,
         hideGutter,
         generateAnchorID,
+        generateLineClassName,
         gutterAnchor,
         renderToken,
         renderGutter,
@@ -165,6 +166,7 @@ function SplitChange(props: SplitChangeProps) {
     const newCodeEvents = useCallbackOnSide('new', setHover, newChange, codeEvents);
     const oldAnchorID = oldChange && generateAnchorID(oldChange);
     const newAnchorID = newChange && generateAnchorID(newChange);
+    const customLineClassName = generateLineClassName([oldChange, newChange]);
     const commons = {
         monotonous,
         hideGutter,
@@ -204,7 +206,7 @@ function SplitChange(props: SplitChangeProps) {
 
     if (monotonous) {
         return (
-            <tr className={classNames('diff-line', className)}>
+            <tr className={classNames('diff-line', className, customLineClassName)}>
                 {renderCells(oldChange ? oldArgs : newArgs)}
             </tr>
         );
@@ -227,7 +229,7 @@ function SplitChange(props: SplitChangeProps) {
     })(oldChange, newChange);
 
     return (
-        <tr className={classNames('diff-line', lineTypeClassName, className)}>
+        <tr className={classNames('diff-line', lineTypeClassName, className, customLineClassName)}>
             {renderCells(oldArgs)}
             {renderCells(newArgs)}
         </tr>

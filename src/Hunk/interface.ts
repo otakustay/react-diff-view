@@ -8,6 +8,9 @@ export interface SharedProps {
     gutterAnchor: boolean;
     monotonous: boolean;
     generateAnchorID: (change: ChangeData) => string | undefined;
+    generateLineClassName: (
+        lineChange: [ChangeData | null, ChangeData | null] | ChangeData | null
+    ) => string | undefined;
     renderToken?: RenderToken;
     renderGutter: RenderGutter;
 }

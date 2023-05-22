@@ -54,6 +54,13 @@ export interface ContextProps {
     selectedChanges: string[];
     tokens?: HunkTokens | null;
     generateAnchorID: (change: ChangeData) => string | undefined;
+    /**
+     * provide extra className for specific lines
+     * <[oldChange, newChange]> for split diff mode and <changeData> for unified diff mode
+     */
+    generateLineClassName: (
+        lineChange: [ChangeData | null, ChangeData | null] | ChangeData | null
+    ) => string | undefined;
     renderToken?: RenderToken;
     renderGutter: RenderGutter;
     gutterEvents: EventMap;
@@ -72,6 +79,7 @@ export const DEFAULT_CONTEXT_VALUE: ContextProps = {
     hideGutter: false,
     selectedChanges: [],
     generateAnchorID: () => undefined,
+    generateLineClassName: () => undefined,
     renderGutter: ({renderDefault, wrapInAnchor}) => wrapInAnchor(renderDefault()),
     codeEvents: {},
     gutterEvents: {},

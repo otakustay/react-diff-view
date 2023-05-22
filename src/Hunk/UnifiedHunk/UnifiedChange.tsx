@@ -73,6 +73,7 @@ function UnifiedChange(props: UnifiedChangeProps) {
         hideGutter,
         gutterAnchor,
         generateAnchorID,
+        generateLineClassName,
         renderToken,
         renderGutter,
     } = props;
@@ -84,6 +85,7 @@ function UnifiedChange(props: UnifiedChangeProps) {
     const boundCodeEvents = useBoundCallbacks(codeEvents, eventArg, hoverOn, hoverOff);
 
     const anchorID = generateAnchorID(change);
+    const customLineClassName = generateLineClassName(change);
     const gutterClassNameValue = classNames(
         'diff-gutter',
         `diff-gutter-${type}`,
@@ -98,7 +100,7 @@ function UnifiedChange(props: UnifiedChangeProps) {
     );
 
     return (
-        <tr id={anchorID} className={classNames('diff-line', className)}>
+        <tr id={anchorID} className={classNames('diff-line', className, customLineClassName)}>
             {
                 !hideGutter && renderGutterCell(
                     gutterClassNameValue,

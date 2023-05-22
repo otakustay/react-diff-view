@@ -22,6 +22,9 @@ export interface DiffProps {
     viewType?: ViewType;
     gutterType?: GutterType;
     generateAnchorID?: (change: ChangeData) => string | undefined;
+    generateLineClassName?: (
+        lineChange: [ChangeData | null, ChangeData | null] | ChangeData | null
+    ) => string | undefined;
     selectedChanges?: string[];
     widgets?: Record<string, ReactNode>;
     optimizeSelection?: boolean;
@@ -77,6 +80,7 @@ function Diff(props: DiffProps) {
         gutterEvents = DEFAULT_CONTEXT_VALUE.gutterEvents,
         codeEvents = DEFAULT_CONTEXT_VALUE.codeEvents,
         generateAnchorID = DEFAULT_CONTEXT_VALUE.generateAnchorID,
+        generateLineClassName = DEFAULT_CONTEXT_VALUE.generateLineClassName,
         selectedChanges = DEFAULT_CONTEXT_VALUE.selectedChanges,
         widgets = DEFAULT_CONTEXT_VALUE.widgets,
         renderGutter = DEFAULT_CONTEXT_VALUE.renderGutter,
@@ -167,6 +171,7 @@ function Diff(props: DiffProps) {
                 codeEvents,
                 gutterEvents,
                 generateAnchorID,
+                generateLineClassName,
                 selectedChanges,
                 widgets,
                 renderGutter,
@@ -178,6 +183,7 @@ function Diff(props: DiffProps) {
             codeClassName,
             codeEvents,
             generateAnchorID,
+            generateLineClassName,
             gutterClassName,
             gutterEvents,
             gutterType,
