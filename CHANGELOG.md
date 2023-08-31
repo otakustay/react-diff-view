@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.1.0](https://github.com/otakustay/react-diff-view/compare/v3.0.3...v3.1.0) (2023-08-31)
+
+
+### Features
+
+* publish a unminified esm format ([#196](https://github.com/otakustay/react-diff-view/issues/196)) ([a6b6acf](https://github.com/otakustay/react-diff-view/commit/a6b6acfaa3b4df2fe53adbee4e5b928e7063f7f6))
+
+
+### Bug Fixes
+
+* expose type dependencies ([#198](https://github.com/otakustay/react-diff-view/issues/198)) ([9fc7adc](https://github.com/otakustay/react-diff-view/commit/9fc7adcd74423cebdc8fc00709322dad76c7320b))
+* minimum react version should be 16.14 ([52b83f1](https://github.com/otakustay/react-diff-view/commit/52b83f15a098aee9192368e51759cad4cf96d441))
+* remove inline-block style of markEdit area ([2a030a8](https://github.com/otakustay/react-diff-view/commit/2a030a84261e161c9af35b7f646ecadb02d1ffd7))
+* **ts:** small typo in types ([158dc93](https://github.com/otakustay/react-diff-view/commit/158dc93afdf79dcdefbd5938f00f62ac70e2a9cf))
+
 ### [3.0.3](https://github.com/otakustay/react-diff-view/compare/v3.0.2...v3.0.3) (2023-03-14)
 
 
