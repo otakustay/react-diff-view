@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.2.0](https://github.com/otakustay/react-diff-view/compare/v3.1.0...v3.2.0) (2023-11-13)
+
+
+### Features
+
+* add data-change-key attribute to chnage elements ([#185](https://github.com/otakustay/react-diff-view/issues/185)) ([3b9440c](https://github.com/otakustay/react-diff-view/commit/3b9440c5e4492490fc760df98a55abaf5f26bc1a))
+
+
+### Bug Fixes
+
+* render whitespace on empty line tokenized ([#210](https://github.com/otakustay/react-diff-view/issues/210)) ([02a847c](https://github.com/otakustay/react-diff-view/commit/02a847c3a022ead324bce342c6d4778b1545b32c))
+
 ## [3.1.0](https://github.com/otakustay/react-diff-view/compare/v3.0.3...v3.1.0) (2023-08-31)
 
 
