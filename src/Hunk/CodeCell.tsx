@@ -26,6 +26,15 @@ const defaultRenderToken: DefaultRenderToken = ({type, value, markType, properti
     }
 };
 
+function isEmptyToken(tokens: TokenNode[]) {
+    if (tokens.length > 1) {
+        return false;
+    }
+
+    const [token] = tokens;
+    return token.type === 'text' && !token.value;
+}
+
 export interface CodeCellProps extends HTMLAttributes<HTMLTableCellElement> {
     text: string;
     tokens: TokenNode[] | null;
@@ -42,7 +51,7 @@ function CodeCell(props: CodeCellProps) {
         <td {...attributes}>
             {
                 tokens
-                    ? (tokens.length ? tokens.map(actualRenderToken) : ' ')
+                    ? (isEmptyToken(tokens) ? ' ' : tokens.map(actualRenderToken))
                     : (text || ' ')
             }
         </td>
