@@ -1,7 +1,7 @@
 import {memo, useState, useMemo, useCallback} from 'react';
 import classNames from 'classnames';
 import {mapValues} from 'lodash';
-import {ChangeData} from '../../utils';
+import {ChangeData, getChangeKey} from '../../utils';
 import {TokenNode} from '../../tokenize';
 import {Side} from '../../interface';
 import {ChangeEventArgs, EventMap, GutterOptions, NativeEventMap, RenderGutter} from '../../context';
@@ -38,6 +38,7 @@ function useBoolean() {
 function renderGutterCell(
     className: string,
     change: ChangeData,
+    changeKey: string,
     side: Side,
     gutterAnchor: boolean,
     anchorTarget: string | undefined,
@@ -54,7 +55,7 @@ function renderGutterCell(
     };
 
     return (
-        <td className={className} {...events}>
+        <td className={className} {...events} data-change-key={changeKey}>
             {renderGutter(gutterOptions)}
         </td>
     );
@@ -77,6 +78,7 @@ function UnifiedChange(props: UnifiedChangeProps) {
         renderGutter,
     } = props;
     const {type, content} = change;
+    const changeKey = getChangeKey(change);
 
     const [hover, hoverOn, hoverOff] = useBoolean();
     const eventArg = useMemo(() => ({change}), [change]);
@@ -103,6 +105,7 @@ function UnifiedChange(props: UnifiedChangeProps) {
                 !hideGutter && renderGutterCell(
                     gutterClassNameValue,
                     change,
+                    changeKey,
                     'old',
                     gutterAnchor,
                     anchorID,
@@ -115,6 +118,7 @@ function UnifiedChange(props: UnifiedChangeProps) {
                 !hideGutter && renderGutterCell(
                     gutterClassNameValue,
                     change,
+                    changeKey,
                     'new',
                     gutterAnchor,
                     anchorID,
@@ -125,6 +129,7 @@ function UnifiedChange(props: UnifiedChangeProps) {
             }
             <CodeCell
                 className={codeClassNameValue}
+                changeKey={changeKey}
                 text={content}
                 tokens={tokens}
                 renderToken={renderToken}

@@ -36,19 +36,20 @@ function isEmptyToken(tokens: TokenNode[]) {
 }
 
 export interface CodeCellProps extends HTMLAttributes<HTMLTableCellElement> {
+    changeKey: string;
     text: string;
     tokens: TokenNode[] | null;
     renderToken: RenderToken | undefined;
 }
 
 function CodeCell(props: CodeCellProps) {
-    const {text, tokens, renderToken, ...attributes} = props;
+    const {changeKey, text, tokens, renderToken, ...attributes} = props;
     const actualRenderToken: DefaultRenderToken = renderToken
         ? (token, i) => renderToken(token, defaultRenderToken, i)
         : defaultRenderToken;
 
     return (
-        <td {...attributes}>
+        <td {...attributes} data-change-key={changeKey}>
             {
                 tokens
                     ? (isEmptyToken(tokens) ? ' ' : tokens.map(actualRenderToken))

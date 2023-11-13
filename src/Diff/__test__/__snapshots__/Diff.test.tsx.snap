@@ -127,6 +127,7 @@ exports[`Diff with Widget > split widget 1`] = `
     >
       <td
         className="diff-gutter diff-gutter-normal"
+        data-change-key="N21"
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}
       >
@@ -134,6 +135,7 @@ exports[`Diff with Widget > split widget 1`] = `
       </td>
       <td
         className="diff-code diff-code-normal"
+        data-change-key="N21"
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}
       >
@@ -141,6 +143,7 @@ exports[`Diff with Widget > split widget 1`] = `
       </td>
       <td
         className="diff-gutter diff-gutter-normal"
+        data-change-key="N21"
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}
       >
@@ -148,6 +151,7 @@ exports[`Diff with Widget > split widget 1`] = `
       </td>
       <td
         className="diff-code diff-code-normal"
+        data-change-key="N21"
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}
       >
@@ -173,6 +177,7 @@ exports[`Diff with Widget > split widget 1`] = `
     >
       <td
         className="diff-gutter diff-gutter-delete"
+        data-change-key="D22"
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}
       >
@@ -180,6 +185,7 @@ exports[`Diff with Widget > split widget 1`] = `
       </td>
       <td
         className="diff-code diff-code-delete"
+        data-change-key="D22"
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}
       >
@@ -187,6 +193,7 @@ exports[`Diff with Widget > split widget 1`] = `
       </td>
       <td
         className="diff-gutter diff-gutter-insert"
+        data-change-key="I22"
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}
       >
@@ -194,6 +201,7 @@ exports[`Diff with Widget > split widget 1`] = `
       </td>
       <td
         className="diff-code diff-code-insert"
+        data-change-key="I22"
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}
       >
@@ -229,6 +237,7 @@ exports[`Diff with Widget > split widget 1`] = `
     >
       <td
         className="diff-gutter diff-gutter-normal"
+        data-change-key="N23"
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}
       >
@@ -236,6 +245,7 @@ exports[`Diff with Widget > split widget 1`] = `
       </td>
       <td
         className="diff-code diff-code-normal"
+        data-change-key="N23"
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}
       >
@@ -243,6 +253,7 @@ exports[`Diff with Widget > split widget 1`] = `
       </td>
       <td
         className="diff-gutter diff-gutter-normal"
+        data-change-key="N23"
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}
       >
@@ -250,6 +261,7 @@ exports[`Diff with Widget > split widget 1`] = `
       </td>
       <td
         className="diff-code diff-code-normal"
+        data-change-key="N23"
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}
       >
@@ -282,6 +294,7 @@ exports[`Diff with Widget > unified widget 1`] = `
     >
       <td
         className="diff-gutter diff-gutter-normal"
+        data-change-key="N21"
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}
       >
@@ -289,6 +302,7 @@ exports[`Diff with Widget > unified widget 1`] = `
       </td>
       <td
         className="diff-gutter diff-gutter-normal"
+        data-change-key="N21"
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}
       >
@@ -296,6 +310,7 @@ exports[`Diff with Widget > unified widget 1`] = `
       </td>
       <td
         className="diff-code diff-code-normal"
+        data-change-key="N21"
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}
       >
@@ -321,6 +336,7 @@ exports[`Diff with Widget > unified widget 1`] = `
     >
       <td
         className="diff-gutter diff-gutter-delete"
+        data-change-key="D22"
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}
       >
@@ -328,11 +344,13 @@ exports[`Diff with Widget > unified widget 1`] = `
       </td>
       <td
         className="diff-gutter diff-gutter-delete"
+        data-change-key="D22"
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}
       />
       <td
         className="diff-code diff-code-delete"
+        data-change-key="D22"
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}
       >
@@ -358,11 +376,13 @@ exports[`Diff with Widget > unified widget 1`] = `
     >
       <td
         className="diff-gutter diff-gutter-insert"
+        data-change-key="I22"
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}
       />
       <td
         className="diff-gutter diff-gutter-insert"
+        data-change-key="I22"
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}
       >
@@ -370,6 +390,7 @@ exports[`Diff with Widget > unified widget 1`] = `
       </td>
       <td
         className="diff-code diff-code-insert"
+        data-change-key="I22"
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}
       >
@@ -395,6 +416,7 @@ exports[`Diff with Widget > unified widget 1`] = `
     >
       <td
         className="diff-gutter diff-gutter-normal"
+        data-change-key="N23"
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}
       >
@@ -402,6 +424,7 @@ exports[`Diff with Widget > unified widget 1`] = `
       </td>
       <td
         className="diff-gutter diff-gutter-normal"
+        data-change-key="N23"
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}
       >
@@ -409,6 +432,7 @@ exports[`Diff with Widget > unified widget 1`] = `
       </td>
       <td
         className="diff-code diff-code-normal"
+        data-change-key="N23"
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}
       >

@@ -1,7 +1,7 @@
 import {memo, useState, useMemo, useCallback} from 'react';
 import classNames from 'classnames';
 import {mapValues} from 'lodash';
-import {ChangeData} from '../../utils';
+import {ChangeData, getChangeKey} from '../../utils';
 import {TokenNode} from '../../tokenize';
 import {Side} from '../../interface';
 import {RenderToken, RenderGutter, GutterOptions, EventMap, NativeEventMap} from '../../context';
@@ -80,6 +80,7 @@ function renderCells(args: RenderCellArgs) {
     }
 
     const {type, content} = change;
+    const changeKey = getChangeKey(change);
     const sideName = side === SIDE_OLD ? 'old' : 'new';
     const gutterClassNameValue = classNames(
         'diff-gutter',
@@ -114,10 +115,11 @@ function renderCells(args: RenderCellArgs) {
     );
 
     return [
-        !hideGutter && <td key="gutter" {...gutterProps} />,
+        !hideGutter && <td key="gutter" {...gutterProps} data-change-key={changeKey} />,
         <CodeCell
             key="code"
             className={codeClassNameValue}
+            changeKey={changeKey}
             text={content}
             tokens={tokens}
             renderToken={renderToken}
