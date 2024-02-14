@@ -97,24 +97,26 @@ In most cases it can provide a better look in split view.
 
 The `Diff` named export is a component to render a diff, a simplest case to render a diff could be:
 
-```jsx
+```tsx
 import {parseDiff, Diff, Hunk} from 'react-diff-view';
 
-const App = ({diffText}) => {
-    const files = parseDiff(diffText);
-
-    const renderFile = ({oldRevision, newRevision, type, hunks}) => (
+function renderFile({oldRevision, newRevision, type, hunks}) {
+    return (
         <Diff key={oldRevision + '-' + newRevision} viewType="split" diffType={type} hunks={hunks}>
             {hunks => hunks.map(hunk => <Hunk key={hunk.content} hunk={hunk} />)}
         </Diff>
     );
+}
+
+function App({diffText}) {
+    const files = parseDiff(diffText);
 
     return (
         <div>
             {files.map(renderFile)}
         </div>
     );
-};
+}
 ```
 
 The children is optional if you only need all hunks to be displayed, however you can use this function children to add custom events or classes to hunks.
@@ -245,7 +247,7 @@ const getWidgets = hunks => {
 
             return {
                 ...widgets,
-                [changeKey]: <span className="error">Line too long</span>
+                [changeKey]: <span className="error">Line too long</span>,
             };
         },
         {}
@@ -373,40 +375,42 @@ Each event callback receive an object with key `change` and `side`, the `side` p
 
 One of the common cases is to add code selecting functionality. This can be archived simply by passing an `onClick` event to gutter and coe and manipulating the `selectedChanges` prop:
 
-```javascript
-import {PureComponent} from 'react';
-import {bind} from 'lodash-decorators';
-import {Diff} from 'react-diff-view';
+```jsx
+import {useState, useCallback, useMemo} from 'react';
 
-class File extends PureComponent {
-    state = {
-        selectedChanges: [],
-        gutterEvents: {
-            onClick: this.selectChange
+function File({hunks, diffType}) {
+    const [selectedChanges, setSelectedChanges] = useState([]);
+    const selectChange = useCallback(
+        ({change}) => {
+            const toggle = selectedChanges => {
+                const index = selectedChanges.indexOf(change);
+                if (index >= 0) {
+                    return [
+                        ...selectedChanges.slice(0, index),
+                        ...selectedChanges.slice(index + 1),
+                    ];
+                }
+                return [...selectedChanges, change];
+            };
+            setSelectedChanges(toggle);
         },
-        codeEvents: {
-            onClick: this.selectChange
-        }
-    };
+        []
+    );
+    const diffProps = useMemo(
+        () => {
+            return {
+                gutterEvents: {onClick: selectChange},
+                codeEvents: {onClick: selectChange},
+            };
+        },
+        [selectChange]
+    );
 
-    @bind()
-    selectChange({change}) {
-        const {selectedChanges} = this.state;
-        const selected = selectedChanges.includes(change);
-        this.setState({selectedChanges: selected ? without(selectedChanges, change) : [...selectedChanges, change]});
-    }
-
-    render() {
-        const {hunks, diffType} = this.props;
-        const {gutterEvents, codeEvents} = this.state;
-        const hunkProps = {gutterEvents, codeEvents};
-
-        return (
-            <Diff viewType="split" diffType={diffType}>
-                {hunk.map(hunk => <Hunk key={hunk.content} hunk={hunk} {...hunkProps} />)}
-            </Diff>
-        );
-    }
+    return (
+        <Diff viewType="split" diffType={diffType} hunks={hunks} {...diffProps}>
+            {hunks => hunks.map(hunk => <Hunk key={hunk.content} hunk={hunk} />)}
+        </Diff>
+    );
 }
 ```
 
@@ -494,8 +498,8 @@ const options = {
     enhancers: [
         markWord('\r', 'carriage-return'),
         markWord('\t', 'tab'),
-        markEdits(hunks)
-    ]
+        markEdits(hunks),
+    ],
 };
 
 const tokens = tokenize(hunks, options);
