@@ -94,7 +94,7 @@ function normalizeDiffText(text: string) {
 }
 
 export function parseDiff(text: string, options: ParseOptions = {}): File[] {
-    const diffText = normalizeDiffText(text.trim());
+    const diffText = normalizeDiffText(text.trimStart());
     const files = parser.parse(diffText);
 
     return files.map(file => mapFile(file, options));
