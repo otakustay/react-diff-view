@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.2.1](https://github.com/otakustay/react-diff-view/compare/v3.2.0...v3.2.1) (2024-02-18)
+
+
+### Bug Fixes
+
+* not showing empty context line below diff ([b531e13](https://github.com/otakustay/react-diff-view/commit/b531e13f9fb9df2480d73e68fca7c01821a186fc))
+
 ## [3.2.0](https://github.com/otakustay/react-diff-view/compare/v3.1.0...v3.2.0) (2023-11-13)
 
 
