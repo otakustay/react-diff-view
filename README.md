@@ -265,7 +265,8 @@ const App = ({diffText}) => {
 };
 ```
 
-For a more complex case, you can reference the example in [demo/File.js](demo/File.js) about implementing code comments with the `widgets` prop.
+For a more complex case, you can reference the example in [site/components/DiffView/index.tsx](https://github.com/otakustay/react-diff-view/blob/20241a0f2d7fc58d10e65063fd695a78f77c265d/site/components/DiffView/index.tsx#L137) about implementing code comments with the `widgets` prop.
+
 
 ## Customize styles
 
