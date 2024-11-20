@@ -163,6 +163,7 @@ Here is the full list of its props:
 - `{boolean} optimizeSelection`: Whether to optimize selection to a single column, when this prop is set to `true` in split mode, user can only select code from either old or new side, this can help copy and paste lines of code. This feature can cause some performance dropdown when the diff is extremely large, so it is turned off by default.
 - `{Function} renderToken`: A function to render customized syntax tokens, see [Pick ranges](#pick-ranges) section for detail.
 - `{Function} renderGutter`: A function to render content in gutter cells, see [Customize gutter](#customize-gutter) section for detail.
+- `{Function} generateLineClassName`: A function to provide extra classNames for specific lines, such as rebase diff line, source file content, see [Customize line class name](#customize-lineClassName) section for detail.
 
 #### Key of change
 
@@ -537,6 +538,25 @@ const renderGutter = ({change, side, renderDefault, wrapInAnchor, inHoverState})
         </>
     );
 };
+```
+
+### customize-lineClassName
+
+The `generateLineClassName` function prop will receive a single object argument with following properties:
+
+- `{Change} changes`: an array of changes incurrent line.
+- `{Function} defaultGenerate`: A default render function which returns lineClassName.
+
+
+```jsx
+const generateLineClassName = ({changes, defaultGenerate}) => {
+    if (viewType === 'inline') {
+        const [change] = changes;
+        return defaultGenerate();
+    }
+    const [oldChange, newChange] = changes;
+    return 'rebase-line-change';
+}
 ```
 
 ## Utilities

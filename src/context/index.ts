@@ -54,6 +54,7 @@ export interface ContextProps {
     selectedChanges: string[];
     tokens?: HunkTokens | null;
     generateAnchorID: (change: ChangeData) => string | undefined;
+    generateLineClassName: (params: {changes: ChangeData[], defaultGenerate: () => string}) => string | undefined;
     renderToken?: RenderToken;
     renderGutter: RenderGutter;
     gutterEvents: EventMap;
@@ -72,6 +73,7 @@ export const DEFAULT_CONTEXT_VALUE: ContextProps = {
     hideGutter: false,
     selectedChanges: [],
     generateAnchorID: () => undefined,
+    generateLineClassName: () => undefined,
     renderGutter: ({renderDefault, wrapInAnchor}) => wrapInAnchor(renderDefault()),
     codeEvents: {},
     gutterEvents: {},

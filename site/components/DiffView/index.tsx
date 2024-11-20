@@ -11,6 +11,7 @@ import {
     DiffType,
     GutterOptions,
     EventMap,
+    ChangeData,
 } from 'react-diff-view';
 import 'react-diff-view/styles/index.css';
 import {useConfiguration} from '../../context/configuration';
@@ -172,6 +173,16 @@ export default function DiffView(props: Props) {
         },
         [addComment, viewType]
     );
+
+    const generateLineClassName = useCallback(
+        ({changes, defaultGenerate}: { changes: ChangeData[], defaultGenerate: () => string }) => {
+            if (changes.length === 1) {
+                return `diff-line-${changes[0].type}`;
+            }
+            return defaultGenerate();
+        },
+        []
+    );
     const events: EventMap = {
         onClick: toggleSelection,
     };
@@ -227,6 +238,7 @@ export default function DiffView(props: Props) {
             codeEvents={events}
             gutterEvents={events}
             renderGutter={renderGutter}
+            generateLineClassName={generateLineClassName}
         >
             {hunks => hunks.reduce(renderHunk, [])}
         </Diff>
