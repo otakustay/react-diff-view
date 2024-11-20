@@ -28,6 +28,7 @@ export interface DiffProps {
     className?: string;
     hunkClassName?: string;
     lineClassName?: string;
+    generateLineClassName?: (params: {changes: ChangeData[], defaultGenerate: () => string}) => string | undefined;
     gutterClassName?: string;
     codeClassName?: string;
     tokens?: HunkTokens | null;
@@ -70,6 +71,7 @@ function Diff(props: DiffProps) {
         className,
         hunkClassName = DEFAULT_CONTEXT_VALUE.hunkClassName,
         lineClassName = DEFAULT_CONTEXT_VALUE.lineClassName,
+        generateLineClassName = DEFAULT_CONTEXT_VALUE.generateLineClassName,
         gutterClassName = DEFAULT_CONTEXT_VALUE.gutterClassName,
         codeClassName = DEFAULT_CONTEXT_VALUE.codeClassName,
         gutterType = DEFAULT_CONTEXT_VALUE.gutterType,
@@ -158,6 +160,7 @@ function Diff(props: DiffProps) {
             return {
                 hunkClassName,
                 lineClassName,
+                generateLineClassName,
                 gutterClassName,
                 codeClassName,
                 monotonous,
@@ -184,6 +187,7 @@ function Diff(props: DiffProps) {
             hideGutter,
             hunkClassName,
             lineClassName,
+            generateLineClassName,
             monotonous,
             renderGutter,
             renderToken,
