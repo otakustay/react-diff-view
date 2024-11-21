@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.3.0](https://github.com/otakustay/react-diff-view/compare/v3.2.1...v3.3.0) (2024-11-21)
+
+
+### Features
+
+* support custom line className with generateLineClassName ([3d1e35a](https://github.com/otakustay/react-diff-view/commit/3d1e35a694f442c5978400946cba957520b57d3f))
+
 ### [3.2.1](https://github.com/otakustay/react-diff-view/compare/v3.2.0...v3.2.1) (2024-02-18)
 
 
