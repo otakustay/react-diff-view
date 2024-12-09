@@ -27,12 +27,20 @@ const defaultRenderToken: DefaultRenderToken = ({type, value, markType, properti
 };
 
 function isEmptyToken(tokens: TokenNode[]) {
+    if (!Array.isArray(tokens)) {
+        return true;
+    }
+
     if (tokens.length > 1) {
         return false;
     }
 
-    const [token] = tokens;
-    return token.type === 'text' && !token.value;
+    if (tokens.length === 1) {
+        const [token] = tokens;
+        return token.type === 'text' && !token.value;
+    }
+
+    return true;
 }
 
 export interface CodeCellProps extends HTMLAttributes<HTMLTableCellElement> {
