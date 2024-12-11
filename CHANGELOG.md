@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.3.1](https://github.com/otakustay/react-diff-view/compare/v3.3.0...v3.3.1) (2024-12-11)
+
+
+### Bug Fixes
+
+* empty file highlighting error ([#225](https://github.com/otakustay/react-diff-view/issues/225)) ([42e633f](https://github.com/otakustay/react-diff-view/commit/42e633f424ebad22d9fd3645590846dba78a8165))
+
 ## [3.3.0](https://github.com/otakustay/react-diff-view/compare/v3.2.1...v3.3.0) (2024-11-21)
 
 
