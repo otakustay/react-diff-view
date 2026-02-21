@@ -48,16 +48,23 @@ export interface CodeCellProps extends HTMLAttributes<HTMLTableCellElement> {
     text: string;
     tokens: TokenNode[] | null;
     renderToken: RenderToken | undefined;
+    screenReaderLabel?: string;
 }
 
 function CodeCell(props: CodeCellProps) {
-    const {changeKey, text, tokens, renderToken, ...attributes} = props;
+    const {changeKey, text, tokens, renderToken, screenReaderLabel, ...attributes} = props;
     const actualRenderToken: DefaultRenderToken = renderToken
         ? (token, i) => renderToken(token, defaultRenderToken, i)
         : defaultRenderToken;
+    const srId = screenReaderLabel ? `diff-sr-${changeKey}` : undefined;
 
     return (
-        <td {...attributes} data-change-key={changeKey}>
+        <td {...attributes} data-change-key={changeKey} {...(srId && {'aria-labelledby': srId})}>
+            {screenReaderLabel && (
+                <span id={srId} className="diff-sr-only">
+                    {screenReaderLabel}
+                </span>
+            )}
             {
                 tokens
                     ? (isEmptyToken(tokens) ? ' ' : tokens.map(actualRenderToken))

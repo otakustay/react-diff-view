@@ -227,6 +227,7 @@ export default function DiffView(props: Props) {
 
     return (
         <Diff
+            accessibility="screen-reader"
             optimizeSelection
             viewType={viewType}
             diffType={type}
