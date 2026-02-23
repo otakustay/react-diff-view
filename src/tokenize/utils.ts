@@ -12,7 +12,7 @@ export function wrap(path: TokenPath, parent: ProcessingNode): TokenPath {
     return [parent, ...clone(path)];
 }
 
-function isTextNode(node: ProcessingNode): node is TextNode {
+export function isTextNode(node: ProcessingNode): node is TextNode {
     return node.type === 'text';
 }
 

@@ -1,11 +1,16 @@
 import {flatMap} from 'lodash';
 import {TokenizeEnhancer, TokenPath} from './interface';
-import {leafOf, replace} from './utils';
+import {leafOf, replace, isTextNode} from './utils';
 
 function markInPaths(word: string, name: string, replacement: string) {
-    return (paths: TokenPath[]) => flatMap(
-        paths,
-        path => {
+    return (paths: TokenPath[]) =>
+        flatMap(paths, path => {
+            const leafNode = path.at(-1);
+
+            if (leafNode && !isTextNode(leafNode)) {
+                return [path];
+            }
+
             const leaf = leafOf(path);
 
             if (!leaf.value.includes(word)) {
@@ -29,7 +34,7 @@ function markInPaths(word: string, name: string, replacement: string) {
                 []
             );
         }
-    );
+        );
 }
 
 export default function markWord(word: string, name: string, replacement = word): TokenizeEnhancer {
