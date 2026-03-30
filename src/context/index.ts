@@ -19,6 +19,8 @@ export type RenderGutter = (options: GutterOptions) => ReactNode;
 
 export type ViewType = 'unified' | 'split';
 
+export type AccessibilityType = 'screen-reader';
+
 export type GutterType = 'default' | 'none' | 'anchor';
 
 type IsEvent<T> = T extends `on${string}` ? T : never;
@@ -32,9 +34,9 @@ type ExtractEventHandler<E extends EventKeys> = Exclude<NativeEventMap[E], undef
 type ExtractEventType<E extends EventKeys> = Parameters<ExtractEventHandler<E>>[0];
 
 export interface ChangeEventArgs {
-    // TODO: use union type on next major version
-    side?: Side;
-    change: ChangeData | null;
+  // TODO: use union type on next major version
+  side?: Side;
+  change: ChangeData | null;
 }
 
 type BindEvent<E extends EventKeys> = (args: ChangeEventArgs, event: ExtractEventType<E>) => void;
@@ -42,6 +44,7 @@ type BindEvent<E extends EventKeys> = (args: ChangeEventArgs, event: ExtractEven
 export type EventMap = Partial<{[K in EventKeys]: BindEvent<K>}>;
 
 export interface ContextProps {
+    accessibility?: AccessibilityType;
     hunkClassName: string;
     lineClassName: string;
     gutterClassName: string;
@@ -62,6 +65,7 @@ export interface ContextProps {
 }
 
 export const DEFAULT_CONTEXT_VALUE: ContextProps = {
+    accessibility: undefined,
     hunkClassName: '',
     lineClassName: '',
     gutterClassName: '',

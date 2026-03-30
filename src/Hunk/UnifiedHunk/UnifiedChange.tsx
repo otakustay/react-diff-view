@@ -8,6 +8,7 @@ import {ChangeEventArgs, EventMap, GutterOptions, NativeEventMap, RenderGutter} 
 import {ChangeSharedProps} from '../interface';
 import CodeCell from '../CodeCell';
 import {composeCallback, renderDefaultBy, wrapInAnchorBy} from '../utils';
+import {getGutterAriaLabel, getCodeCellAriaLabel} from '../accessibility';
 
 interface UnifiedChangeProps extends ChangeSharedProps {
     change: ChangeData;
@@ -44,7 +45,8 @@ function renderGutterCell(
     anchorTarget: string | undefined,
     events: NativeEventMap,
     inHoverState: boolean,
-    renderGutter: RenderGutter
+    renderGutter: RenderGutter,
+    gutterAriaLabel?: string
 ) {
     const gutterOptions: GutterOptions = {
         change,
@@ -55,7 +57,12 @@ function renderGutterCell(
     };
 
     return (
-        <td className={className} {...events} data-change-key={changeKey}>
+        <td
+            className={className}
+            {...events}
+            data-change-key={changeKey}
+            {...(gutterAriaLabel && {'aria-label': gutterAriaLabel})}
+        >
             {renderGutter(gutterOptions)}
         </td>
     );
@@ -77,6 +84,7 @@ function UnifiedChange(props: UnifiedChangeProps) {
         generateAnchorID,
         renderToken,
         renderGutter,
+        accessibility,
     } = props;
     const {type, content} = change;
     const changeKey = getChangeKey(change);
@@ -117,7 +125,8 @@ function UnifiedChange(props: UnifiedChangeProps) {
                     anchorID,
                     boundGutterEvents,
                     hover,
-                    renderGutter
+                    renderGutter,
+                    accessibility === 'screen-reader' ? getGutterAriaLabel(change, 'old') : undefined
                 )
             }
             {
@@ -130,7 +139,8 @@ function UnifiedChange(props: UnifiedChangeProps) {
                     anchorID,
                     boundGutterEvents,
                     hover,
-                    renderGutter
+                    renderGutter,
+                    accessibility === 'screen-reader' ? getGutterAriaLabel(change, 'new') : undefined
                 )
             }
             <CodeCell
@@ -139,6 +149,7 @@ function UnifiedChange(props: UnifiedChangeProps) {
                 text={content}
                 tokens={tokens}
                 renderToken={renderToken}
+                screenReaderLabel={accessibility === 'screen-reader' ? getCodeCellAriaLabel(change) : undefined}
                 {...boundCodeEvents}
             />
         </tr>

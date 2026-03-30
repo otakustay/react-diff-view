@@ -4,10 +4,11 @@ import {mapValues} from 'lodash';
 import {ChangeData, getChangeKey} from '../../utils';
 import {TokenNode} from '../../tokenize';
 import {Side} from '../../interface';
-import {RenderToken, RenderGutter, GutterOptions, EventMap, NativeEventMap} from '../../context';
+import {RenderToken, RenderGutter, GutterOptions, EventMap, NativeEventMap, AccessibilityType} from '../../context';
 import {ChangeSharedProps} from '../interface';
 import CodeCell from '../CodeCell';
 import {composeCallback, renderDefaultBy, wrapInAnchorBy} from '../utils';
+import {getGutterAriaLabel, getCodeCellAriaLabel} from '../accessibility';
 
 const SIDE_OLD = 0;
 const SIDE_NEW = 1;
@@ -33,24 +34,53 @@ function useCallbackOnSide(side: Side, setHover: SetHover, change: ChangeData | 
 }
 
 interface RenderCellArgs {
-    change: ChangeData | null;
-    side: typeof SIDE_OLD | typeof SIDE_NEW;
-    selected: boolean;
-    tokens: TokenNode[] | null;
-    gutterClassName: string;
-    codeClassName: string;
-    gutterEvents: NativeEventMap;
-    codeEvents: NativeEventMap;
-    anchorID: string | null | undefined;
-    gutterAnchor: boolean;
-    gutterAnchorTarget: string | null | undefined;
-    hideGutter: boolean;
-    hover: boolean;
-    renderToken: RenderToken | undefined;
-    renderGutter: RenderGutter;
+  change: ChangeData | null;
+  side: typeof SIDE_OLD | typeof SIDE_NEW;
+  selected: boolean;
+  tokens: TokenNode[] | null;
+  gutterClassName: string;
+  codeClassName: string;
+  gutterEvents: NativeEventMap;
+  codeEvents: NativeEventMap;
+  anchorID: string | null | undefined;
+  gutterAnchor: boolean;
+  gutterAnchorTarget: string | null | undefined;
+  hideGutter: boolean;
+  hover: boolean;
+  renderToken: RenderToken | undefined;
+  renderGutter: RenderGutter;
+  accessibility?: AccessibilityType;
 }
 
-function renderCells(args: RenderCellArgs) {
+type SideName = 'old' | 'new';
+
+function getSideName(side: typeof SIDE_OLD | typeof SIDE_NEW): SideName {
+    return side === SIDE_OLD ? 'old' : 'new';
+}
+
+function getOmitCodeAriaLabel(
+    accessibility: RenderCellArgs['accessibility'],
+    sideName: SideName
+): string | undefined {
+    if (accessibility !== 'screen-reader') {
+        return undefined;
+    }
+    return sideName === 'old' ? 'Not in old version' : 'Not in new version';
+}
+
+function renderOmitCells(args: RenderCellArgs): Array<JSX.Element | false> {
+    const {hideGutter, gutterClassName, codeClassName, accessibility, side} = args;
+    const gutterClassNameValue = classNames('diff-gutter', 'diff-gutter-omit', gutterClassName);
+    const codeClassNameValue = classNames('diff-code', 'diff-code-omit', codeClassName);
+    const codeAriaLabel = getOmitCodeAriaLabel(accessibility, getSideName(side));
+
+    return [
+        !hideGutter && <td key="gutter" className={gutterClassNameValue} />,
+        <td key="code" className={codeClassNameValue} aria-label={codeAriaLabel} />,
+    ];
+}
+
+function renderChangeCells(args: RenderCellArgs & {change: ChangeData}): Array<JSX.Element | false> {
     const {
         change,
         side,
@@ -67,21 +97,12 @@ function renderCells(args: RenderCellArgs) {
         hover,
         renderToken,
         renderGutter,
+        accessibility,
     } = args;
 
-    if (!change) {
-        const gutterClassNameValue = classNames('diff-gutter', 'diff-gutter-omit', gutterClassName);
-        const codeClassNameValue = classNames('diff-code', 'diff-code-omit', codeClassName);
-
-        return [
-            !hideGutter && <td key="gutter" className={gutterClassNameValue} />,
-            <td key="code" className={codeClassNameValue} />,
-        ];
-    }
-
+    const sideName = getSideName(side);
     const {type, content} = change;
     const changeKey = getChangeKey(change);
-    const sideName = side === SIDE_OLD ? 'old' : 'new';
     const gutterClassNameValue = classNames(
         'diff-gutter',
         `diff-gutter-${type}`,
@@ -98,12 +119,16 @@ function renderCells(args: RenderCellArgs) {
         renderDefault: renderDefaultBy(change, sideName),
         wrapInAnchor: wrapInAnchorBy(gutterAnchor, gutterAnchorTarget),
     };
+    const gutterAriaLabel
+        = accessibility === 'screen-reader' ? getGutterAriaLabel(change, sideName) : undefined;
     const gutterProps = {
         id: anchorID || undefined,
         className: gutterClassNameValue,
         children: renderGutter(gutterOptions),
         ...gutterEvents,
+        ...(gutterAriaLabel && {'aria-label': gutterAriaLabel}),
     };
+
     const codeClassNameValue = classNames(
         'diff-code',
         `diff-code-${type}`,
@@ -113,6 +138,8 @@ function renderCells(args: RenderCellArgs) {
         },
         codeClassName
     );
+    const codeAriaLabel
+        = accessibility === 'screen-reader' ? getCodeCellAriaLabel(change) : undefined;
 
     return [
         !hideGutter && <td key="gutter" {...gutterProps} data-change-key={changeKey} />,
@@ -123,20 +150,28 @@ function renderCells(args: RenderCellArgs) {
             text={content}
             tokens={tokens}
             renderToken={renderToken}
+            screenReaderLabel={codeAriaLabel}
             {...codeEvents}
         />,
     ];
 }
 
+function renderCells(args: RenderCellArgs): Array<JSX.Element | false> {
+    if (!args.change) {
+        return renderOmitCells(args);
+    }
+    return renderChangeCells(args as RenderCellArgs & {change: ChangeData});
+}
+
 interface SplitChangeProps extends ChangeSharedProps {
-    className: string;
-    oldChange: ChangeData | null;
-    newChange: ChangeData | null;
-    oldSelected: boolean;
-    newSelected: boolean;
-    oldTokens: TokenNode[] | null;
-    newTokens: TokenNode[] | null;
-    monotonous: boolean;
+  className: string;
+  oldChange: ChangeData | null;
+  newChange: ChangeData | null;
+  oldSelected: boolean;
+  newSelected: boolean;
+  oldTokens: TokenNode[] | null;
+  newTokens: TokenNode[] | null;
+  monotonous: boolean;
 }
 
 function SplitChange(props: SplitChangeProps) {
@@ -159,6 +194,7 @@ function SplitChange(props: SplitChangeProps) {
         gutterAnchor,
         renderToken,
         renderGutter,
+        accessibility,
     } = props;
 
     const [hover, setHover] = useState('');
@@ -183,6 +219,7 @@ function SplitChange(props: SplitChangeProps) {
         codeEvents,
         renderToken,
         renderGutter,
+        accessibility,
     };
     const oldArgs: RenderCellArgs = {
         ...commons,

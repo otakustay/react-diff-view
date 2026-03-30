@@ -6,6 +6,7 @@ import {
     GutterType,
     Provider,
     ViewType,
+    AccessibilityType,
     RenderToken,
     RenderGutter,
     DEFAULT_CONTEXT_VALUE,
@@ -19,6 +20,8 @@ export type DiffType = 'add' | 'delete' | 'modify' | 'rename' | 'copy';
 export interface DiffProps {
     diffType: DiffType;
     hunks: HunkData[];
+    tableAriaLabel?: string;
+    accessibility?: AccessibilityType;
     viewType?: ViewType;
     gutterType?: GutterType;
     generateAnchorID?: (change: ChangeData) => string | undefined;
@@ -67,6 +70,8 @@ function Diff(props: DiffProps) {
     const {
         diffType,
         hunks,
+        tableAriaLabel,
+        accessibility,
         optimizeSelection,
         className,
         hunkClassName = DEFAULT_CONTEXT_VALUE.hunkClassName,
@@ -158,6 +163,7 @@ function Diff(props: DiffProps) {
     const settingsContextValue = useMemo(
         (): ContextProps => {
             return {
+                accessibility,
                 hunkClassName,
                 lineClassName,
                 generateLineClassName,
@@ -178,6 +184,7 @@ function Diff(props: DiffProps) {
             };
         },
         [
+            accessibility,
             codeClassName,
             codeEvents,
             generateAnchorID,
@@ -204,6 +211,7 @@ function Diff(props: DiffProps) {
                 ref={root}
                 className={classNames('diff', `diff-${viewType}`, className)}
                 onMouseDown={onTableMouseDown}
+                aria-label={tableAriaLabel}
             >
                 {cols}
                 {children(hunks)}
