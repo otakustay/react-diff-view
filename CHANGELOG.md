@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.3.3](https://github.com/otakustay/react-diff-view/compare/v3.3.2...v3.3.3) (2026-03-30)
+
+
+### Bug Fixes
+
+* multiply markWord calls ([9d4e773](https://github.com/otakustay/react-diff-view/commit/9d4e773322998a9092e8ee5e464d5ab2db4dcdc3))
+
 ### [3.3.2](https://github.com/otakustay/react-diff-view/compare/v3.3.0...v3.3.2) (2025-07-24)
 
 
